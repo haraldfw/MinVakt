@@ -1,3 +1,5 @@
+spring.thymeleaf.cache: false
+
 main:
   question: Hello?
   answer: Hello World!
