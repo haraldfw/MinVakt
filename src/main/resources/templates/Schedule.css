@@ -22,3 +22,9 @@ th.half:before {
     /*box-shadow: inset 0px 4px 3px -3px rgba(50, 50, 50, 0.75);*/
     border-top: 1px solid #ddd;
 }
+
+.text-test {
+    color: black;
+    position: absolute;
+    top: 75%;
+}
