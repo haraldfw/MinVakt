@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt;
 
+import no.ntnu.team5.minvakt.controllers.HelloController;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

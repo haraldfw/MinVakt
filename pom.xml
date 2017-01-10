@@ -14,7 +14,6 @@
         <spring-boot.version>1.4.2.RELEASE</spring-boot.version>
         <log4j.version>2.7</log4j.version>
         <slf4j-api.version>1.7.22</slf4j-api.version>
-        <start-class>no.ntnu.team5.minvakt.HelloController</start-class>
     </properties>
 
     <dependencyManagement>
@@ -46,6 +45,11 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- Test -->
