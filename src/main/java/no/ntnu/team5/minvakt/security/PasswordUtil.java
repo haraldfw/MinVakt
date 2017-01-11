@@ -1,9 +1,7 @@
-package no.ntnu.team5.minvakt.encryption;
+package no.ntnu.team5.minvakt.security;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.jasypt.digest.StandardStringDigester;
-import org.jasypt.salt.RandomSaltGenerator;
 
 import java.security.SecureRandom;
 
@@ -11,7 +9,8 @@ import java.security.SecureRandom;
  * Created by Kenan on 1/10/2017.
  */
 public class PasswordUtil {
-    private static final int SALT_SIZE = 512;
+    // 512 is the number of bits, SALT_SIZE specifies the number of bytes.
+    private static final int SALT_SIZE = 512/8;
 
     private static final SecureRandom secureRandom = new SecureRandom();
 

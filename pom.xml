@@ -72,7 +72,6 @@
             <version>0.7.0</version>
         </dependency>
 
-
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
