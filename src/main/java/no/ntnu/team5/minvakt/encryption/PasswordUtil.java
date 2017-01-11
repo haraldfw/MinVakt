@@ -1,17 +1,8 @@
 package no.ntnu.team5.minvakt.encryption;
 
-import java.security.SecureRandom;
-
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jasypt.digest.StandardStringDigester;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.salt.RandomSaltGenerator;
-import org.jasypt.salt.SaltGenerator;
-import org.jasypt.util.password.BasicPasswordEncryptor;
-import org.jasypt.util.password.ConfigurablePasswordEncryptor;
-
-import java.security.SecureRandom;
 
 /**
  * Created by Kenan on 1/10/2017.
