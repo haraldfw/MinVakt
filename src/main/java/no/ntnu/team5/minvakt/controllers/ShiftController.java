@@ -1,6 +1,6 @@
 package no.ntnu.team5.minvakt.controllers;
 
-import no.ntnu.team5.minvakt.dataaccess.ShiftAccess;
+import no.ntnu.team5.minvakt.dataaccess.Access;
 import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
@@ -23,7 +23,7 @@ public class ShiftController {
     UserAccess userAccess;
 
     @Autowired
-    ShiftAccess shiftAccess;
+    Access<Shift> shiftAccess;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> register(@RequestBody ShiftModel reg){
