@@ -120,15 +120,6 @@
                 </executions>
             </plugin>
 
-
-            <!--<plugin>-->
-                <!--&lt;!&ndash; Fix error on package &ndash;&gt;-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
             <!-- Autogen DDL -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
