@@ -15,6 +15,7 @@
         <log4j.version>2.7</log4j.version>
         <slf4j-api.version>1.7.22</slf4j-api.version>
         <mysql-connector.version>5.1.6</mysql-connector.version>
+        <jasypt-spring-boot.version>1.11</jasypt-spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +53,15 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+
+
+        <!-- Security -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot</artifactId>
+            <groupId>${jasypt-spring-boot.version}</groupId>
+        </dependency>
+
 
         <!-- Test -->
         <dependency>
