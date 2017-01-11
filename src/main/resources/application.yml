@@ -1,10 +1,12 @@
 spring.thymeleaf.cache: false
 
+jasypt.encryptor.password: ${SCRUM5_ENCPW}
+
 spring:
   datasource:
     url: jdbc:mysql://mysql.stud.iie.ntnu.no:3306/g_scrum05
     username: g_scrum05
-    password: 6MKezI41
+    password: ENC(aYv7YT/hRnjBuzAZLHDIWOhzbTxl64HP)
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect

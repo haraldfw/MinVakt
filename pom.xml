@@ -7,14 +7,15 @@
     <groupId>no.ntnu.team5.minvakt</groupId>
     <artifactId>minvakt</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <junit.version>4.12</junit.version>
-        <spring-boot.version>1.4.2.RELEASE</spring-boot.version>
+        <spring-boot.version>1.4.3.RELEASE</spring-boot.version>
         <log4j.version>2.7</log4j.version>
         <slf4j-api.version>1.7.22</slf4j-api.version>
         <mysql-connector.version>5.1.6</mysql-connector.version>
+        <jasypt-spring-boot.version>1.11</jasypt-spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +53,25 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+
+
+        <!-- Security -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt-spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
 
         <!-- Test -->
         <dependency>
@@ -130,15 +150,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-
-            <plugin>
-                <!-- Fix error on package -->
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
             </plugin>
 
             <!-- Autogen DDL -->
