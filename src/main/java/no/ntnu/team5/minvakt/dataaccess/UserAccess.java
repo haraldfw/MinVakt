@@ -22,4 +22,11 @@ public class UserAccess {
             return (User) query.uniqueResult();
         });
     }
+    public User fromUsername(String username) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from user where username = :username");
+            query.setParameter("username", username);
+            return (User) query.uniqueResult();
+        });
+    }
 }
