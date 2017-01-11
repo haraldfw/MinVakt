@@ -2,7 +2,7 @@ package no.ntnu.team5.minvakt.controllers;
 
 import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.encryption.PasswordUtil;
+import no.ntnu.team5.minvakt.security.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
