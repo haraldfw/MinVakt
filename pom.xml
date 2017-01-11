@@ -58,8 +58,8 @@
         <!-- Security -->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot</artifactId>
-            <groupId>${jasypt-spring-boot.version}</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt-spring-boot.version}</version>
         </dependency>
 
 
