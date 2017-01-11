@@ -111,6 +111,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt-hibernate3</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -137,12 +143,14 @@
                 <version>2.2</version>
                 <executions>
                     <execution>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>hbm2java</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
+                    <goal>hbm2java</goal>
                     <components>
                         <component>
                             <name>hbm2java</name>
@@ -152,7 +160,8 @@
                     </components>
                     <componentProperties>
                         <revengfile>src/main/resources/reveng.xml</revengfile>
-                        <propertyfile>src/main/resources/hibernate.properties</propertyfile>
+                        <!--<propertyfile>src/main/resources/hibernate.properties</propertyfile>-->
+                        <confiurationfile>/src/main/resources/hibernate.cfg.xml</confiurationfile>
                         <packagename>no.ntnu.team5.minvakt.db</packagename>
                         <jdk5>true</jdk5>
                         <ejb3>true</ejb3>
