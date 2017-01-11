@@ -3,7 +3,7 @@ body, head {
     padding: 0;
 }
 
-#nav {
+#nav, #nav333 {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -15,7 +15,22 @@ body, head {
     overflow: auto;
     box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.6);
     padding-right: 3%;
+    /*outline: 2px solid red;
+    outline-offset: -30px;*/
+
 }
+/*
+.test2 {
+
+    box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.6);
+
+
+}
+
+.test {
+    box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.6);
+    height: 100px;
+}*/
 
 li a {
     font-family: Verdana, sans-serif;
@@ -52,3 +67,4 @@ li a:hover {
     color: #17777f;
     cursor: pointer;
 }
+
