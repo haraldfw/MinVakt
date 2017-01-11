@@ -9,10 +9,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
  */
 @Configuration
 public class Database {
-
     @Bean
     public HibernateJpaSessionFactoryBean sessionFactory() {
         return new HibernateJpaSessionFactoryBean();
     }
-
 }
