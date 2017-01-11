@@ -2,7 +2,7 @@ package no.ntnu.team5.minvakt.dataaccess;
 
 import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,11 +10,8 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class UserAccess {
-
-    @Autowired
-    DbAccess db;
-
+@Scope("singleton")
+public class UserAccess extends Access<User> {
     public User fromID(int userId) {
         return db.transaction(session -> {
             Query query =  session.createQuery("from User where id = :id");
@@ -22,9 +19,10 @@ public class UserAccess {
             return (User) query.uniqueResult();
         });
     }
+
     public User fromUsername(String username) {
         return db.transaction(session -> {
-            Query query = session.createQuery("from user where username = :username");
+            Query query = session.createQuery("from User where username = :username");
             query.setParameter("username", username);
             return (User) query.uniqueResult();
         });
