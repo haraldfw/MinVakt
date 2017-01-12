@@ -3,157 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Schedule.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="text/javascript" src="ScheduleScript.js"></script>
+    <!-- <link rel="stylesheet" href="addShift.css"> -->
 </head>
 <body>
+<div class="container test">
+    <div class="shiftsheet">
+        <div class="marking-lines">
 
-    <div class="container">
-        <table class="table table-bordered">
-            <tr></tr>
-            <tr>
-                <th>Ukedag</th>
-                <th>Mandag</th>
-                <th>Tirsdag</th>
-                <th>Onsdag</th>
-                <th>Torsdag</th>
-                <th>Fredag</th>
-                <th>Lørdag</th>
-                <th>Søndag</th>
-            </tr>
-            <tr>
-                <th>Dato</th>
-                <th>Dato</th>
-                <th>Dato</th>
-                <th>Dato</th>
-                <th>Dato</th>
-                <th>Dato</th>
-                <th>Dato</th>
-                <th>Dato</th>
-            </tr>
-            <tr>
-                <td>00.00 - 02.00</td>
-                <th class="half"><p class="text-test">Hello this is a test</p></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td>02.00 - 04.00</td>
-                <th style="background: rgba(27, 166, 255, 0.35)"></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td>04.00-06.00</td>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </table>
+            <!-- hvis ikkje div virker: <hr class="line"> -->
+            <!-- skal en ta med den siste linjen (24:00) eller bare ha 12 stk? -->
+            <div class="line"><div class="tid tid-12">00:00</div></div>
+            <div class="line"><div class="tid tid-08">02:00</div></div>
+            <div class="line"><div class="tid tid-10">04:00</div></div>
+            <div class="line"><div class="tid tid-12">06:00</div></div>
+            <div class="line"><div class="tid tid-08">08:00</div></div>
+            <div class="line"><div class="tid tid-10">10:00</div></div>
+            <div class="line"><div class="tid tid-12">12:00</div></div>
+            <div class="line"><div class="tid tid-12">14:00</div></div>
+            <div class="line"><div class="tid tid-08">16:00</div></div>
+            <div class="line"><div class="tid tid-10">18:00</div></div>
+            <div class="line"><div class="tid tid-12">20:00</div></div>
+            <div class="line"><div class="tid tid-08">22:00</div></div>
+            <div class="line"><div class="tid tid-10">24:00</div></div>
+
+        </div>
+
+
+
+        <!-- Fra dag 1 til dag 7 -->
+        <div class="dayDisplay">
+            <div class="dayTop">Mandag</div>
+            <div class="dayInnhold">
+
+                <!-- Tider på venstre side av tabellen -->
+                <!-- slutt tider til venstre -->
+            </div>
+        </div>
+        <div class="dayDisplay">
+            <div class="dayTop">Tirsdag</div>
+            <div class="dayInnhold">
+
+            </div>
+        </div>
+        <div class="dayDisplay">
+            <div class="dayTop">Onsdag</div>
+            <div class="dayInnhold">
+                <div class="shift">Skift 1</div>
+                <div class="shift">Skift 2</div>
+            </div>
+        </div>
+        <div class="dayDisplay">
+            <div class="dayTop">Torsdag</div>
+            <div class="dayInnhold"></div>
+        </div>
+        <div class="dayDisplay">
+            <div class="dayTop">Fredag</div>
+            <div class="dayInnhold"></div>
+        </div>
+        <div class="dayDisplay">
+            <div class="dayTop">Lørdag</div>
+            <div class="dayInnhold">
+                <div class="shift normal-shift">Her har du gjort deg selv tilgjengelig for å jobbe</div>
+            </div>
+        </div>
+        <div class="dayDisplay">
+            <div class="dayTop">Søndag</div>
+            <div class="dayInnhold"></div>
+        </div>
+        <!-- slutt dager -->
+
+
+
+        <div class="bullsjhhhit">
+            <p>More stuff</p>
+        </div>
     </div>
+</div>
+
+<!-- slutt dager -->
+
+
+
+<div class="bullsjhhhit">
+    <p>More stuff</p>
+</div>
+</div>
+
+
+</div>
+<!-- end shiftsheet -->
+
+
+<!-- Modal for informasjon om skift -->
+<div id="modalTest" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- header og lukk kryss -->
+            <div class="modal-header">
+                <i class="close ion-close" data-dismiss="modal"></i>
+                <h4 class="modal-title">Skift informasjon</h4>
+            </div>
+            <!-- modal body -->
+            <div class="modal-body">
+                <p>Test</p>
+            </div>
+            <div class="modal-footer">
+                <p>Nju shit</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
 </body>
 </html>
