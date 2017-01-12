@@ -26,6 +26,7 @@ $(document).ready(function() {
             $("#shift-time").html("Du har et skift fra 00:00 - 12:00 på Onsdag 11. jan. 2017");
             $("#absenceButton").css("display", "inline-block");
             $("#removeAbsenceButton").css("display", "none");
+            $("#removeAvailibilityButton").css("display", "none");
             //alert("vanlig skift");
 
         } else if ($(this).hasClass("absence-shift")) {
@@ -35,6 +36,7 @@ $(document).ready(function() {
             $("#shift-time").html("Det er et skift tilgjengelig fra 12:00 - 24:00 på Onsdag 11. jan. 2017");
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "inline-block");
+            $("#removeAvailibilityButton").css("display", "none");
 
         } else if ($(this).hasClass("availible-shift")) {
             //alert("tilgjengelig");
@@ -42,6 +44,7 @@ $(document).ready(function() {
             $("#shift-time").html("Du har satt deg tilgjengelig for dette skiftet, fra 00:00 - 12:00 på Lørdag 14 jan. 2017");
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "none");
+            $("#removeAvailibilityButton").css("display", "inline-block");
         }
 
         //alert(selectedShift);
@@ -57,5 +60,14 @@ $(document).ready(function() {
 
         $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
         $("#modalTest").modal("toggle");
+    });
+
+    $("#removeAvailibilityButton").click(function() {
+        $(".shift#" + selectedShift).remove();
+        $("#modalTest").modal("toggle");
+    });
+
+    $(".dayTop").click(function() {
+       alert($(this).html());
     });
 });
