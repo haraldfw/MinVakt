@@ -5,8 +5,6 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,27 +30,22 @@ public class UserAccess extends Access<User> {
         });
     }
 
-    public List<User> getUsernames() {
+    public List<String> getUsernames() {
         return db.transaction(session -> {
-            Query query = session.createQuery("select user_id, username from User");
-            return (List<User>) query.list();
+            return session.createQuery("select username from User").list();
         });
     }
 
-    private String generateUsername(String firstName, String lastName) {
-        final int minLength = 5;
-        final int maxLength = 12;
+    public String generateUsername(String firstName, String lastName) {
 
-        int methodsTried = 0;
-        List<User> users = getUsernames();
-        if (users.isEmpty()) {
-            return generateOneUsername(firstName, lastName, methodsTried);
-        }
-        String username = users.get(0).getUsername();
-        while (usernameExists(username, users)) {
-            username = generateOneUsername(firstName, lastName, methodsTried);
-            methodsTried++;
-        }
+        List<String> usernames = getUsernames();
+        String username;
+
+        int attempts = 0;
+        do {
+            username = generateOneUsername(firstName, lastName, attempts);
+            attempts++;
+        } while (usernames.contains(username));
         return username;
     }
 
@@ -60,31 +53,27 @@ public class UserAccess extends Access<User> {
         firstName = sanitize(firstName.toLowerCase());
         lastName = sanitize(lastName.toLowerCase());
 
-        // TODO increase fn_chars and ln_chars alternating
-        return expandingSearch(firstName, lastName, 1 + attempts, 1 + attempts);
+        final int fnInitialChars = 2;
+        final int lnInitialChars = 2;
+
+        return expandingSearch(
+                firstName,
+                lastName,
+                attempts < fnInitialChars ? fnInitialChars - attempts : 1 + attempts,
+                lnInitialChars + attempts);
     }
 
     private String expandingSearch(String firstName, String lastName, int firstName_chars, int lastName_chars) {
-        List<String> names = new ArrayList<>();
-
         String reg = "[ -]";
-        names.addAll(Arrays.asList(firstName.split(reg)));
-        names.addAll(Arrays.asList(lastName.split(reg)));
-        return "";
+        firstName = firstName.replaceAll(reg, "");
+        lastName = lastName.replaceAll(reg, "");
+
+        return firstName.substring(0, firstName_chars) + lastName.substring(0, lastName_chars);
     }
 
     private String sanitize(String s) {
         s = s.replace("æ", "a").replace("ø", "o").replace("å", "a");
         s = s.replaceAll("'", "");
         return s;
-    }
-
-    private boolean usernameExists(String username, List<User> users) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
