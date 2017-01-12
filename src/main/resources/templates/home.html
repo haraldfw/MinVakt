@@ -5,8 +5,15 @@
     <title>MinVakt</title>
 </head>
 <body>
-Velkommen, her skal forsiden være.\n
-Følgende linje er skrevet i Java:
-<p th:text="' '+ ${text}" />
+<div th:include="fragments :: header"></div>
+<p>Velkommen, her skal forsiden være. Følgende linjer er skrevet i Java:</p>
+<p th:text="${lol} + '!'" />
+<table>
+    <tr th:each="text: ${texts}">
+        <td th:text="${text}"></td>
+    </tr>
+</table>
+<p th:text="${lol} + '!'" />
+<div th:include="fragments :: footer"></div>
 </body>
 </html>
