@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "integer"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "absent": {
+      "type": "integer"
+    },
+    "standard_hours": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "userId",
+    "date_start",
+    "date_end",
+    "absent",
+    "standardHours"
+  ]
+}

@@ -14,18 +14,9 @@ import java.util.List;
  */
 
 @Controller
-public class HomeController {
-    private ArrayList<String> texts = new ArrayList<String>();
-
-    public HomeController() {
-        texts.add("Hei");
-        texts.add("På");
-        texts.add("Deg");
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+public class Fragment_testController {
+    @RequestMapping(value = "/fragment", method = RequestMethod.GET)
     public String home(Model model){
-        model.addAttribute("texts", texts).addAttribute("lol","lol");
-        return "home";
+        return "fragment_test";
     }
 }
