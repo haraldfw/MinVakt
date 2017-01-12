@@ -26,10 +26,13 @@ public class UserController {
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
 
+        String firstName = info.getFirstName().trim();
+        String lastName = info.getLastName().trim();
+
         User user = new User(
-                info.getFirstName(), //FIXME(harald): Use username generator/sanitizer
-                info.getFirstName(),
-                info.getLastName(),
+                userAccess.generateUsername(firstName, lastName),
+                firstName,
+                lastName,
                 password_hash,
                 salt,
                 info.getEmail(),
