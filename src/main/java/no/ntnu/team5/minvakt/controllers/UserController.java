@@ -45,12 +45,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{username}")
-    public ResponseEntity<String> show(
+    public ResponseEntity<User> show(
             @CookieValue("access_token") String token,
             @PathVariable("username") String username) {
 
-        JWT.hasAccess(token, (claims, user) -> claims.has("sub", username));
+        JWT.isUser(token, username);
 
-        return ResponseEntity.ok().body("YAY!");
+        return ResponseEntity.ok().body(userAccess.fromUsername(username));
     }
 }
