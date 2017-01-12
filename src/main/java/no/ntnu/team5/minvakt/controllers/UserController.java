@@ -4,14 +4,11 @@ import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.models.LoginResponse;
 import no.ntnu.team5.minvakt.models.UserInfo;
-import no.ntnu.team5.minvakt.security.JWT;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
+import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by alan on 11/01/2017.
@@ -27,7 +24,6 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> create(@RequestBody UserInfo info) {
         String salt = PasswordUtil.generateSalt();
-
         String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
 
         User user = new User(
@@ -46,5 +42,15 @@ public class UserController {
         lr.setSuccess(true);
         lr.setToken(JWT.generate(user));
         return ResponseEntity.ok().body(lr);
+    }
+
+    @RequestMapping(value = "/{username}")
+    public ResponseEntity<User> show(
+            @CookieValue("access_token") String token,
+            @PathVariable("username") String username) {
+
+        JWT.isUser(token, username);
+
+        return ResponseEntity.ok().body(userAccess.fromUsername(username));
     }
 }

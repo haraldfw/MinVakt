@@ -15,8 +15,8 @@ import java.util.function.Function;
  * Created by Harald Floor Wilhelmsen on 10.01.2017.
  */
 
-@Transactional
 @Component
+@Transactional
 @Scope("singleton")
 public class DbAccess {
 
