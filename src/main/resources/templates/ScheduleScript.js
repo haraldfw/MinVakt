@@ -69,5 +69,6 @@ $(document).ready(function() {
 
     $(".dayTop").click(function() {
        alert($(this).html());
+        $("#modalYesNo").modal("show");
     });
 });
