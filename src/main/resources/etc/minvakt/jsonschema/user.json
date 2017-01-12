@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "username": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "password_hash": {
+      "type": "string"
+    },
+    "salt": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phonenumber": {
+      "type": "string"
+    },
+    "employment_percentage": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "username",
+    "first_name",
+    "last_name",
+    "password_hash",
+    "salt",
+    "email",
+    "phonenumber",
+    "employment_percentage"
+  ]
+}

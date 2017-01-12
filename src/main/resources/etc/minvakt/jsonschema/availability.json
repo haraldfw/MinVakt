@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "user_id": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "start_time",
+    "end_time",
+    "user_id"
+  ]
+}
