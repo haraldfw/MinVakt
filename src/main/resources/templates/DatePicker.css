@@ -28,13 +28,50 @@ body, head {
 }
 
 #chooseTime, #oneDay {
+    position: relative;
     float: left;
     cursor: pointer;
+}
 
+#oneDay {
+    left: 30%;
+}
+
+#chooseTime {
+    left: 15%;
+}
+
+#labelChooseTime {
+    position: relative;
+    left: 15%;
+}
+
+#labelOneDay {
+    position: relative;
+    left: 30%;
+}
+
+#selectTime, #selectTime2 {
+    display: none;
+    position: relative;
 }
 
 #selectTime {
-    display: none;
+    left: 12%
+}
+
+#selectTime2 {
+    left: 28%;
+}
+
+#go {
+    position: relative;
+    left: 10%
+}
+
+#fraDato, #tilDato {
+    position: relative;
+    left: 5%;
 }
 
 .close-color {
