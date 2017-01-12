@@ -1,22 +1,22 @@
 package no.ntnu.team5.minvakt.dataaccess;
 
-import no.ntnu.team5.minvakt.db.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by alan on 11/01/2017.
+ * Created by alan on 12/01/2017.
  */
 
 @Component
-public class ShiftAccess {
+@Scope("singleton")
+public abstract class Access<T> {
     @Autowired
-    DbAccess db;
+    protected DbAccess db;
 
-    public boolean save(Shift shift){
+    public boolean save(T t){
         db.transaction(session -> {
-            System.out.println(shift);
-            session.save(shift);
+            session.save(t);
             session.flush();
         });
 

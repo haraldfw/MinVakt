@@ -1,12 +1,13 @@
 package no.ntnu.team5.minvakt.controllers;
 
-import no.ntnu.team5.minvakt.dataaccess.ShiftAccess;
+import no.ntnu.team5.minvakt.dataaccess.Access;
 import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.models.ShiftModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +23,10 @@ public class ShiftController {
     UserAccess userAccess;
 
     @Autowired
-    ShiftAccess shiftAccess;
+    Access<Shift> shiftAccess;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Integer> register(ShiftModel reg){
+    public ResponseEntity<Integer> register(@RequestBody ShiftModel reg){
         User user = userAccess.fromID(reg.getUserId());
         Shift shift = new Shift(user, reg.getStart(), reg.getEnd(), reg.getAbsent(), reg.getStandardHours());
 

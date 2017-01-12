@@ -61,7 +61,16 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>${jasypt-spring-boot.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>
