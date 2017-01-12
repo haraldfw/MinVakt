@@ -4,14 +4,17 @@ import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.models.LoginInfo;
 import no.ntnu.team5.minvakt.models.LoginResponse;
-import no.ntnu.team5.minvakt.security.JWT;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
+import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Kenan on 1/11/2017.
@@ -23,7 +26,7 @@ public class LoginController {
     UserAccess userAccess;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<LoginResponse> verifyUser(@RequestBody LoginInfo lf) {
+    public ResponseEntity<LoginResponse> verifyUser(HttpServletResponse response, @RequestBody LoginInfo lf) {
         User user = userAccess.fromUsername(lf.getUsername());
 
         boolean isVerified = PasswordUtil.verifyPassword(lf.getPassword(), user.getPasswordHash(), user.getSalt());
@@ -31,7 +34,9 @@ public class LoginController {
         LoginResponse lr = new LoginResponse();
         if(isVerified) {
             lr.setSuccess(true);
-            lr.setToken(JWT.generate(user));
+            String token = JWT.generate(user);
+            lr.setToken(token);
+            response.addCookie(new Cookie("access_token", token));
             return ResponseEntity.ok().body(lr);
         } else {
             lr.setSuccess(false);
