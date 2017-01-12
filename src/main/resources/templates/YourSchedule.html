@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Din timeplan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Schedule.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -55,8 +55,8 @@
         <div class="dayDisplay">
             <div class="dayTop">Onsdag</div>
             <div class="dayInnhold">
-                <div class="shift">Skift 1</div>
-                <div class="shift">Skift 2</div>
+                <div id="1" class="shift normal-shift">Skift 1</div>
+                <div id="2" class="shift absence-shift">Skift 2</div>
             </div>
         </div>
         <div class="dayDisplay">
@@ -70,7 +70,7 @@
         <div class="dayDisplay">
             <div class="dayTop">Lørdag</div>
             <div class="dayInnhold">
-                <div class="shift normal-shift">Her har du gjort deg selv tilgjengelig for å jobbe</div>
+                <div id="32" class="shift availible-shift">Her har du gjort deg selv tilgjengelig for å jobbe</div>
             </div>
         </div>
         <div class="dayDisplay">
@@ -86,18 +86,6 @@
         </div>
     </div>
 </div>
-
-<!-- slutt dager -->
-
-
-
-<div class="bullsjhhhit">
-    <p>More stuff</p>
-</div>
-</div>
-
-
-</div>
 <!-- end shiftsheet -->
 
 
@@ -112,14 +100,31 @@
             </div>
             <!-- modal body -->
             <div class="modal-body">
-                <p>Test</p>
+                <p id="shift-time">Informasjon om skiftet</p>
+
+                <button id="absenceButton" style="display: none;" class="btn btn-primary" type="button">Legg inn fravær for dette skiftet</button><br>
+                <button id="removeAbsenceButton" style="display: none" class="btn btn-primary" type="button">Fjern fravær for dette skiftet</button><br>
+
+                <label style="display:none;" for="shift-type" class="control-label">Skift type:</label>
+                <div style="display:none;" id="shift-type" class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li><a>skift</a></li>
+                        <li>tilgjengelig</li>
+                        <li>fravær</li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
                 <p>Nju shit</p>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
+                <button type="button" class="btn btn-primary">Lagre endringer</button>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
