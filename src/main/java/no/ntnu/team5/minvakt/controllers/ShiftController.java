@@ -4,7 +4,7 @@ import no.ntnu.team5.minvakt.dataaccess.ShiftAccess;
 import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.models.ShiftModel;
+import no.ntnu.team5.minvakt.model.ShiftModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +26,10 @@ public class ShiftController {
     ShiftAccess shiftAccess;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Integer> register(@RequestBody ShiftModel reg){
-        User user = userAccess.fromID(reg.getUserId());
-        Shift shift = new Shift(user, reg.getStart(), reg.getEnd(), reg.getAbsent(), reg.getStandardHours());
+    public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel){
+        User user = userAccess.fromID(shiftModel.getUserId());
+
+        Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue());
 
         shiftAccess.save(shift);
         return ResponseEntity.ok().body(shift.getId());

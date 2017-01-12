@@ -13,10 +13,10 @@
       "format": "date-time"
     },
     "absent": {
-      "type": "string"
+      "type": "integer"
     },
     "standard_hours": {
-      "type": "number"
+      "type": "integer"
     }
   },
   "required": [
