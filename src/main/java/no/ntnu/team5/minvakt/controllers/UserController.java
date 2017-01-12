@@ -2,8 +2,8 @@ package no.ntnu.team5.minvakt.controllers;
 
 import no.ntnu.team5.minvakt.dataaccess.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.models.LoginResponse;
-import no.ntnu.team5.minvakt.models.UserInfo;
+import no.ntnu.team5.minvakt.model.LoginResponse;
+import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ public class UserController {
     private UserAccess userAccess;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<LoginResponse> create(@RequestBody UserInfo info) {
+    public ResponseEntity<LoginResponse> create(@RequestBody NewUser info) {
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
 
         User user = new User(
-                info.getUsername(),
+                info.getFirstName(), //FIXME(harald): Use username generator/sanitizer
                 info.getFirstName(),
                 info.getLastName(),
                 password_hash,
