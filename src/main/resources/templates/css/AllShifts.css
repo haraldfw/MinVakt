@@ -1,0 +1,62 @@
+body, head {
+    margin: 0;
+    padding: 0;
+}
+
+.rad {
+    width: 100%;
+    display: inline-block;
+    float: left;
+    padding: 0;
+
+}
+
+.timedisplay {
+    background-color: #d4d4d4;
+    /*width: 10%;*/
+    min-height: 10%;
+    height: 10%;
+}
+
+#rammediv {
+    width: 100%;
+}
+
+.cell {
+    text-align: center;
+    display: inline-block;
+    float: left;
+    min-height: 45px;
+    max-height: 45px;
+    line-height: 45px;
+    overflow: hidden;
+    border: 1px solid black;
+}
+.common-cell {
+    width: 11.11%;
+}
+
+.kompetanse-cell {
+    width: 88.88%;
+}
+
+.kompetanse-rad {  }
+
+
+
+.burger-style {
+    font-size: 130%;
+    color: #1fa3ae;
+
+}
+
+.burger-style:hover {
+    color: #17777f;
+    cursor: pointer;
+}
+/*
+padding-right: 3.5%;
+    padding-left: 3.5%;{
+
+
+*/

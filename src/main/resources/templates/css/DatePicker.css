@@ -99,3 +99,6 @@ body, head {
     padding-right: 10px;
 }
 
+.vresize {
+    resize: vertical;
+}
