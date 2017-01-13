@@ -36,7 +36,7 @@ public class ShiftController {
         shiftAccess.save(shift);
         return ResponseEntity.ok().body(shift.getId());
     }
-    @RequestMapping(value = "/{year}/{month}/{day}")
+    @RequestMapping("/{year}/{month}/{day}")
     public ResponseEntity<List<Shift>> getShifts(
         @CookieValue("access_token") String token,
         @PathVariable("year") int year,

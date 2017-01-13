@@ -74,7 +74,7 @@ public class UserController {
 
         return userAccess.toModel(userAccess.fromUsername(username));
     }
-    @RequestMapping(value = "/{username}/nextshifts")
+    @RequestMapping("/{username}/nextshifts")
     public List<Shift> getNextShift (
             @CookieValue("access_token") String token,
             @PathVariable("username") String username) {
@@ -83,4 +83,17 @@ public class UserController {
 
         return shiftAccess.getShiftsForAUser(username);
     }
+    @RequestMapping(value = "/{username}/registerabscence/{shift}", method = RequestMethod.PUT)
+    public boolean registerAbsence (
+            @CookieValue("access_token") String token,
+            @PathVariable("username") String username,
+            @PathVariable("shift") int shiftId ) {
+
+        JWT.isUser(token, username);
+        byte abscense = 1;
+        shiftAccess.addAbscence(shiftAccess.getShiftFromId(shiftId), abscense);
+
+        return true;
+    }
+
 }
