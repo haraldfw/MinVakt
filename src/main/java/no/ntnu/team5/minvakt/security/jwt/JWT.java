@@ -9,7 +9,14 @@ import no.ntnu.team5.minvakt.db.User;
 import org.apache.commons.codec.binary.Base64;
 
 import java.security.SecureRandom;
+<<<<<<< Updated upstream
+=======
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> Stashed changes
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * Created by alan on 11/01/2017.
@@ -26,8 +33,20 @@ public class JWT {
     }
 
     static public String generate(User user){
+<<<<<<< Updated upstream
         //TODO: Add some claims(iss, exp, aud, roles)?
+=======
+        //TODO: Add some claims(iss, aud, roles)?
+        HashMap<String, Object> claims = new HashMap<>();
+
+        claims.put("competance", user.getCompetences()
+                .stream()
+                .map(competence -> competence.getName())
+                .collect(Collectors.toList()));
+
+>>>>>>> Stashed changes
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(user.getUsername())
                 .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
                 .compact();
@@ -56,5 +75,7 @@ public class JWT {
     public static Claims isUser(String token, String username){
         return hasAccess(token, (claims, user) -> claims.has("sub", username));
     }
+
+    public static HasCompetance competance = new HasCompetance();
 }
 

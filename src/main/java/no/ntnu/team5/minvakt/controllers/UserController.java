@@ -22,7 +22,12 @@ public class UserController {
     private UserAccess userAccess;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<LoginResponse> create(@RequestBody NewUser info) {
+    public ResponseEntity<LoginResponse> create(
+            @CookieValue("access_token") String token,
+            @RequestBody NewUser info) {
+
+        JWT.competance.allOf(token, "admin");
+
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
 
