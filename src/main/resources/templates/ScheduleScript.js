@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     var selectedShift = -1;
     var questionAnswer = false;
-    var shiftType = 0; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift
+    var shiftType = -1; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift, 3 = ??, 4 =
 
 
     $(".dayInnhold").click(function() {
@@ -22,7 +22,7 @@ $(document).ready(function() {
         $("#modalTest").modal("show");
         //TODO: gjøre ting med iden man får her og hente fra database$(this).attr("id")
         selectedShift = $(this).attr("id");
-        //.val()
+
         if ($(this).hasClass("normal-shift")) {
             $(".modal-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Du har et skift fra 00:00 - 12:00 på Onsdag 11. jan. 2017");
@@ -86,6 +86,7 @@ $(document).ready(function() {
 
     $(".dayTop").click(function() {
         alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
+        $("#modalYesNo").modal("show");
     });
 
     $("#noButton").click(function() {
@@ -99,8 +100,10 @@ $(document).ready(function() {
             $(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
         } else if (shiftType === 1) {
             $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
-        } else {
+        } else if (shiftType === 2){
             $(".shift#" + selectedShift).remove();
+        } else if (shiftType === 4) {
+            //Add availibility for a single day??
         }
         $("#modalTest").modal("toggle");
     })
