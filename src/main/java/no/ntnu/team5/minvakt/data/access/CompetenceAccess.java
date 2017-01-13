@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.dataaccess;
+package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Competence;
 import org.springframework.context.annotation.Scope;

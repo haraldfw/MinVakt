@@ -1,12 +1,10 @@
-package no.ntnu.team5.minvakt.dataaccess;
+package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Availability;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.hibernate.Query;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
