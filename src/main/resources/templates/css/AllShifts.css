@@ -8,21 +8,24 @@ body, head {
     display: inline-block;
     float: left;
     padding: 0;
+    border-left: 1px solid #454545;
 
 }
 
 .timedisplay {
-    background-color: #d4d4d4;
+    background-color: rgba(18, 103, 132, 0.45);
     /*width: 10%;*/
     min-height: 10%;
     height: 10%;
+    border-top: 1px solid #454545;
 }
 
 #rammediv {
     width: 100%;
+
 }
 
-.cell {
+.cell, .common-cell, .kompetanse-cell, .dropdown-cell {
     text-align: center;
     display: inline-block;
     float: left;
@@ -30,10 +33,17 @@ body, head {
     max-height: 45px;
     line-height: 45px;
     overflow: hidden;
-    border: 1px solid black;
+    border-right: 1px solid #454545;
+    border-bottom: 1px solid #454545;
 }
-.common-cell {
+
+.dropdown-cell, .common-cell {
     width: 11.11%;
+
+}
+
+.dropdown-cell, .kompetanse-cell {
+    background-color: #ededed;
 }
 
 .kompetanse-cell {
@@ -49,11 +59,16 @@ body, head {
     color: #1fa3ae;
 
 }
-
+#testingg:hover, #testingg2:hover, #testing:hover, #testing2:hover {
+    cursor: pointer;
+}
 .burger-style:hover {
     color: #17777f;
     cursor: pointer;
+
 }
+
+
 /*
 padding-right: 3.5%;
     padding-left: 3.5%;{
