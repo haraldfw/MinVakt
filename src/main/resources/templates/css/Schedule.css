@@ -149,3 +149,25 @@
     position: relative;
     float: right;
 }
+
+.modal {
+    text-align: center;
+
+}
+
+.modal:before {
+    height: 100%;
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#modal-dialogYesNo {
+    text-align: center;
+}

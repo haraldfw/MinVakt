@@ -58,6 +58,8 @@ $(document).ready(function() {
     $("#absenceButton").click(function() {
         //alert(selectedShift);
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du melde om fravær for dette skiftet?");
+
         if (questionAnswer) {
             //$(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
             //$("#modalTest").modal("toggle");
@@ -66,6 +68,8 @@ $(document).ready(function() {
 
     $("#removeAbsenceButton").click(function() {
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du fjerne fravær for dette skiftet?");
+
         if (questionAnswer) {
             //alert("asasds");
             //$(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
@@ -77,6 +81,7 @@ $(document).ready(function() {
 
     $("#removeAvailibilityButton").click(function() {
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du fjerne tilgjengelighet for dette skiftet?");
 
         if (questionAnswer) {
             //$(".shift#" + selectedShift).remove();
@@ -85,8 +90,10 @@ $(document).ready(function() {
     });
 
     $(".dayTop").click(function() {
-        alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
+        //alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
+        shiftType = 4;
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html($(this).html());
     });
 
     $("#noButton").click(function() {
@@ -102,9 +109,12 @@ $(document).ready(function() {
             $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
         } else if (shiftType === 2){
             $(".shift#" + selectedShift).remove();
-        } else if (shiftType === 4) {
+        }//Shift type 3 is missing
+
+        if (shiftType === 4) {
             //Add availibility for a single day??
+        } else {
+            $("#modalTest").modal("toggle");
         }
-        $("#modalTest").modal("toggle");
     })
 });
