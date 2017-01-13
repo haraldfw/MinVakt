@@ -5,14 +5,14 @@
     <title>Admin Interface</title>
 </head>
 <body>
-<form action="#" th:action="@{/api/user/create}" th:object="${newUSer}" method="post">
-    <p>First name: <input type="text" th:field="*{firstName}"/></p>
-    <p>Last name: <input type="text" th:field="*{lastName}"/></p>
-    <p>Email: <input type="text" th:field="*{email}"/></p>
-    <p>Phone: <input type="text" th:field="*{phoneNr}"/></p>
+<form action="#" th:action="@{/api/user/create}" th:object="${newUser}" method="post">
+    <p>First name: <input type="text" th:field="*{firstName}" th:required="required"/></p>
+    <p>Last name: <input type="text" th:field="*{lastName}" th:required="required"/></p>
+    <p>Email: <input type="text" th:field="*{email}" th:required="required"/></p>
+    <p>Phone: <input type="text" th:field="*{phoneNr}" th:required="required"/></p>
     <p>Employment percentage: <input type="number" th:field="*{employmentPercentage}"
-                                     pattern="(100)|([0-9]{1,2})"/>%</p>
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+                                     pattern="(100)|([0-9]{1,2})" th:required="required"/>%</p>
+    <p><input type="submit" value="Create User"/></p>
 </form>
 </body>
 </html>

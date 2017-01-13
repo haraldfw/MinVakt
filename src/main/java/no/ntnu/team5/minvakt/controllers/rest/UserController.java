@@ -30,6 +30,7 @@ public class UserController {
     @Autowired
     private ShiftAccess shiftAccess;
 
+    @Autowired
     private UsernameGen usernameGen;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
