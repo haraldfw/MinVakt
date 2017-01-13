@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.dataaccess.wrapper;
+package no.ntnu.team5.minvakt.data.wrapper;
 
 import no.ntnu.team5.minvakt.db.User;
 

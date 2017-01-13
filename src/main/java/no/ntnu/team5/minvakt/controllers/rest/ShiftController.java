@@ -1,7 +1,7 @@
-package no.ntnu.team5.minvakt.controllers;
+package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.dataaccess.ShiftAccess;
-import no.ntnu.team5.minvakt.dataaccess.UserAccess;
+import no.ntnu.team5.minvakt.data.access.ShiftAccess;
+import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ShiftModel;

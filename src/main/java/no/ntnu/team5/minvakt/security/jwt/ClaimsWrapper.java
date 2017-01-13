@@ -13,6 +13,16 @@ public class ClaimsWrapper {
     }
 
     public <T> boolean has(String key, T value){
-        return claims.get(key).equals(value);
+        Object o = claims.get(key);
+
+        if (o == null){
+            return false;
+        } else {
+            return o.equals(value);
+        }
+    }
+
+    public Object get(String key) {
+        return claims.get(key);
     }
 }

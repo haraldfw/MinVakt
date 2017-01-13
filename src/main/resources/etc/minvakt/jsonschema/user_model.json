@@ -13,12 +13,6 @@
     "last_name": {
       "type": "string"
     },
-    "password_hash": {
-      "type": "string"
-    },
-    "salt": {
-      "type": "string"
-    },
     "email": {
       "type": "string"
     },
@@ -27,6 +21,12 @@
     },
     "employment_percentage": {
       "type": "integer"
+    },
+    "competances": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "required": [
@@ -34,8 +34,6 @@
     "username",
     "first_name",
     "last_name",
-    "password_hash",
-    "salt",
     "email",
     "phonenumber",
     "employment_percentage"

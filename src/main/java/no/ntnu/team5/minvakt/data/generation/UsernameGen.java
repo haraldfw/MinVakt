@@ -1,44 +1,25 @@
-package no.ntnu.team5.minvakt.dataaccess;
+package no.ntnu.team5.minvakt.data.generation;
 
-import no.ntnu.team5.minvakt.db.User;
-import org.hibernate.Query;
+import no.ntnu.team5.minvakt.data.access.UserAccess;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * Created by alan on 11/01/2017.
+ * Created by Harald Floor Wilhelmsen on 13.01.2017.
  */
-
 @Component
 @Scope("singleton")
-public class UserAccess extends Access<User> {
-    public User fromID(int userId) {
-        return db.transaction(session -> {
-            Query query = session.createQuery("from User where id = :id");
-            query.setParameter("id", userId);
-            return (User) query.uniqueResult();
-        });
-    }
+public class UsernameGen {
 
-    public User fromUsername(String username) {
-        return db.transaction(session -> {
-            Query query = session.createQuery("from User where username = :username");
-            query.setParameter("username", username);
-            return (User) query.uniqueResult();
-        });
-    }
-
-    public List<String> getUsernames() {
-        return db.transaction(session -> {
-            return session.createQuery("select username from User").list();
-        });
-    }
+    @Autowired
+    private UserAccess userAccess;
 
     public String generateUsername(String firstName, String lastName) {
 
-        List<String> usernames = getUsernames();
+        List<String> usernames = userAccess.getUsernames();
         String username;
 
         int attempts = 0;
