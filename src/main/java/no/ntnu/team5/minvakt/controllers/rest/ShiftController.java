@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/shift")
+@RequestMapping("/api/shift")
 public class ShiftController {
     @Autowired
     UserAccess userAccess;
