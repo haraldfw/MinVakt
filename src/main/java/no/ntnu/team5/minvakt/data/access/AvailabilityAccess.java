@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,13 @@ public class AvailabilityAccess extends Access<Availability> {
 
     public List<Availability> listAvailable() {
         return db.transaction(session -> {
-            Query query = session.createQuery("from Availability where current_date between startTime and endTime");
+            Date dateFrom = Calendar.getInstance().getTime();
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, 7);
+            Date dateTo = cal.getTime();
+            Query query = session.createQuery("from Availability where current_date between :dateFrom and :dateTo");
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
             return (List<Availability>) query.list();
         });
     }

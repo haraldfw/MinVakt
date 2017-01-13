@@ -87,9 +87,9 @@ public class UserController {
             @PathVariable("username") String username,
             @PathVariable("shift") int shiftId ) {
 
-        JWT.isUser(token, username);
+        JWT.valid(token, JWT.isUser(username));
         byte abscense = 1;
-        shiftAccess.addAbscence(shiftAccess.getShiftFromId(shiftId), abscense);
+        shiftAccess.addAbscence(shiftAccess.getShiftFromId(shiftId), (byte) 1);
 
         return true;
     }

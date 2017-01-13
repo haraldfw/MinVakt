@@ -31,7 +31,7 @@ public class ShiftController {
     public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel){
         User user = userAccess.fromID(shiftModel.getUserId());
 
-        Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue());
+        Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue(), null);
 
         shiftAccess.save(shift);
         return ResponseEntity.ok().body(shift.getId());
