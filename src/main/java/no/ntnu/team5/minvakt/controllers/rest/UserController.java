@@ -35,15 +35,15 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> create(
             @CookieValue("access_token") String token,
-            @RequestBody NewUser info) {
+            @ModelAttribute(value = "newUser") NewUser newUser) {
 
         JWT.valid(token, JWT.hasRole("admin"));
 
         String salt = PasswordUtil.generateSalt();
-        String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
+        String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
 
-        String firstName = info.getFirstName().trim();
-        String lastName = info.getLastName().trim();
+        String firstName = newUser.getFirstName().trim();
+        String lastName = newUser.getLastName().trim();
 
         User user = new User(
                 usernameGen.generateUsername(firstName, lastName),
@@ -51,9 +51,9 @@ public class UserController {
                 lastName,
                 password_hash,
                 salt,
-                info.getEmail(),
-                info.getPhoneNr(),
-                info.getEmploymentPercentage());
+                newUser.getEmail(),
+                newUser.getPhoneNr(),
+                newUser.getEmploymentPercentage());
 
         userAccess.save(user);
 
