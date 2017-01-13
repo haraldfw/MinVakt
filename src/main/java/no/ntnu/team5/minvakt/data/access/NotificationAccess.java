@@ -1,13 +1,11 @@
-package no.ntnu.team5.minvakt.dataaccess;
+package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Notification;
-import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by gards on 12-Jan-17.

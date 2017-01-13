@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.dataaccess;
+package no.ntnu.team5.minvakt.data.access;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

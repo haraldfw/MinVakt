@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
-import no.ntnu.team5.minvakt.dataaccess.wrapper.UserLookup;
+import no.ntnu.team5.minvakt.data.wrapper.UserLookup;
 import no.ntnu.team5.minvakt.db.User;
 import org.apache.commons.codec.binary.Base64;
 

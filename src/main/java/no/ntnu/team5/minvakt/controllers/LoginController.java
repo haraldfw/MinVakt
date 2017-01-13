@@ -1,6 +1,6 @@
 package no.ntnu.team5.minvakt.controllers;
 
-import no.ntnu.team5.minvakt.dataaccess.UserAccess;
+import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.models.LoginInfo;
 import no.ntnu.team5.minvakt.models.LoginResponse;

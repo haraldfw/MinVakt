@@ -1,7 +1,7 @@
 package no.ntnu.team5.minvakt.controllers;
 
 import io.jsonwebtoken.Claims;
-import no.ntnu.team5.minvakt.dataaccess.NotificationAccess;
+import no.ntnu.team5.minvakt.data.access.NotificationAccess;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
