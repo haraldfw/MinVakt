@@ -47,9 +47,9 @@ public class ShiftAccess extends Access<Shift> {
         }
     }
     //Changes abscense status for a seleceted shift
-    public boolean addAbscence(Shift shift, byte abscene) {
+    public boolean addAbscence(Shift shift, byte abscense) {
         try{
-            shift.setAbsent(abscene);
+            shift.setAbsent(abscense);
             save(shift);
         } catch (Exception e) {
             return false;
@@ -73,5 +73,13 @@ public class ShiftAccess extends Access<Shift> {
             query.setParameter("date", date);
             return (List<Shift>) query.list();
         });
+    }
+    public Shift getShiftFromId(int id) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from Shift where id = :id");
+            query.setParameter("id", id);
+            return (Shift) query.uniqueResult();
+        });
+
     }
 }

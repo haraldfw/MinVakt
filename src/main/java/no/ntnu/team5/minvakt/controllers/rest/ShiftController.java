@@ -31,12 +31,12 @@ public class ShiftController {
     public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel){
         User user = userAccess.fromID(shiftModel.getUserId());
 
-        Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue());
+        Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue(), null);
 
         shiftAccess.save(shift);
         return ResponseEntity.ok().body(shift.getId());
     }
-    @RequestMapping(value = "/{year}/{month}/{day}")
+    @RequestMapping("/{year}/{month}/{day}")
     public ResponseEntity<List<Shift>> getShifts(
         @CookieValue("access_token") String token,
         @PathVariable("year") int year,
