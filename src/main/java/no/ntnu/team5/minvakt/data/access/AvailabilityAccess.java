@@ -18,7 +18,7 @@ public class AvailabilityAccess extends Access<Availability> {
         //Availability avb = new Availability(,from, to); FIXME: Add userparameter, need method for getting from token
 
         //save(avb); //
-        return true; //FIXME: Unit test
+        return true; //FIXME: Unit predicate
     }
 
     public List<Availability> listAvailable() {

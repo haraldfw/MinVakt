@@ -5,7 +5,7 @@ import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginInfo;
 import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
-import no.ntnu.team5.minvakt.security.jwt.JWT;
+import no.ntnu.team5.minvakt.security.auth.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;

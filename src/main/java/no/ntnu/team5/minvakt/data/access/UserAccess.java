@@ -53,8 +53,6 @@ public class UserAccess extends Access<User> {
                         .map(Competence::getName)
                         .collect(Collectors.toList()));
 
-
-
         return model;
     }
 }

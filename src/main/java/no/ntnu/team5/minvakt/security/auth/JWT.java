@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.security.jwt;
+package no.ntnu.team5.minvakt.security.auth;
 
 import io.jsonwebtoken.ClaimJwtException;
 import io.jsonwebtoken.Claims;
@@ -12,8 +12,9 @@ import org.apache.commons.codec.binary.Base64;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.function.BiFunction;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by alan on 11/01/2017.
@@ -54,6 +55,44 @@ public class JWT {
                 .compact();
     }
 
+    static public Claims valid(String token, Verification ver){
+        Claims claims = verify(token);
+
+        if (ver.predicate(new ClaimsWrapper(claims), new UserLookup((String) claims.get("sub")))){
+            return claims;
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+    static public Claims valid(String token){
+        return verify(token);
+    }
+
+    public static Claims and(String token, Verification... verifications){
+        Claims claims = verify(token);
+        ClaimsWrapper cw = new ClaimsWrapper(claims);
+        UserLookup ul = new UserLookup((String) claims.get("sub"));
+
+        if (Stream.of(verifications).allMatch(ver -> ver.predicate(cw, ul))){
+            return claims;
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+    public static Claims or(String token, Verification... verifications){
+        Claims claims = verify(token);
+        ClaimsWrapper cw = new ClaimsWrapper(claims);
+        UserLookup ul = new UserLookup((String) claims.get("sub"));
+
+        if (Stream.of(verifications).anyMatch(ver -> ver.predicate(cw, ul))){
+            return claims;
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
     static public Claims verify(String token){
         try {
             return Jwts.parser().setSigningKey(SECURE_KEY).parseClaimsJws(token).getBody();
@@ -62,21 +101,16 @@ public class JWT {
         }
     }
 
-    public static Claims hasAccess(String token, BiFunction<ClaimsWrapper, UserLookup, Boolean> predicate) {
-        Claims claims = verify(token);
-
-        if (predicate.apply(new ClaimsWrapper(claims), new UserLookup((String) claims.get("sub")))){
-            // User supplied predicate eq true
-            return claims;
-        } else {
-            throw new ForbiddenException();
-        }
+    public static Verification isUser(String username){
+        return (claims, user) -> claims.has("sub", username);
     }
 
-    public static Claims isUser(String token, String username){
-        return hasAccess(token, (claims, user) -> claims.has("sub", username));
-    }
+    public static Verification hasRole(String role){
+        return (claims, user) -> {
+            List<String> user_competance = (List<String>) claims.get("competance");
 
-    public static HasCompetance competance = new HasCompetance();
+            return user_competance.contains(role);
+        };
+    }
 }
 
