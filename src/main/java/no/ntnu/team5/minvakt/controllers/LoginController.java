@@ -2,8 +2,8 @@ package no.ntnu.team5.minvakt.controllers;
 
 import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.models.LoginInfo;
-import no.ntnu.team5.minvakt.models.LoginResponse;
+import no.ntnu.team5.minvakt.model.LoginInfo;
+import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
