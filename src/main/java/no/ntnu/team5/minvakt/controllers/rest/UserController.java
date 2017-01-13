@@ -7,7 +7,7 @@ import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
-import no.ntnu.team5.minvakt.security.jwt.JWT;
+import no.ntnu.team5.minvakt.security.auth.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public class UserController {
             @CookieValue("access_token") String token,
             @RequestBody NewUser info) {
 
-        JWT.competance.allOf(token, "admin");
+        JWT.valid(token, JWT.hasRole("admin"));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
@@ -62,7 +62,7 @@ public class UserController {
             @CookieValue("access_token") String token,
             @PathVariable("username") String username) {
 
-        JWT.isUser(token, username);
+        JWT.or(token, JWT.isUser(username), JWT.hasRole("admin"));
 
         return userAccess.toModel(userAccess.fromUsername(username));
     }

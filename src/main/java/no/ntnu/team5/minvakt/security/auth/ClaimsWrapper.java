@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.security.jwt;
+package no.ntnu.team5.minvakt.security.auth;
 
 import io.jsonwebtoken.Claims;
 
