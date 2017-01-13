@@ -5,6 +5,7 @@ import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.NewUser;
+import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,12 @@ public class UserController {
     private UsernameGen usernameGen;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<LoginResponse> create(@RequestBody NewUser info) {
+    public ResponseEntity<LoginResponse> create(
+            @CookieValue("access_token") String token,
+            @RequestBody NewUser info) {
+
+        JWT.competance.allOf(token, "admin");
+
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(info.getPassword(), salt);
 
@@ -52,12 +58,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{username}")
-    public ResponseEntity<User> show(
+    public UserModel show(
             @CookieValue("access_token") String token,
             @PathVariable("username") String username) {
 
         JWT.isUser(token, username);
 
-        return ResponseEntity.ok().body(userAccess.fromUsername(username));
+        return userAccess.toModel(userAccess.fromUsername(username));
     }
 }

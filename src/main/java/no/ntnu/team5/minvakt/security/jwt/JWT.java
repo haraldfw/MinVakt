@@ -5,12 +5,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import no.ntnu.team5.minvakt.data.wrapper.UserLookup;
+import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
 import org.apache.commons.codec.binary.Base64;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * Created by alan on 11/01/2017.
@@ -35,8 +38,16 @@ public class JWT {
     }
 
     static public String generate(User user){
-        //TODO: Add some claims(iss, aud, roles)?
+        //TODO: Add some claims(iss, aud)?
+        HashMap<String, Object> claims = new HashMap<>();
+
+        claims.put("competance", user.getCompetences()
+                .stream()
+                .map(Competence::getName)
+                .collect(Collectors.toList()));
+
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(user.getUsername())
                 .setExpiration(expieryDate())
                 .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
@@ -65,5 +76,7 @@ public class JWT {
     public static Claims isUser(String token, String username){
         return hasAccess(token, (claims, user) -> claims.has("sub", username));
     }
+
+    public static HasCompetance competance = new HasCompetance();
 }
 
