@@ -31,6 +31,12 @@ public class ShiftAccess extends Access<Shift> {
         save(toShift);
         return true; //FIXME: Send accept notification to admin functionality
     }
+
+    public boolean transferOwnership(Shift shift, User newOwner){
+        shift.setUser(newOwner);
+        return save(shift);
+    }
+
     //Changes start- and endtime for a selected shift
     //FIXME: Make so only systemadmin can use
     public boolean updateShiftTimes(Shift shift, Date start, Date end) {
