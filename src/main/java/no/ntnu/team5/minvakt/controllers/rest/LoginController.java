@@ -46,25 +46,4 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(lr);
         }
     }
-
-//    @PostMapping("/login")
-//    private ResponseEntity<LoginResponse> verifyUser(HttpServletResponse response, @ModelAttribute LoginInfo loginInfo) {
-//        System.out.println(loginInfo.toString());
-//
-//        User user = userAccess.fromUsername(loginInfo.getUsername());
-//
-//        boolean isVerified = PasswordUtil.verifyPassword(loginInfo.getPassword(), user.getPasswordHash(), user.getSalt());
-//
-//        LoginResponse lr = new LoginResponse();
-//        if (isVerified) {
-//            lr.setSuccess(true);
-//            String token = JWT.generate(user);
-//            lr.setToken(token);
-//            response.addCookie(new Cookie("access_token", token));
-//            return ResponseEntity.ok().body(lr);
-//        } else {
-//            lr.setSuccess(false);
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(lr);
-//        }
-//    }
 }
