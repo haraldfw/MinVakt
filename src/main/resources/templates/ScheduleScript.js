@@ -6,6 +6,8 @@ $(document).ready(function() {
 
 
     var selectedShift = -1;
+    var questionAnswer = false;
+    var shiftType = 0; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift
 
 
     $(".dayInnhold").click(function() {
@@ -27,6 +29,7 @@ $(document).ready(function() {
             $("#absenceButton").css("display", "inline-block");
             $("#removeAbsenceButton").css("display", "none");
             $("#removeAvailibilityButton").css("display", "none");
+            shiftType = 0;
             //alert("vanlig skift");
 
         } else if ($(this).hasClass("absence-shift")) {
@@ -37,6 +40,7 @@ $(document).ready(function() {
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "inline-block");
             $("#removeAvailibilityButton").css("display", "none");
+            shiftType = 1;
 
         } else if ($(this).hasClass("availible-shift")) {
             //alert("tilgjengelig");
@@ -45,6 +49,7 @@ $(document).ready(function() {
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "none");
             $("#removeAvailibilityButton").css("display", "inline-block");
+            shiftType = 2;
         }
 
         //alert(selectedShift);
@@ -52,23 +57,51 @@ $(document).ready(function() {
 
     $("#absenceButton").click(function() {
         //alert(selectedShift);
-        $(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
-        $("#modalTest").modal("toggle");
+        $("#modalYesNo").modal("show");
+        if (questionAnswer) {
+            //$(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
+            //$("#modalTest").modal("toggle");
+        }
     });
 
     $("#removeAbsenceButton").click(function() {
+        $("#modalYesNo").modal("show");
+        if (questionAnswer) {
+            //alert("asasds");
+            //$(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
+            //$("#modalTest").modal("toggle");
+        } else {
 
-        $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
-        $("#modalTest").modal("toggle");
+        }
     });
 
     $("#removeAvailibilityButton").click(function() {
-        $(".shift#" + selectedShift).remove();
-        $("#modalTest").modal("toggle");
+        $("#modalYesNo").modal("show");
+
+        if (questionAnswer) {
+            //$(".shift#" + selectedShift).remove();
+            //$("#modalTest").modal("toggle");
+        }
     });
 
     $(".dayTop").click(function() {
-       alert($(this).html());
-        $("#modalYesNo").modal("show");
+        alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
     });
+
+    $("#noButton").click(function() {
+       questionAnswer = false;
+    });
+
+    $("#yesButton").click(function() {
+        questionAnswer = true;
+        $("#modalYesNo").modal("toggle");
+        if (shiftType === 0) {
+            $(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
+        } else if (shiftType === 1) {
+            $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
+        } else {
+            $(".shift#" + selectedShift).remove();
+        }
+        $("#modalTest").modal("toggle");
+    })
 });

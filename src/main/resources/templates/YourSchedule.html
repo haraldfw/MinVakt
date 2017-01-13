@@ -98,13 +98,35 @@
                 <i class="close ion-close" data-dismiss="modal"></i>
                 <h4 class="modal-title">Skift informasjon</h4>
             </div>
+
             <!-- modal body -->
             <div class="modal-body">
                 <p id="shift-time">Informasjon om skiftet</p>
 
-                <button id="absenceButton" style="display: none;" class="btn btn-primary" type="button">Legg inn fravær for dette skiftet</button><br>
-                <button id="removeAbsenceButton" style="display: none" class="btn btn-primary" type="button">Fjern fravær for dette skiftet</button><br>
-                <button id="removeAvailibilityButton" style="display: none;" class="btn btn-primary" type="button">Fjern tilgjengelighet for dette skiftet</button>
+                <!-- Buttons that is bound to a specific type of shift element -->
+                <br>
+
+                <div id="visFlereAnsatte" class="buttonLeft">
+                    <button class="btn btn-default" type="button">Vis ansatte som jobber på dette skiftet</button>
+                    <br>
+                </div>
+                <div id="absenceButton" class="buttonRight" style="display: none;">
+                    <button class="btn btn-primary" type="button">Legg inn fravær for dette skiftet</button>
+                    <br>
+                </div>
+                <div id="removeAbsenceButton" class="buttonRight" style="display: none">
+                    <button class="btn btn-primary" type="button">Fjern fravær for dette skiftet</button>
+                    <br>
+                </div>
+                <div id="removeAvailibilityButton" class="buttonRight" style="display: none;">
+                    <button class="btn btn-primary" type="button">Fjern tilgjengelighet for dette skiftet</button>
+                    <br>
+                </div>
+                <!-- End specific shift buttons -->
+
+                <br>
+                <br>
+
 
                 <label style="display:none;" for="shift-type" class="control-label">Skift type:</label>
                 <div style="display:none;" id="shift-type" class="dropdown">
@@ -120,7 +142,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <p>Nju shit</p>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
                 <button type="button" class="btn btn-primary">Lagre endringer</button>
             </div>
@@ -131,7 +152,7 @@
 
 <!-- Modal for basic yes/no pop-up -->
 <div id="modalYesNo" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <!-- header og lukk kryss -->
             <div class="modal-header">
@@ -140,8 +161,8 @@
             </div>
             <!-- modal body -->
             <div class="modal-body">
-                <button class="btn btn-danger" type="button">Nei</button>
-                <button class="btn btn-success" type="button">Ja</button>
+                <button id="noButton" class="btn btn-danger" type="button" data-dismiss="modal">Nei</button>
+                <button id="yesButton" class="btn btn-success" type="button">Ja</button>
             </div>
         </div>
     </div>

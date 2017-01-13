@@ -45,7 +45,7 @@
 }
 
 .shiftsheet {
-    border: 2px solid lightgray;
+    border: 2px solid darkgray;
     height: 100%;
 
     position: relative;
@@ -83,7 +83,7 @@
     width: 100%;
 
     left: 0px;
-    background-color: darkgray;
+    background-color: lightgray;
 
     margin-bottom: 7.15vh;
 
@@ -138,4 +138,14 @@
 
 .availible-shift:hover {
     background-color: #72d772;
+}
+
+.buttonLeft {
+    position: relative;
+    float: left;
+}
+
+.buttonRight {
+    position: relative;
+    float: right;
 }
