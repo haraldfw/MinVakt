@@ -2,10 +2,8 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.data.access.UserAccess;
-import no.ntnu.team5.minvakt.db.Shift;
-
-import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
+import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.NewUser;
@@ -79,7 +77,7 @@ public class UserController {
             @CookieValue("access_token") String token,
             @PathVariable("username") String username) {
 
-        JWT.isUser(token, username);
+        JWT.valid(token, JWT.isUser(username));
 
         return shiftAccess.getShiftsForAUser(username);
     }

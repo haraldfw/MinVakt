@@ -5,7 +5,7 @@ import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ShiftModel;
-import no.ntnu.team5.minvakt.security.jwt.JWT;
+import no.ntnu.team5.minvakt.security.auth.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class ShiftController {
         @PathVariable("month") int month,
         @PathVariable("day") int day) {
 
-        JWT.verify(token);
+        JWT.valid(token);
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
         Date date = cal.getTime();
