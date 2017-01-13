@@ -1,13 +1,11 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-<<<<<<< HEAD:src/main/java/no/ntnu/team5/minvakt/controllers/UserController.java
-import no.ntnu.team5.minvakt.dataaccess.ShiftAccess;
-import no.ntnu.team5.minvakt.dataaccess.UserAccess;
+import no.ntnu.team5.minvakt.data.access.ShiftAccess;
+import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.Shift;
-=======
+
 import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
->>>>>>> 40f2006258ba297cc1a3080d8e7ae5ba95c2bf79:src/main/java/no/ntnu/team5/minvakt/controllers/rest/UserController.java
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.NewUser;
@@ -32,11 +30,9 @@ public class UserController {
     private UserAccess userAccess;
 
     @Autowired
-<<<<<<< HEAD:src/main/java/no/ntnu/team5/minvakt/controllers/UserController.java
     private ShiftAccess shiftAccess;
-=======
+
     private UsernameGen usernameGen;
->>>>>>> 40f2006258ba297cc1a3080d8e7ae5ba95c2bf79:src/main/java/no/ntnu/team5/minvakt/controllers/rest/UserController.java
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> create(
