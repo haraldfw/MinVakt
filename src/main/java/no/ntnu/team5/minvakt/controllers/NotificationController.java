@@ -5,6 +5,7 @@ import no.ntnu.team5.minvakt.data.access.NotificationAccess;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.security.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  */
 
-@RestController
+@Controller
 @RequestMapping(value = "/notifications")
 public class NotificationController {
     @Autowired

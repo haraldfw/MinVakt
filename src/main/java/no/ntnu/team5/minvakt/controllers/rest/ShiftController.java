@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.controllers;
+package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.data.access.UserAccess;
