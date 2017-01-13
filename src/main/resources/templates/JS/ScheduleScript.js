@@ -114,7 +114,7 @@ $(document).ready(function() {
         if (shiftType === 4) {
             //Add availibility for a single day??
         } else {
-            $("#modalTest").modal("toggle");
+            $("#modalTest").modal("toggle"); //Legge til hide isteden for toggle?
         }
-    })
+    });
 });

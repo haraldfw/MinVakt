@@ -150,22 +150,33 @@
     float: right;
 }
 
-.modal {
-    text-align: center;
-
+/* For mobile usage */
+@media only screen and (max-width: 768px) {
+    #modal-dialogYesNo {
+        margin-top: 25%;
+        /*Does this work???*/
+    }
 }
 
-.modal:before {
-    height: 100%;
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-}
+/* For desktop usage */
+@media only screen and (min-width: 768px) {
+    .modal {
+        text-align: center;
 
-.modal-dialog {
-    display: inline-block;
-    text-align: left;
-    vertical-align: middle;
+    }
+
+    .modal:before {
+        height: 100%;
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
 }
 
 #modal-dialogYesNo {
