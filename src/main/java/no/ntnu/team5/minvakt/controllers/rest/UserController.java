@@ -1,5 +1,9 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.data.access.ShiftAccess;
+import no.ntnu.team5.minvakt.data.access.UserAccess;
+import no.ntnu.team5.minvakt.db.Shift;
+
 import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.User;
@@ -12,18 +16,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by alan on 11/01/2017.
  */
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserAccess userAccess;
 
     @Autowired
+    private ShiftAccess shiftAccess;
+
     private UsernameGen usernameGen;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -65,5 +73,14 @@ public class UserController {
         JWT.or(token, JWT.isUser(username), JWT.hasRole("admin"));
 
         return userAccess.toModel(userAccess.fromUsername(username));
+    }
+    @RequestMapping(value = "/{username}/nextshifts")
+    public List<Shift> getNextShift (
+            @CookieValue("access_token") String token,
+            @PathVariable("username") String username) {
+
+        JWT.isUser(token, username);
+
+        return shiftAccess.getShiftsForAUser(username);
     }
 }

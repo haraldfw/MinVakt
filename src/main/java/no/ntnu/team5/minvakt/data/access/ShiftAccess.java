@@ -7,6 +7,8 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -57,6 +59,17 @@ public class ShiftAccess extends Access<Shift> {
     public List<Shift> getShiftsOnDate(Date date) {
         return db.transaction(session -> {
             Query query = session.createQuery("from Shift where :date between startTime and endTime");
+            query.setParameter("date", date);
+            return (List<Shift>) query.list();
+        });
+    }
+    public List<Shift> getShiftsForAUser(String username) {
+        return db.transaction(session -> {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, 7);
+            Date date = cal.getTime();
+            Query query = session.createQuery("from Shift shift where shift.user.username = :username and shift.startTime > current_date and shift.startTime < :date");
+            query.setParameter("username", username);
             query.setParameter("date", date);
             return (List<Shift>) query.list();
         });

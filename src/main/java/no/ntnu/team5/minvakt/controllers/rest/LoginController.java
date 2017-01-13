@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Kenan on 1/11/2017.
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/login")
 public class LoginController {
     @Autowired
     UserAccess userAccess;
