@@ -9,5 +9,13 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
-
+  mail:
+    host: smtp.gmail.com
+    username: scrum5.noreply@gmail.com
+    password: ENC(vKmz72/PkSJ+RWAv7dQSo0pMf/MfYKX7)
+    port: 587
+    properties.mail.smtp:
+      starttls.enable: true
+      starttls.required: true
+      socketFactory.port: 25
 
