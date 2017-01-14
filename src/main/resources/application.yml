@@ -1,11 +1,11 @@
+spring.thymeleaf.cache: false
+
 spring:
-  thymeleaf.cache: false
   datasource:
     url: jdbc:mysql://mysql.stud.iie.ntnu.no:3306/g_scrum05
     username: g_scrum05
     password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
-
     tomcat.max-active: 2
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -20,9 +20,6 @@ spring:
       starttls.required: true
       socketFactory.port: 25
 
-main:
-  question: Hello?
-  answer: Hello World!
 
 jasypt:
     encryptor:
