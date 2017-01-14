@@ -10,20 +10,4 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
 
-main:
-  question: Hello?
-  answer: Hello World!
 
----
-spring:
-  profiles: prod
-
-main:
-  answer: Yes, this is prod.
-
----
-spring:
-  profiles: test
-
-main:
-  answer: This is test.
