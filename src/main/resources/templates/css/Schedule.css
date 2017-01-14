@@ -194,3 +194,12 @@
 .panel-heading:hover a {
     text-decoration: underline;
 }
+
+/* For Testing */
+.co-worker-panel-box:hover {
+    /*background-color: blue;*/
+}
+
+.panel-footer {
+    border-top: 1px solid #ddd !important;
+}
