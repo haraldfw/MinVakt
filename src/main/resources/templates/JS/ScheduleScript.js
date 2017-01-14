@@ -124,7 +124,17 @@ $(document).ready(function() {
 
     $(".co-worker-panel-box").click(function() {
         //alert($(this).html());
-        $("#co-worker-name").html($(this).html());
+        $(".co-worker-name").html($(this).html());
+        //$("#shift-modal-shadow").css("display", "block");
         $("#modalUserProfile").modal("show");
+    });
+
+    $("#modalUserProfile").on("shown.bs.modal", function() {
+        $("#shift-modal-shadow").css("display", "block");
+        //$("#shift-modal-shadow").addClass("shown-modal-overlay");
+    });
+
+    $("#modalUserProfile").on("hidden.bs.modal", function() {
+        $("#shift-modal-shadow").css("display", "none");
     });
 });

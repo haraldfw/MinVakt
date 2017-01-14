@@ -195,11 +195,27 @@
     text-decoration: underline;
 }
 
-/* For Testing */
 .co-worker-panel-box:hover {
-    /*background-color: blue;*/
+    background-color: #cbcbcb;
+    cursor: pointer;
 }
 
 .panel-footer {
     border-top: 1px solid #ddd !important;
+}
+
+.panel-heading {
+    border-bottom: 1px solid #B1B1B1 !important;
+}
+
+#shift-modal-shadow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: ease-in-out 0.5s;
+    /* TODO: fix the black edges that appear when adding this element with background-color over the modal */
+    /* TODO: make an animation so the background overlay appear smoother */
 }
