@@ -6,6 +6,7 @@ spring:
     username: g_scrum05
     password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
+    tomcat.max-active: 2
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
