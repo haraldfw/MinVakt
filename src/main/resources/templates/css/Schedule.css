@@ -69,9 +69,8 @@
 
     position: absolute;
     /*height: 2px;*/
-    width: 100%;
     top: 5vh;
-    left: 0px;
+    left: 0;
     /*background-color: red;*/
     /*background-color: orange;*/
     z-index: -1337;
@@ -82,7 +81,7 @@
     height: 2px;
     width: 100%;
 
-    left: 0px;
+    left: 0;
     background-color: lightgray;
 
     margin-bottom: 7.15vh;
@@ -181,4 +180,17 @@
 
 #modal-dialogYesNo {
     text-align: center;
+}
+
+#co-worker-collapse {
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+.panel-heading:hover {
+    cursor: pointer;
+}
+
+.panel-heading:hover a {
+    text-decoration: underline;
 }

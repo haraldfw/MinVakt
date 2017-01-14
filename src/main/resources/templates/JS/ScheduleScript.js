@@ -31,6 +31,7 @@ $(document).ready(function() {
             $("#removeAvailibilityButton").css("display", "none");
             shiftType = 0;
             //alert("vanlig skift");
+            $(".panel-group").css("display", "block");
 
         } else if ($(this).hasClass("absence-shift")) {
             //absenceButton
@@ -41,6 +42,7 @@ $(document).ready(function() {
             $("#removeAbsenceButton").css("display", "inline-block");
             $("#removeAvailibilityButton").css("display", "none");
             shiftType = 1;
+            $(".panel-group").css("display", "block");
 
         } else if ($(this).hasClass("availible-shift")) {
             //alert("tilgjengelig");
@@ -50,6 +52,7 @@ $(document).ready(function() {
             $("#removeAbsenceButton").css("display", "none");
             $("#removeAvailibilityButton").css("display", "inline-block");
             shiftType = 2;
+            $(".panel-group").css("display", "none");
         }
 
         //alert(selectedShift);

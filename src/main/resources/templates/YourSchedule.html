@@ -106,28 +106,38 @@
                 <!-- Buttons that is bound to a specific type of shift element -->
                 <br>
 
-                <div id="visFlereAnsatte" class="buttonLeft">
-                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseText" aria-expanded="false" aria-controls="collapseText">Vis ansatte som jobber på dette skiftet</button>
-                    <div class="collapse" id="collapseText">
-                        <div class="well">
-                            John Doe
-                            Jane Doe
-                            James Doe
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-toggle="collapse" href="#co-worker-collapse">
+                            <a data-toggle="collapse" href="#co-worker-collapse">Vis ansatte som jobber på dette skiftet</a>
+                        </div>
+                        <div id="co-worker-collapse" class="panel-collapse collapse">
+                            <div class="panel-body">John Doe</div>
+                            <div class="panel-footer">Jane Doe</div>
+                            <div class="panel-body">James Doe</div>
+                            <div class="panel-footer">Johnny Doe</div>
+                            <div class="panel-body">Janie Doe</div>
+                            <div class="panel-footer">Richard Roe</div>
+                            <div class="panel-body">John Doe</div>
+                            <div class="panel-footer">Jane Doe</div>
+                            <div class="panel-body">James Doe</div>
+                            <div class="panel-footer">Johnny Doe</div>
+                            <div class="panel-body">Janie Doe</div>
+                            <div class="panel-footer">Richard Roe</div>
                         </div>
                     </div>
-
-                    <br>
                 </div>
+
                 <div id="absenceButton" class="buttonRight" style="display: none;">
-                    <button class="btn btn-primary" type="button">Legg inn fravær for dette skiftet</button>
+                    <button class="btn btn-danger" type="button">Legg inn fravær for dette skiftet</button>
                     <br>
                 </div>
                 <div id="removeAbsenceButton" class="buttonRight" style="display: none">
-                    <button class="btn btn-primary" type="button">Fjern fravær for dette skiftet</button>
+                    <button class="btn btn-success" type="button">Fjern fravær for dette skiftet</button>
                     <br>
                 </div>
                 <div id="removeAvailibilityButton" class="buttonRight" style="display: none;">
-                    <button class="btn btn-primary" type="button">Fjern tilgjengelighet for dette skiftet</button>
+                    <button class="btn btn-danger" type="button">Fjern tilgjengelighet for dette skiftet</button>
                     <br>
                 </div>
                 <!-- End specific shift buttons -->
@@ -175,6 +185,7 @@
         </div>
     </div>
 </div>
+
 
 
 </body>
