@@ -76,7 +76,7 @@ public class UserController {
         emailService.sendEmail(
                 newUser.getEmail(),
                 "User has been created for you in MinVakt",
-                "http://localhost:8080/passwordreset/" + username + "/" + secretKey);
+                "http://localhost:8080/password/reset/" + username + "/" + secretKey);
 
         LoginResponse lr = new LoginResponse();
         lr.setSuccess(true);

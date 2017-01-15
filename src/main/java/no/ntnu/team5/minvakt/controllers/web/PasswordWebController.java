@@ -2,6 +2,7 @@ package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.ForgottenPassword;
 import no.ntnu.team5.minvakt.model.PasswordResetInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by Harald on 15.01.2017.
  */
 @Controller
-@RequestMapping("/passwordreset")
-public class PasswordResetController {
+@RequestMapping("/password")
+public class PasswordWebController {
 
     @Autowired
     private UserAccess userAccess;
 
-    @GetMapping("/{username}/{secretKey}")
+    @GetMapping("/reset/{username}/{secretKey}")
     public String show(Model model,
                        @PathVariable("username") String username,
                        @PathVariable("secretKey") String secretKey) {
@@ -35,5 +36,11 @@ public class PasswordResetController {
             model.addAttribute("username", user.getUsername());
         }
         return "password_reset";
+    }
+
+    @GetMapping("/forgot")
+    public String show(Model model) {
+        model.addAttribute("forgotInfo", new ForgottenPassword());
+        return "forgotten_password";
     }
 }

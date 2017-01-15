@@ -64,4 +64,12 @@ public class UserAccess extends Access<User> {
 
         return model;
     }
+
+    public User fromEmail(String email) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from User where email = :email");
+            query.setParameter("email", email);
+            return (User) query.uniqueResult();
+        });
+    }
 }
