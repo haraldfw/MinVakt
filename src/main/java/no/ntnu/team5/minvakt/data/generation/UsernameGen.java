@@ -21,33 +21,39 @@ public class UsernameGen {
         List<String> usernames = userAccess.getUsernames();
 
         String username;
-        int attempts = 0;
+        int firstnameIter = 0;
+        int lastnameIter = 0;
+        boolean changeFirstname = false;
         do {
-            username = expandingGeneration(firstName, lastName, attempts);
-            attempts++;
+            username = expandingGeneration(firstName, lastName, firstnameIter, lastnameIter, changeFirstname);
+
+            if (changeFirstname) {
+                firstnameIter++;
+            } else {
+                lastnameIter++;
+            }
+            changeFirstname = !changeFirstname;
         } while (usernames.contains(username));
         return username;
     }
 
-    private String expandingGeneration(String firstName, String lastName, int attempts) {
+    private String expandingGeneration(String firstName, String lastName, int firstnameAdd, int lastnameAdd, boolean changeFirstname) {
         firstName = sanitize(firstName.toLowerCase());
         lastName = sanitize(lastName.toLowerCase());
 
         final int fnInitialChars = 2;
         final int lnInitialChars = 2;
 
-        int firstNameChars = attempts < fnInitialChars
-                ? fnInitialChars - attempts
-                : 1 + attempts;
-        int lastNameChars = lnInitialChars + attempts;
+        int firstNameChars = fnInitialChars + firstnameAdd;
+        int lastNameChars = lnInitialChars + lastnameAdd;
 
         // firstnamechars + lastnamechars
         return firstName.substring(0, firstNameChars).concat(lastName.substring(0, lastNameChars));
     }
 
-    private String sanitize(String s) {
-        s = s.replace("æ", "a").replace("ø", "o").replace("å", "a");
-        s = s.replaceAll("[ -']", "");
-        return s;
+    private String sanitize(String string) {
+        string = string.replace("æ", "a").replace("ø", "o").replace("å", "a");
+        string = string.replaceAll("[ -']", "");
+        return string;
     }
 }
