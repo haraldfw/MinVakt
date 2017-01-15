@@ -39,6 +39,15 @@ public class UserAccess extends Access<User> {
         });
     }
 
+    public User getUserFromSecretKey(String username, String secretKey) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from User where username = :username "); // TODO, implement: and secret_key = :secret_key
+            query.setParameter("username", username);
+//            query.setParameter("secret_key", secretKey);
+            return (User) query.uniqueResult();
+        });
+    }
+
     public UserModel toModel(User user) {
         UserModel model = new UserModel();
         model.setId(user.getId());
