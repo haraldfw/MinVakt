@@ -26,6 +26,11 @@
     text-align: center;
 }
 
+.dayTop:hover {
+    cursor: pointer;
+    background-color: #55c6e2;
+}
+
 .dayInnhold {
     /*height: 94vh; /*95%*/
     height: 89vh;
@@ -35,12 +40,12 @@
 }
 
 .dayInnhold:hover {
-    background-color: #cecece;
-    cursor: pointer;
+    /*background-color: #cecece;
+    cursor: pointer;*/
 }
 
 .shiftsheet {
-    border: 2px solid lightgray;
+    border: 2px solid darkgray;
     height: 100%;
 
     position: relative;
@@ -78,7 +83,7 @@
     width: 100%;
 
     left: 0px;
-    background-color: darkgray;
+    background-color: lightgray;
 
     margin-bottom: 7.15vh;
 
@@ -94,26 +99,53 @@
     /* margin-top: 1px;  2px;*/
     /*width: 11.75vw;*/
     height: 44.5vh;/*  44vh;    44.6vh;*/
-    background-color: #f0ad4e;
-    border: 2px solid #dd9c3f;
+
+
+
     border-radius: 5px;
 
     text-align: center;
 }
 
 .shift:hover {
+    cursor: pointer;
+}
+
+
+
+.normal-shift {
+    background-color: #f0ad4e;
+    border: 2px solid #dd9c3f;
+}
+
+.normal-shift:hover {
     background-color: #e0b374;
 }
 
-.normal-shift {
+.absence-shift {
+    background-color: #f05942;
+    border: 2px solid #961d1d;
+}
+
+.absence-shift:hover {
+    background-color: #f0433a;
+}
+
+.availible-shift {
     background-color: #5cb85c;
     border-color: #378c37;
 }
 
-.normal-shift:hover {
+.availible-shift:hover {
     background-color: #72d772;
 }
 
-.other-shift {
+.buttonLeft {
+    position: relative;
+    float: left;
+}
 
+.buttonRight {
+    position: relative;
+    float: right;
 }

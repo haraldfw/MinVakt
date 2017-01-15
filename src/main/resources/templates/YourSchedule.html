@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Din timeplan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/Schedule.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -55,8 +55,8 @@
         <div class="dayDisplay">
             <div class="dayTop">Onsdag</div>
             <div class="dayInnhold">
-                <div class="shift">Skift 1</div>
-                <div class="shift">Skift 2</div>
+                <div id="1" class="shift normal-shift">Skift 1</div>
+                <div id="2" class="shift absence-shift">Skift 2</div>
             </div>
         </div>
         <div class="dayDisplay">
@@ -70,7 +70,7 @@
         <div class="dayDisplay">
             <div class="dayTop">Lørdag</div>
             <div class="dayInnhold">
-                <div class="shift normal-shift">Her har du gjort deg selv tilgjengelig for å jobbe</div>
+                <div id="32" class="shift availible-shift">Her har du gjort deg selv tilgjengelig for å jobbe</div>
             </div>
         </div>
         <div class="dayDisplay">
@@ -86,18 +86,6 @@
         </div>
     </div>
 </div>
-
-<!-- slutt dager -->
-
-
-
-<div class="bullsjhhhit">
-    <p>More stuff</p>
-</div>
-</div>
-
-
-</div>
 <!-- end shiftsheet -->
 
 
@@ -110,19 +98,83 @@
                 <i class="close ion-close" data-dismiss="modal"></i>
                 <h4 class="modal-title">Skift informasjon</h4>
             </div>
+
             <!-- modal body -->
             <div class="modal-body">
-                <p>Test</p>
+                <p id="shift-time">Informasjon om skiftet</p>
+
+                <!-- Buttons that is bound to a specific type of shift element -->
+                <br>
+
+                <div id="visFlereAnsatte" class="buttonLeft">
+                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseText" aria-expanded="false" aria-controls="collapseText">Vis ansatte som jobber på dette skiftet</button>
+                    <div class="collapse" id="collapseText">
+                        <div class="well">
+                            John Doe
+                            Jane Doe
+                            James Doe
+                        </div>
+                    </div>
+
+                    <br>
+                </div>
+                <div id="absenceButton" class="buttonRight" style="display: none;">
+                    <button class="btn btn-primary" type="button">Legg inn fravær for dette skiftet</button>
+                    <br>
+                </div>
+                <div id="removeAbsenceButton" class="buttonRight" style="display: none">
+                    <button class="btn btn-primary" type="button">Fjern fravær for dette skiftet</button>
+                    <br>
+                </div>
+                <div id="removeAvailibilityButton" class="buttonRight" style="display: none;">
+                    <button class="btn btn-primary" type="button">Fjern tilgjengelighet for dette skiftet</button>
+                    <br>
+                </div>
+                <!-- End specific shift buttons -->
+
+                <br>
+                <br>
+
+
+                <label style="display:none;" for="shift-type" class="control-label">Skift type:</label>
+                <div style="display:none;" id="shift-type" class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li><a>skift</a></li>
+                        <li>tilgjengelig</li>
+                        <li>fravær</li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
-                <p>Nju shit</p>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
+                <button type="button" class="btn btn-primary">Lagre endringer</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Modal for basic yes/no pop-up -->
+<div id="modalYesNo" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- header og lukk kryss -->
+            <div class="modal-header">
+                <i class="close ion-close" data-dismiss="modal"></i>
+                <h4 class="modal-title">Skift informasjon</h4>
+            </div>
+            <!-- modal body -->
+            <div class="modal-body">
+                <button id="noButton" class="btn btn-danger" type="button" data-dismiss="modal">Nei</button>
+                <button id="yesButton" class="btn btn-success" type="button">Ja</button>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 
 </body>
