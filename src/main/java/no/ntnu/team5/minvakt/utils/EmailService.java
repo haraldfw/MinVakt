@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 /**
  * Created by Harald on 14.01.2017.
  */
@@ -20,21 +22,32 @@ public class EmailService {
 
     private final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
-    @Async
+    /**
+     * Sends an email to the specified recipient with the specified info
+     *
+     * @param to      Address in 'to'-field of the email
+     * @param subject Subject of the email
+     * @param text    Body of the email
+     */
     public void sendEmail(String to, String subject, String text) {
-        sendEmail(to, subject, text, new SimpleMailMessage());
-    }
-
-    @Async
-    public void sendEmail(String to, String subject, String text, SimpleMailMessage original) {
+        SimpleMailMessage original = new SimpleMailMessage();
         original.setTo(to);
         original.setSubject(subject);
         original.setText(text);
-        try {
-            mailSender.send(original);
-        } catch (MailException e) {
-            logger.warn("Error sending email to recipient '" + to + "' with subject '" + subject + "'");
-        }
+        sendEmailMessage(original);
+    }
 
+    /**
+     * Sends a {@link SimpleMailMessage} object. The message object has to be populated before sending.
+     *
+     * @param msg The message-object to be sent
+     */
+    @Async
+    public void sendEmailMessage(SimpleMailMessage msg) {
+        try {
+            mailSender.send(msg);
+        } catch (MailException e) {
+            logger.warn("Error sending email to '" + Arrays.toString(msg.getTo()) + "' with subject '" + msg.getSubject() + "'");
+        }
     }
 }

@@ -10,10 +10,13 @@ import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.JWT;
+import no.ntnu.team5.minvakt.utils.EmailService;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 /**
@@ -33,6 +36,9 @@ public class UserController {
     @Autowired
     private UsernameGen usernameGen;
 
+    @Autowired
+    EmailService emailService;
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> create(
             @CookieValue("access_token") String token,
@@ -46,8 +52,15 @@ public class UserController {
         String firstName = newUser.getFirstName().trim();
         String lastName = newUser.getLastName().trim();
 
+        byte[] secretBytes = new byte[128];
+        new SecureRandom().nextBytes(secretBytes);
+        // TODO put secretKey in user table in database
+        String secretKey = Base64.encodeBase64String(secretBytes);
+
+        String username = usernameGen.generateUsername(firstName, lastName);
+
         User user = new User(
-                usernameGen.generateUsername(firstName, lastName),
+                username,
                 firstName,
                 lastName,
                 password_hash,
@@ -57,6 +70,13 @@ public class UserController {
                 newUser.getEmploymentPercentage());
 
         userAccess.save(user);
+
+        // TODO make sure creation is successful before sending email
+        // TODO email templating
+        emailService.sendEmail(
+                newUser.getEmail(),
+                "User has been created for you in MinVakt",
+                "http://localhost:8080/passwordreset/" + username + "/" + secretKey);
 
         LoginResponse lr = new LoginResponse();
         lr.setSuccess(true);
@@ -73,8 +93,9 @@ public class UserController {
 
         return userAccess.toModel(userAccess.fromUsername(username));
     }
+
     @RequestMapping("/{username}/nextshifts")
-    public List<Shift> getNextShift (
+    public List<Shift> getNextShift(
             @CookieValue("access_token") String token,
             @PathVariable("username") String username) {
 
@@ -82,11 +103,12 @@ public class UserController {
 
         return shiftAccess.getShiftsForAUser(username);
     }
+
     @RequestMapping(value = "/{username}/registerabscence/{shift}", method = RequestMethod.PUT)
-    public boolean registerAbsence (
+    public boolean registerAbsence(
             @CookieValue("access_token") String token,
             @PathVariable("username") String username,
-            @PathVariable("shift") int shiftId ) {
+            @PathVariable("shift") int shiftId) {
 
         JWT.valid(token, JWT.isUser(username));
         byte abscense = 1;
