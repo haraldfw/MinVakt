@@ -1,18 +1,18 @@
 package no.ntnu.team5.minvakt.data.access;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by alan on 12/01/2017.
  */
 
-@Component
-@Scope("singleton")
 public abstract class Access<T> {
-    @Autowired
     protected DbAccess db;
+
+    protected Access(DbAccess db) {
+        this.db = db;
+    }
 
     public boolean save(T t){
         db.transaction(session -> {
@@ -21,5 +21,18 @@ public abstract class Access<T> {
         });
 
         return true; //FIXME(erl)
+    }
+
+    public static void with(Consumer<AccessContext> consumer) {
+        AccessContext ac = new AccessContext();
+        consumer.accept(ac);
+        ac.close();
+    }
+
+    public static <R> R with(Function<AccessContext, R> consumer) {
+        AccessContext ac = new AccessContext();
+        R r = consumer.apply(ac);
+        ac.close();
+        return r;
     }
 }

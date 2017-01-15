@@ -1,12 +1,10 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.data.access.UserAccess;
+import no.ntnu.team5.minvakt.data.access.Access;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginInfo;
 import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
-import no.ntnu.team5.minvakt.security.auth.JWT;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,26 +21,17 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api")
 public class LoginController {
-    @Autowired
-    UserAccess userAccess;
-
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> verifyUser(HttpServletResponse response, @ModelAttribute LoginInfo loginInfo) {
-        System.out.println(loginInfo.toString());
+        LoginResponse lr = Access.with(access -> {
+            User user = access.user.fromUsername(loginInfo.getUsername());
+            return PasswordUtil.login(user, loginInfo.getPassword());
+        });
 
-        User user = userAccess.fromUsername(loginInfo.getUsername());
-
-        boolean isVerified = PasswordUtil.verifyPassword(loginInfo.getPassword(), user.getPasswordHash(), user.getSalt());
-
-        LoginResponse lr = new LoginResponse();
-        if (isVerified) {
-            lr.setSuccess(true);
-            String token = JWT.generate(user);
-            lr.setToken(token);
-            response.addCookie(new Cookie("access_token", token));
+        if (lr.getSuccess()) {
+            response.addCookie(new Cookie("access_token", lr.getToken()));
             return ResponseEntity.ok().body(lr);
         } else {
-            lr.setSuccess(false);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(lr);
         }
     }

@@ -4,8 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.function.Consumer;
@@ -15,20 +13,15 @@ import java.util.function.Function;
  * Created by Harald Floor Wilhelmsen on 10.01.2017.
  */
 
-@Component
 @Transactional
-@Scope("singleton")
 public class DbAccess {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    public Session getSession(){
-        return sessionFactory.getCurrentSession();
-    }
+    private Session sess = sessionFactory.openSession();
 
     public <T> T transaction(Function<Session, T> consumer){
-        Session sess = getSession();
         Transaction tx = sess.beginTransaction();
         T t = consumer.apply(sess);
         tx.commit();
@@ -36,9 +29,12 @@ public class DbAccess {
     }
 
     public void transaction(Consumer<Session> consumer){
-        Session sess = getSession();
         Transaction tx = sess.beginTransaction();
         consumer.accept(sess);
         tx.commit();
+    }
+
+    public void close() {
+        sess.close();
     }
 }

@@ -1,12 +1,10 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.data.access.ShiftAccess;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
+import no.ntnu.team5.minvakt.data.access.Access;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ShiftModel;
-import no.ntnu.team5.minvakt.security.auth.JWT;
-import org.springframework.beans.factory.annotation.Autowired;
+import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,35 +19,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/shift")
 public class ShiftController {
-    @Autowired
-    UserAccess userAccess;
-
-    @Autowired
-    ShiftAccess shiftAccess;
-
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel){
-        User user = userAccess.fromID(shiftModel.getUserId());
+        //FIXME: Should authorize as admin?
+        int id = Access.with(access -> {
+            User user = access.user.fromID(shiftModel.getUserId());
+            Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue(), null);
 
-        Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue(), null);
+            access.shift.save(shift);
+            return shift.getId();
+        });
 
-        shiftAccess.save(shift);
-        return ResponseEntity.ok().body(shift.getId());
+        return ResponseEntity.ok().body(id);
     }
-    @RequestMapping("/{year}/{month}/{day}")
-    public ResponseEntity<List<Shift>> getShifts(
-        @CookieValue("access_token") String token,
-        @PathVariable("year") int year,
-        @PathVariable("month") int month,
-        @PathVariable("day") int day) {
 
-        JWT.valid(token);
+    @Authorize
+    @RequestMapping("/{year}/{month}/{day}")
+    public List<Shift> getShifts(
+            @PathVariable("year") int year,
+            @PathVariable("month") int month,
+            @PathVariable("day") int day) {
+
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
         Date date = cal.getTime();
 
-        return ResponseEntity.ok(shiftAccess.getShiftsOnDate(date));
+        return Access.with(access -> {
+            return access.shift.getShiftsOnDate(date);
+        });
     }
-
 }
 
