@@ -1,8 +1,10 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.data.access.CompetenceAccess;
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
+import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginResponse;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by alan on 11/01/2017.
@@ -29,6 +32,9 @@ public class UserController {
 
     @Autowired
     private ShiftAccess shiftAccess;
+
+    @Autowired
+    private CompetenceAccess compAccess;
 
     @Autowired
     private UsernameGen usernameGen;
@@ -55,6 +61,10 @@ public class UserController {
                 newUser.getEmail(),
                 newUser.getPhoneNr(),
                 newUser.getEmploymentPercentage());
+
+        Set<Competence> comps = compAccess.getFromNames(newUser.getCompetences());
+        System.out.println("comps: " + comps.size());
+//        user.setCompetences(comps); FIXME
 
         userAccess.save(user);
 
