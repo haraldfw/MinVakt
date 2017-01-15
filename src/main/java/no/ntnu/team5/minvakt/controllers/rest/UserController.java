@@ -1,6 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.data.access.Access;
+import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
@@ -26,6 +26,9 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
+    private AccessContextFactory accessor;
+
+    @Autowired
     private UsernameGen usernameGen;
 
     @Authorize
@@ -39,7 +42,7 @@ public class UserController {
         String firstName = newUser.getFirstName().trim();
         String lastName = newUser.getLastName().trim();
 
-        Access.with(access -> {
+        accessor.with(access -> {
             User user = new User(
                     usernameGen.generateUsername(firstName, lastName),
                     firstName,
@@ -63,7 +66,7 @@ public class UserController {
     public UserModel show(Verifier verifier, @PathVariable("username") String username) {
         verifier.ensure(or(isUser(username), hasRole("admin")));
 
-        return Access.with(access -> {
+        return accessor.with(access -> {
             return access.user.toModel(access.user.fromUsername(username));
         });
     }
@@ -73,7 +76,7 @@ public class UserController {
     public List<Shift> getNextShift(Verifier verifier, @PathVariable("username") String username) {
         verifier.ensure(isUser(username));
 
-        return Access.with(access -> {
+        return accessor.with(access -> {
             return access.shift.getShiftsForAUser(username);
         });
     }
@@ -87,7 +90,7 @@ public class UserController {
 
         verifier.ensure(isUser(username));
 
-        Access.with(access -> {
+        accessor.with(access -> {
             access.shift.addAbscence(access.shift.getShiftFromId(shiftId), (byte) 1);
             return null;
         });

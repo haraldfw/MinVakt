@@ -2,6 +2,8 @@ package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Shift;
 import org.hibernate.Query;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -12,12 +14,10 @@ import java.util.List;
  */
 
 //TODO: Maybe added shift methods
+
+@Component
+@Scope("prototype")
 public class ShiftAccess extends Access<Shift> {
-
-    protected ShiftAccess(DbAccess db) {
-        super(db);
-    }
-
     public boolean changeShift(Shift fromShift, Shift toShift) {
         Shift temp = new Shift();
         temp = fromShift;

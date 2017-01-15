@@ -1,24 +1,40 @@
 package no.ntnu.team5.minvakt.data.access;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 /**
  * Created by alan on 15/01/2017.
  */
+
+@Component
+@Scope("prototype")
 public class AccessContext {
+    @Autowired
     protected DbAccess db;
 
-    public final UserAccess user;
-    public final ShiftAccess shift;
-    public final NotificationAccess notification;
-    public final CompetenceAccess competence;
-    public final AvailabilityAccess availability;
+    @Autowired
+    public UserAccess user;
 
-    protected AccessContext() {
-        db = new DbAccess();
-        user = new UserAccess(db);
-        shift = new ShiftAccess(db);
-        notification = new NotificationAccess(db);
-        competence = new CompetenceAccess(db);
-        availability = new AvailabilityAccess(db);
+    @Autowired
+    public ShiftAccess shift;
+
+    @Autowired
+    public NotificationAccess notification;
+
+    @Autowired
+    public CompetenceAccess competence;
+
+    @Autowired
+    public AvailabilityAccess availability;
+
+    public void init() {
+        user.setDb(db);
+        shift.setDb(db);
+        competence.setDb(db);
+        availability.setDb(db);
+        notification.setDb(db);
     }
 
     public void close() {

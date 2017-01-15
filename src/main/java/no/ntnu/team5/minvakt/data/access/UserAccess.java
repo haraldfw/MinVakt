@@ -4,6 +4,8 @@ import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.UserModel;
 import org.hibernate.Query;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,11 +14,9 @@ import java.util.stream.Collectors;
  * Created by alan on 11/01/2017.
  */
 
+@Component
+@Scope("prototype")
 public class UserAccess extends Access<User> {
-    protected UserAccess(DbAccess db) {
-        super(db);
-    }
-
     public User fromID(int userId) {
         return db.transaction(session -> {
             Query query = session.createQuery("from User where id = :id");

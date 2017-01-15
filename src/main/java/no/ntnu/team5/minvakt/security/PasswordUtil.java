@@ -36,7 +36,7 @@ public class PasswordUtil {
     }
 
     public static LoginResponse login(User user, String password) {
-        boolean isVerified = PasswordUtil.verifyPassword(password, user.getPasswordHash(), user.getSalt());
+        boolean isVerified = user != null && PasswordUtil.verifyPassword(password, user.getPasswordHash(), user.getSalt());
 
         LoginResponse lr = new LoginResponse();
         if (isVerified) {

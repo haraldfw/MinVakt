@@ -1,10 +1,11 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.data.access.Access;
+import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/shift")
 public class ShiftController {
+    @Autowired
+    private AccessContextFactory accessor;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel){
         //FIXME: Should authorize as admin?
-        int id = Access.with(access -> {
+        int id = accessor.with(access -> {
             User user = access.user.fromID(shiftModel.getUserId());
             Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue(), null);
 
@@ -44,7 +48,7 @@ public class ShiftController {
         cal.set(year, month, day);
         Date date = cal.getTime();
 
-        return Access.with(access -> {
+        return accessor.with(access -> {
             return access.shift.getShiftsOnDate(date);
         });
     }

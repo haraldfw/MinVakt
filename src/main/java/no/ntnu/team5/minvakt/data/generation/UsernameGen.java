@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.data.generation;
 
-import no.ntnu.team5.minvakt.data.access.Access;
+import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,11 @@ import java.util.List;
 @Component
 @Scope("singleton")
 public class UsernameGen {
+    @Autowired
+    private AccessContextFactory accessor;
+
     public String generateUsername(String firstName, String lastName) {
-        List<String> usernames = Access.with(access -> {
+        List<String> usernames = accessor.with(access -> {
             return access.user.getUsernames();
         });
 
