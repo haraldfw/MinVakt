@@ -11,7 +11,13 @@
     <p>Email: <input type="text" th:field="*{email}" th:required="required"/></p>
     <p>Phone: <input type="text" th:field="*{phoneNr}" th:required="required"/></p>
     <p>Employment percentage: <input type="number" th:field="*{employmentPercentage}"
-                                     pattern="(100)|([0-9]{1,2})" th:required="required"/>%</p>
+                                     pattern="^(100)|([0-9]{1,2})$" th:required="required"/>%</p>
+    <p>Kompetanser:
+        <select th:list="*{competences}" th:field="*{competences}" multiple="multiple">
+            <option th:each="comp : ${competences}"
+                    th:text="${comp}" th:value="${comp}"></option>
+        </select>
+    </p>
     <p><input type="submit" value="Create User"/></p>
 </form>
 </body>

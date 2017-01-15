@@ -17,6 +17,9 @@ public class PasswordUtil {
 
     private static final SecureRandom secureRandom = new SecureRandom();
 
+    private PasswordUtil() {
+    }
+
     public static String generateSalt() {
         byte[] salt = new byte[SALT_SIZE];
         secureRandom.nextBytes(salt);

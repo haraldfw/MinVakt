@@ -2,6 +2,7 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.Access;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
+import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.NewUser;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 
@@ -47,6 +49,10 @@ public class UserController {
                     newUser.getEmail(),
                     newUser.getPhoneNr(),
                     newUser.getEmploymentPercentage());
+
+            Set<Competence> comps = access.competence.getFromNames(newUser.getCompetences());
+            System.out.println("comps: " + comps.size());
+            user.setCompetences(comps); //FIXME
 
             access.user.save(user);
         });
