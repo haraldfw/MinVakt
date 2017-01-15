@@ -28,7 +28,10 @@ public class PasswordResetController {
         if(user == null) {
             model.addAttribute("keyInvalid", true);
         } else {
-            model.addAttribute("passwordResetInfo", new PasswordResetInfo());
+            PasswordResetInfo pwrInfo = new PasswordResetInfo();
+            pwrInfo.setUsername(username);
+            pwrInfo.setSecretKey(secretKey);
+            model.addAttribute("passwordResetInfo", pwrInfo);
             model.addAttribute("username", user.getUsername());
         }
         return "password_reset";
