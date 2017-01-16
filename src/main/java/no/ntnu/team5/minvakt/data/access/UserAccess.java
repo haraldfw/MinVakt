@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,11 +40,13 @@ public class UserAccess extends Access<User> {
         });
     }
 
-    public User getUserFromSecretKey(String username, String secretKey) {
+    public User getUserFromSecretKey(String username, String resetKey) {
         return db.transaction(session -> {
-            Query query = session.createQuery("from User where username = :username "); // TODO, implement: and secret_key = :secret_key
+            Query query = session.createQuery(
+                    "from User where username = :username and resetKey = :resetKey and :today < resetKeyExpiry");
             query.setParameter("username", username);
-//            query.setParameter("secret_key", secretKey);
+            query.setParameter("resetKey", resetKey);
+            query.setParameter("today", new Date());
             return (User) query.uniqueResult();
         });
     }

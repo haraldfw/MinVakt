@@ -1,8 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.AvailabilityAccess;
-import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
@@ -41,12 +39,6 @@ public class UserController {
 
     @Autowired
     private AccessContextFactory accessor;
-
-    @Autowired
-    private ShiftAccess shiftAccess;
-
-    @Autowired
-    private AvailabilityAccess availabilityAccess;
 
     @Autowired
     private UsernameGen usernameGen;
@@ -146,7 +138,9 @@ public class UserController {
 
         verifier.ensure(isUser(username));
 
-        availabilityAccess.makeAvailable(mam.getDateFrom(), mam.getDateTo());
+        accessor.with(accessContext -> {
+            accessContext.availability.makeAvailable(mam.getDateFrom(), mam.getDateTo());
+        });
 
         return true;
     }

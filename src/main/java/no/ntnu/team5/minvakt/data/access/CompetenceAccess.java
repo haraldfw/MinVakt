@@ -25,7 +25,7 @@ public class CompetenceAccess extends Access<Competence> {
     public Set<Competence> getFromNames(List<String> compNames) {
         Set<Competence> competences = new HashSet<>();
         for(String name : compNames) {
-            competences.add(getFromName(name));
+            competences.add(new Competence(name));
         }
 
         return competences;
