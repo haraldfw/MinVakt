@@ -10,11 +10,13 @@ $(document).ready(function() {
                 left: "-15%"
             }, 400);
             $("#close").removeClass("ion-close").addClass("ion-navicon-round");
+            $("#navbar-top").addClass("navbar-top-ute").removeClass("navbar-top-inne");
         } else {
             $("#nav, #nav333").animate({
                 left: "0%"
             }, 400);
             $("#close").removeClass("ion-navicon-round").addClass("ion-close");
+            $("#navbar-top").addClass("navbar-top-inne").removeClass("navbar-top-ute");
         }
 
     });
