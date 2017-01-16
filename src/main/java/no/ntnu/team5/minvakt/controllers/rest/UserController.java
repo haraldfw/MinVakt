@@ -77,7 +77,7 @@ public class UserController {
 
         accessor.with(access -> {
             User user = new User(
-                    usernameGen.generateUsername(firstName, lastName),
+                    username,
                     firstName,
                     lastName,
                     password_hash,
