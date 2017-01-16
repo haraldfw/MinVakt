@@ -24,32 +24,36 @@ $(document).ready(function() {
         selectedShift = $(this).attr("id");
 
         if ($(this).hasClass("normal-shift")) {
-            $(".modal-title").html("Skift Onsdag 11. jan. 2017");
+            //Modal for shift
+            $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Du har et skift fra 00:00 - 12:00 på Onsdag 11. jan. 2017");
             $("#absenceButton").css("display", "inline-block");
             $("#removeAbsenceButton").css("display", "none");
             $("#removeAvailibilityButton").css("display", "none");
             shiftType = 0;
             //alert("vanlig skift");
+            $(".panel-group").css("display", "block");
 
         } else if ($(this).hasClass("absence-shift")) {
             //absenceButton
             //alert("fravær");
-            $(".modal-title").html("Skift Onsdag 11. jan. 2017");
+            $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Det er et skift tilgjengelig fra 12:00 - 24:00 på Onsdag 11. jan. 2017");
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "inline-block");
             $("#removeAvailibilityButton").css("display", "none");
             shiftType = 1;
+            $(".panel-group").css("display", "block");
 
         } else if ($(this).hasClass("availible-shift")) {
             //alert("tilgjengelig");
-            $(".modal-title").html("Skift Lørdag 14. jan. 2017");
+            $("#modal-shift-title").html("Skift Lørdag 14. jan. 2017");
             $("#shift-time").html("Du har satt deg tilgjengelig for dette skiftet, fra 00:00 - 12:00 på Lørdag 14 jan. 2017");
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "none");
             $("#removeAvailibilityButton").css("display", "inline-block");
             shiftType = 2;
+            $(".panel-group").css("display", "none");
         }
 
         //alert(selectedShift);
@@ -58,6 +62,8 @@ $(document).ready(function() {
     $("#absenceButton").click(function() {
         //alert(selectedShift);
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du melde om fravær for dette skiftet?");
+
         if (questionAnswer) {
             //$(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
             //$("#modalTest").modal("toggle");
@@ -66,6 +72,8 @@ $(document).ready(function() {
 
     $("#removeAbsenceButton").click(function() {
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du fjerne fravær for dette skiftet?");
+
         if (questionAnswer) {
             //alert("asasds");
             //$(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
@@ -77,6 +85,7 @@ $(document).ready(function() {
 
     $("#removeAvailibilityButton").click(function() {
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du fjerne tilgjengelighet for dette skiftet?");
 
         if (questionAnswer) {
             //$(".shift#" + selectedShift).remove();
@@ -85,8 +94,10 @@ $(document).ready(function() {
     });
 
     $(".dayTop").click(function() {
-        alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
+        //alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
+        shiftType = 4;
         $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html($(this).html());
     });
 
     $("#noButton").click(function() {
@@ -102,9 +113,28 @@ $(document).ready(function() {
             $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
         } else if (shiftType === 2){
             $(".shift#" + selectedShift).remove();
-        } else if (shiftType === 4) {
+        }//Shift type 3 is missing
+
+        if (shiftType === 4) {
             //Add availibility for a single day??
+        } else {
+            $("#modalTest").modal("toggle"); //Legge til hide isteden for toggle?
         }
-        $("#modalTest").modal("toggle");
-    })
+    });
+
+    $(".co-worker-panel-box").click(function() {
+        //alert($(this).html());
+        $(".co-worker-name").html($(this).html());
+        //$("#shift-modal-shadow").css("display", "block");
+        $("#modalUserProfile").modal("show");
+    });
+
+    $("#modalUserProfile").on("shown.bs.modal", function() {
+        $("#shift-modal-shadow").css("display", "block");
+        //$("#shift-modal-shadow").addClass("shown-modal-overlay");
+    });
+
+    $("#modalUserProfile").on("hidden.bs.modal", function() {
+        $("#shift-modal-shadow").css("display", "none");
+    });
 });
