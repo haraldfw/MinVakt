@@ -65,11 +65,7 @@ public class UserController {
         String firstName = newUser.getFirstName().trim();
         String lastName = newUser.getLastName().trim();
 
-        byte[] secretBytes = new byte[128];
-        new SecureRandom().nextBytes(secretBytes);
-        // TODO put secretKey in user table in database
         String resetKey = PasswordUtil.generateSalt();
-
         String username = usernameGen.generateUsername(firstName, lastName);
 
         accessor.with(access -> {
