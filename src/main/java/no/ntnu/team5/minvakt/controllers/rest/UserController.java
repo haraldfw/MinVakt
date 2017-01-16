@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.security.auth.JWT;
+import no.ntnu.team5.minvakt.security.auth.verify.Verification;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import no.ntnu.team5.minvakt.data.access.AvailabilityAccess;
@@ -116,25 +117,25 @@ public class UserController {
 
         return true;
     }
-
+    @Authorize
     @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
     public boolean makeAvailability (
-            @CookieValue("access_token") String token,
+            Verifier verify,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
 
-        JWT.valid(token, JWT.isUser(username));
+        verify.ensure(Verifier.isUser(username));
         availabilityAccess.makeAvailable(mam.getDateFrom(), mam.getDateTo());
 
         return true;
     }
     public boolean makeUnavailable (
-            @CookieValue("access_token") String token,
+            Verifier verify,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
 
 
-        JWT.valid(token, JWT.isUser(username));
+        verify.ensure(Verifier.isUser(username));
         return true;
     }
 }
