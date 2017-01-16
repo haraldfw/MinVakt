@@ -97,7 +97,7 @@ $(document).ready(function() {
         //alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
         shiftType = 4;
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Legge inn fravær for " + $(this).html() + "?");
+        $("#yesNo-Question").html("Legge inn tilgjengelighet for " + $(this).html() + "?");
     });
 
     $("#noButton").click(function() {

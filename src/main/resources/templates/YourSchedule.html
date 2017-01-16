@@ -22,13 +22,19 @@
 <body>
 
 <!-- Navbar start -->
-<nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute">
+<nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">MinVakt</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">asdsd</a></li>
+        <ul class="nav navbar-nav navbar-left">
+            <li>
+                <a class="navbar-brand hidden-xs" href="#">
+                    MinVakt
+                </a>
+                <a class="navbar-brand visible-xs"><i class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
+
+            </li>
+            <li class="active">
+                <a class="hidden-xs" href="#">asda</a>
+            </li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
@@ -45,8 +51,8 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     Ola Nordmann <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a>Logg ut</a></li>
-                    <li><a>Logg ut</a></li>
+                    <li><a>Endre profilinstillinger</a></li>
+                    <li role="separator" class="divider"></li>
                     <li><a>Logg ut</a></li>
                 </ul>
             </li>
@@ -60,7 +66,7 @@
     <li class="navbar-item"><a href="#absence">Fravær</a></li>
     <li class="navbar-item"><a href="#bruker">Navn på innlogget ansatt</a></li>
     <li class="navbar-item"><a href="#loggut">Logg ut</a></li>
-    <i class="ion-navicon-round close-close"></i>
+    <i class="ion-navicon-round close-close hidden-xs"></i>
 </ul>
 <!-- Navbar end -->
 

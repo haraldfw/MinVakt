@@ -31,6 +31,8 @@ body, head {
     float: right;
     position: static;
 
+    max-height: 50px;
+    /* overflow: hidden;*/ /* TODO: fix this, it remove the dropdown when clicked on mobile phone */
 }
 
 .navbar-top-inne {
@@ -38,51 +40,112 @@ body, head {
     width: 82%;
 }
 
-@keyframes navbar-inne {
-    from {width: 97%;}
-    to {width: 82%;}
-}
-
-.navbar-top-ute {
-    animation: navbar-ute 0.6s;
-    width: 97%;
-}
-
-@keyframes navbar-ute {
-    from {width: 82%;}
-    to {width: 97%;}
-}
-
-/* Navbar - side (sidebar) */
-.navbar-side-inne {
-    animation: sidebar-inne 0.6s;
-    left: 0%;
-}
-
-@keyframes sidebar-inne {
-    from {left: -15%;}
-    to {left: 0%;}
-}
-
-.navbar-side-ute {
-    animation: sidebar-ute 0.6s;
-    left: -15%;
-}
-
-@keyframes sidebar-ute {
-    from {left: 0%;}
-    to {left: -15%;}
-}
-
 /* For responsive design */
 /* For mobile usage */
 @media only screen and (max-width: 768px) {
+    #navbar-side {
+        width: 45%;
+        padding-right: 12%;
 
+    }
+
+    .close-close {
+        font-size: 300%;
+    }
+
+    .navbar-top-inne {
+        animation: navbar-inne 0.6s;
+        width: 43%;
+    }
+
+    @keyframes navbar-inne {
+        from {width: 100%;}
+        to {width: 43%;}
+    }
+
+    .navbar-top-ute {
+        animation: navbar-ute 0.6s;
+        width: 100%;
+    }
+
+    @keyframes navbar-ute {
+        from {width: 43%;}
+        to {width: 100%;}
+    }
+
+    /* Navbar - side (sidebar) */
+    .navbar-side-inne {
+        animation: sidebar-inne 0.6s;
+        left: 0;
+    }
+
+    @keyframes sidebar-inne {
+        from {left: -57%;}
+        to {left: 0;}
+    }
+
+    .navbar-side-ute {
+        animation: sidebar-ute 0.6s;
+        left: -57%;
+    }
+
+    @keyframes sidebar-ute {
+        from {left: 0;}
+        to {left: -57%;}
+    }
 }
 
 /* For desktop usage */
 @media only screen and (min-width: 768px) {
+    #navbar-side {
+        width: 15%;
+        padding-right: 2.5%;
+    }
 
+    .close-close {
+        font-size: 200%;
+    }
+
+    .navbar-top-inne {
+        animation: navbar-inne 0.6s;
+        width: 83%;
+    }
+
+    @keyframes navbar-inne {
+        from {width: 98%;}
+        to {width: 83%;}
+    }
+
+    .navbar-top-ute {
+        animation: navbar-ute 0.6s;
+        width: 98%;
+    }
+
+    @keyframes navbar-ute {
+        from {width: 83%;}
+        to {width: 98%;}
+    }
+
+    /* Navbar - side (sidebar) */
+    .navbar-side-inne {
+        animation: sidebar-inne 0.6s;
+        left: 0;
+    }
+
+    @keyframes sidebar-inne {
+        from {left: -15%;}
+        to {left: 0;}
+    }
+
+    .navbar-side-ute {
+        animation: sidebar-ute 0.6s;
+        left: -15%;
+    }
+
+    @keyframes sidebar-ute {
+        from {left: 0;}
+        to {left: -15%;}
+    }
 }
 
 
@@ -123,6 +186,18 @@ body, head {
     background-color: #17777f;
 }
 
+.close-iconburger {
+    color: #1fa3ae !important;
+    text-align: center;
+    font-size: 175%;
+    margin-top: -40%;
+}
+
+.close-iconburger:hover {
+    color: #17777f;
+    cursor: pointer;
+}
+
 .close-close {
     color: #1fa3ae;
     position: absolute;
@@ -138,4 +213,21 @@ body, head {
 
 a:focus, a:hover { /* TODO: fjerne at det skjer for alle a? tagger? */
     text-decoration: none;
+}
+
+/* Styling to disable collapse when on mobile and the width is too small */
+.navbar-collapse.collapse {
+    display: block !important;
+}
+
+.navbar-nav>li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+
+.navbar-right {
+    float: right !important;
 }
