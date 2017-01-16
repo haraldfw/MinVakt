@@ -3,7 +3,7 @@ body, head {
     padding: 0;
 }
 
-#nav, #nav333 {
+#navbar-side {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -17,12 +17,13 @@ body, head {
     padding-right: 3%;
     /*outline: 2px solid red;
     outline-offset: -30px;*/
-
+    box-sizing: content-box;
 }
 
 
 
-/* Testing */
+/* Testing av animasjoner */
+/* Navbar-top */
 #navbar-top {
 
     float: right;
@@ -50,6 +51,26 @@ body, head {
     to {width: 97%;}
 }
 
+/* Navbar - side (sidebar) */
+.navbar-side-inne {
+    animation: sidebar-inne 0.6s;
+    left: 0%;
+}
+
+@keyframes sidebar-inne {
+    from {left: -15%;}
+    to {left: 0%;}
+}
+
+.navbar-side-ute {
+    animation: sidebar-ute 0.6s;
+    left: -15%;
+}
+
+@keyframes sidebar-ute {
+    from {left: 0%;}
+    to {left: -15%;}
+}
 
 
 
@@ -92,7 +113,7 @@ body, head {
 .close-close {
     color: #1fa3ae;
     position: absolute;
-    font-size: 130%;
+    font-size: 150%;
     top: 10px;
     right: 13px;
 }
@@ -102,3 +123,6 @@ body, head {
     cursor: pointer;
 }
 
+a:focus, a:hover { /* TODO: fjerne at det skjer for alle a? tagger? */
+    text-decoration: none;
+}
