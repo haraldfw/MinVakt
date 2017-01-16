@@ -18,6 +18,8 @@ body, head {
     /*outline: 2px solid red;
     outline-offset: -30px;*/
     box-sizing: content-box;
+
+    z-index: 1400;
 }
 
 
@@ -70,6 +72,17 @@ body, head {
 @keyframes sidebar-ute {
     from {left: 0%;}
     to {left: -15%;}
+}
+
+/* For responsive design */
+/* For mobile usage */
+@media only screen and (max-width: 768px) {
+
+}
+
+/* For desktop usage */
+@media only screen and (min-width: 768px) {
+
 }
 
 

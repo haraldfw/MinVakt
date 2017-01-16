@@ -58,7 +58,7 @@
     left: -3vw;
     top: -1.5vh;
     margin-bottom: 4.4vh;
-    z-index: 1337;
+    z-index: 1337; /* TODO: FIX THIS */
 }
 
 .marking-lines {
