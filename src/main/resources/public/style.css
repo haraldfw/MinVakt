@@ -1,0 +1,136 @@
+html, body {
+    height: 100%;
+    background-color: #eee;
+}
+
+body {
+    padding: 84px 20px 20px 20px;
+}
+
+main {
+    height: 100%;
+}
+
+header {
+    height: 64px;
+    background-color: white;
+    border-bottom: 1px solid #a7a7a8;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#kebab {
+    position: relative;
+}
+
+#menuBtn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+#menuOverlay {
+    list-style: none;
+    background-color: white;
+    position: absolute; /*manually specify position*/
+    right: 20px;
+    top: 50px;
+    padding: 5px 40px 5px 15px; /*clockwise (from top)*/
+    box-shadow: 0px 0px 4px 1px rgba(0,0,0,.3);
+    display: none;
+    z-index: 999999999999;
+}
+
+#menuOverlay ul {
+    list-style: none;
+    padding: 0;
+}
+
+#menuOverlay ul li a {
+    display: block;
+    padding: 5px 0; /*up-down right-left*/
+    margin: 5px 0;
+}
+
+
+#welcome-page .btn {
+    width: 100%;
+}
+
+#welcome-page .btn + .btn {
+    margin-top: 15px;
+}
+
+#shift-box .panel-title {
+    font-size: 22px;
+}
+
+#shift-box .panel-body {
+    font-size: 18px;
+}
+
+#upcoming-shifts {
+    display: none;
+}
+
+.login-box {
+    max-width: 480px;
+    margin: 0 auto;     /* 0:up/down, auto:right/left */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 1px;
+    border-color: #4da5ba;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 1px 1px 10px rgba(0,0,0,.4);
+}
+
+.login-box .btn {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.modal:before {
+    display: block;
+    content: " ";
+    height: 35%;
+}    
+
+.account-box {
+    margin-top: 15px;
+}
+
+.account-box table {
+    background-color: white;
+}
+
+.account-box table tr th,
+.account-box table tr td {
+    vertical-align: middle;
+}
+
+.account-box input {
+    background: inherit;
+    height: 34px;
+    padding: 0 10px;
+    border: 0;
+    width: 100%;
+}
+
+#new-pwd-box {
+    display: none;
+}
+
+#new-pwd-box input {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 3px 0;
+}
+#new-pwd-box .btn {
+    margin: 10px 0;
+}

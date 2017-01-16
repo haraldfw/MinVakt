@@ -1,0 +1,15 @@
+package no.ntnu.team5.minvakt.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * Created by Nicole on 16.01.2017.
+ */
+@Controller
+public class WelcomeController {
+    @RequestMapping("/welcome")
+    public String welcome() {
+        return "welcome";
+    }
+}

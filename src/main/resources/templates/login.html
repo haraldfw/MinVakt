@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+<body>
+<div th:fragment="content">
+    <div id="login" class="login-box">
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Brukernavn"/>
+            </div>
+            <div class="form -group">
+                <input type="password" class="form-control" placeholder="Passord"/>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox"/> Husk meg</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Logg inn</button>
+        </form>
+        <a href="forgotpassword.html">Glemt passord?</a>
+    </div>
+</div>
+</body>
+</html>

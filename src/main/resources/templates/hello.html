@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Hello Thymeleaf!</title>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
 <body>
-<p th:text="'Hello, ' + ${name} + '!'" />
+    <div th:fragment="content">
+        Injected booty!
+    </div>
 </body>
 </html>
