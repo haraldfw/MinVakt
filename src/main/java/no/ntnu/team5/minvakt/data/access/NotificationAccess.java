@@ -12,11 +12,11 @@ import java.util.List;
  */
 
 @Component
-@Scope("singleton")
+@Scope("prototype")
 public class NotificationAccess extends Access<Notification> {
     public List<Notification> fromUsername(String username) {
         return db.transaction(session -> {
-            Query query =  session.createQuery("from Notification where username = :username and expiry >= current_date()");
+            Query query = session.createQuery("from Notification noti where noti.user.username = :username and expiry >= current_date()");
             query.setParameter("username", username);
             return (List<Notification>) query.list();
         });

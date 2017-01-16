@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 
 @Component
-@Scope("singleton")
+@Scope("prototype")
 public class UserAccess extends Access<User> {
     public User fromID(int userId) {
         return db.transaction(session -> {

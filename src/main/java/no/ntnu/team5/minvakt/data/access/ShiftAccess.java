@@ -1,27 +1,23 @@
 package no.ntnu.team5.minvakt.data.access;
 
-import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
-import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Kenan on 1/12/2017.
  */
 
 //TODO: Maybe added shift methods
-@Component
-@Scope("singleton")
-public class ShiftAccess extends Access<Shift> {
 
+@Component
+@Scope("prototype")
+public class ShiftAccess extends Access<Shift> {
     public boolean changeShift(Shift fromShift, Shift toShift) {
         Shift temp = new Shift();
         temp = fromShift;
