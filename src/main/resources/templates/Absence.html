@@ -13,32 +13,50 @@
       <link rel="stylesheet" href="css/Modal.css">
       <link rel="stylesheet" href="css/Navbar.css">
       <script src="JS/Navbar.js"></script>
-      <link rel="stylesheet" href="css/DatePickerFix.css">
 
     </head>
     <body>
-        <!--
-        <div id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-inne">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">HOME</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">asdsd</a></li>
-                </ul>
+
+    <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">HOME</a>
             </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">asdsd</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a>Jane Doe vil bytte vakt med deg</a></li>
+                        <li><a>James Roe har godtatt å ta vakten din.</a></li>
+                        <li><a>More shit</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Ola Nordmann <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a>Logg ut</a></li>
+                        <li><a>Logg ut</a></li>
+                        <li><a>Logg ut</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
+    </nav>
 
-        <ul id="nav333">
-            <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="#timer">Timer</a></li>
-            <li class="navbar-item"><a href="#tilgjengelighet">Tilgjengelighet</a></li>
-            <li class="navbar-item"><a href="#absence">Fravær</a></li>
-            <li class="navbar-item"><a href="#bruker">Navn på innlogget ansatt</a></li>
-            <li class="navbar-item"><a href="#loggut">Logg ut</a></li>
-            <i id="close" class="ion-close close-close"></i>
-        </ul>
-        -->
-
+    <ul id="navbar-side" class="navbar-side-ute">
+        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="#timer">Timer</a></li>
+        <li class="navbar-item"><a href="#tilgjengelighet">Tilgjengelighet</a></li>
+        <li class="navbar-item"><a href="#absence">Fravær</a></li>
+        <li class="navbar-item"><a href="#bruker">Navn på innlogget ansatt</a></li>
+        <li class="navbar-item"><a href="#loggut">Logg ut</a></li>
+        <i class="ion-navicon-round close-close"></i>
+    </ul>
         <div class="container">
             <h2>Fravær</h2>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absenceModal">Fravær</button>
