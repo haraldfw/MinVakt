@@ -12,8 +12,9 @@ import java.util.List;
 /**
  * Created by Kenan on 1/12/2017.
  */
+
 @Component
-@Scope("singleton")
+@Scope("prototype")
 public class AvailabilityAccess extends Access<Availability> {
     public boolean makeAvailable(Date from, Date to) {
         //Availability avb = new Availability(,from, to); FIXME: Add userparameter, need method for getting from token

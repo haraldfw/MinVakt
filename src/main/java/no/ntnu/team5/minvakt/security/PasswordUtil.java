@@ -1,5 +1,8 @@
 package no.ntnu.team5.minvakt.security;
 
+import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.LoginResponse;
+import no.ntnu.team5.minvakt.security.auth.JWT;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -24,11 +27,26 @@ public class PasswordUtil {
     }
 
     public static String generatePasswordHash(String password, String salt) {
-        return DigestUtils.sha256Hex(salt + password);
+        return DigestUtils.sha512Hex(salt + password);
     }
 
     public static boolean verifyPassword(String userInput, String hash, String salt) {
         String inputHashed = generatePasswordHash(userInput, salt);
         return inputHashed.equals(hash);
+    }
+
+    public static LoginResponse login(User user, String password) {
+        boolean isVerified = user != null && PasswordUtil.verifyPassword(password, user.getPasswordHash(), user.getSalt());
+
+        LoginResponse lr = new LoginResponse();
+        if (isVerified) {
+            lr.setSuccess(true);
+            String token = JWT.generate(user);
+            lr.setToken(token);
+        } else {
+            lr.setSuccess(false);
+        }
+
+        return lr;
     }
 }

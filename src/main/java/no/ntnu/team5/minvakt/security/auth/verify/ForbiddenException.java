@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.security.auth;
+package no.ntnu.team5.minvakt.security.auth.verify;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,13 +1,12 @@
 package no.ntnu.team5.minvakt.controllers;
 
-import io.jsonwebtoken.Claims;
-import no.ntnu.team5.minvakt.data.access.NotificationAccess;
+import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Notification;
-import no.ntnu.team5.minvakt.security.auth.JWT;
+import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
+import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,12 +21,15 @@ import java.util.List;
 @RequestMapping(value = "/notifications")
 public class NotificationController {
     @Autowired
-    NotificationAccess notificationAccess;
+    private AccessContextFactory accessor;
 
+    @Authorize
     @RequestMapping(method = RequestMethod.GET)
-    public Model notification(Model model, @CookieValue("access_token") String token){
-        Claims claims = JWT.valid(token);
-        List<Notification> notifications = notificationAccess.fromUsername(claims.getSubject());
+    public Model notification(Model model, Verifier verifier) {
+        List<Notification> notifications = accessor.with(access -> {
+            return access.notification.fromUsername(verifier.claims.getSubject()); //TODO: Use a model here
+        });
+
         model.addAttribute("notifications", notifications);
         return model;
     }
