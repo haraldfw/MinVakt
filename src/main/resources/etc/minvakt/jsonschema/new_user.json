@@ -18,6 +18,12 @@
     },
     "employmentPercentage": {
       "type": "integer"
+    },
+    "competences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "required": [
@@ -26,6 +32,7 @@
     "email",
     "phoneNr",
     "password",
-    "employmentPercentage"
+    "employmentPercentage",
+    "competences"
   ]
 }

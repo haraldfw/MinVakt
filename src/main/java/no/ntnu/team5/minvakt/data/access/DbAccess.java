@@ -16,19 +16,20 @@ import java.util.function.Function;
  */
 
 @Component
+@Scope("prototype")
 @Transactional
-@Scope("singleton")
 public class DbAccess {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    public Session getSession(){
-        return sessionFactory.getCurrentSession();
-    }
+    private Session sess;
 
     public <T> T transaction(Function<Session, T> consumer){
-        Session sess = getSession();
+        if (sess == null) {
+            sess = sessionFactory.openSession();
+        }
+
         Transaction tx = sess.beginTransaction();
         T t = consumer.apply(sess);
         tx.commit();
@@ -36,9 +37,16 @@ public class DbAccess {
     }
 
     public void transaction(Consumer<Session> consumer){
-        Session sess = getSession();
+        if (sess == null) {
+            sess = sessionFactory.openSession();
+        }
+
         Transaction tx = sess.beginTransaction();
         consumer.accept(sess);
         tx.commit();
+    }
+
+    public void close() {
+        sess.close();
     }
 }

@@ -1,27 +1,23 @@
 package no.ntnu.team5.minvakt.data.access;
 
-import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
-import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Kenan on 1/12/2017.
  */
 
 //TODO: Maybe added shift methods
-@Component
-@Scope("singleton")
-public class ShiftAccess extends Access<Shift> {
 
+@Component
+@Scope("prototype")
+public class ShiftAccess extends Access<Shift> {
     public boolean changeShift(Shift fromShift, Shift toShift) {
         Shift temp = new Shift();
         temp = fromShift;
@@ -69,6 +65,14 @@ public class ShiftAccess extends Access<Shift> {
             return (List<Shift>) query.list();
         });
     }
+    public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
+            return (List<Shift>) query.list();
+        });
+    }
     public List<Shift> getShiftsForAUser(String username) {
         return db.transaction(session -> {
             Calendar cal = Calendar.getInstance();
@@ -86,6 +90,11 @@ public class ShiftAccess extends Access<Shift> {
             query.setParameter("id", id);
             return (Shift) query.uniqueResult();
         });
-
+    }
+    public void makeUnavailable(Date dateFrom, Date dateTo) {
+        List<Shift> shiftsBetweenDates = getShiftsFromDateToDate(dateFrom, dateTo);
+        for(Shift s: shiftsBetweenDates) {
+            s.setAbsent((byte)1);
+        }
     }
 }

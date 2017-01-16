@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin Interface</title>
+</head>
+<body>
+<form action="#" th:action="@{/api/user/create}" th:object="${newUser}" method="post">
+    <p>First name: <input type="text" th:field="*{firstName}" th:required="required"/></p>
+    <p>Last name: <input type="text" th:field="*{lastName}" th:required="required"/></p>
+    <p>Email: <input type="text" th:field="*{email}" th:required="required"/></p>
+    <p>Phone: <input type="text" th:field="*{phoneNr}" th:required="required"/></p>
+    <p>Employment percentage: <input type="number" th:field="*{employmentPercentage}"
+                                     pattern="^(100)|([0-9]{1,2})$" th:required="required"/>%</p>
+    <p>Kompetanser:
+        <select th:list="*{competences}" th:field="*{competences}" multiple="multiple">
+            <option th:each="comp : ${competences}"
+                    th:text="${comp}" th:value="${comp}"></option>
+        </select>
+    </p>
+    <p><input type="submit" value="Create User"/></p>
+</form>
+</body>
+</html>
