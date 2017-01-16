@@ -47,6 +47,7 @@ public class UserController {
     @Autowired
     private AvailabilityAccess availabilityAccess;
 
+    @Autowired
     private UsernameGen usernameGen;
 
     @Autowired
