@@ -19,8 +19,10 @@ $(document).ready(function() {
             $("#test2").css("display", "none");
         }
 
-
-
     });
 
+    $(".shift-box").click(function() {
+        $("#tester").modal("show");
+
+    });
 });

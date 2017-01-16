@@ -56,22 +56,24 @@ $(document).ready(function() {
             alert(nr2[0] + " , " + month2 + " , " + nr2[2])
             var sluttDato = new Date(nr2[2], month2, nr2[0]);
 
-            if(fra > til) {
+            if(startDato > sluttDato) {
                 alert("sluttdato kan ikke være før startdato")
-                //TODO virker ikke med år????
             } else {
                 if($("#chooseTime").is(":checked")) {
-                    //$('.form-group').find('.dropdown-menu').find('li').last().click();$("#selectHour li.selected").text();
-                    var fraTime =$(".btn-group").find(".dropdown-menu").find("li").last().click();
+                    var fraTime = $("#timeFra").html().split("&nbsp;")[0];
+                    var fraMin;
+                    var tilTime;
+                    var tilMin;
+
                     //TODO: alert= [Object object]
-                    alert(fraTime.toString());
+                    alert("startTid: " + fraTime);
 
                 }
-                $("#myModal").modal("toggle");
+                $("#myModal").modal("hide");
             }
         } else {
             alert("test");
-            $("#myModal").modal("toggle");
+            $("#myModal").modal("hide");
         }
 
 
