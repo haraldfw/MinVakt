@@ -1,39 +1,34 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.security.auth.JWT;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.access.AvailabilityAccess;
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
-
-import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-
-import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
-
-
 import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
-import no.ntnu.team5.minvakt.security.auth.JWT;
-import no.ntnu.team5.minvakt.utils.EmailService;
-import org.apache.commons.codec.binary.Base64;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Set;
 
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 
 /**
  * Created by alan on 11/01/2017.
@@ -123,7 +118,7 @@ public class UserController {
 
     @Authorize
     @RequestMapping(value = "/{username}/registerabscence/{shift}", method = RequestMethod.PUT)
-    public boolean registerAbsence (
+    public boolean registerAbsence(
             Verifier verifier,
             @PathVariable("username") String username,
             @PathVariable("shift") int shiftId) {
@@ -140,18 +135,20 @@ public class UserController {
 
     @Authorize
     @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability (
+    public boolean makeAvailability(
             Verifier verifier,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
+
         verifier.ensure(isUser(username));
+
         availabilityAccess.makeAvailable(mam.getDateFrom(), mam.getDateTo());
 
         return true;
     }
 
     @Authorize
-    public boolean makeUnavailable (
+    public boolean makeUnavailable(
             Verifier verifier,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
