@@ -19,6 +19,40 @@ body, head {
     outline-offset: -30px;*/
 
 }
+
+
+
+/* Testing */
+#navbar-top {
+
+    float: right;
+    position: static;
+
+}
+
+.navbar-top-inne {
+    animation: navbar-inne 0.6s;
+    width: 82%;
+}
+
+@keyframes navbar-inne {
+    from {width: 97%;}
+    to {width: 82%;}
+}
+
+.navbar-top-ute {
+    animation: navbar-ute 0.6s;
+    width: 97%;
+}
+
+@keyframes navbar-ute {
+    from {width: 82%;}
+    to {width: 97%;}
+}
+
+
+
+
 /*
 .test2 {
 
@@ -32,7 +66,7 @@ body, head {
     height: 100px;
 }*/
 
-li a {
+.navbar-item a {
     font-family: Verdana, sans-serif;
     display: block;
     color: #c6c6c6;
@@ -41,17 +75,17 @@ li a {
     font-size: 13px;
 }
 
-li a.active {
+.navbar-item a.active {
     background-color: #1fa3ae;
     color: white;
 }
 
-li a:hover:not(.active) {
+.navbar-item a:hover:not(.active) {
     background-color: #656565;
     color: white;
 }
 
-li a:hover {
+.navbar-item a:hover {
     background-color: #17777f;
 }
 
