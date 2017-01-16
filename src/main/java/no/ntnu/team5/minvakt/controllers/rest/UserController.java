@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.SecureRandom;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -67,7 +68,7 @@ public class UserController {
         byte[] secretBytes = new byte[128];
         new SecureRandom().nextBytes(secretBytes);
         // TODO put secretKey in user table in database
-        String secretKey = PasswordUtil.generateSalt();
+        String resetKey = PasswordUtil.generateSalt();
 
         String username = usernameGen.generateUsername(firstName, lastName);
 
@@ -86,6 +87,12 @@ public class UserController {
             System.out.println("comps: " + comps.size());
             user.setCompetences(comps); //FIXME
 
+            user.setResetKey(resetKey);
+
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, 1);
+            user.setResetKeyExpiry(c.getTime());
+
             access.user.save(user);
         });
 
@@ -94,7 +101,7 @@ public class UserController {
         emailService.sendEmail(
                 newUser.getEmail(),
                 "User has been created for you in MinVakt",
-                "http://localhost:8080/password/reset/" + username + "/" + secretKey);
+                "http://localhost:8080/password/reset/" + username + "/" + resetKey);
     }
 
     @Authorize
