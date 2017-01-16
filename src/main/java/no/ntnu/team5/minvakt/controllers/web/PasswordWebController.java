@@ -31,7 +31,6 @@ public class PasswordWebController {
                        @RequestParam("resetkey") String resetKey) {
 
         accessContextFactory.with(accessContext -> {
-            System.out.println("key rec: " + resetKey);
 
             User user = accessContext.user.getUserFromSecretKey(username, resetKey);
             if (user == null) {

@@ -53,9 +53,6 @@ public class PasswordController {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
 
-            System.out.println(pwrInfo.getResetKey());
-            System.out.println(pwrInfo.getPassword());
-            System.out.println(pwrInfo.getPasswordRepeat());
             if (pwrInfo.getPassword().equals(pwrInfo.getPasswordRepeat()) && user != null) {
                 user.setResetKey("");
                 user.setResetKeyExpiry(new Date());
