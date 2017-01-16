@@ -1,36 +1,34 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.security.auth.JWT;
-import no.ntnu.team5.minvakt.security.auth.verify.Verification;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import no.ntnu.team5.minvakt.data.access.AvailabilityAccess;
-import no.ntnu.team5.minvakt.data.access.ShiftAccess;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
-
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-
-import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
-
-
 import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 
 /**
  * Created by alan on 11/01/2017.
@@ -39,22 +37,22 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
     @Autowired
     private AccessContextFactory accessor;
 
     @Autowired
-
-    private ShiftAccess shiftAccess;
+    private UsernameGen usernameGen;
 
     @Autowired
-    private AvailabilityAccess availabilityAccess;
-
-    private UsernameGen usernameGen;
+    EmailService emailService;
 
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
-        verifier.ensure(hasRole("admin"));
+        System.out.println("/Create started");
+
+        verifier.ensure(hasRole("Admin"));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
@@ -62,9 +60,12 @@ public class UserController {
         String firstName = newUser.getFirstName().trim();
         String lastName = newUser.getLastName().trim();
 
+        String resetKey = PasswordUtil.generateSalt();
+        String username = usernameGen.generateUsername(firstName, lastName);
+
         accessor.with(access -> {
             User user = new User(
-                    usernameGen.generateUsername(firstName, lastName),
+                    username,
                     firstName,
                     lastName,
                     password_hash,
@@ -77,8 +78,31 @@ public class UserController {
             System.out.println("comps: " + comps.size());
             user.setCompetences(comps); //FIXME
 
+            user.setResetKey(resetKey);
+
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, 1);
+            user.setResetKeyExpiry(c.getTime());
+
             access.user.save(user);
         });
+
+        // TODO make sure creation is successful before sending email
+        // TODO email templating
+
+
+        try {
+            String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+            System.out.println("key: " + resetKey);
+            System.out.println("encoded key: " + encodedKey);
+            emailService.sendEmail(
+                    newUser.getEmail(),
+                    "User has been created for you in MinVakt",
+                    "http://localhost:8080/password/reset?username=" +
+                            username + "&resetkey=" + encodedKey);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Authorize
@@ -103,10 +127,10 @@ public class UserController {
 
     @Authorize
     @RequestMapping(value = "/{username}/registerabscence/{shift}", method = RequestMethod.PUT)
-    public boolean registerAbsence (
+    public boolean registerAbsence(
             Verifier verifier,
             @PathVariable("username") String username,
-            @PathVariable("shift") int shiftId ) {
+            @PathVariable("shift") int shiftId) {
 
         verifier.ensure(isUser(username));
 
@@ -117,25 +141,29 @@ public class UserController {
 
         return true;
     }
+
     @Authorize
     @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability (
-            Verifier verify,
+    public boolean makeAvailability(
+            Verifier verifier,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
 
-        verify.ensure(Verifier.isUser(username));
-        availabilityAccess.makeAvailable(mam.getDateFrom(), mam.getDateTo());
+        verifier.ensure(isUser(username));
+
+        accessor.with(accessContext -> {
+            accessContext.availability.makeAvailable(mam.getDateFrom(), mam.getDateTo());
+        });
 
         return true;
     }
-    public boolean makeUnavailable (
-            Verifier verify,
+
+    @Authorize
+    public boolean makeUnavailable(
+            Verifier verifier,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
-
-
-        verify.ensure(Verifier.isUser(username));
+        verifier.ensure(isUser(username));
         return true;
     }
 }

@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,17 @@ public class UserAccess extends Access<User> {
         });
     }
 
+    public User getUserFromSecretKey(String username, String resetKey) {
+        return db.transaction(session -> {
+            Query query = session.createQuery(
+                    "from User where username = :username and resetKey = :resetKey and :today < resetKeyExpiry");
+            query.setParameter("username", username);
+            query.setParameter("resetKey", resetKey);
+            query.setParameter("today", new Date());
+            return (User) query.uniqueResult();
+        });
+    }
+
     public UserModel toModel(User user) {
         UserModel model = new UserModel();
         model.setId(user.getId());
@@ -54,5 +66,13 @@ public class UserAccess extends Access<User> {
                         .collect(Collectors.toList()));
 
         return model;
+    }
+
+    public User fromEmail(String email) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from User where email = :email");
+            query.setParameter("email", email);
+            return (User) query.uniqueResult();
+        });
     }
 }

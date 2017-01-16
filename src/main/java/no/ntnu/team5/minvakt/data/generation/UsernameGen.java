@@ -48,11 +48,11 @@ public class UsernameGen {
         int firstNameChars = fnInitialChars + firstnameAdd;
         int lastNameChars = lnInitialChars + lastnameAdd;
 
-        if (firstName.length() > firstNameChars) {
+        if (firstName.length() < firstNameChars) {
             firstNameChars = firstName.length();
         }
 
-        while (lastName.length() > lastNameChars) {
+        while (lastName.length() < lastNameChars) {
             lastName = lastName.concat(String.valueOf((int) (Math.random() * 10)));
         }
 
