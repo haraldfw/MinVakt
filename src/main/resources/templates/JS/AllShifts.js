@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function() {
-    alert("asd");
+
     $("#testing, #testingg").click(function() {
         if($("#test").css("display") == "none") {
             $("#test").css("display", "inline");
@@ -29,7 +29,14 @@ $(document).ready(function() {
         $("#ownShift").modal("show");
     });
     $(".worker").click(function() {
-        alert("hei");
         $("#otherShift").modal("show");
+    });
+
+    $("#shiftChange").click(function() {
+        if ($("#shiftSelect").css("display") === "none") {
+            $("#shiftSelect").css("display", "inline");
+        } else {
+            $("#shiftSelect").css("display", "none");
+        }
     });
 });

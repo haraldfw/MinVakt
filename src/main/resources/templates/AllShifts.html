@@ -159,18 +159,21 @@
                         <br>
                         <button id="shiftChange" class="btn btn-default">Be om vaktbytte</button>
                         <br>
-                        Velg dato for vakten du vil bytte den vakten her med:
-                        <form id="date" method="post" class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-xs-3 control-label" id="fraDatoText"></label>
-                                <div class="col-xs-5 date">
-                                    <div class="input-group input-append date" id="inputFra">
-                                        <input id="fraText" type="text" class="form-control" name="date" />
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <div id="shiftSelect" style="display: none;">
+                            Velg dato for vakten du vil bytte den vakten her med:
+                            <form id="date" method="post" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label" id="fraDatoText"></label>
+                                    <div class="col-xs-5 date">
+                                        <div class="input-group input-append date" id="inputFra">
+                                            <input id="dateText" type="text" class="form-control" name="date" />
+                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                            OVERSIKT OVER VAKTER - SELECTION
+                        </div>
                         <!--FIXME: innlogget bruker sitt skift: se info, annen bruker sitt skift: se info + be om vaktbytte,
                         ledig vakt: sett seg selv på vakt (få godkjenning) + se tilgjengelige personer (spør om vaktbytte for annen person,
                         hvis ansvarlig og ingen admin på jobb) , vis vaktansvarlig?-->
@@ -179,7 +182,7 @@
                     <div class="modal-footer">
                         <div class="form-group">
                             <div class="col-xs-5 col-xs-offset-2">
-                                <button id="allGo" type="submit" class="btn btn-default">Legg inn fravær</button>
+                                <button id="allGo" type="submit" class="btn btn-default">Legg inn forespørsel om vaktbytte</button>
                             </div>
                         </div>
                     </div>
