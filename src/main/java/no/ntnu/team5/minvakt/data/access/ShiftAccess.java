@@ -63,6 +63,14 @@ public class ShiftAccess extends Access<Shift> {
             return (List<Shift>) query.list();
         });
     }
+    public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
+        return db.transaction(session -> {
+            Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
+            return (List<Shift>) query.list();
+        });
+    }
     public List<Shift> getShiftsForAUser(String username) {
         return db.transaction(session -> {
             Calendar cal = Calendar.getInstance();
@@ -80,6 +88,11 @@ public class ShiftAccess extends Access<Shift> {
             query.setParameter("id", id);
             return (Shift) query.uniqueResult();
         });
-
+    }
+    public void makeUnavailable(Date dateFrom, Date dateTo) {
+        List<Shift> shiftsBetweenDates = getShiftsFromDateToDate(dateFrom, dateTo);
+        for(Shift s: shiftsBetweenDates) {
+            s.setAbsent((byte)1);
+        }
     }
 }

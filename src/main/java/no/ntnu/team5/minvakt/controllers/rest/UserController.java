@@ -1,11 +1,13 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.data.access.AvailabilityAccess;
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.LoginResponse;
+import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
@@ -29,6 +31,9 @@ public class UserController {
 
     @Autowired
     private ShiftAccess shiftAccess;
+
+    @Autowired
+    private AvailabilityAccess availabilityAccess;
 
     private UsernameGen usernameGen;
 
@@ -93,5 +98,25 @@ public class UserController {
 
         return true;
     }
+    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
+    public boolean makeAvailability (
+            @CookieValue("access_token") String token,
+            @PathVariable("username") String username,
+            @RequestBody MakeAvailableModel mam) {
 
+        JWT.valid(token, JWT.isUser(username));
+        availabilityAccess.makeAvailable(mam.getDateFrom(), mam.getDateTo());
+
+        return true;
+    }
+    public boolean makeUnavailable (
+            @CookieValue("access_token") String token,
+            @PathVariable("username") String username,
+            @RequestBody MakeAvailableModel mam) {
+
+
+        JWT.valid(token, JWT.isUser(username));
+        return true;
+    }
+    )
 }
