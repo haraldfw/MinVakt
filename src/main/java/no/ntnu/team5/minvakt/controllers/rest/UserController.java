@@ -38,11 +38,11 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
     @Autowired
     private AccessContextFactory accessor;
 
     @Autowired
-
     private ShiftAccess shiftAccess;
 
     @Autowired
