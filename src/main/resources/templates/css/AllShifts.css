@@ -87,8 +87,8 @@ padding-right: 3.5%;
     line-height: 45px;
     text-align: center;
 
-    background-color: #ff9387;
-    border: 1px solid #6c3636;
+    /*background-color: #ff9387;
+    border: 1px solid #6c3636;*/
     border-radius: 5px;
 
     /* For at det skal bli ... dersom for mye tekst */
@@ -100,6 +100,29 @@ padding-right: 3.5%;
 .shift-box:hover {
     background-color: #ff6662;
     cursor: pointer;
+}
+
+.no-worker {
+    background-color: #93d0e6;
+    border: 1px solid #4f6f7c;
+}
+
+.worker {
+    background-color: rgba(0, 191, 0, 0.71);
+    border: 1px solid #1e471d;
+}
+
+.self {
+    background-color: rgba(0, 59, 230, 0.64);
+    border: 1px solid #6c4477;
+}
+
+.warning-1 {
+    background-color: rgba(255, 152, 16, 0.81) !important;
+}
+
+.warning-2 {
+    background-color: rgba(250, 52, 22, 0.68) !important;
 }
 
 .placeholder-shift {
@@ -115,4 +138,14 @@ padding-right: 3.5%;
 #shift-1-9test {
     left: calc(11.11% + (11.11%)/3);
     width: calc(((11.11%)/3)*8 - 1px);
+}
+
+#shift-9-17test {
+    left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*8);
+    width: calc(((11.11%)/3)*8 - 1px);
+}
+
+#shift-17-24test {
+    left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
+    width: calc(((11.11%)/3)*8 - calc((11.11%)/3) - 1px);
 }

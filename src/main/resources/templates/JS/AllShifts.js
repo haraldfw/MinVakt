@@ -3,6 +3,7 @@
  */
 
 $(document).ready(function() {
+    alert("asd");
     $("#testing, #testingg").click(function() {
         if($("#test").css("display") == "none") {
             $("#test").css("display", "inline");
@@ -21,8 +22,14 @@ $(document).ready(function() {
 
     });
 
-    $(".shift-box").click(function() {
-        $("#tester").modal("show");
-
+    $(".no-worker").click(function() {
+        $("#freeShift").modal("show");
+    });
+    $(".self").click(function() {
+        $("#ownShift").modal("show");
+    });
+    $(".worker").click(function() {
+        alert("hei");
+        $("#otherShift").modal("show");
     });
 });
