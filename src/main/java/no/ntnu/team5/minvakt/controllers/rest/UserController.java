@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.SecureRandom;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +50,9 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
-        verifier.ensure(hasRole("admin"));
+        System.out.println("/Create started");
+
+        verifier.ensure(hasRole("Admin"));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
@@ -86,10 +89,20 @@ public class UserController {
 
         // TODO make sure creation is successful before sending email
         // TODO email templating
-        emailService.sendEmail(
-                newUser.getEmail(),
-                "User has been created for you in MinVakt",
-                "http://localhost:8080/password/reset/" + username + "/" + resetKey);
+
+
+        try {
+            String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+            System.out.println("key: " + resetKey);
+            System.out.println("encoded key: " + encodedKey);
+            emailService.sendEmail(
+                    newUser.getEmail(),
+                    "User has been created for you in MinVakt",
+                    "http://localhost:8080/password/reset?username=" +
+                            username + "&resetkey=" + encodedKey);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Authorize
