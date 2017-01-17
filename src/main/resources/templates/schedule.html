@@ -4,9 +4,14 @@
     <meta charset="UTF-8"/>
     <title>Shift Schedule</title>
     <link th:href="@{/style/schedule.css}" rel="stylesheet" type="text/css"/>
+
+   <div th:include="fragments :: headfragment">
+
+   </div>
 </head>
 <body>
 <!--/*@thymesVar id="shifts" type="java.util.List<no.ntnu.team5.minvakt.model.ShiftModel>"*/-->
+<div th:include="fragments :: navbar"></div>
 <table>
     <tr>
         <th>Standard hours</th>
@@ -17,7 +22,7 @@
     <tr th:each="shift : ${shifts}">
         <!--/*@thymesVar id="standardHours" type="no.ntnu.team5.minvakt.model.ShiftModel"*/-->
         <td th:text="${shift.standardHours}">Standard hours</td>
-        <td th:text="${shift.absent}">Absent</td>
+        <td th:text="${shift.userModel.firstName + ' ' + shift.userModel.lastName}">User</td>
         <td th:text="${shift.startTime}">Start</td>
         <td th:text="${shift.endTime}">End</td>
     </tr>
