@@ -17,7 +17,7 @@
     <tr th:each="shift : ${shifts}">
         <!--/*@thymesVar id="standardHours" type="no.ntnu.team5.minvakt.model.ShiftModel"*/-->
         <td th:text="${shift.standardHours}">Standard hours</td>
-        <td th:text="${shift.absent}">Absent</td>
+        <td th:text="${shift.userModel.firstName + ' ' + shift.userModel.lastName}">User</td>
         <td th:text="${shift.startTime}">Start</td>
         <td th:text="${shift.endTime}">End</td>
     </tr>
