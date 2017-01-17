@@ -17,6 +17,7 @@ $(document).ready(function() {
     // min/0.6 = prosent
 
     var pos = "worker";
+    //FIXME: finn ut om Date objekt eller string
 
 
     function test(from, to) {
