@@ -7,14 +7,16 @@
     <groupId>no.ntnu.team5.minvakt</groupId>
     <artifactId>minvakt</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <junit.version>4.12</junit.version>
-        <spring-boot.version>1.4.2.RELEASE</spring-boot.version>
+        <spring-boot.version>1.4.3.RELEASE</spring-boot.version>
         <log4j.version>2.7</log4j.version>
         <slf4j-api.version>1.7.22</slf4j-api.version>
-        <start-class>no.ntnu.team5.minvakt.HelloController</start-class>
+        <mysql-connector.version>5.1.6</mysql-connector.version>
+        <jasypt-spring-boot.version>1.11</jasypt-spring-boot.version>
+        <jackson.version>2.8.5</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -47,6 +49,34 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+
+        <!-- Security -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt-spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -65,17 +95,75 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.6.0-rc4</version>
+            <version>${jackson.version}</version>
         </dependency>
+
+        <!-- Apache Commons Codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+
+
+        <!-- JSON -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+
+        <!-- Database -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt-hibernate3</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
 
     </dependencies>
 
     <build>
         <plugins>
+
+            <!--Set java source version to 1.8-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <!-- Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
@@ -89,12 +177,69 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- POJO generation from database -->
             <plugin>
-                <!-- Fix error on package -->
-                <artifactId>maven-war-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>hbm2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <goal>hbm2java</goal>
+                    <components>
+                        <component>
+                            <name>hbm2java</name>
+                            <implementation>jdbcconfiguration</implementation>
+                            <outputDirectory>target/java-gen</outputDirectory>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <revengfile>src/main/resources/reveng.xml</revengfile>
+                        <confiurationfile>/src/main/resources/hibernate.cfg.xml</confiurationfile>
+                        <packagename>no.ntnu.team5.minvakt.db</packagename>
+                        <jdk5>true</jdk5>
+                        <ejb3>true</ejb3>
+                    </componentProperties>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                        <version>2.2.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql-connector.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- POJO generation from json schemas -->
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>0.4.23</version>
+                <configuration>
+                    <sourceDirectory>
+                        ${basedir}/src/main/resources/etc/minvakt/jsonschema
+                    </sourceDirectory>
+                    <targetPackage>no.ntnu.team5.minvakt.model</targetPackage>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

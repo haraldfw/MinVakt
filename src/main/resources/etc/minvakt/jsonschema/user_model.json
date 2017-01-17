@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "username": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phonenumber": {
+      "type": "string"
+    },
+    "employment_percentage": {
+      "type": "integer"
+    },
+    "competances": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "username",
+    "first_name",
+    "last_name",
+    "email",
+    "phonenumber",
+    "employment_percentage"
+  ]
+}
