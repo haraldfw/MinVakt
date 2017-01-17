@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
+import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
@@ -26,11 +27,15 @@ public class NotificationController {
     @Authorize
     @RequestMapping(method = RequestMethod.GET)
     public String notification(Model model, Verifier verifier) {
-        List<Notification> notifications = accessor.with(access -> {
-            return access.notification.fromUsername(verifier.claims.getSubject()); //TODO: Use a model here
+        List<Notification> userNotifications = accessor.with(access -> {
+            return access.notification.fromUsername(verifier.claims.getSubject());
+        });
+        List<Notification> adminNotifications = accessor.with(access -> {
+            return access.notification.fromCompetence(access.competence.getFromName("Admin"));
         });
 
-        model.addAttribute("notifications", notifications);
+        model.addAttribute("userNotifications", userNotifications);
+        model.addAttribute("adminNotifications", adminNotifications);
         return "notifications";
     }
 }
