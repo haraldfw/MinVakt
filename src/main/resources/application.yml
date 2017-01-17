@@ -1,3 +1,6 @@
+roles:
+  admin: Admin
+
 spring:
   thymeleaf.cache: false
 
@@ -10,7 +13,6 @@ spring:
       max-active: 2
       connection-properties: useUnicode=true;characterEncoding=utf-8;
 
-
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
@@ -21,9 +23,10 @@ spring:
     password: ENC(vKmz72/PkSJ+RWAv7dQSo0pMf/MfYKX7)
     port: 587
     properties.mail.smtp:
-      starttls.enable: true
-      starttls.required: true
       socketFactory.port: 25
+      starttls:
+        enable: true
+        required: true
 
 jasypt:
     encryptor:

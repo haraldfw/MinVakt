@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
@@ -52,7 +53,7 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
-        verifier.ensure(hasRole("admin"));
+        verifier.ensure(hasRole(Constants.ADMIN));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
