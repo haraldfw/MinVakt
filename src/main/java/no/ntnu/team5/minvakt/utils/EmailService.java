@@ -3,13 +3,14 @@ package no.ntnu.team5.minvakt.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by Harald on 14.01.2017.
@@ -20,6 +21,9 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    MailContentBuilder mailContentBuilder;
+
     private final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     /**
@@ -29,25 +33,35 @@ public class EmailService {
      * @param subject Subject of the email
      * @param text    Body of the email
      */
+    @Async
     public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage original = new SimpleMailMessage();
         original.setTo(to);
         original.setSubject(subject);
         original.setText(text);
-        sendEmailMessage(original);
+        mailSender.send(original);
     }
 
+
     /**
-     * Sends a {@link SimpleMailMessage} object. The message object has to be populated before sending.
+     * Sends message in HTML-format
      *
-     * @param msg The message-object to be sent
+     * @param to           Recipient
+     * @param subject      Subject-line of email
+     * @param templateName Name of template to base email on
+     * @param values       Values to inject into template
      */
     @Async
-    public void sendEmailMessage(SimpleMailMessage msg) {
-        try {
-            mailSender.send(msg);
-        } catch (MailException e) {
-            logger.warn("Error sending email to '" + Arrays.toString(msg.getTo()) + "' with subject '" + msg.getSubject() + "'");
-        }
+    public void sendEmail(String to, String subject, String templateName, Map<String, String> values) {
+        String text = mailContentBuilder.build(templateName, values);
+        SimpleMailMessage original = new SimpleMailMessage();
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom("sample@dolszewski.com");
+            messageHelper.setTo(to);
+            messageHelper.setSubject("Sample mail subject");
+            messageHelper.setText(text, true);
+        };
+        mailSender.send(messagePreparator);
     }
 }
