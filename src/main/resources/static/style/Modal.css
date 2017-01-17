@@ -1,0 +1,104 @@
+body, head {
+    margin: 0;
+    padding: 0;
+}
+
+#inputFra, #inputTil, .form-control-feedback {
+    top: 0;
+    right: -15px;
+}
+
+.datepicker {
+    z-index: 1600 !important; /* has to be larger than 1050 */
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.label-checkbox {
+    cursor: pointer;
+    float: left;
+    font-weight: normal;
+}
+
+#chooseTime, #oneDay {
+    position: relative;
+    float: left;
+    cursor: pointer;
+}
+
+#oneDay {
+    left: 30%;
+}
+
+#chooseTime {
+    left: 15%;
+}
+
+#labelChooseTime {
+    position: relative;
+    left: 15%;
+}
+
+#labelOneDay {
+    position: relative;
+    left: 30%;
+}
+
+#selectTime, #selectTime2 {
+    display: none;
+    position: relative;
+}
+
+#selectTime {
+    left: 12%
+}
+
+#selectTime2 {
+    left: 28%;
+}
+
+#go {
+    position: relative;
+    left: 10%
+}
+
+#fraDato, #tilDato {
+    position: relative;
+    left: 5%;
+}
+
+.close-color {
+    color: #1fa3ae;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+}
+
+.close-color:hover {
+    color: #17777f;
+    cursor: pointer;
+}
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    float: left;
+}
+
+.button-sizing {
+    padding-right: 10px;
+}
+
+.vresize {
+    resize: vertical;
+}
