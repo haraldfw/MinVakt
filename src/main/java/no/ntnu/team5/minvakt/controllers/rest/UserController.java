@@ -116,18 +116,6 @@ public class UserController {
     }
 
     @Authorize
-    @RequestMapping("/{username}/nextshifts")
-    public List<ShiftModel> getNextShift(Verifier verifier, @PathVariable("username") String username) {
-        verifier.ensure(isUser(username));
-
-        return accessor.with(access -> {
-            return access.shift.getShiftsForAUser(username)
-                    .stream()
-                    .map(shift -> access.shift.toModel(shift)).collect(Collectors.toList());
-        });
-    }
-
-    @Authorize
     @RequestMapping(value = "/{username}/registerabsence/{shift}", method = RequestMethod.PUT)
     public boolean registerAbsence(
             Verifier verifier,
