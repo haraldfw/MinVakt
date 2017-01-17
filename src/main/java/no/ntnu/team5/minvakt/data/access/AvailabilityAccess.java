@@ -3,6 +3,7 @@ package no.ntnu.team5.minvakt.data.access;
 import groovy.lang.Tuple2;
 import no.ntnu.team5.minvakt.db.Availability;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.AvailabilityModel;
 import no.ntnu.team5.minvakt.utils.DateInterval;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
@@ -74,5 +75,13 @@ public class AvailabilityAccess extends Access<Availability> {
                 }
             }
         });
+    }
+    public AvailabilityModel toModel(Availability availability) {
+        AvailabilityModel  model = new AvailabilityModel();
+        model.setUserId(availability.getUser().getId());
+        model.setStartTime(availability.getStartTime());
+        model.setEndTime(availability.getEndTime());
+
+        return model;
     }
 }
