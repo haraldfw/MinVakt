@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="mainLayout">
+<head>
+    <title>MinVakt</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="style.css"/>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+</head>
+<body>
+    <header>
+        <div id="kebab">
+            <div id="menuBtn">
+                <img src="kebab.svg"/>
+            </div>
+            <div id="menuOverlay" class="open">
+                <ul>
+                    <li><a>Tilgjengelighet</a></li>
+                    <li><a>Registrer fravær</a></li>
+                    <li><a>Profil</a></li>
+                    <li><a>Logg ut</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main th:include="this :: content"/> <!-- This line is replaced by content from other template -->
+    <script src="scripts.js"></script>
+</body>
+</html>

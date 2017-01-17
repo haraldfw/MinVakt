@@ -49,4 +49,14 @@ public class PasswordUtil {
 
         return lr;
     }
+
+//    public static void main(String[] args) {
+//        dummyPassword("det");
+//        dummyPassword("det1");
+//        dummyPassword("det2");
+//    }
+
+    private static void dummyPassword(String salt) {
+        System.out.println(generatePasswordHash("passord", salt));
+    }
 }

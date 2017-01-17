@@ -13,12 +13,17 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -62,7 +67,7 @@ public class ShiftController {
 
     @Authorize
     @RequestMapping("/{year}/{month}/{day}")
-    public List<Shift> getShifts(
+    public List<ShiftModel> getShifts(
             @PathVariable("year") int year,
             @PathVariable("month") int month,
             @PathVariable("day") int day) {
@@ -72,7 +77,10 @@ public class ShiftController {
         Date date = cal.getTime();
 
         return accessor.with(access -> {
-            return access.shift.getShiftsOnDate(date);
+            return access.shift.getShiftsOnDate(date)
+                    .stream()
+                    .map(access.shift::toModel)
+                    .collect(Collectors.toList());
         });
     }
 
