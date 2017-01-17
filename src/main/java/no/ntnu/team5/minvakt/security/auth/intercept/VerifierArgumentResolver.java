@@ -28,7 +28,6 @@ public final class VerifierArgumentResolver implements HandlerMethodArgumentReso
 
         HttpServletRequest req = (HttpServletRequest) request.getNativeRequest();
 
-        System.out.println("Arg resolve");
         return req.getAttribute("auth.verifier");
     }
 }

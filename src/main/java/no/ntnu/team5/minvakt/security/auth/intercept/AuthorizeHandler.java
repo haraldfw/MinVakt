@@ -18,8 +18,6 @@ import java.util.stream.Stream;
 
 public class AuthorizeHandler {
     public static boolean handle(HttpServletRequest request, HttpServletResponse response, HandlerMethod hm, Annotation annotation) {
-        System.out.println("Hello from authorization method!");
-
         Cookie[] cookies = request.getCookies();
         if (cookies == null) return false;
 
@@ -34,7 +32,6 @@ public class AuthorizeHandler {
 
         if (!claims.isPresent()) return false;
 
-        System.out.println("Setting attr");
         request.setAttribute("auth.verifier", new Verifier(claims.get()));
 
         return true;

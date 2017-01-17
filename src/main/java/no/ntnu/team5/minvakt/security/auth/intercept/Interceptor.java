@@ -15,7 +15,6 @@ public class Interceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("Hello from interceptor");
         if (handler instanceof HandlerMethod) {
             HandlerMethod hm = (HandlerMethod) handler;
 

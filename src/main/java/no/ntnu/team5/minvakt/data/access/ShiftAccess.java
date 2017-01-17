@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Shift;
+import no.ntnu.team5.minvakt.model.ShiftModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -42,23 +43,25 @@ public class ShiftAccess extends Access<Shift> {
             return false;
         }
     }
-    //Changes abscense status for a seleceted shift
+
     public boolean addAbscence(Shift shift, byte abscense) {
-        try{
-            shift.setAbsent(abscense);
-            save(shift);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        shift.setAbsent(abscense);
+        return save(shift);
     }
+
     public List<Shift> getShiftsOnDate(Date date) {
+        //FIXME
+//        Calendar
+//        LocalDate start = new LocalDate(date.getYear(), );
+
         return db.transaction(session -> {
-            Query query = session.createQuery("from Shift where :date between startTime and endTime");
-            query.setParameter("date", date);
+            Query query = session.createQuery("from Shift sh where (:start_date <= sh.endTime) and (:end_date >= sh.startTime)");
+//            query.setParameter("start_date", );
+            query.setParameter("end_date", date);
             return (List<Shift>) query.list();
         });
     }
+
     public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
         return db.transaction(session -> {
             Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
@@ -78,6 +81,18 @@ public class ShiftAccess extends Access<Shift> {
             return (List<Shift>) query.list();
         });
     }
+
+    public ShiftModel toModel(Shift shift) {
+        ShiftModel model = new ShiftModel();
+        model.setAbsent((int) shift.getAbsent());
+        model.setEndTime(shift.getEndTime());
+        model.setStartTime(shift.getStartTime());
+        model.setStandardHours((int) shift.getStandardHours());
+        model.setUserId(shift.getUser().getId());
+
+        return model;
+    }
+
     public Shift getShiftFromId(int id) {
         return db.transaction(session -> {
             Query query = session.createQuery("from Shift where id = :id");

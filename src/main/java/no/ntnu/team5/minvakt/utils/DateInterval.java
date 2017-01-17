@@ -2,7 +2,10 @@ package no.ntnu.team5.minvakt.utils;
 
 import groovy.lang.Tuple2;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -15,6 +18,11 @@ public class DateInterval {
     public DateInterval(LocalDateTime from, LocalDateTime to) {
         this.from = from;
         this.to = to;
+    }
+
+    public DateInterval(Date from, Date to) {
+        this.from = LocalDateTime.ofInstant(from.toInstant(), ZoneId.systemDefault());
+        this.to = LocalDateTime.ofInstant(to.toInstant(), ZoneId.systemDefault());
     }
 
     public boolean includes(LocalDateTime time) {
@@ -56,5 +64,15 @@ public class DateInterval {
     @Override
     public String toString() {
         return "from: " + from.toString() + "\nto: " + to.toString();
+    }
+
+    public Date getToAsDate() {
+        Instant instant = to.atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);
+    }
+
+    public Date getFromAsDate() {
+        Instant instant = from.atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);
     }
 }
