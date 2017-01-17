@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Registrer tilgjengelighet</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div id="registeravailability" class="registeravailabilitybox">
+        <h1>Registrer tilgjengelighet</h1>
+        <div id="calender"></div>
+        <form action="#" th::action="@{/user/{username}/available" th::object="${MakeAvailableModel}" method="post">
+            <div class="form-group">
+                <div class='input-group date' id='datepickerfrom'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class='input-group date' id='datepickerto'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepickerfrom').datetimepicker();
+                });
+            </script>
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepickerto').datetimepicker();
+                });
+            </script>
+        </form>
+    </div>
+</div>
+</body>
+</html>
