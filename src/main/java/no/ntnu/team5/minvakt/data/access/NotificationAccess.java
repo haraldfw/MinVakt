@@ -20,7 +20,7 @@ import java.util.List;
 @Scope("prototype")
 public class NotificationAccess extends Access<Notification> {
     public List<Notification> fromUsername(String username) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Notification noti where noti.user.username = :username and expiry >= current_date()");
             query.setParameter("username", username);
             return (List<Notification>) query.list();
@@ -76,5 +76,14 @@ public class NotificationAccess extends Access<Notification> {
         notification.setExpiry(expiry);
 
         save(notification);
+    }
+
+    public boolean verify(int id, Object obj) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("select obj_hash from Notification noti where noti.id = :id");
+            query.setParameter("id", id);
+
+            return (int) query.uniqueResult();
+        }) == obj.hashCode();
     }
 }

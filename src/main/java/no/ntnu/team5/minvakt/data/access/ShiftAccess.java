@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Kenan on 1/12/2017.
@@ -20,6 +21,12 @@ import java.util.List;
 @Component
 @Scope("prototype")
 public class ShiftAccess extends Access<Shift> {
+    private static final Calendar calendar = Calendar.getInstance();
+
+    static {
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+    }
+
     public boolean changeShift(Shift fromShift, Shift toShift) {
         Shift temp = new Shift();
         temp = fromShift;
@@ -61,7 +68,7 @@ public class ShiftAccess extends Access<Shift> {
 //        Calendar
 //        LocalDate start = new LocalDate(date.getYear(), );
 
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift sh where (:start_date <= sh.endTime) and (:end_date >= sh.startTime)");
 //            query.setParameter("start_date", );
             query.setParameter("end_date", date);
@@ -70,7 +77,7 @@ public class ShiftAccess extends Access<Shift> {
     }
 
     public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
             query.setParameter("dateFrom", dateFrom);
             query.setParameter("dateTo", dateTo);
@@ -78,9 +85,9 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
     public List<Shift> getShiftsForAUser(String username) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, 7);
+            cal.add(Calendar.DATE, 15);
             Date date = cal.getTime();
             Query query = session.createQuery("from Shift shift where shift.user.username = :username and shift.startTime > current_date and shift.startTime < :date");
             query.setParameter("username", username);
@@ -89,19 +96,19 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
-    public ShiftModel toModel(Shift shift) {
+    public static ShiftModel toModel(Shift shift) {
         ShiftModel model = new ShiftModel();
         model.setAbsent((int) shift.getAbsent());
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
-        model.setUserId(shift.getUser().getId());
+        model.setUserModel(UserAccess.toModel(shift.getUser()));
 
         return model;
     }
 
     public Shift getShiftFromId(int id) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift where id = :id");
             query.setParameter("id", id);
             return (Shift) query.uniqueResult();
@@ -112,5 +119,38 @@ public class ShiftAccess extends Access<Shift> {
         for(Shift s: shiftsBetweenDates) {
             s.setAbsent((byte)1);
         }
+    }
+
+    public List<Shift> getAllCurrentMonth() {
+        calendar.setTime(new Date());
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Date start = calendar.getTime();
+        System.out.println("Start date of month: " + start);
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR_OF_DAY, 24);
+        calendar.set(Calendar.MINUTE, 60);
+        calendar.set(Calendar.SECOND, 60);
+        calendar.set(Calendar.MILLISECOND, 1000);
+
+        Date end = calendar.getTime();
+        System.out.println("End date of month: " + start);
+
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("from Shift where (:start <= endTime) and (:end >= startTime)");
+            query.setParameter("start", start);
+            query.setParameter("end", end);
+            return query.list();
+        });
+    }
+
+    public List<ShiftModel> toModel(List<Shift> list) {
+        return list.stream().map(ShiftAccess::toModel).collect(Collectors.toList());
     }
 }

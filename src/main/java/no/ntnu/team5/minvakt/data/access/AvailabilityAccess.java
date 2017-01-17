@@ -3,6 +3,7 @@ package no.ntnu.team5.minvakt.data.access;
 import groovy.lang.Tuple2;
 import no.ntnu.team5.minvakt.db.Availability;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.AvailabilityModel;
 import no.ntnu.team5.minvakt.utils.DateInterval;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
@@ -30,7 +31,7 @@ public class AvailabilityAccess extends Access<Availability> {
     }
 
     public List<Availability> listAvailable() {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Date dateFrom = Calendar.getInstance().getTime();
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, 7);
@@ -43,7 +44,7 @@ public class AvailabilityAccess extends Access<Availability> {
     }
 
     public void makeUnavailable(User user, Date dateFrom, Date dateTo) {
-        db.transaction(session -> {
+        getDb().transaction(session -> {
             //FIXME: i don't work right
 
             Query query = session.createQuery("from Availability av where :username = av.user.username and (:start_a <= av.endTime) and (:end_a >= av.startTime)");
@@ -74,5 +75,13 @@ public class AvailabilityAccess extends Access<Availability> {
                 }
             }
         });
+    }
+    public AvailabilityModel toModel(Availability availability) {
+        AvailabilityModel  model = new AvailabilityModel();
+        model.setUserId(availability.getUser().getId());
+        model.setStartTime(availability.getStartTime());
+        model.setEndTime(availability.getEndTime());
+
+        return model;
     }
 }

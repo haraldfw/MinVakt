@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
@@ -52,7 +53,7 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
-        verifier.ensure(hasRole("admin"));
+        verifier.ensure(hasRole(Constants.ADMIN));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
@@ -75,7 +76,6 @@ public class UserController {
                     newUser.getEmploymentPercentage());
 
             Set<Competence> comps = access.competence.getFromNames(newUser.getCompetences());
-            System.out.println("comps: " + comps.size());
             user.setCompetences(comps);
 
             user.setResetKey(resetKey);
@@ -93,8 +93,6 @@ public class UserController {
 
         try {
             String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
-            System.out.println("key: " + resetKey);
-            System.out.println("encoded key: " + encodedKey);
             emailService.sendEmail(
                     newUser.getEmail(),
                     "User has been created for you in MinVakt",
@@ -104,7 +102,19 @@ public class UserController {
             e.printStackTrace();
         }
     }
+    @Authorize
+    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
+    public boolean makeAvailability(
+            Verifier verifier,
+            @PathVariable("username") String username,
+            @RequestBody MakeAvailableModel mam) {
 
+        verifier.ensure(Verifier.isUser(username));
+
+        return accessor.with(access -> {
+            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+        });
+    }
     @Authorize
     @RequestMapping(value = "/{username}")
     public UserModel show(Verifier verifier, @PathVariable("username") String username) {
@@ -112,18 +122,6 @@ public class UserController {
 
         return accessor.with(access -> {
             return access.user.toModel(access.user.fromUsername(username));
-        });
-    }
-
-    @Authorize
-    @RequestMapping("/{username}/nextshifts")
-    public List<ShiftModel> getNextShift(Verifier verifier, @PathVariable("username") String username) {
-        verifier.ensure(isUser(username));
-
-        return accessor.with(access -> {
-            return access.shift.getShiftsForAUser(username)
-                    .stream()
-                    .map(shift -> access.shift.toModel(shift)).collect(Collectors.toList());
         });
     }
 
@@ -141,19 +139,6 @@ public class UserController {
         });
 
         return true;
-    }
-    @Authorize
-    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability(
-            Verifier verifier,
-            @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
-
-        verifier.ensure(Verifier.isUser(username));
-
-        return accessor.with(access -> {
-            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
-        });
     }
 
     @Authorize

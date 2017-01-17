@@ -1,3 +1,6 @@
+roles:
+  admin: Admin
+
 spring:
   thymeleaf.cache: false
 
@@ -6,7 +9,9 @@ spring:
     username: g_scrum05
     password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
-    tomcat.max-active: 2
+    tomcat:
+      max-active: 2
+      connection-properties: useUnicode=true;characterEncoding=utf-8;
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -18,9 +23,10 @@ spring:
     password: ENC(vKmz72/PkSJ+RWAv7dQSo0pMf/MfYKX7)
     port: 587
     properties.mail.smtp:
-      starttls.enable: true
-      starttls.required: true
       socketFactory.port: 25
+      starttls:
+        enable: true
+        required: true
 
 jasypt:
     encryptor:

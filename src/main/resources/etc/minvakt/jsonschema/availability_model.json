@@ -1,8 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "user_model": {
-      "$ref": "user_model.json"
+    "user_id": {
+      "type": "integer"
     },
     "start_time": {
       "type": "string",
@@ -11,19 +11,11 @@
     "end_time": {
       "type": "string",
       "format": "date-time"
-    },
-    "absent": {
-      "type": "integer"
-    },
-    "standard_hours": {
-      "type": "integer"
     }
   },
   "required": [
-    "user",
+    "userId",
     "date_start",
-    "date_end",
-    "absent",
-    "standardHours"
+    "date_end"
   ]
 }
