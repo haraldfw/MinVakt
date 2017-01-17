@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-public class WebUserController {
+public class UserWebController {
     @Autowired
     private AccessContextFactory accessor;
 
