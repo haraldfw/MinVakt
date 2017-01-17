@@ -7,7 +7,6 @@ import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.NewUser;
-import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
@@ -24,10 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -53,6 +55,7 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
+
         verifier.ensure(hasRole(Constants.ADMIN));
 
         String salt = PasswordUtil.generateSalt();
@@ -63,6 +66,10 @@ public class UserController {
 
         String resetKey = PasswordUtil.generateSalt();
         String username = usernameGen.generateUsername(firstName, lastName);
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 1);
+        Date resetKeyExpiry = c.getTime();
 
         accessor.with(access -> {
             User user = new User(
@@ -75,46 +82,38 @@ public class UserController {
                     newUser.getPhoneNr(),
                     newUser.getEmploymentPercentage());
 
-            Set<Competence> comps = access.competence.getFromNames(newUser.getCompetences());
+            Set<Competence> comps = new HashSet<>();
+            newUser.getCompetences().forEach(s -> comps.add(new Competence(s)));
+
             user.setCompetences(comps);
-
             user.setResetKey(resetKey);
-
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE, 1);
-            user.setResetKeyExpiry(c.getTime());
+            user.setResetKeyExpiry(resetKeyExpiry);
 
             access.user.save(user);
         });
 
-        // TODO make sure creation is successful before sending email
         // TODO email templating
 
 
         try {
             String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+            String subject = "User has been created for you in MinVakt";
+            String link = "http://localhost:8080/password/reset?username=" +
+                    username + "&resetkey=" + encodedKey;
+            String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+
+            Map<String, String> vars = new HashMap<>();
+            vars.put("link", link);
+            vars.put("expiry", expiry);
+
             emailService.sendEmail(
-                    newUser.getEmail(),
-                    "User has been created for you in MinVakt",
-                    "http://localhost:8080/password/reset?username=" +
-                            username + "&resetkey=" + encodedKey);
+                    newUser.getEmail(), subject, "email/user_created", vars);
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
-    @Authorize
-    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability(
-            Verifier verifier,
-            @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
 
-        verifier.ensure(Verifier.isUser(username));
-
-        return accessor.with(access -> {
-            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
-        });
-    }
     @Authorize
     @RequestMapping(value = "/{username}")
     public UserModel show(Verifier verifier, @PathVariable("username") String username) {
@@ -139,6 +138,20 @@ public class UserController {
         });
 
         return true;
+    }
+
+    @Authorize
+    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
+    public boolean makeAvailability(
+            Verifier verifier,
+            @PathVariable("username") String username,
+            @RequestBody MakeAvailableModel mam) {
+
+        verifier.ensure(Verifier.isUser(username));
+
+        return accessor.with(access -> {
+            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+        });
     }
 
     @Authorize
