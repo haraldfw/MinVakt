@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.controllers;
+package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Notification;
