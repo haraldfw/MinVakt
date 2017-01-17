@@ -76,7 +76,6 @@ public class UserController {
                     newUser.getEmploymentPercentage());
 
             Set<Competence> comps = access.competence.getFromNames(newUser.getCompetences());
-            System.out.println("comps: " + comps.size());
             user.setCompetences(comps);
 
             user.setResetKey(resetKey);
@@ -94,8 +93,6 @@ public class UserController {
 
         try {
             String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
-            System.out.println("key: " + resetKey);
-            System.out.println("encoded key: " + encodedKey);
             emailService.sendEmail(
                     newUser.getEmail(),
                     "User has been created for you in MinVakt",
