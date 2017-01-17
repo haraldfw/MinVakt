@@ -18,6 +18,9 @@ Heiii boiii
         <td><form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
             <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification" class="btn btn-primary">Decline transfer to admin</button>
         </form></td>
+        <td><form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
+            <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">Close notification</button>
+        </form></td>
     </tr>
 </table>
 <p>Notifikasjoner for admins:</p>
@@ -30,6 +33,9 @@ Heiii boiii
         </form></td>
         <td><form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
             <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">Decline transfer</button>
+        </form></td>
+        <td><form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
+            <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">Close notification</button>
         </form></td>
     </tr>
 </table>

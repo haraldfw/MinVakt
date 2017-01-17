@@ -4,6 +4,7 @@ import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
+import org.aspectj.weaver.ast.Not;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class NotificationAccess extends Access<Notification> {
     }
 
     public Notification fromActionURL(String actionUrl) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Notification where actionUrl = :action_url and expiry >= current_date()");
             query.setParameter("action_url", actionUrl);
             return (Notification) query.uniqueResult();
@@ -36,10 +37,18 @@ public class NotificationAccess extends Access<Notification> {
     }
 
     public List<Notification> fromCompetence(Competence competence) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Notification where competence = :competence and expiry >= current_date()");
             query.setParameter("competence", competence);
             return (List<Notification>) query.list();
+        });
+    }
+
+    public Notification fromId(int notificationId) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("from Notification where id = :notification_id and expiry >= current_date()");
+            query.setParameter("notification_id", notificationId);
+            return (Notification) query.uniqueResult();
         });
     }
 
@@ -76,14 +85,5 @@ public class NotificationAccess extends Access<Notification> {
         notification.setExpiry(expiry);
 
         save(notification);
-    }
-
-    public boolean verify(int id, Object obj) {
-        return getDb().transaction(session -> {
-            Query query = session.createQuery("select obj_hash from Notification noti where noti.id = :id");
-            query.setParameter("id", id);
-
-            return (int) query.uniqueResult();
-        }) == obj.hashCode();
     }
 }

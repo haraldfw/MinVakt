@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
+import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
@@ -11,13 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
@@ -113,6 +107,8 @@ public class ShiftController {
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(originalOwner, message);
             }
+            notification.setClosed(true);
+            access.notification.save(notification);
         });
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -152,6 +148,8 @@ public class ShiftController {
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(originalOwner, message);
             }
+            notification.setClosed(true);
+            access.notification.save(notification);
         });
     }
 }
