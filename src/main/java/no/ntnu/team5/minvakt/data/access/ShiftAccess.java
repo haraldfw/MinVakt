@@ -87,7 +87,7 @@ public class ShiftAccess extends Access<Shift> {
     public List<Shift> getShiftsForAUser(String username) {
         return getDb().transaction(session -> {
             Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, 7);
+            cal.add(Calendar.DATE, 15);
             Date date = cal.getTime();
             Query query = session.createQuery("from Shift shift where shift.user.username = :username and shift.startTime > current_date and shift.startTime < :date");
             query.setParameter("username", username);
