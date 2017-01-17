@@ -1,3 +1,226 @@
+/* Fra development branch*/
 table, th, td {
     border: 1px solid black;
+}
+
+.test {
+    height: 95vh;
+}
+
+.dayDisplay {
+    width: 14.285714%;
+    height: 100%;
+    float: left;
+
+    /*display: table-row;*/
+
+    border: 1px solid lightgray;
+}
+
+.dayTop {
+    /*width: 14.286971837%;*/
+    /*width: 14.285714%;*/
+    width: 100%;
+    height: 5vh;
+    line-height: 5vh;
+    color: white;
+    /*background-color: lightblue;
+    border: 2px solid lightgray;*/
+    background-color: #4ea2bd;
+
+    text-align: center;
+}
+
+.dayTop:hover {
+    cursor: pointer;
+    background-color: #55c6e2;
+}
+
+.dayInnhold {
+    /*height: 94vh; /*95%*/
+    height: 89vh;
+    /*background-color: blue;*/
+    position: relative;
+    margin-top: 1px;
+}
+
+.dayInnhold:hover {
+    /*background-color: #cecece;
+    cursor: pointer;*/
+}
+
+.shiftsheet {
+    border: 2px solid darkgray;
+    height: 100%;
+
+    position: relative;
+
+    /*z-index: 1336;*/
+}
+
+.tid {
+    position: absolute;
+    left: -3vw;
+    top: -1.5vh;
+    margin-bottom: 4.4vh;
+    z-index: 1337; /* TODO: FIX THIS */
+}
+
+.marking-lines {
+    width: 100%;
+    height: 95%;
+    /*margin-top: 3%;*/
+    /*background-color: blue;*/
+
+    position: absolute;
+    /*height: 2px;*/
+    top: 5vh;
+    left: 0;
+    /*background-color: red;*/
+    /*background-color: orange;*/
+    z-index: -1337;
+}
+
+.line {
+    position: relative;
+    height: 2px;
+    width: 100%;
+
+    left: 0;
+    background-color: lightgray;
+
+    margin-bottom: 7.15vh;
+
+    /*margin-top: 7.0%;*/
+}
+
+.line:hover {
+    cursor: pointer;
+}
+
+
+.shift {
+    /* margin-top: 1px;  2px;*/
+    /*width: 11.75vw;*/
+    height: 44.5vh;/*  44vh;    44.6vh;*/
+
+
+
+    border-radius: 5px;
+
+    text-align: center;
+}
+
+.shift:hover {
+    cursor: pointer;
+}
+
+
+
+.normal-shift {
+    background-color: #f0ad4e;
+    border: 2px solid #dd9c3f;
+}
+
+.normal-shift:hover {
+    background-color: #e0b374;
+}
+
+.absence-shift {
+    background-color: #f05942;
+    border: 2px solid #961d1d;
+}
+
+.absence-shift:hover {
+    background-color: #f0433a;
+}
+
+.availible-shift {
+    background-color: #5cb85c;
+    border-color: #378c37;
+}
+
+.availible-shift:hover {
+    background-color: #72d772;
+}
+
+.buttonLeft {
+    position: relative;
+    float: left;
+}
+
+.buttonRight {
+    position: relative;
+    float: right;
+}
+
+/* For mobile usage */
+@media only screen and (max-width: 768px) {
+    #modal-dialogYesNo {
+        margin-top: 25%;
+        /*Does this work???*/
+    }
+}
+
+/* For desktop usage */
+@media only screen and (min-width: 768px) {
+    .modal {
+        text-align: center;
+
+    }
+
+    .modal:before {
+        height: 100%;
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+}
+
+#modal-dialogYesNo {
+    text-align: center;
+}
+
+#co-worker-collapse {
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+.panel-heading:hover {
+    cursor: pointer;
+}
+
+.panel-heading:hover a {
+    text-decoration: underline;
+}
+
+.co-worker-panel-box:hover {
+    background-color: #cbcbcb;
+    cursor: pointer;
+}
+
+.panel-footer {
+    border-top: 1px solid #ddd !important;
+}
+
+.panel-heading {
+    border-bottom: 1px solid #B1B1B1 !important;
+}
+
+#shift-modal-shadow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: ease-in-out 0.5s;
+    /* TODO: fix the black edges that appear when adding this element with background-color over the modal */
+    /* TODO: make an animation so the background overlay appear smoother */
 }
