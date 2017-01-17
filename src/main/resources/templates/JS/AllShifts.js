@@ -2,7 +2,37 @@
  * Created by Ingunn on 13.01.2017.
  */
 
+/*
+left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
+width: calc(((11.11%)/3)*8 - calc((11.11%)/3) - 1px);
+*/
+
+
 $(document).ready(function() {
+
+    var from = 730;
+    var to = 1400;
+    
+
+    var pos = "worker";
+
+
+    function test(from, to) {
+        var diff = to-from; //7h
+        var lengde = 7;
+
+        if(diff % 100 === 0) {
+            diff /= 100;
+        } else {
+
+        }
+        //alert(diff)
+
+        $("#testtest").css("left", "calc(11.11% + ((11.11%/3)*" + lengde +"))");
+        $("#testtest").css("width", "calc((11.11%/3)*" + diff + " - 1px)");
+        $("#testtest").addClass("worker");
+    }
+
 
     $("#testing, #testingg").click(function() {
         if($("#test").css("display") == "none") {
@@ -58,4 +88,9 @@ $(document).ready(function() {
         var text = $(this).html();
         $("#titleTime").html(text);
     });
+
+    test(from, to);
+
+
+
 });
