@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Shift Schedule</title>
+    <link th:href="@{/style/schedule.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--/*@thymesVar id="shifts" type="java.util.List<no.ntnu.team5.minvakt.model.ShiftModel>"*/-->
+<table>
+    <tr>
+        <th>Standard hours</th>
+        <th>Absent</th>
+        <th>Start</th>
+        <th>End</th>
+    </tr>
+    <tr th:each="shift : ${shifts}">
+        <!--/*@thymesVar id="standardHours" type="no.ntnu.team5.minvakt.model.ShiftModel"*/-->
+        <td th:text="${shift.standardHours}">Standard hours</td>
+        <td th:text="${shift.absent}">Absent</td>
+        <td th:text="${shift.startTime}">Start</td>
+        <td th:text="${shift.endTime}">End</td>
+    </tr>
+</table>
+</body>
+</html>

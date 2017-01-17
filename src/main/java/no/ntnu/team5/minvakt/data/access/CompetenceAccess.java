@@ -17,7 +17,7 @@ import java.util.Set;
 @Scope("prototype")
 public class CompetenceAccess extends Access<Competence> {
     public List<String> getCompetencesNames() {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             return session.createQuery("select name from Competence").list();
         });
     }
@@ -32,7 +32,7 @@ public class CompetenceAccess extends Access<Competence> {
     }
 
     public Competence getFromName(String compName) {
-        return db.transaction(session -> {
+        return getDb().transaction(session -> {
             Query query = session.createQuery("from Competence where name = :name");
             query.setParameter("name", compName);
             return (Competence) query.uniqueResult();
