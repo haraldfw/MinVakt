@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @Component
 @Scope("prototype")
 public class ShiftAccess extends Access<Shift> {
-    private static final Calendar calendar = Calendar.getInstance();
+    private static final Calendar CALENDAR = Calendar.getInstance();
 
     static {
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        CALENDAR.setFirstDayOfWeek(Calendar.MONDAY);
     }
 
     public boolean changeShift(Shift fromShift, Shift toShift) {
@@ -76,6 +76,30 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
+    public List<Shift> getUsersShiftCurrentWeek(String username) {
+        Date now = new Date();
+        CALENDAR.setTime(now);
+
+        int daysToAdd = 8 - CALENDAR.get(Calendar.DAY_OF_WEEK);
+
+        CALENDAR.add(Calendar.DAY_OF_YEAR, daysToAdd);
+        CALENDAR.set(Calendar.HOUR, 24);
+        CALENDAR.set(Calendar.MINUTE, 60);
+        CALENDAR.set(Calendar.SECOND, 60);
+        CALENDAR.set(Calendar.MILLISECOND, 1000);
+
+        System.out.println(CALENDAR.getTime());
+
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("from Shift sh where sh.user.username = :username and :dateFrom < startTime and :dateTo > endTime");
+            query.setParameter("username", username);
+            query.setParameter("dateFrom", now);
+            query.setParameter("dateTo", CALENDAR.getTime());
+            return (List<Shift>) query.list();
+        });
+    }
+
+
     public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
@@ -84,6 +108,7 @@ public class ShiftAccess extends Access<Shift> {
             return (List<Shift>) query.list();
         });
     }
+
     public List<Shift> getShiftsForAUser(String username) {
         return getDb().transaction(session -> {
             Calendar cal = Calendar.getInstance();
@@ -114,6 +139,7 @@ public class ShiftAccess extends Access<Shift> {
             return (Shift) query.uniqueResult();
         });
     }
+
     public void makeUnavailable(Date dateFrom, Date dateTo) {
         List<Shift> shiftsBetweenDates = getShiftsFromDateToDate(dateFrom, dateTo);
         for(Shift s: shiftsBetweenDates) {
@@ -122,24 +148,24 @@ public class ShiftAccess extends Access<Shift> {
     }
 
     public List<Shift> getAllCurrentMonth() {
-        calendar.setTime(new Date());
+        CALENDAR.setTime(new Date());
 
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        CALENDAR.set(Calendar.DAY_OF_MONTH, 1);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+        CALENDAR.set(Calendar.MINUTE, 0);
+        CALENDAR.set(Calendar.SECOND, 0);
+        CALENDAR.set(Calendar.MILLISECOND, 0);
 
-        Date start = calendar.getTime();
+        Date start = CALENDAR.getTime();
         System.out.println("Start date of month: " + start);
 
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        calendar.set(Calendar.HOUR_OF_DAY, 24);
-        calendar.set(Calendar.MINUTE, 60);
-        calendar.set(Calendar.SECOND, 60);
-        calendar.set(Calendar.MILLISECOND, 1000);
+        CALENDAR.set(Calendar.DAY_OF_MONTH, CALENDAR.getActualMaximum(Calendar.DAY_OF_MONTH));
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 24);
+        CALENDAR.set(Calendar.MINUTE, 60);
+        CALENDAR.set(Calendar.SECOND, 60);
+        CALENDAR.set(Calendar.MILLISECOND, 1000);
 
-        Date end = calendar.getTime();
+        Date end = CALENDAR.getTime();
         System.out.println("End date of month: " + start);
 
         return getDb().transaction(session -> {
@@ -150,7 +176,7 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
-    public List<ShiftModel> toModel(List<Shift> list) {
+    public static List<ShiftModel> toModel(List<Shift> list) {
         return list.stream().map(ShiftAccess::toModel).collect(Collectors.toList());
     }
 }
