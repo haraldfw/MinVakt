@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phoneNr": {
+      "type": "string"
+    },
+    "employmentPercentage": {
+      "type": "integer"
+    },
+    "competences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "firstName",
+    "lastName",
+    "email",
+    "phoneNr",
+    "password",
+    "employmentPercentage",
+    "competences"
+  ]
+}

@@ -1,29 +1,28 @@
-spring.thymeleaf.cache: false
-
 spring:
+  thymeleaf.cache: false
+
   datasource:
     url: jdbc:mysql://mysql.stud.iie.ntnu.no:3306/g_scrum05
     username: g_scrum05
-    password: 6MKezI41
+    password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
+    tomcat.max-active: 2
+
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
 
-main:
-  question: Hello?
-  answer: Hello World!
+  mail:
+    host: smtp.gmail.com
+    username: scrum5.noreply@gmail.com
+    password: ENC(vKmz72/PkSJ+RWAv7dQSo0pMf/MfYKX7)
+    port: 587
+    properties.mail.smtp:
+      starttls.enable: true
+      starttls.required: true
+      socketFactory.port: 25
 
----
-spring:
-  profiles: prod
-
-main:
-  answer: Yes, this is prod.
-
----
-spring:
-  profiles: test
-
-main:
-  answer: This is test.
+jasypt:
+    encryptor:
+        bean: hibernateEncryptor
+        password: ${SCRUM5_ENCPW:}
