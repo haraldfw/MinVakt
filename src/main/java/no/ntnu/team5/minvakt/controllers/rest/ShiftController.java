@@ -1,10 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.ActionURLAccess;
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
-import no.ntnu.team5.minvakt.data.generation.NotificationGen;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
@@ -40,18 +37,6 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 public class ShiftController {
     @Autowired
     private AccessContextFactory accessor;
-
-    @Autowired
-    ActionURLAccess actionURLAccess;
-
-    @Autowired
-    ShiftAccess shiftAccess;
-
-    @Autowired
-    UserAccess userAccess;
-
-    @Autowired
-    NotificationGen notificationGen;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel) {
@@ -96,30 +81,33 @@ public class ShiftController {
 
         verifier.ensure(hasRole("Admin"));
 
-        String actionURL = httpServletRequest.getRequestURI() + "?accept="+accept+"&shift_id="+shift_id;
-        Notification notification = actionURLAccess.fromActionURL(actionURL);
-        if (notification == null)return;
+        accessor.with(access -> {
+            String actionURL = httpServletRequest.getRequestURI() + "?accept=" + accept + "&shift_id=" + shift_id;
+            Notification notification = access.actionURL.fromActionURL(actionURL);
+            if (notification == null) return;
 
-        Shift shift = shiftAccess.getShiftFromId(shift_id);
+            Shift shift = access.shift.getShiftFromId(shift_id);
 
-        if (accept){
-            User newShiftOwner = userAccess.fromID(user_id);
-            User oldShiftOwner = shift.getUser();
-            shiftAccess.transferOwnership(shift, newShiftOwner);
-            String message = "Du har blitt tildelt følgende skift: " +
-                    shift.getStartTime() + " til " + shift.getEndTime() + ".";
-            notificationGen.generateMessageNotification(newShiftOwner, message);
-            message = "Følgende skift har blitt overtatt: " +
-                    shift.getStartTime() + " til " + shift.getEndTime() + ".";
-            notificationGen.generateMessageNotification(oldShiftOwner, message);
-        }else {
-            User originalOwner = shift.getUser();
-            if (originalOwner == null)return;
+            if (accept) {
+                User newShiftOwner = access.user.fromID(user_id);
+                User oldShiftOwner = shift.getUser();
+                access.shift.transferOwnership(shift, newShiftOwner);
+                String message = "Du har blitt tildelt følgende skift: " +
+                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                access.notification.generateMessageNotification(newShiftOwner, message);
+                message = "Følgende skift har blitt overtatt: " +
+                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                access.notification.generateMessageNotification(oldShiftOwner, message);
+            } else {
+                User originalOwner = shift.getUser();
+                if (originalOwner == null) return;
 
-            String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
-                    shift.getStartTime() + " til " + shift.getEndTime() + ".";
-            notificationGen.generateMessageNotification(originalOwner, message);
-        }
+                String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
+                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                access.notification.generateMessageNotification(originalOwner, message);
+            }
+        });
+
     }
 
     @Authorize
@@ -130,27 +118,29 @@ public class ShiftController {
                                     @RequestParam("user_id") int user_id,
                                     HttpServletRequest httpServletRequest){
 
-        String actionURL = httpServletRequest.getRequestURI() + "?accept="+accept+"&shift_id="+shift_id;
-        Notification notification = actionURLAccess.fromActionURL(actionURL);
-        if (notification ==  null)return;
-        verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole("Admin")));
+        accessor.with(access -> {
+            String actionURL = httpServletRequest.getRequestURI() + "?accept=" + accept + "&shift_id=" + shift_id;
+            Notification notification = access.actionURL.fromActionURL(actionURL);
+            if (notification == null) return;
+            verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole("Admin")));
 
-        Shift shift = shiftAccess.getShiftFromId(shift_id);
+            Shift shift = access.shift.getShiftFromId(shift_id);
 
-        if (accept){
-            String message = "Bruker " + userAccess.fromID(user_id).getUsername() +
-                    " ønsker å ta over følgende skift fra " + shift.getUser().getUsername() +
-                    ": " + shift.getStartTime() + " til " + shift.getEndTime() + ".";
-            String nyActionURL = "/api/shift/transfer?shift_id="+user_id+"&shift_id"+shift_id;
-            notificationGen.generateTransferNotification(userAccess.fromUsername("admin"), message, nyActionURL, shift_id);
-        }else {
-            User originalOwner = shift.getUser();
-            if (originalOwner == null)return;
+            if (accept) {
+                String message = "Bruker " + access.user.fromID(user_id).getUsername() +
+                        " ønsker å ta over følgende skift fra " + shift.getUser().getUsername() +
+                        ": " + shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                String nyActionURL = "/api/shift/transfer?shift_id=" + user_id + "&shift_id" + shift_id;
+                access.notification.generateTransferNotification(access.user.fromUsername("admin"), message, nyActionURL, shift_id);
+            } else {
+                User originalOwner = shift.getUser();
+                if (originalOwner == null) return;
 
-            String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
-                    shift.getStartTime() + " til " + shift.getEndTime() + ".";
-            notificationGen.generateMessageNotification(originalOwner, message);
-        }
+                String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
+                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                access.notification.generateMessageNotification(originalOwner, message);
+            }
+        });
     }
 }
 

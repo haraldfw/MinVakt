@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class ActionURLAccess extends Access<Notification> {
     public Notification fromActionURL(String actionURL) {
         return getDb().transaction(session -> {
-            Query query =  session.createQuery("from Notification where actionURL = :action_URL");
+            Query query = session.createQuery("from Notification where actionUrl = :action_URL");
             query.setParameter("action_URL", actionURL);
             return (Notification) query.uniqueResult();
         });
