@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Alle vakter</title>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+        <script th:src="@{/JS/Modal.js}" src="../static/JS/Modal.js"></script>
+        <script th:src="@{/JS/AllShifts.js}" src="../static/JS/AllShifts.js"></script>
 
-        <link rel="stylesheet" href="../static/style/AllShifts.css">
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <link rel="stylesheet" href="../static/style/Navbar.css">
-        <script src="JS/AllShifts.js"></script>
-        <link rel="stylesheet" href="../static/style/Modal.css">
-        <script src="JS/Modal.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+        <link th:href="@{/style/AllShifts.css}" rel="stylesheet" href="../static/style/AllShifts.css" />
+        <link th:href="@{/style/Navbar.css}" rel="stylesheet" href="../static/style/Navbar.css" />
+        <link th:href="@{/style/Modal.css}" rel="stylesheet" href="../static/style/Modal.css" />
     </head>
     <body>
         <div class="container">
@@ -157,19 +155,19 @@
 
                         <div id="modalOwn">
                             Tid:<p></p>
-                            <br>
-                            Ditt skift <br>
+                            <br></br>
+                            Ditt skift <br></br>
                             Hvis du vil legge inn fravær gå inn på din egen skiftoversikt
                         </div>
 
 
                         <div id="modalOther">
                             Tid:
-                            <br>
+                            <br></br>
                             Ansatt: m/tlf
-                            <br>
+                            <br></br>
                             <button id="shiftChange" class="btn btn-default">Be om vaktbytte</button>
-                            <br>
+                            <br></br>
                             <div id="shiftSelect" style="display: none;">
                                 Velg dato for vakten du vil bytte den vakten her med:
                                 <form id="date" method="post" class="form-horizontal">
@@ -192,9 +190,9 @@
 
                         <div id="modalFree">
                             Tid:
-                            <br>
+                            <br></br>
                             Vis tilgjengelige ansatte som kan ta skiftet.
-                            <br>
+                            <br></br>
                             <label for="sel1">Tilgjengelige ansatte</label>
                             <select class="form-control" id="sel1">
                                 <option>test</option>
@@ -206,8 +204,8 @@
                                 <option>test</option>
 
                             </select>
-                            be om ansatt tar skift, fiks for admin <br>
-                            Be om å ta skift <br>
+                            be om ansatt tar skift, fiks for admin<br></br>
+                            Be om å ta skift<br></br>
                         </div>
 
                     </div>
@@ -229,7 +227,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <p>Ant ansatte på jobb for: </p><br>
+                        <p>Ant ansatte på jobb for: </p><br></br>
                         Vis intervall hvor kristisk, hvor mange som må på jobb i intervallet av de ulike kompetansene.
 
 

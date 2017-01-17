@@ -10,11 +10,14 @@ width: calc(((11.11%)/3)*8 - calc((11.11%)/3) - 1px);
 
 $(document).ready(function() {
 
-    var from = 730;
-    var to = 1400;
-    
+
+    var from = "0730";
+    var to = "1400";
+
+    // min/0.6 = prosent
 
     var pos = "worker";
+    //FIXME: finn ut om Date objekt eller string
 
 
     function test(from, to) {
@@ -24,6 +27,7 @@ $(document).ready(function() {
         if(diff % 100 === 0) {
             diff /= 100;
         } else {
+            diff %= 100;
 
         }
         //alert(diff)
