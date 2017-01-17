@@ -16,6 +16,9 @@
         <script src="JS/AllShifts.js"></script>
         <link rel="stylesheet" href="css/Modal.css">
         <script src="JS/Modal.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 
     </head>
     <body>
@@ -234,7 +237,20 @@
                     <div class="modal-body">
                         Tid:
                         <br>
-                        Vis tilgjengelige ansatte, be om ansatt tar skift, fiks for admin <br>
+                        Vis tilgjengelige ansatte som kan ta skiftet.
+                        <br>
+                        <label for="sel1">Tilgjengelige ansatte</label>
+                        <select class="form-control" id="sel1">
+                            <option>test</option>
+                            <option>test</option>
+                            <option>test</option>
+                            <option>test</option>
+                            <option>test</option>
+                            <option>test</option>
+                            <option>test</option>
+
+                        </select>
+                        be om ansatt tar skift, fiks for admin <br>
                         Be om å ta skift <br>
 
                     </div>
@@ -249,5 +265,27 @@
             </div>
         </div>
         <!--Slutt modal ledig skift-->
+
+
+        <!--Modal for info om klokkeslett-->
+        <div class="modal fade" id="infoTime" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i id="close666" class="ion-close close-color" data-dismiss="modal"></i>
+                        <h4 class="modal-title">Informasjon</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <p>Ant ansatte på jobb for: </p><br>
+                        Vis intervall hvor kristisk, hvor mange som må på jobb i intervallet av de ulike kompetansene.
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>

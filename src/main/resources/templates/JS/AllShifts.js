@@ -39,4 +39,10 @@ $(document).ready(function() {
             $("#shiftSelect").css("display", "none");
         }
     });
+
+    $(".timedisplay").click(function() {
+        $("#infoTime").modal("show");
+        var text = $(this).html();
+        $(".modal-title").html(text);
+    });
 });

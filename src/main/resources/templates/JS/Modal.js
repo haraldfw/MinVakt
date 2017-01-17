@@ -45,6 +45,7 @@ $(document).ready(function() {
 
     //Legg til fravær
     $("#go").click(function() {
+        //TODO: legg inn error hvis fortid
         if(!($("#absenceCause").html() === "&nbsp;Fraværsgrunn&nbsp;")) {
             var fraTid = $("#timeFra").html().split("&nbsp;")[0] + $("#minFra").html().split("&nbsp;")[0];
             var tilTid = $("#timeTil").html().split("&nbsp;")[0] + $("#minTil").html().split("&nbsp;")[0];
@@ -73,9 +74,10 @@ $(document).ready(function() {
                             } else {
                                 if (startDato.getTime() === sluttDato.getTime()) {
                                     if (fraTid > tilTid) {
-                                        alert("Du kan ikke velge fra tid etter til tid");
+                                        alert("Du kan ikke velge starttidspunkt etter sluttidspunkt");
                                     } else {
                                         $("#absenceModal").modal("hide");
+
                                     }
 
                                 } else {
