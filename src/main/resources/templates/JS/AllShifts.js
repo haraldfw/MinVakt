@@ -23,13 +23,26 @@ $(document).ready(function() {
     });
 
     $(".no-worker").click(function() {
-        $("#freeShift").modal("show");
+        $("#modalShift").modal("show");
+        $("#modalFree").css("display", "inline");
+        $("#modalOther").css("display", "none");
+        $("#modalOwn").css("display", "none");
     });
+
+
     $(".self").click(function() {
-        $("#ownShift").modal("show");
+        $("#modalShift").modal("show");
+        $("#modalOwn").css("display", "inline");
+        $("#modalOther").css("display", "none");
+        $("#modalFree").css("display", "none");
+
     });
     $(".worker").click(function() {
-        $("#otherShift").modal("show");
+        $("#modalShift").modal("show");
+        $("#modalOther").css("display", "inline");
+        $("#modalOwn").css("display", "none");
+        $("#modalFree").css("display", "none");
+
     });
 
     $("#shiftChange").click(function() {
@@ -43,6 +56,6 @@ $(document).ready(function() {
     $(".timedisplay").click(function() {
         $("#infoTime").modal("show");
         var text = $(this).html();
-        $(".modal-title").html(text);
+        $("#titleTime").html(text);
     });
 });
