@@ -3,10 +3,10 @@ package no.ntnu.team5.minvakt.controllers.rest;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
-import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.NewUser;
+import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
@@ -15,6 +15,7 @@ import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,7 @@ import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -50,9 +52,7 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
-        System.out.println("/Create started");
-
-        verifier.ensure(hasRole("Admin"));
+        verifier.ensure(hasRole("admin"));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
@@ -76,7 +76,7 @@ public class UserController {
 
             Set<Competence> comps = access.competence.getFromNames(newUser.getCompetences());
             System.out.println("comps: " + comps.size());
-            user.setCompetences(comps); //FIXME
+            user.setCompetences(comps);
 
             user.setResetKey(resetKey);
 
@@ -117,16 +117,18 @@ public class UserController {
 
     @Authorize
     @RequestMapping("/{username}/nextshifts")
-    public List<Shift> getNextShift(Verifier verifier, @PathVariable("username") String username) {
+    public List<ShiftModel> getNextShift(Verifier verifier, @PathVariable("username") String username) {
         verifier.ensure(isUser(username));
 
         return accessor.with(access -> {
-            return access.shift.getShiftsForAUser(username);
+            return access.shift.getShiftsForAUser(username)
+                    .stream()
+                    .map(shift -> access.shift.toModel(shift)).collect(Collectors.toList());
         });
     }
 
     @Authorize
-    @RequestMapping(value = "/{username}/registerabscence/{shift}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{username}/registerabsence/{shift}", method = RequestMethod.PUT)
     public boolean registerAbsence(
             Verifier verifier,
             @PathVariable("username") String username,
@@ -136,12 +138,10 @@ public class UserController {
 
         accessor.with(access -> {
             access.shift.addAbscence(access.shift.getShiftFromId(shiftId), (byte) 1);
-            return null;
         });
 
         return true;
     }
-
     @Authorize
     @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
     public boolean makeAvailability(
@@ -149,21 +149,27 @@ public class UserController {
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
 
-        verifier.ensure(isUser(username));
+        verifier.ensure(Verifier.isUser(username));
 
-        accessor.with(accessContext -> {
-            accessContext.availability.makeAvailable(mam.getDateFrom(), mam.getDateTo());
+        return accessor.with(access -> {
+            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
         });
-
-        return true;
     }
 
     @Authorize
+    @PostMapping("/{username}/unavailable")
     public boolean makeUnavailable(
-            Verifier verifier,
+            Verifier verify,
             @PathVariable("username") String username,
             @RequestBody MakeAvailableModel mam) {
-        verifier.ensure(isUser(username));
+
+
+        verify.ensure(Verifier.isUser(username));
+
+        accessor.with(access -> {
+            access.availability.makeUnavailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+        });
+
         return true;
     }
 }

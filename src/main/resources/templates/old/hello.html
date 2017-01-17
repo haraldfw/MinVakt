@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
     <title>Hello Thymeleaf!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -14,6 +14,5 @@
 <body>
 <div th:include="fragments :: navbar"></div>
 <p th:text="'Hello, ' + ${name} + '!'" />
-<div th:include="fragments :: footer"></div>
 </body>
 </html>

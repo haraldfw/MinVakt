@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "notification_id": {
+      "type": "integer"
+    },
+    "shift_id": {
+      "type": "integer"
+    },
+    "username": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "shift_id",
+    "username"
+  ]
+}
