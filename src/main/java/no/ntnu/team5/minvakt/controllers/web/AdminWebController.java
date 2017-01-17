@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminWebController {
     @Autowired
     private AccessContextFactory accessor;
 
