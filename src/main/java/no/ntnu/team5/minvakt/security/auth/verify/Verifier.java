@@ -10,14 +10,18 @@ import java.util.stream.Stream;
  */
 
 public class Verifier {
-    public Claims claims;
+    public final Claims claims;
 
     public Verifier(Claims claims) {
         this.claims = claims;
     }
 
+    public boolean verify(Verification ver) {
+        return ver.predicate(claims);
+    }
+
     public Claims ensure(Verification ver) {
-        if (ver.predicate(claims)) {
+        if (verify(ver)) {
             return claims;
         } else {
             throw new ForbiddenException();
