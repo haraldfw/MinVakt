@@ -4,9 +4,14 @@
     <meta charset="UTF-8"/>
     <title>Shift Schedule</title>
     <link th:href="@{/style/schedule.css}" rel="stylesheet" type="text/css"/>
+
+   <div th:include="fragments :: headfragment">
+
+   </div>
 </head>
 <body>
 <!--/*@thymesVar id="shifts" type="java.util.List<no.ntnu.team5.minvakt.model.ShiftModel>"*/-->
+<div th:include="fragments :: navbar"></div>
 <table>
     <tr>
         <th>Standard hours</th>
