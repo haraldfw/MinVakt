@@ -25,12 +25,12 @@ public class NotificationController {
 
     @Authorize
     @RequestMapping(method = RequestMethod.GET)
-    public Model notification(Model model, Verifier verifier) {
+    public String notification(Model model, Verifier verifier) {
         List<Notification> notifications = accessor.with(access -> {
             return access.notification.fromUsername(verifier.claims.getSubject()); //TODO: Use a model here
         });
 
         model.addAttribute("notifications", notifications);
-        return model;
+        return "notifications";
     }
 }

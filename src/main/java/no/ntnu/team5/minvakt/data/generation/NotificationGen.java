@@ -1,11 +1,14 @@
 package no.ntnu.team5.minvakt.data.generation;
 
 import no.ntnu.team5.minvakt.data.access.Access;
+import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -28,16 +31,28 @@ public class NotificationGen extends Access<Notification>{
      * _Godta_  _Avslå_
      */
 
+    @Autowired
+    ShiftAccess shiftAccess;
 
-    public boolean generateNotification(User toUser){
+    public void generateMessageNotification(User toUser, String message){
+        Notification notification = new Notification(message);
+        notification.setUser(toUser);
+        Date date = Calendar.getInstance().getTime(); //Today
+        long plusOneWeek = date.getTime() + 7000000L;
+        date.setTime(plusOneWeek);
+        notification.setExpiry(date);
 
-        Notification notification = new Notification(toUser,
-                "God jul",
-                null,
-                new Date(20170115000000L));
+        save(notification);
+    }
 
+    public void generateTransferNotification(User toUser, String message, String actionURL, int shiftID){
+        Notification notification = new Notification(message);
+        notification.setUser(toUser);
+        notification.setActionUrl(actionURL);
+        Date expiry = new Date();
+        expiry.setTime(shiftAccess.getShiftFromId(shiftID).getEndTime().getTime() + 1000000L); // 1 dag etter skiftet er over
+        notification.setExpiry(expiry);
 
-
-        return save(notification);
+        save(notification);
     }
 }

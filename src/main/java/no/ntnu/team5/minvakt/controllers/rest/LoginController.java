@@ -33,7 +33,9 @@ public class LoginController {
         });
 
         if (lr.getSuccess()) {
-            response.addCookie(new Cookie("access_token", lr.getToken()));
+            Cookie cookie = new Cookie("access_token", lr.getToken());
+            cookie.setPath("/");
+            response.addCookie(cookie);
             return ResponseEntity.ok().body(lr);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(lr);

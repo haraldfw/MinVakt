@@ -6,17 +6,22 @@ import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.security.auth.JWT;
+import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
+import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 
 /**
  * Created by gards on 13-Jan-17.
  */
 
 @RestController
-@RequestMapping(value="/notifications")
+@RequestMapping(value = "/notifications")
 public class ActionURLController {
 
     @Autowired
@@ -25,9 +30,13 @@ public class ActionURLController {
     @Autowired
     ShiftAccess shiftAccess;
 
-    @RequestMapping(value="/{actionURL}", method=RequestMethod.POST)
-    public boolean getActionURL(@PathVariable String actionURL, @CookieValue("access_token") String token){
-        JWT.valid(token, JWT.hasRole("admin"));
+    @Authorize
+    @RequestMapping(value = "/{actionURL}", method = RequestMethod.POST)
+    public boolean decodeActionURL(Verifier verifier, @PathVariable String actionURL) {
+        verifier.ensure(hasRole("admin"));
+
+        //verifier.ensure(or(isUser("lol"), hasRole("admin")));
+
 
         Notification notification = actionURLAccess.fromActionURL(actionURL);
         User newOwner = notification.getUser();
@@ -44,4 +53,8 @@ public class ActionURLController {
      * For å passe en notification til admin
      *
      */
+
+    public boolean passNotificationToAdmin() {
+        return true;
+    }
 }

@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Shift;
+import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

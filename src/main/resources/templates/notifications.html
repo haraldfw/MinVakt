@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Notifications</title>
+</head>
+<body>
+Heiii boiii
+<table>
+    <tr th:each="n: ${notifications}">
+        <td th:text="${n.message}"></td>
+        <td th:text="${n.actionUrl}"></td>
+    </tr>
+</table>
+</body>
+</html>
