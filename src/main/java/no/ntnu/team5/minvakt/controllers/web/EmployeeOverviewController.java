@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EmployeeOverviewController {
     @RequestMapping("/employeeoverview")
-    public String forgotpassword(){
+    public String employeeoverview(){
         return "employeeoverview";
     }
 }

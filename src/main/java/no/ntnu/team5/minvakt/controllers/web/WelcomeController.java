@@ -32,10 +32,18 @@ public class WelcomeController {
             return ShiftAccess.toModel(access.shift.getUsersShiftNextDays(verifier.claims.getSubject(), 7));
         });
 
-        List<ShiftModel> upcoming = shifts.subList(1, shifts.size());
+        ShiftModel first = null;
+        List<ShiftModel> upcoming = null;
+        int shiftsSize = shifts.size();
+        if (shiftsSize > 0) {
+            first = shifts.get(0);
+        }
+        if (shiftsSize > 1) {
+            upcoming = shifts.subList(1, shiftsSize);
+        }
 
         model.addAttribute("dates", DATES);
-        model.addAttribute("first", shifts.get(0));
+        model.addAttribute("first", first);
         model.addAttribute("upcoming", upcoming);
 
         return "welcome";
