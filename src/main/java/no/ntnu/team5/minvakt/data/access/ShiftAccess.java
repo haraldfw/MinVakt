@@ -72,23 +72,21 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
-    public List<Shift> getUsersShiftCurrentWeek(String username) {
-        Date now = new Date();
-        CALENDAR.setTime(now);
+    public List<Shift> getUsersShiftNextDays(String username, int days) {
+        Date from = setTimeOfDate(new Date(), 0, 0);
 
-        int daysToAdd = 8 - CALENDAR.get(Calendar.DAY_OF_WEEK);
-
-        CALENDAR.add(Calendar.DAY_OF_YEAR, daysToAdd);
-        CALENDAR.set(Calendar.HOUR, 24);
-        CALENDAR.set(Calendar.MINUTE, 60);
-        CALENDAR.set(Calendar.SECOND, 60);
-        CALENDAR.set(Calendar.MILLISECOND, 1000);
+        CALENDAR.setTime(from);
+        CALENDAR.add(Calendar.DAY_OF_YEAR, days);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 24);
+        CALENDAR.set(Calendar.MINUTE, 59);
+        Date to = CALENDAR.getTime();
 
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Shift sh where sh.user.username = :username and :dateFrom < startTime and :dateTo > endTime");
+            Query query = session.createQuery("from Shift sh " +
+                    "where sh.user.username = :username and :dateFrom < startTime and :dateTo > endTime");
             query.setParameter("username", username);
-            query.setParameter("dateFrom", now);
-            query.setParameter("dateTo", CALENDAR.getTime());
+            query.setParameter("dateFrom", from);
+            query.setParameter("dateTo", to);
             return (List<Shift>) query.list();
         });
     }
