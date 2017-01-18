@@ -2,23 +2,30 @@ body, head {
     margin: 0;
     padding: 0;
 }
+:root {
+    --border-color: #7c7c7c;
+}
 
 .rad {
     width: 100%;
     display: inline-block;
     float: left;
     padding: 0;
-    border-left: 1px solid #7C7C7C;
-
+    border-left: 1px solid var(--border-color);
     position: relative;
 }
 
 .timedisplay, .timedisplay-komp {
     background-color: rgba(18, 103, 132, 0.45);
-    /*width: 10%;*/
     min-height: 10%;
     height: 10%;
-    border-top: 1px solid #7c7c7c;
+    border-top: 1px solid var(--border-color);
+
+    /* For at det skal bli ... dersom for mye tekst */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .timedisplay:hover {
@@ -38,8 +45,8 @@ body, head {
     max-height: 45px;
     line-height: 45px;
     overflow: hidden;
-    border-right: 1px solid #7C7C7C;
-    border-bottom: 1px solid #7C7C7C;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .dropdown-cell, .common-cell {
@@ -55,31 +62,19 @@ body, head {
     width: 88.88%;
 }
 
-.kompetanse-rad {  }
-
-
-
 .burger-style {
     font-size: 130%;
     color: #1fa3ae;
-
 }
+
 #testingg:hover, #testingg2:hover, #testing:hover, #testing2:hover {
     cursor: pointer;
 }
+
 .burger-style:hover {
     color: #17777f;
     cursor: pointer;
-
 }
-
-
-/*
-padding-right: 3.5%;
-    padding-left: 3.5%;{
-
-
-*/
 
 .shift-box {
     position: absolute;
@@ -91,8 +86,6 @@ padding-right: 3.5%;
     line-height: 45px;
     text-align: center;
 
-    /*background-color: #ff9387;
-    border: 1px solid #6c3636;*/
     border-radius: 5px;
 
     /* For at det skal bli ... dersom for mye tekst */
@@ -102,9 +95,8 @@ padding-right: 3.5%;
 }
 
 .shift-box:hover, .timedisplay:hover {
-    background-color: #9e9e9a !important;
-    /*FIXME: fiks hoverfarger*/
     cursor: pointer;
+    filter: brightness(85%);
 }
 
 .no-worker {
@@ -113,14 +105,13 @@ padding-right: 3.5%;
 }
 
 .worker {
-    /*background-color: rgba(0, 191, 0, 0.71);*/
-    background-color: rgba(63, 192, 57, 0.75);
-    border: 1px solid rgba(43, 125, 38, 0.75);
+    background-color: rgba(158, 229, 123, 0.75);
+    border: 1px solid rgba(64, 185, 56, 0.75);
 }
 
 .self {
-    background-color: rgba(138, 130, 180, 0.75);
-    border: 1px solid #6c4477;
+    background-color: rgba(158, 153, 180, 0.75);
+    border: 1px solid #a96aba;
 }
 
 .warning-1 {
@@ -130,19 +121,6 @@ padding-right: 3.5%;
 .warning-2 {
     background-color: rgba(250, 52, 22, 0.68) !important;
 }
-
-/*
-.placeholder-shift {
-    background-color: #7dade6;
-    border-color: #17777f;
-}
-
-.placeholder-shift:hover {
-    background-color: #549ae6;
-    border-color: #17777f;
-}*/
-
-
 
 #shift-1-9test {
     left: calc(11.11% + (11.11%)/3);
@@ -163,6 +141,7 @@ padding-right: 3.5%;
     display: none;
 }
 
-#testtest {
-
+#shift-7-19test {
+    left: calc(11.11% + ((11.11%)/3)*7);
+    width: calc(((11.11%)/3)*12 - 1px);
 }

@@ -2,14 +2,13 @@ package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.Competence;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -152,6 +151,7 @@ public class ShiftAccess extends Access<Shift> {
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
         model.setUserModel(UserAccess.toModel(shift.getUser()));
+        model.setCompetences(CompetenceAccess.toModel(shift.getCompetences()));
 
         return model;
     }
