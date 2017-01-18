@@ -55,11 +55,12 @@ public class UserWebController {
         model.addAttribute("shifts", shifts);
         return "nextshifts";
     }
-
+    @Authorize
     @RequestMapping("/{username}/registeravailability")
     public String getNextShift(@PathVariable("username") String username,
-                               Model model) {
-
+                               Model model,
+                               Verifier verify) {
+        verify.ensure(isUser(username));
         model.addAttribute("makeAvailableModel", new MakeAvailableModel());
         return "registeravailability";
     }
