@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       th:include="layout :: mainLayout">
-<head>
+<head th:fragment="header">
     <title>Registrer tilgjengelighet</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/registeravailability.js"></script>
 </head>
 <body>
 <div th:fragment="content">
     <div id="registeravailability" class="registeravailabilitybox">
         <h3 id="linked-pickers">Registrer tilgjengelighet</h3>
-        <form action="#" th:action="@{/api/user/{username}/available}" method="post">
+        <form id="availability" action="#" th:action="@{/api/user/{username}/available}" method="post">
             <div class="container">
                 <div class='col-md-5'>
                     <div class="form-group">
@@ -37,23 +35,8 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="Submit">
+                <input id="submit" type="submit" value="Submit"/>
             </div>
-
-            <script type="text/javascript">
-                $(function () {
-                    $('#datetimepicker6').datetimepicker();
-                    $('#datetimepicker7').datetimepicker({
-                        useCurrent: false
-                    });
-                    $("#datetimepicker6").on("dp.change", function (e) {
-                        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                    });
-                    $("#datetimepicker7").on("dp.change", function (e) {
-                        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-                    });
-                });
-            </script>
         </form>
     </div>
 </div>

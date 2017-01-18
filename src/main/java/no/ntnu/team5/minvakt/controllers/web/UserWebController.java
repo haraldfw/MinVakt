@@ -2,6 +2,7 @@ package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.access.UserAccess;
+import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
