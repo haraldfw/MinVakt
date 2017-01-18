@@ -9,10 +9,21 @@ $(document).ready(function() {
     var questionAnswer = false;
     var shiftType = -1; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift, 3 = ??, 4 =
 
+    /* For displaying the weeknames and current month*/
+    var dayCounter = 1;
+    var today = new Date();
+    var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "nov.", "des."];
+    //TODO: fix this when changing week
 
-    $(".dayInnhold").click(function() {
-
+    $(".dayTop").each(function() {
+        $(this).append(" " + (today.getDate() - today.getDay() + dayCounter) + ". " + monthNames[today.getMonth()]);
+        dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
     });
+
+
+    /*$(".dayInnhold").click(function() {
+
+    });*/
 
     $(".shift").click(function() {
 
