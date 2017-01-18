@@ -59,6 +59,12 @@ public class UserController {
         c.add(Calendar.DATE, 1);
         Date resetKeyExpiry = c.getTime();
 
+        Set<Competence> comps = new HashSet<>();
+        newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
+            return accessContext.competence.getFromName(s);
+        })));
+
+
         accessor.with(access -> {
             User user = new User(
                     username,
@@ -69,9 +75,6 @@ public class UserController {
                     newUser.getEmail(),
                     newUser.getPhoneNr(),
                     newUser.getEmploymentPercentage());
-
-            Set<Competence> comps = new HashSet<>();
-            newUser.getCompetences().forEach(s -> comps.add(new Competence(s)));
 
             user.setCompetences(comps);
             user.setResetKey(resetKey);

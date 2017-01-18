@@ -107,6 +107,20 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
+    public List<Shift> getShiftsOnDateDays(Date dateFrom, Date dateTo) {
+        CALENDAR.setTime(dateFrom);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+        CALENDAR.set(Calendar.MINUTE, 0);
+        dateFrom = CALENDAR.getTime();
+
+        CALENDAR.setTime(dateTo);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 23);
+        CALENDAR.set(Calendar.MINUTE, 59);
+        dateTo = CALENDAR.getTime();
+
+        return getShiftsFromDateToDate(dateFrom, dateTo);
+    }
+
     public List<Shift> getShiftsForAUser(String username) {
         return getDb().transaction(session -> {
             Calendar cal = Calendar.getInstance();

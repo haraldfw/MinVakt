@@ -11,7 +11,7 @@ table, th, td {
 
 .dayDisplay {
     width: 14.285714%;
-    height: 100%;
+    height: 99.2%;/*100%;*/
     float: left;
 
     /*display: table-row;*/
@@ -52,7 +52,7 @@ table, th, td {
 }
 
 .shiftsheet {
-    border: 2px solid darkgray;
+    /*border: 2px solid darkgray;*/
     height: 100%;
 
     position: relative;
@@ -106,7 +106,10 @@ table, th, td {
     /*width: 11.75vw;*/
     height: 44.5vh;/*  44vh;    44.6vh;*/
 
-
+    width: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
 
     border-radius: 5px;
 
@@ -162,6 +165,32 @@ table, th, td {
         margin-top: 25%;
         /*Does this work???*/
     }
+
+    /* Lines/boxes for a grid like view inside the shiftsheet */
+    .line-box {
+
+        height: 7.41vh;
+        width: 100%;
+        border-top: 2px solid lightgray;
+        position: relative;
+    }
+
+    .line-box-bottom {
+        border-bottom: 2px solid lightgray;
+    }
+
+    .time-display {
+        position: absolute;
+        left: 0;
+        top: -5%;
+    }
+
+    .time-display-bottom {
+        position: absolute;
+        left: 0;
+        bottom: -22%;
+        padding: 0px;
+    }
 }
 
 /* For desktop usage */
@@ -182,6 +211,32 @@ table, th, td {
         display: inline-block;
         text-align: left;
         vertical-align: middle;
+    }
+
+    /* Lines/boxes for a grid like view inside the shiftsheet */
+    .line-box {
+
+        height: 7.41vh;
+        width: 100%;
+        border-top: 2px solid lightgray;
+        position: relative;
+    }
+
+    .line-box-bottom {
+        border-bottom: 2px solid lightgray;
+    }
+
+    .time-display {
+        position: absolute;
+        left: -3em;
+        top: -5%;
+    }
+
+    .time-display-bottom {
+        position: absolute;
+        left: -3em;
+        bottom: -22%;
+        padding: 0px;
     }
 }
 
