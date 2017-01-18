@@ -9,29 +9,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="/style/navbar.css"/>
     <link rel="stylesheet" href="/style/common.css"/>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/navbar.js"></script>
     <script src="/js/common.js"></script>
 </head>
+
 <head th:include="this :: header"></head>
+
 <body>
-    <header>
-        <div id="kebab">
-            <div id="menuBtn">
-                <img src="kebab.svg"/>
-            </div>
-            <div id="menuOverlay" class="open">
-                <ul>
-                    <li><a>Tilgjengelighet</a></li>
-                    <li><a>Registrer fravær</a></li>
-                    <li><a>Profil</a></li>
-                    <li><a>Logg ut</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
+<header th:include="fragments :: navbar"></header>
     <!-- This line is replaced by content from other template -->
     <div th:include="this :: content"></div>
 </body>

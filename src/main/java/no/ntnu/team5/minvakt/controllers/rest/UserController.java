@@ -114,7 +114,6 @@ public class UserController {
             e.printStackTrace();
         }
     }
-
     @Authorize
     @RequestMapping(value = "/{username}")
     public UserModel show(Verifier verifier, @PathVariable("username") String username) {
@@ -135,12 +134,11 @@ public class UserController {
         verifier.ensure(isUser(username));
 
         accessor.with(access -> {
-            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), (byte) 1);
+            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), true);
         });
 
         return true;
     }
-
     @Authorize
     @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
     public boolean makeAvailability(
@@ -154,7 +152,6 @@ public class UserController {
             return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
         });
     }
-
     @Authorize
     @PostMapping("/{username}/unavailable")
     public boolean makeUnavailable(

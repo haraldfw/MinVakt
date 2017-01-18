@@ -1,6 +1,5 @@
 package no.ntnu.team5.minvakt.security.auth.intercept;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -20,7 +19,6 @@ public class Interceptor extends HandlerInterceptorAdapter {
 
             if (hm.hasMethodAnnotation(Authorize.class)) {
                 if (!AuthorizeHandler.handle(request, response, hm, hm.getMethodAnnotation(Authorize.class))) {
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     return false;
                 }
             }

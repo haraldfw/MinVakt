@@ -35,6 +35,7 @@ public class LoginController {
         if (lr.getSuccess()) {
             Cookie cookie = new Cookie("access_token", lr.getToken());
             cookie.setPath("/");
+            cookie.setHttpOnly(true);
             response.addCookie(cookie);
             return ResponseEntity.ok().body(lr);
         } else {
