@@ -135,7 +135,7 @@ public class UserController {
         verifier.ensure(isUser(username));
 
         accessor.with(access -> {
-            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), (byte) 1);
+            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), true);
         });
 
         return true;

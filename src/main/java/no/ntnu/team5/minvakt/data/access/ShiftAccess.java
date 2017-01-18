@@ -58,7 +58,7 @@ public class ShiftAccess extends Access<Shift> {
         }
     }
 
-    public boolean addAbscence(Shift shift, byte abscense) {
+    public boolean addAbscence(Shift shift, boolean abscense) {
         shift.setAbsent(abscense);
         return save(shift);
     }
@@ -87,8 +87,6 @@ public class ShiftAccess extends Access<Shift> {
         CALENDAR.set(Calendar.MINUTE, 60);
         CALENDAR.set(Calendar.SECOND, 60);
         CALENDAR.set(Calendar.MILLISECOND, 1000);
-
-        System.out.println(CALENDAR.getTime());
 
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift sh where sh.user.username = :username and :dateFrom < startTime and :dateTo > endTime");
@@ -123,7 +121,7 @@ public class ShiftAccess extends Access<Shift> {
 
     public static ShiftModel toModel(Shift shift) {
         ShiftModel model = new ShiftModel();
-        model.setAbsent((int) shift.getAbsent());
+        model.setAbsent(shift.getAbsent());
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
@@ -143,7 +141,7 @@ public class ShiftAccess extends Access<Shift> {
     public void makeUnavailable(Date dateFrom, Date dateTo) {
         List<Shift> shiftsBetweenDates = getShiftsFromDateToDate(dateFrom, dateTo);
         for(Shift s: shiftsBetweenDates) {
-            s.setAbsent((byte)1);
+            s.setAbsent(true);
         }
     }
 

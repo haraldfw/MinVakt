@@ -13,7 +13,7 @@
       "format": "date-time"
     },
     "absent": {
-      "type": "integer"
+      "type": "boolean"
     },
     "standard_hours": {
       "type": "integer"
