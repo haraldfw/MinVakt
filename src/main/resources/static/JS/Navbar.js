@@ -18,11 +18,14 @@ $(document).ready(function() {
     });
 
     /*$(window).click(function(e) {
+        //alert("test");
 
         if (e.target.id === "navbar-side") {
-            //alert("hei");
-        } else if ($(event.target).hasClass("close-close")) { //TODO: fix this
-            alert("asdasd");
+            alert("hei");
+        } else {
+            if ($("#navbar-side").hasClass("navbar-side-inne")) {
+                alert("inne remove");
+            }
         }
 
         $(".close-close").removeClass("ion-close").addClass("ion-navicon-round");
