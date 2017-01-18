@@ -7,11 +7,11 @@
 </div>
 
 <div th:fragment="headfragment"> <!-- TODO: lag en for head som er i alle filer og en for navbar -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
     <script th:src="@{/JS/Navbar.js}" src="../static/JS/Navbar.js" type="text/javascript"></script>
     <link th:href="@{/style/Navbar.css}" href="../static/style/Navbar.css" rel="stylesheet" type="text/css"/>
 </div>
@@ -24,7 +24,8 @@
                     <a class="navbar-brand hidden-xs" href="#" style="margin-left: 10px;">
                         MinVakt
                     </a>
-                    <a class="navbar-brand visible-xs"><i class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
+                    <a class="navbar-brand visible-xs"><i
+                            class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
 
                 </li>
                 <li class="active">
@@ -34,17 +35,40 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
                         <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a>Jane Doe vil bytte vakt med deg</a></li>
-                        <li><a>James Roe har godtatt å ta vakten din.</a></li>
-                        <li><a>More shit</a></li>
+                        <li th:each="n: ${notifications}">
+                            <a th:if="${n.actionUrl} != null">
+                                <p th:text="${n.message}">
+                                    <!-- melding havner her -->
+                                </p>
+                                <form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                                    <button type="submit" class="btn btn-primary">Godta</button>
+                                </form>
+                                <form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                                    <button type="submit" class="btn btn-primary">Avslå</button>
+                                </form>
+                            </a>
+                            <a th:if="${n.actionUrl} == null">
+                                <p th:text="${n.message}">
+                                    <!-- melding havner her -->
+                                </p>
+                                <form action="#"
+                                      th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
+                                      method="post">
+                                    <button type="submit" class="btn btn-primary">Lukk</button>
+                                </form>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Ola Nordmann <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        <span class="caret">Navn</span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a>Endre profilinstillinger</a></li>
                         <li role="separator" class="divider"></li>
@@ -56,11 +80,14 @@
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
-        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="#timer">Timer</a></li>
-        <li class="navbar-item"><a href="#tilgjengelighet">Tilgjengelighet</a></li>
-        <li class="navbar-item"><a href="#absence">Fravær</a></li>
-        <li class="navbar-item"><a href="#bruker">Navn på innlogget ansatt</a></li>
-        <li class="navbar-item"><a href="#loggut">Logg ut</a></li>
+        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="#timer">Timer</a>
+        </li>
+        <li class="navbar-item"><a href="/user/availability">Tilgjengelighet</a></li>
+        <li class="navbar-item"><a href="/user/absence">Fravær</a></li>
+        <!--<li class="navbar-item"><a href="/user/profile" th:text="${user.username}">Brukernavn her</a></li>-->
+        <li class="navbar-item"><a href="/user/profile">Brukernavn her</a></li>
+        <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
+        <li class="navbar-item"><a href="/logout">Logg ut</a></li>
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>
 </div>

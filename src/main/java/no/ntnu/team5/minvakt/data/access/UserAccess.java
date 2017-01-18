@@ -3,6 +3,7 @@ package no.ntnu.team5.minvakt.data.access;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.NavbarModel;
+import no.ntnu.team5.minvakt.model.NotificationModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
@@ -41,6 +42,12 @@ public class UserAccess extends Access<User> {
         });
     }
 
+    public List<User> getAllContactInfo() {
+        return getDb().transaction(session -> {
+            return session.createQuery("from User order by firstName asc").list();
+        });
+    }
+
     public User getUserFromSecretKey(String username, String resetKey) {
         return getDb().transaction(session -> {
             Query query = session.createQuery(
@@ -61,7 +68,7 @@ public class UserAccess extends Access<User> {
         model.setEmail(user.getEmail());
         model.setPhonenumber(user.getPhonenumber());
         model.setEmploymentPercentage(user.getEmploymentPercentage());
-        model.setCompetances(
+        model.setCompetences(
                 user.getCompetences().stream()
                         .map(Competence::getName)
                         .collect(Collectors.toList()));
@@ -83,10 +90,15 @@ public class UserAccess extends Access<User> {
         return navbar;
     }
 
-    public NavbarModel getNavbar(String username) {
+    public NavbarModel getNavbar(String username, List<NotificationModel> notifications) {
         NavbarModel navbar = new NavbarModel();
         navbar.setLoggedIn(true);
         navbar.setUserModel(toModel(fromUsername(username)));
+        navbar.setNotificationModels(notifications);
         return navbar;
+    }
+
+    public static List<UserModel> toModel(List<User> list) {
+        return list.stream().map(UserAccess::toModel).collect(Collectors.toList());
     }
 }

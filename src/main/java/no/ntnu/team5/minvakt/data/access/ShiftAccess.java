@@ -2,14 +2,13 @@ package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.Competence;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -152,6 +151,7 @@ public class ShiftAccess extends Access<Shift> {
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
         model.setUserModel(UserAccess.toModel(shift.getUser()));
+        model.setCompetences(CompetenceAccess.toModel(shift.getCompetences()));
 
         return model;
     }
@@ -169,6 +169,33 @@ public class ShiftAccess extends Access<Shift> {
         for (Shift s : shiftsBetweenDates) {
             s.setAbsent(true);
         }
+    }
+
+    public List<Shift> getAllCurrentWeekForUser(Date dateFrom, String username) {
+        CALENDAR.setTime(dateFrom);
+        CALENDAR.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+        CALENDAR.set(Calendar.MINUTE, 0);
+        dateFrom = CALENDAR.getTime();
+        CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
+        Date dateTo = CALENDAR.getTime();
+
+        return getShiftsFromDateToDateForUser(dateFrom, dateTo, username);
+    }
+
+    public List<Shift> getShiftsFromDateToDateForUser(Date dateFrom, Date dateTo, String username) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery(
+                    "from Shift " +
+                            "where :dateFrom < startTime " +
+                            "and :dateTo > endTime " +
+                            "and user.username = :username " +
+                            "order by startTime asc");
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
+            query.setParameter("username", username);
+            return (List<Shift>) query.list();
+        });
     }
 
     public List<Shift> getAllCurrentMonth() {

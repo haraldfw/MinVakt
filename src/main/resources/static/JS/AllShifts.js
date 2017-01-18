@@ -11,17 +11,24 @@ width: calc(((11.11%)/3)*8 - calc((11.11%)/3) - 1px);
 $(document).ready(function() {
 
 
-    var from = "0730";
-    var to = "1400";
+    var hourFrom = Number("07");
+    var minFrom = Number("30");
+    var hourTo = Number("14");
+    var minTo = Number("00");
+
 
     // min/0.6 = prosent
-
     var pos = "worker";
-    //FIXME: finn ut om Date objekt eller string
+
 
 
     function test(from, to) {
-        var diff = to-from; //7h
+        var proMinFrom = minFrom/0.6;
+        var proMinTo = minTo/0.6;
+
+        //FIXME: fiks senere
+        var diffHour = to-from; //7h
+        var diffMin = 0;
         var lengde = 7;
 
         if(diff % 100 === 0) {
@@ -31,6 +38,7 @@ $(document).ready(function() {
 
         }
         //alert(diff)
+        //FIXME: feil skiftlengde, osv
 
         $("#testtest").css("left", "calc(11.11% + ((11.11%/3)*" + lengde +"))");
         $("#testtest").css("width", "calc((11.11%/3)*" + diff + " - 1px)");
@@ -93,8 +101,57 @@ $(document).ready(function() {
         $("#titleTime").html(text);
     });
 
-    test(from, to);
+    //test(from, to);
 
+   // alert("startTest1");
+/*
+    $(".day").click(function() {
+        alert("testthis");
+        //
+        //FIXME virker ikke
+    });*/
+
+    $("#date").on("changeDate", function(ev) {
+        $("#selectDay").css("display", "none");
+        $("#selectDay").css("display", "inline");
+    });
+
+    /*$('#date').datepicker({
+        onSelect: function(dateText, inst) {
+            var date = $(this).val();
+            var time = $('#time').val();
+            alert('on select triggered');
+            $("#start").val(date + time.toString(' HH:mm').toString());
+
+
+            //TODO: virker heller ikke
+            alert("testthis");
+            $("#selectDay").css("display", "none");
+            $("#selectDay").css("display", "inline");
+
+             $("#dpStart").on("dp.change", function(e) {
+             alert('hey');
+             $('#dpEnd').data("DateTimePicker").setMinDate(e.date);
+             });
+
+
+        }
+    });*/
+
+    /*$("#date").on("dp.change", function() {
+     alert("test");
+     });*/
+
+
+    $("#response-button").click(function() {
+        $.get("api/shift/2017/1/30", function() {
+            alert("asdasd");
+        })
+            .done(function() {
+               alert("heisann");
+            });
+        ;
+    });
 
 
 });
