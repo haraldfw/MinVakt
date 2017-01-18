@@ -64,14 +64,10 @@ public class ShiftAccess extends Access<Shift> {
     }
 
     public List<Shift> getShiftsOnDate(Date date) {
-        //FIXME
-//        Calendar
-//        LocalDate start = new LocalDate(date.getYear(), );
-
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift sh where (:start_date <= sh.endTime) and (:end_date >= sh.startTime)");
-//            query.setParameter("start_date", );
-            query.setParameter("end_date", date);
+            query.setParameter("start_date", setTimeOfDate(date, 0, 0));
+            query.setParameter("end_date", setTimeOfDate(date, 23, 59));
             return (List<Shift>) query.list();
         });
     }
