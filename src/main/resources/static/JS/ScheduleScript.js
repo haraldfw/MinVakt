@@ -38,7 +38,7 @@ $(document).ready(function() {
             //absenceButton
             //alert("fravær");
             $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
-            $("#shift-time").html("Det er et skift tilgjengelig fra 12:00 - 24:00 på Onsdag 11. jan. 2017");
+            $("#shift-time").html("Det har lagt inn fravær for skiftet ditt kl. 12:00 - 24:00 på Onsdag 11. jan. 2017");
             $("#absenceButton").css("display", "none");
             $("#removeAbsenceButton").css("display", "inline-block");
             $("#removeAvailibilityButton").css("display", "none");

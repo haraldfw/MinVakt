@@ -15,7 +15,7 @@ public abstract class Access<T> {
         return db;
     }
 
-    public boolean save(T t){
+    public boolean save(T t) {
         db.transaction(session -> {
             session.save(t);
             session.flush();

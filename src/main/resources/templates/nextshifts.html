@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      th:include="layout :: mainLayout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Neste vakt</title>
+    <title>Upcoming Shifts</title>
+    <link th:href="@{/style/schedule.css}" rel="stylesheet" type="text/css"/>
+
+    <div th:include="fragments :: headfragment">
+
+    </div>
 </head>
 <body>
-<div th:fragment="content">
+<div th:include="fragments :: navbar"></div>
     <div id="nextshift" class="nextshiftbox">
         <h1>Neste vakter</h1>
         <table>

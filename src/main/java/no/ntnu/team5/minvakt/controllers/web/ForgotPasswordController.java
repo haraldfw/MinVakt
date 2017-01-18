@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ForgotPasswordController {
     @RequestMapping("/forgotpassword")
-    public String forgotpassword(){
+    public String forgotpassword() {
         return "forgotpassword";
     }
 
