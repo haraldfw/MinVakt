@@ -1,7 +1,7 @@
 package no.ntnu.team5.minvakt.security.auth;
 
-import io.jsonwebtoken.ClaimJwtException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import no.ntnu.team5.minvakt.db.Competence;
@@ -56,7 +56,7 @@ public class JWT {
     static public Optional<Claims> verify(String token) {
         try {
             return Optional.of(Jwts.parser().setSigningKey(SECURE_KEY).parseClaimsJws(token).getBody());
-        } catch (ClaimJwtException ce){
+        } catch (JwtException je) {
             return Optional.empty();
         }
     }

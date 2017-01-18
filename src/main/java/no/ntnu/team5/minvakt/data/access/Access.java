@@ -24,7 +24,7 @@ public abstract class Access<T> {
         return true; //FIXME(erl)
     }
 
-    public void setDb(DbAccess db) {
+    void setDb(DbAccess db) {
         this.db = db;
     }
 }
