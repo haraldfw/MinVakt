@@ -107,8 +107,7 @@ public class ShiftController {
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(originalOwner, message);
             }
-            notification.setClosed(true);
-            access.notification.save(notification);
+            access.notification.closeNotification(notification);
         });
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -124,10 +123,9 @@ public class ShiftController {
         accessor.with(access -> {
 
             String actionURL = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
-            System.out.println("Du kom deg helt hit! Her er URL-en:\n" + actionURL);
             Notification notification = access.notification.fromActionURL(actionURL);
             if (notification == null) {
-                System.out.println("Fant ikke notifikasjon med den URL-en i databasen");
+                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n"+actionURL);
                 return;
             }
             verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole("Admin")));
@@ -142,14 +140,13 @@ public class ShiftController {
                 access.notification.generateTransferNotification(access.competence.getFromName("Admin"), message, nyActionURL, shift);
             } else {
                 User originalOwner = shift.getUser();
-                if (originalOwner == null) return;
-
-                String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
-                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
-                access.notification.generateMessageNotification(originalOwner, message);
+                if (originalOwner != null) {
+                    String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
+                            shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                    access.notification.generateMessageNotification(originalOwner, message);
+                }
             }
-            notification.setClosed(true);
-            access.notification.save(notification);
+            access.notification.closeNotification(notification);
         });
     }
 }

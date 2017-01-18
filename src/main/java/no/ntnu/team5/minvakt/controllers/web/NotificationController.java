@@ -35,7 +35,6 @@ public class NotificationController {
 
         model.addAttribute("userNotifications", userNotifications);
         model.addAttribute("adminNotifications", adminNotifications);
-        model.addAttribute("notifications");
         return model;
     }
 
@@ -47,8 +46,7 @@ public class NotificationController {
 
             verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole("Admin")));
 
-            notification.setClosed(true);
-            access.notification.save(notification);
+            access.notification.closeNotification(notification);
         });
     }
 }

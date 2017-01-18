@@ -52,6 +52,11 @@ public class NotificationAccess extends Access<Notification> {
         });
     }
 
+    public void closeNotification(Notification notification){
+        notification.setClosed(true);
+        save(notification);
+    }
+
 
     public void generateMessageNotification(User toUser, String message) {
         Notification notification = new Notification(message);
