@@ -38,8 +38,8 @@ public class ShiftWebController {
             List<NotificationModel> notificationModels = access.notification.convertToModel(notifications);
             model.addAttribute("notifications", notificationModels);
 
-            /*UserModel userModel = UserAccess.toModel(access.user.fromUsername(username));
-            model.addAttribute("user", userModel);*/
+            UserModel userModel = UserAccess.toModel(access.user.fromUsername(username));
+            model.addAttribute("user", userModel);
 
             model.addAttribute("navbar", access.user.getNavbar(username, notificationModels));
         });
