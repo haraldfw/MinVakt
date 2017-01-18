@@ -24,13 +24,41 @@ $(document).ready(function() {
     });
 
     $("#refresh-button").click(function() {
-        $.get("/api/shift/" + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {
+        $.get("/api/shift/haraldfw/week", function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: legg inn brukernavn som er pålogget
             //alert("okidoki" + data);
-        }).done(function() {
-            alert("DONE. ok");
+        }).done(function(data) {
+            var jsonArray = data;
 
+            for(var i = 0; i < jsonArray.length; i++) {
+                var obj = jsonArray[i];
+                var user_model = obj.user_model;
+                //alert(user_model.id);
+
+                //alert(jsonArray[i].start_time);
+                var shiftStart = new Date(jsonArray[i].start_time);
+                var shiftEnd = new Date(jsonArray[i].end_time);
+                //alert(dateStart.getHours());
+                var elementDistanceTop = shiftStart.getHours() * (44.5 / 12); //44.5 is the height of 12 hours //TODO: make constant of this
+                var hoursOfWork = Math.abs(shiftEnd - shiftStart) / 3600000; //3600000 is milliseconds in hour
+                var elementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
+
+                var dateNumber = shiftStart.getDate() - (today.getDate() - today.getDay());
+
+                var absence = "";
+                if (obj.absent) {
+                    absence = " absence-shift";
+                } else {
+                    absence = " normal-shift"
+                }
+
+                var newElement = '<div id="2" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + elementHeight + 'vh">Skift test</div>';
+
+                $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+            }
+
+            alert("DONE. ok" + data);
         }).fail(function() {
-            alert("error fail shit");
+            alert("Det skjedde en feil med innhenting av skift for brukeren.");
         });
     });
 
@@ -39,7 +67,7 @@ $(document).ready(function() {
 
     });*/
 
-    $(".shift").click(function() {
+    $(".dayInnhold ").on("click", ".shift", function() {
 
 
 
