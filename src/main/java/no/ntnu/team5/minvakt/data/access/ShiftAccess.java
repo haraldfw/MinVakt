@@ -171,6 +171,33 @@ public class ShiftAccess extends Access<Shift> {
         }
     }
 
+    public List<Shift> getAllCurrentWeekForUser(Date dateFrom, String username) {
+        CALENDAR.setTime(dateFrom);
+        CALENDAR.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+        CALENDAR.set(Calendar.MINUTE, 0);
+        dateFrom = CALENDAR.getTime();
+        CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
+        Date dateTo = CALENDAR.getTime();
+
+        return getShiftsFromDateToDateForUser(dateFrom, dateTo, username);
+    }
+
+    public List<Shift> getShiftsFromDateToDateForUser(Date dateFrom, Date dateTo, String username) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery(
+                    "from Shift " +
+                            "where :dateFrom < startTime " +
+                            "and :dateTo > endTime " +
+                            "and user.username = :username " +
+                            "order by startTime asc");
+            query.setParameter("dateFrom", dateFrom);
+            query.setParameter("dateTo", dateTo);
+            query.setParameter("username", username);
+            return (List<Shift>) query.list();
+        });
+    }
+
     public List<Shift> getAllCurrentMonth() {
         CALENDAR.setTime(new Date());
 
