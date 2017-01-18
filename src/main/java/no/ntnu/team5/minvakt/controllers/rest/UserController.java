@@ -14,27 +14,14 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 
 /**
  * Created by alan on 11/01/2017.
@@ -72,6 +59,12 @@ public class UserController {
         c.add(Calendar.DATE, 1);
         Date resetKeyExpiry = c.getTime();
 
+        Set<Competence> comps = new HashSet<>();
+        newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
+            return accessContext.competence.getFromName(s);
+        })));
+
+
         accessor.with(access -> {
             User user = new User(
                     username,
@@ -82,9 +75,6 @@ public class UserController {
                     newUser.getEmail(),
                     newUser.getPhoneNr(),
                     newUser.getEmploymentPercentage());
-
-            Set<Competence> comps = new HashSet<>();
-            newUser.getCompetences().forEach(s -> comps.add(new Competence(s)));
 
             user.setCompetences(comps);
             user.setResetKey(resetKey);
@@ -114,6 +104,7 @@ public class UserController {
             e.printStackTrace();
         }
     }
+
     @Authorize
     @RequestMapping(value = "/{username}")
     public UserModel show(Verifier verifier, @PathVariable("username") String username) {
@@ -139,6 +130,7 @@ public class UserController {
 
         return true;
     }
+
     @Authorize
     @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
     public boolean makeAvailability(
@@ -152,6 +144,7 @@ public class UserController {
             return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
         });
     }
+
     @Authorize
     @PostMapping("/{username}/unavailable")
     public boolean makeUnavailable(
