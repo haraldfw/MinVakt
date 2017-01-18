@@ -187,8 +187,8 @@ public class ShiftAccess extends Access<Shift> {
         return getDb().transaction(session -> {
             Query query = session.createQuery(
                     "from Shift " +
-                            "where :dateFrom < startTime " +
-                            "and :dateTo > endTime " +
+                            "where :dateFrom <= startTime " +
+                            "and :dateTo >= endTime " +
                             "and user.username = :username " +
                             "order by startTime asc");
             query.setParameter("dateFrom", dateFrom);

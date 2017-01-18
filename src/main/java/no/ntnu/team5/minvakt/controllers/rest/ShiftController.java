@@ -54,8 +54,6 @@ public class ShiftController {
     @RequestMapping("/{user}/week")
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
         Calendar cal = Calendar.getInstance();
-        //cal.set(Calendar.YEAR, Calendar.MONTH, Calendar.DATE - Calendar.DAY_OF_WEEK);
-        cal.set(2017, 0, 18);
         Date startWeek = cal.getTime();
 
         return accessor.with(access -> {
@@ -64,7 +62,6 @@ public class ShiftController {
                    .map(ShiftAccess::toModel)
                    .collect(Collectors.toList());
         });
-        //getAllCurrentWeekForUser()
     }
 
     @Authorize
