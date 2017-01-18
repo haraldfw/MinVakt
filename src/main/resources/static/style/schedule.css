@@ -42,6 +42,10 @@ table, th, td {
     background-color: #756c69;
 }
 
+.dayTop-today:hover {
+    background-color: #a09794;
+}
+
 .dayInnhold {
     /*height: 94vh; /*95%*/
     height: 89vh;

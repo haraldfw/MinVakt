@@ -24,10 +24,11 @@ $(document).ready(function() {
     });
 
     $("#refresh-button").click(function() {
-        $.get("/api/shift/2017/30/1", function(data) {
-            alert("okidoki" + data);
+        $.get("/api/shift/" + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {
+            //alert("okidoki" + data);
         }).done(function() {
             alert("DONE. ok");
+
         }).fail(function() {
             alert("error fail shit");
         });
