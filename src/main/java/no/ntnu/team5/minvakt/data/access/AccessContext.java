@@ -29,13 +29,9 @@ public class AccessContext {
     @Autowired
     public AvailabilityAccess availability;
 
-    @Autowired
-    public ActionURLAccess actionURL;
-
     public void init() {
         user.setDb(db);
         shift.setDb(db);
-        actionURL.setDb(db);
         competence.setDb(db);
         availability.setDb(db);
         notification.setDb(db);

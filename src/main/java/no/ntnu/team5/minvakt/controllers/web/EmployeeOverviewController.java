@@ -4,13 +4,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Created by Nicole on 16.01.2017.
+ * Created by Nicole on 18.01.2017.
  */
 
 @Controller
-public class CreatePassword {
-    @RequestMapping("/createpassword")
-    public String createpassword() {
-        return "createpassword";
+public class EmployeeOverviewController {
+    @RequestMapping("/employeeoverview")
+    public String forgotpassword(){
+        return "employeeoverview";
     }
 }

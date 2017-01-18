@@ -42,8 +42,8 @@ public class UserWebController {
     @Authorize
     @RequestMapping("/{username}/nextshifts")
     public String getNextShift(Verifier verifier,
-                                         @PathVariable("username") String username,
-                                         Model model) {
+                               @PathVariable("username") String username,
+                               Model model) {
         verifier.ensure(isUser(username));
 
         List<ShiftModel> shifts = accessor.with(access -> {
