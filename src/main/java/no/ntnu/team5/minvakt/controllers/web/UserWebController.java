@@ -56,13 +56,13 @@ public class UserWebController {
         return "nextshifts";
     }
     @Authorize
-    @RequestMapping("/{username}/registeravailability")
+    @RequestMapping("/{username}/AddAvailability")
     public String registerAvailability(@PathVariable("username") String username,
                                Model model,
                                Verifier verify) {
         verify.ensure(isUser(username));
         model.addAttribute("makeAvailableModel", new MakeAvailableModel());
-        return "registeravailability";
+        return "AddAvailability";
     }
     @Authorize
     @RequestMapping("/{username}/absence")

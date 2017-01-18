@@ -2,15 +2,15 @@
  * Created by Kenan on 1/17/2017.
  */
 $(document).ready(() => {
-    $('#datetimepicker6').datetimepicker();
-    $('#datetimepicker7').datetimepicker({
+    $('#inputFrom').datetimepicker();
+    $('#inputTil').datetimepicker({
         useCurrent: false
     });
-    $("#datetimepicker6").on("dp.change", function (e) {
-        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    $("#inputFrom").on("dp.change", function (e) {
+        $('#inputTil').data("DateTimePicker").minDate(e.date);
     });
-    $("#datetimepicker7").on("dp.change", function (e) {
-        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    $("#inputTil").on("dp.change", function (e) {
+        $('#inputFrom').data("DateTimePicker").maxDate(e.date);
     });
     // $("#availability").form(json => {
     //     console.log(json)
