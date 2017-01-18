@@ -4,7 +4,7 @@
 <body>
 <div th:fragment="content">
     <div class="search-wrap">
-        <input type="text" class="search-query" placeholder="Søk etter navn">
+        <input type="text" class="search-query" placeholder="Søk etter navn"/>
         <span class="glyphicon glyphicon-search"></span>
     </div>
     <div class="account-box">
@@ -19,47 +19,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="employee-name">Ingunn Sund</td>
-                <td>99953365</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
-            </tr>
-            <tr>
-                <td class="employee-name">Gard Steinsvik</td>
-                <td>99991234</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
-            </tr>
-            <tr>
-                <td class="employee-name">Knut Kirkhorn</td>
-                <td>99907061</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
-            </tr>
-            <tr>
-                <td class="employee-name">Harald Floor Wilhelmsen</td>
-                <td>99990000</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
-            </tr>
-            <tr>
-                <td class="employee-name">Kenan Mahic</td>
-                <td>99990101</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
-            </tr>
-            <tr>
-                <td class="employee-name">Erlend Tobiassen</td>
-                <td>99994321</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
-            </tr>
-            <tr>
-                <td class="employee-name">Nicole Uybengkee</td>
-                <td>999847324</td>
-                <td>test@test.no</td>
-                <td>Sykepleier</td>
+            <tr th:each="user : ${users}">
+                <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn
+                </td>
+                <td th:text="${user.phonenumber}">tlf</td>
+                <td th:text="${user.email}">email</td>
+                <td><span th:each="comp : ${user.competences}" th:text="${comp + ' '}">comps</span>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -67,11 +33,11 @@
     <div>
     </div>
     <script>
-        $(".search-query").on("input", function() {
+        $(".search-query").on("input", function () {
             var search = $(this).val().toLowerCase();
             var tableRows = $("#employee-table tbody tr");
             tableRows.hide();
-            var matches = tableRows.filter(function() {
+            var matches = tableRows.filter(function () {
                 var name = $(this).find(".employee-name").text().toLowerCase();
                 return name.indexOf(search) > -1;
             });
