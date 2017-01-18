@@ -76,17 +76,11 @@ public class ShiftController {
         verifier.ensure(hasRole(Constants.ADMIN));
         accessor.with(access -> {
 
-            System.out.println("Er jeg admin?");
-            User me = access.user.fromUsername(verifier.claims.getSubject());
-            System.out.println("Me: " + me.getUsername() + ", competences: " + me.getCompetences().toString());
-            verifier.ensure(hasRole("Admin"));
-            System.out.println("Ja det er jeg!");
-
             String actionURL = httpServletRequest.getRequestURI() + "?user_id=" + user_id + "&shift_id=" + shift_id;
             Notification notification = access.notification.fromActionURL(actionURL);
             if (notification == null) return;
 
-        Shift shift = shiftAccess.getShiftFromId(shift_id);
+            Shift shift = access.shift.getShiftFromId(shift_id);
 
             if (accept) {
                 User newShiftOwner = access.user.fromID(user_id);
@@ -127,10 +121,10 @@ public class ShiftController {
             String actionURL = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
             Notification notification = access.notification.fromActionURL(actionURL);
             if (notification == null) {
-                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n"+actionURL);
+                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n" + actionURL);
                 return;
             }
-            verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole("Admin")));
+            verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole(Constants.ADMIN)));
 
             Shift shift = access.shift.getShiftFromId(shift_id);
 

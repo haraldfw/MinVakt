@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
@@ -42,9 +43,10 @@ public class NotificationController {
     @PostMapping("/api/notifications/close_notification")
     public void closeNotification(Verifier verifier, @RequestParam("notification_id") int notificationId){
         accessor.with(access -> {
+
             Notification notification = access.notification.fromId(notificationId);
 
-            verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole("Admin")));
+            verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole(Constants.ADMIN)));
 
             access.notification.closeNotification(notification);
         });
