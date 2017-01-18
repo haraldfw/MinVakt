@@ -129,16 +129,14 @@ public class UserController {
     }
 
     @Authorize
-    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability(
-            Verifier verifier,
-            @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+    @PostMapping("/{username}/available")
+    public boolean makeAvailability(Verifier verify,
+                                    @PathVariable("username") String username,
+                                    @ModelAttribute MakeAvailableModel makeAvailableModel) {
 
-        verifier.ensure(Verifier.isUser(username));
-
+        verify.ensure(isUser(username));
         return accessor.with(access -> {
-            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+            return access.availability.makeAvailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
     }
 
@@ -147,13 +145,13 @@ public class UserController {
     public boolean makeUnavailable(
             Verifier verify,
             @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+            @RequestBody MakeAvailableModel makeAvailableModel) {
 
 
         verify.ensure(Verifier.isUser(username));
 
         accessor.with(access -> {
-            access.availability.makeUnavailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+            access.availability.makeUnavailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
 
         return true;
