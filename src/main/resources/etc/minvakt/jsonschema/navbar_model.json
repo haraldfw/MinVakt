@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "user_model": {
+      "$ref": "user_model.json"
+    },
+    "loggedIn": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "loggedIn"
+  ]
+}
