@@ -13,12 +13,12 @@
 <div th:fragment="content">
     <div id="registeravailability" class="registeravailabilitybox">
         <h3 id="linked-pickers">Registrer tilgjengelighet</h3>
-        <form id="availability" action="#" th:action="@{/api/user/{username}/available}" method="post">
+        <form id="availability" action="#" th:action="@{'/api/user/' + ${username} + '/available'}" th:object="${makeAvailableModel}" method="post">
             <div class="container">
                 <div class='col-md-5'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker6'>
-                            <input type='text' class="form-control"/>
+                            <input th:field="*{dateFrom}" type='text' class="form-control"/>
                             <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -28,15 +28,15 @@
                 <div class='col-md-5'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker7'>
-                            <input type='text' class="form-control"/>
+                            <input th:field="*{dateTo}" type='text' class="form-control"/>
                             <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
                         </div>
                     </div>
                 </div>
-                <input id="submit" type="submit" value="Submit"/>
             </div>
+            <button id="submitbtn" type="submit" value="Submit">Submit</button>
         </form>
     </div>
 </div>

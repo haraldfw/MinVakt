@@ -59,6 +59,12 @@ public class UserController {
         c.add(Calendar.DATE, 1);
         Date resetKeyExpiry = c.getTime();
 
+        Set<Competence> comps = new HashSet<>();
+        newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
+            return accessContext.competence.getFromName(s);
+        })));
+
+
         accessor.with(access -> {
             User user = new User(
                     username,
@@ -69,9 +75,6 @@ public class UserController {
                     newUser.getEmail(),
                     newUser.getPhoneNr(),
                     newUser.getEmploymentPercentage());
-
-            Set<Competence> comps = new HashSet<>();
-            newUser.getCompetences().forEach(s -> comps.add(new Competence(s)));
 
             user.setCompetences(comps);
             user.setResetKey(resetKey);
@@ -129,16 +132,14 @@ public class UserController {
     }
 
     @Authorize
-    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability(
-            Verifier verifier,
-            @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+    @PostMapping("/{username}/available")
+    public boolean makeAvailability(Verifier verify,
+                                    @PathVariable("username") String username,
+                                    @ModelAttribute MakeAvailableModel makeAvailableModel) {
 
-        verifier.ensure(Verifier.isUser(username));
-
+        verify.ensure(isUser(username));
         return accessor.with(access -> {
-            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+            return access.availability.makeAvailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
     }
 
@@ -147,13 +148,13 @@ public class UserController {
     public boolean makeUnavailable(
             Verifier verify,
             @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+            @RequestBody MakeAvailableModel makeAvailableModel) {
 
 
         verify.ensure(Verifier.isUser(username));
 
         accessor.with(access -> {
-            access.availability.makeUnavailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+            access.availability.makeUnavailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
 
         return true;

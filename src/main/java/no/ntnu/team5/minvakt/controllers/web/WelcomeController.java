@@ -29,7 +29,7 @@ public class WelcomeController {
     @RequestMapping("/welcome")
     public String welcome(Verifier verifier, Model model) {
         List<ShiftModel> shifts = accessor.with(access -> {
-            return ShiftAccess.toModel(access.shift.getUsersShiftCurrentWeek(verifier.claims.getSubject()));
+            return ShiftAccess.toModel(access.shift.getUsersShiftNextDays(verifier.claims.getSubject(), 7));
         });
 
         List<ShiftModel> upcoming = shifts.subList(1, shifts.size());
