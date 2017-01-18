@@ -6,10 +6,37 @@
 </head>
 <body>
 Heiii boiii
-<table>
-    <tr th:each="n: ${notifications}">
+
+<p>Notifikasjoner for bruker:</p>
+<table border="1px solid black">
+    <tr th:each="n: ${userNotifications}">
         <td th:text="${n.message}"></td>
         <td th:text="${n.actionUrl}"></td>
+        <td><form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+            <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification" class="btn btn-primary">Accept transfer to admin</button>
+        </form></td>
+        <td><form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+            <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification" class="btn btn-primary">Decline transfer to admin</button>
+        </form></td>
+        <td><form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
+            <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">Close notification</button>
+        </form></td>
+    </tr>
+</table>
+<p>Notifikasjoner for admins:</p>
+<table border="1px solid black">
+    <tr th:each="n: ${adminNotifications}">
+        <td th:text="${n.message}"></td>
+        <td th:text="${n.actionUrl}"></td>
+        <td><form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+            <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">Accept transfer</button>
+        </form></td>
+        <td><form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+            <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">Decline transfer</button>
+        </form></td>
+        <td><form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
+            <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">Close notification</button>
+        </form></td>
     </tr>
 </table>
 </body>

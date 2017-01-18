@@ -1,11 +1,15 @@
 package no.ntnu.team5.minvakt.data.access;
 
+import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
+import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,20 +27,67 @@ public class NotificationAccess extends Access<Notification> {
         });
     }
 
-    public boolean verify(int id, Object obj) {
+    public Notification fromActionURL(String actionUrl) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("select obj_hash from Notification noti where noti.id = :id");
-            query.setParameter("id", id);
-
-            return (int) query.uniqueResult();
-        }) == obj.hashCode();
+            Query query = session.createQuery("from Notification where actionUrl = :action_url and expiry >= current_date()");
+            query.setParameter("action_url", actionUrl);
+            return (Notification) query.uniqueResult();
+        });
     }
 
-    public void generateTransferNotification(User admin, String message, String nyActionURL, int shift_id) {
-        //TODO(gard)
+    public List<Notification> fromCompetence(Competence competence) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("from Notification where competence = :competence and expiry >= current_date()");
+            query.setParameter("competence", competence);
+            return (List<Notification>) query.list();
+        });
     }
 
-    public void generateMessageNotification(User originalOwner, String message) {
-        //TODO(gard)
+    public Notification fromId(int notificationId) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("from Notification where id = :notification_id and expiry >= current_date()");
+            query.setParameter("notification_id", notificationId);
+            return (Notification) query.uniqueResult();
+        });
+    }
+
+    public void closeNotification(Notification notification) {
+        notification.setClosed(true);
+        save(notification);
+    }
+
+
+    public void generateMessageNotification(User toUser, String message) {
+        Notification notification = new Notification(message);
+        notification.setUser(toUser);
+        Date date = Calendar.getInstance().getTime(); //Today
+        long plusOneWeek = date.getTime() + 7000000L;
+        date.setTime(plusOneWeek);
+        notification.setExpiry(date);
+
+        save(notification);
+    }
+
+    public void generateMessageNotification(Competence competence, String message) {
+        Notification notification = new Notification(message);
+        notification.setCompetence(competence);
+        Date date = Calendar.getInstance().getTime(); //Today
+        long plusOneWeek = date.getTime() + 7000000L;
+        date.setTime(plusOneWeek);
+        notification.setExpiry(date);
+
+        save(notification);
+    }
+
+
+    public void generateTransferNotification(Competence competence, String message, String actionURL, Shift shift) {
+        Notification notification = new Notification(message);
+        notification.setCompetence(competence);
+        notification.setActionUrl(actionURL);
+        Date expiry = new Date();
+        expiry.setTime(shift.getEndTime().getTime() + 1000000L); // 1 dag etter skiftet er over
+        notification.setExpiry(expiry);
+
+        save(notification);
     }
 }

@@ -1,7 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.db.Availability;
 import no.ntnu.team5.minvakt.model.AvailabilityModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.beans.factory.annotation.Autowired;
