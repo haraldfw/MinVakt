@@ -96,6 +96,15 @@ public class UserWebController {
         return "useraccount";
     }
 
+    @Authorize("/")
+    @GetMapping("/list")
+    public String users(Model model) {
+        model.addAttribute("users", accessor.with(accessContext -> {
+            return UserAccess.toModel(accessContext.user.getAllContactInfo());
+        }));
+        return "employeeoverview";
+    }
+
 //    @ModelAttribute("user")
 //    public List<Variety> populateVarieties() {
 //        return this.varietyService.findAll();
