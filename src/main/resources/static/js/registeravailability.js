@@ -12,8 +12,7 @@ $(document).ready(() => {
     $("#datetimepicker7").on("dp.change", function (e) {
         $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
     });
-
-    $('#availability').form(json => {
-        console.log(json);
-    });
+    // $("#availability").form(json => {
+    //     console.log(json)
+    // })
 });
