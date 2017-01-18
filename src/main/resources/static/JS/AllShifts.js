@@ -109,7 +109,7 @@ $(document).ready(function() {
         $("#selectDay").css("display", "none");
         $("#selectDay").css("display", "inline");
         //FIXME virker ikke
-    })
+    });
 
     $('#date').datepicker({
         onSelect: function(dateText, inst) {
@@ -127,6 +127,15 @@ $(document).ready(function() {
     });
 
 
+    $("#response-button").click(function() {
+        $.get("api/shift/2017/30/1", function() {
+            alert("asdasd");
+        })
+            .done(function() {
+               alert("heisann");
+            });
+        ;
+    });
 
 
 });
