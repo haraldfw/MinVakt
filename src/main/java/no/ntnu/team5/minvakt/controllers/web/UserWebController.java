@@ -55,6 +55,14 @@ public class UserWebController {
         return "nextshifts";
     }
 
+    @RequestMapping("/{username}/registeravailability")
+    public String getNextShift(@PathVariable("username") String username,
+                               Model model) {
+
+        model.addAttribute("makeAvailableModel", new MakeAvailableModel());
+        return "registeravailability";
+    }
+
 //    @ModelAttribute("user")
 //    public List<Variety> populateVarieties() {
 //        return this.varietyService.findAll();
