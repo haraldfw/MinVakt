@@ -12,12 +12,25 @@ $(document).ready(function() {
     /* For displaying the weeknames and current month*/
     var dayCounter = 1;
     var today = new Date();
-    var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "nov.", "des."];
+    var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
     //TODO: fix this when changing week
 
     $(".dayTop").each(function() {
         $(this).append(" " + (today.getDate() - today.getDay() + dayCounter) + ". " + monthNames[today.getMonth()]);
+        if (today.getDay() === dayCounter) {
+            $(this).addClass("dayTop-today");
+        }
         dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
+    });
+
+    $("#refresh-button").click(function() {
+        $.get("/api/shift/2017/30/1", function(data) {
+            alert("okidoki" + data);
+        }).done(function() {
+            alert("DONE. ok");
+        }).fail(function() {
+            alert("error fail shit");
+        });
     });
 
 
