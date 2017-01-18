@@ -1,21 +1,28 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
+import io.jsonwebtoken.Jwts;
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.access.UserAccess;
+import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
+import no.ntnu.team5.minvakt.model.PasswordResetWithAuth;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 
 /**
  * Created by alan on 13/01/2017.
@@ -55,6 +62,7 @@ public class UserWebController {
         model.addAttribute("shifts", shifts);
         return "nextshifts";
     }
+
     @Authorize
     @RequestMapping("/{username}/registeravailability")
     public String getNextShift(@PathVariable("username") String username,
@@ -63,6 +71,20 @@ public class UserWebController {
         verify.ensure(isUser(username));
         model.addAttribute("makeAvailableModel", new MakeAvailableModel());
         return "registeravailability";
+    }
+
+    @Authorize
+    @GetMapping("/profile")
+    public String getProfile(Verifier verifier, Model model) {
+        String username = verifier.claims.getSubject();
+        verifier.ensure(or(isUser(username), hasRole(Constants.ADMIN)));
+        User user = accessor.with(accessContext -> {
+            return accessContext.user.fromUsername(username);
+        });
+        model.addAttribute("passwordResetWithAuth", new PasswordResetWithAuth());
+
+        model.addAttribute("user", user);
+        return "useraccount";
     }
 
 //    @ModelAttribute("user")
