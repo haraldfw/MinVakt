@@ -17,6 +17,12 @@
     },
     "standard_hours": {
       "type": "integer"
+    },
+    "competences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "required": [
@@ -24,6 +30,7 @@
     "date_start",
     "date_end",
     "absent",
-    "standardHours"
+    "standardHours",
+    "competences"
   ]
 }
