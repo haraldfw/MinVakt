@@ -65,7 +65,9 @@ public class ShiftAccess extends Access<Shift> {
 
     public List<Shift> getShiftsOnDate(Date date) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Shift sh where (:start_date <= sh.endTime) and (:end_date >= sh.startTime)");
+            Query query = session.createQuery("from Shift sh " +
+                    "where (:start_date <= sh.endTime) and (:end_date >= sh.startTime) " +
+                    "order by startTime asc");
             query.setParameter("start_date", setTimeOfDate(date, 0, 0));
             query.setParameter("end_date", setTimeOfDate(date, 23, 59));
             return (List<Shift>) query.list();
@@ -83,7 +85,8 @@ public class ShiftAccess extends Access<Shift> {
 
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift sh " +
-                    "where sh.user.username = :username and :dateFrom < startTime and :dateTo > endTime");
+                    "where sh.user.username = :username and :dateFrom < startTime " +
+                    "and :dateTo > endTime order by startTime asc");
             query.setParameter("username", username);
             query.setParameter("dateFrom", from);
             query.setParameter("dateTo", to);
@@ -93,7 +96,8 @@ public class ShiftAccess extends Access<Shift> {
 
     public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
+            Query query = session.createQuery("from Shift where :dateFrom < startTime " +
+                    "and :dateTo > endTime order by startTime asc");
             query.setParameter("dateFrom", dateFrom);
             query.setParameter("dateTo", dateTo);
             return (List<Shift>) query.list();
@@ -119,7 +123,7 @@ public class ShiftAccess extends Access<Shift> {
             Date to = setTimeOfDate(dateTo, 23, 59);
 
             Query query = session.createQuery("from Shift " +
-                    "where :dateFrom < startTime and :dateTo > endTime and user.id = :user_id");
+                    "where :dateFrom < startTime and :dateTo > endTime and user.id = :user_id order by startTime asc");
             query.setParameter("dateFrom", from);
             query.setParameter("dateTo", to);
             query.setParameter("user_id", userId);
@@ -132,7 +136,9 @@ public class ShiftAccess extends Access<Shift> {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, 15);
             Date date = cal.getTime();
-            Query query = session.createQuery("from Shift shift where shift.user.username = :username and shift.startTime > current_date and shift.startTime < :date");
+            Query query = session.createQuery("from Shift shift " +
+                    "where shift.user.username = :username and shift.startTime > current_date " +
+                    "and shift.startTime < :date");
             query.setParameter("username", username);
             query.setParameter("date", date);
             return (List<Shift>) query.list();
