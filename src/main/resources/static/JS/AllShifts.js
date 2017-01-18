@@ -101,34 +101,50 @@ $(document).ready(function() {
         $("#titleTime").html(text);
     });
 
-    test(from, to);
+    //test(from, to);
 
-
+   // alert("startTest1");
+/*
     $(".day").click(function() {
         alert("testthis");
+        //
+        //FIXME virker ikke
+    });*/
+
+    $("#date").on("changeDate", function(ev) {
         $("#selectDay").css("display", "none");
         $("#selectDay").css("display", "inline");
-        //FIXME virker ikke
     });
 
-    $('#date').datepicker({
+    /*$('#date').datepicker({
         onSelect: function(dateText, inst) {
             var date = $(this).val();
             var time = $('#time').val();
             alert('on select triggered');
             $("#start").val(date + time.toString(' HH:mm').toString());
-            /*
+
 
             //TODO: virker heller ikke
             alert("testthis");
             $("#selectDay").css("display", "none");
-            $("#selectDay").css("display", "inline");*/
+            $("#selectDay").css("display", "inline");
+
+             $("#dpStart").on("dp.change", function(e) {
+             alert('hey');
+             $('#dpEnd').data("DateTimePicker").setMinDate(e.date);
+             });
+
+
         }
-    });
+    });*/
+
+    /*$("#date").on("dp.change", function() {
+     alert("test");
+     });*/
 
 
     $("#response-button").click(function() {
-        $.get("api/shift/2017/30/1", function() {
+        $.get("api/shift/2017/1/30", function() {
             alert("asdasd");
         })
             .done(function() {

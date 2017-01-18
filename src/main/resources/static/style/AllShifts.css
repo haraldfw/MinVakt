@@ -4,7 +4,6 @@ body, head {
 }
 :root {
     --border-color: #7c7c7c;
-
 }
 
 .rad {
@@ -13,18 +12,14 @@ body, head {
     float: left;
     padding: 0;
     border-left: 1px solid var(--border-color);
-
     position: relative;
 }
 
 .timedisplay, .timedisplay-komp {
     background-color: rgba(18, 103, 132, 0.45);
-    /*width: 10%;*/
     min-height: 10%;
     height: 10%;
     border-top: 1px solid var(--border-color);
-
-
 
     /* For at det skal bli ... dersom for mye tekst */
     white-space: nowrap;
@@ -67,24 +62,19 @@ body, head {
     width: 88.88%;
 }
 
-.kompetanse-rad {  }
-
-
-
 .burger-style {
     font-size: 130%;
     color: #1fa3ae;
-
 }
+
 #testingg:hover, #testingg2:hover, #testing:hover, #testing2:hover {
     cursor: pointer;
 }
+
 .burger-style:hover {
     color: #17777f;
     cursor: pointer;
-
 }
-
 
 .shift-box {
     position: absolute;
@@ -96,8 +86,6 @@ body, head {
     line-height: 45px;
     text-align: center;
 
-    /*background-color: #ff9387;
-    border: 1px solid #6c3636;*/
     border-radius: 5px;
 
     /* For at det skal bli ... dersom for mye tekst */
@@ -117,7 +105,6 @@ body, head {
 }
 
 .worker {
-    /*background-color: rgba(0, 191, 0, 0.71);*/
     background-color: rgba(158, 229, 123, 0.75);
     border: 1px solid rgba(64, 185, 56, 0.75);
 }
@@ -134,8 +121,6 @@ body, head {
 .warning-2 {
     background-color: rgba(250, 52, 22, 0.68) !important;
 }
-
-
 
 #shift-1-9test {
     left: calc(11.11% + (11.11%)/3);
@@ -156,9 +141,6 @@ body, head {
     display: none;
 }
 
-#testtest {
-
-}
 #shift-7-19test {
     left: calc(11.11% + ((11.11%)/3)*7);
     width: calc(((11.11%)/3)*12 - 1px);
