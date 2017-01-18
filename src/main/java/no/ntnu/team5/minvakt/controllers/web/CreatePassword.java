@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CreatePassword {
     @RequestMapping("/createpassword")
-    public String createpassword(){
+    public String createpassword() {
         return "createpassword";
     }
 }

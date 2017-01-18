@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.controllers.web;
+package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
@@ -15,7 +15,6 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 
 /**
  * Created by gards on 12-Jan-17.
- *
  */
 
 @RestController
@@ -41,7 +40,7 @@ public class NotificationController {
 
     @Authorize
     @PostMapping("/api/notifications/close_notification")
-    public void closeNotification(Verifier verifier, @RequestParam("notification_id") int notificationId){
+    public void closeNotification(Verifier verifier, @RequestParam("notification_id") int notificationId) {
         accessor.with(access -> {
 
             Notification notification = access.notification.fromId(notificationId);

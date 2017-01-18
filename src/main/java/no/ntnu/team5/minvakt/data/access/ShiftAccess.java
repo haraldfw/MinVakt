@@ -37,7 +37,7 @@ public class ShiftAccess extends Access<Shift> {
         return true; //FIXME: Send accept notification to admin functionality
     }
 
-    public boolean transferOwnership(Shift shift, User newOwner){
+    public boolean transferOwnership(Shift shift, User newOwner) {
         shift.setUser(newOwner);
         return save(shift);
     }
@@ -53,7 +53,7 @@ public class ShiftAccess extends Access<Shift> {
             shift.setEndTime(end);
             save(shift);
             return true;
-        } catch(NullPointerException npe) {
+        } catch (NullPointerException npe) {
             return false;
         }
     }
@@ -140,7 +140,7 @@ public class ShiftAccess extends Access<Shift> {
 
     public void makeUnavailable(Date dateFrom, Date dateTo) {
         List<Shift> shiftsBetweenDates = getShiftsFromDateToDate(dateFrom, dateTo);
-        for(Shift s: shiftsBetweenDates) {
+        for (Shift s : shiftsBetweenDates) {
             s.setAbsent(true);
         }
     }

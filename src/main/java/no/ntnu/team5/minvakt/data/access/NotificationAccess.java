@@ -4,8 +4,6 @@ import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-import org.aspectj.weaver.ast.Not;
-import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -53,7 +51,7 @@ public class NotificationAccess extends Access<Notification> {
         });
     }
 
-    public void closeNotification(Notification notification){
+    public void closeNotification(Notification notification) {
         notification.setClosed(true);
         save(notification);
     }
@@ -70,7 +68,7 @@ public class NotificationAccess extends Access<Notification> {
         save(notification);
     }
 
-    public void generateMessageNotification(Competence competence, String message){
+    public void generateMessageNotification(Competence competence, String message) {
         Notification notification = new Notification(message);
         notification.setCompetence(competence);
         Date date = Calendar.getInstance().getTime(); //Today
