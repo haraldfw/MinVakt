@@ -41,6 +41,12 @@ public class UserAccess extends Access<User> {
         });
     }
 
+    public List<User> getAllContactInfo() {
+        return getDb().transaction(session -> {
+            return session.createQuery("from User order by firstName asc").list();
+        });
+    }
+
     public User getUserFromSecretKey(String username, String resetKey) {
         return getDb().transaction(session -> {
             Query query = session.createQuery(
@@ -61,7 +67,7 @@ public class UserAccess extends Access<User> {
         model.setEmail(user.getEmail());
         model.setPhonenumber(user.getPhonenumber());
         model.setEmploymentPercentage(user.getEmploymentPercentage());
-        model.setCompetances(
+        model.setCompetences(
                 user.getCompetences().stream()
                         .map(Competence::getName)
                         .collect(Collectors.toList()));
@@ -88,5 +94,9 @@ public class UserAccess extends Access<User> {
         navbar.setLoggedIn(true);
         navbar.setUserModel(toModel(fromUsername(username)));
         return navbar;
+    }
+
+    public static List<UserModel> toModel(List<User> list) {
+        return list.stream().map(UserAccess::toModel).collect(Collectors.toList());
     }
 }
