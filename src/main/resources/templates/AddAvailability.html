@@ -1,156 +1,85 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-        <script src="../static/JS/Modal.js"></script>
-        <link rel="stylesheet" href="../static/style/Modal.css">
-        <link rel="stylesheet" href="../static/style/Navbar.css">
-        <script src="../static/JS/Navbar.js"></script>
-    </head>
-    <body>
-    <div class="container">
-        <h2>Tilgjengelighet</h2>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn tilgjengelighet</button>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+<head th:fragment="header">
+    <title>Registrer tilgjengelighet</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
 
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/registeravailability.js"></script>
+    <script th:src="@{/js/Modal.js}" src="../static/js/Modal.js"></script>
+    <link th:href="@{/style/Modal.css}" rel="stylesheet" href="../static/style/Modal.css"/>
+    <link th:href="@{/style/Navbar.css}" rel="stylesheet" href="../static/style/Navbar.css"/>
+</head>
+<body>
+<div th:fragment="content" class="container">
+    <h2>Tilgjengelighet</h2>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn
+        tilgjengelighet
+    </button>
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                        <!--<button type="button" class="close-close" >-->
-                        <i id="close2" class="ion-close close-color" data-dismiss="modal"></i>
-                        <!--</button>-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
 
-                        <h4 class="modal-title">Tilgjengelighet</h4>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--<button type="button" class="close-close" >-->
+                    <i id="close2" class="ion-close close-color" data-dismiss="modal"></i>
+                    <!--</button>-->
 
-                    </div>
+                    <h4 class="modal-title">Tilgjengelighet</h4>
 
-                    <div class="modal-body">
+                </div>
 
-                        <form id="fraDato" method="post" class="form-horizontal">
+                <div class="modal-body">
+                    <form id="availability" action="#" th:action="@{'/api/user/' + ${username} + '/available'}"
+                          th:object="${makeAvailableModel}" method="post">
+                        <div class="form-group">
                             <div class="form-group">
                                 <label class="col-xs-3 control-label" id="fraDatoText">Fra dato</label>
                                 <div class="col-xs-5 date">
-                                    <div class="input-group input-append date" id="inputFra">
-                                        <input type="text" class="form-control" name="date" />
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <div class="input-group input-append date" id="inputFrom">
+                                        <input th:field="*{dateFrom}" type="text" class="form-control"/>
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                 </div>
                             </div>
-
-                        </form>
-
-                        <form id="tilDato" method="post" class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-xs-3 control-label">Til dato</label>
                                 <div class="col-xs-5 date">
                                     <div class="input-group input-append date" id="inputTil">
-                                        <input type="text" class="form-control" name="date" />
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <input th:field="*{dateTo}" type="text" class="form-control"/>
+                                        <span class="input-group-addon add-on"><span
+                                                class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-
-
-                        <br>
-                        <!--Select buttons for time-->
-                        <div id="selectTime">
-                            <!--Fra tid-->
-                            Fra
-                            <div class="btn-group">
-                                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="selection">&nbsp;Time&nbsp;</span><span class="caret "></span>
-                                </button>
-                                <ul class="dropdown-menu scrollable-menu">
-                                    <li><a href="#">00&nbsp;</a></li>
-                                    <li><a href="#">01&nbsp;</a></li>
-                                    <li><a href="#">02&nbsp;</a></li>
-                                    <li><a href="#">03&nbsp;</a></li>
-                                    <li><a href="#">04&nbsp;</a></li>
-                                    <li><a href="#">05&nbsp;</a></li>
-                                    <li><a href="#">06&nbsp;</a></li>
-                                    <li><a href="#">07&nbsp;</a></li>
-                                    <li><a href="#">08&nbsp;</a></li>
-                                    <li><a href="#">09&nbsp;</a></li>
-                                    <li><a href="#">10&nbsp;</a></li>
-                                    <li><a href="#">11&nbsp;</a></li>
-                                    <li><a href="#">12&nbsp;</a></li>
-                                    <li><a href="#">13&nbsp;</a></li>
-                                    <li><a href="#">14&nbsp;</a></li>
-                                    <li><a href="#">15&nbsp;</a></li>
-                                    <li><a href="#">16&nbsp;</a></li>
-                                    <li><a href="#">17&nbsp;</a></li>
-                                    <li><a href="#">18&nbsp;</a></li>
-                                    <li><a href="#">19&nbsp;</a></li>
-                                    <li><a href="#">20&nbsp;</a></li>
-                                    <li><a href="#">21&nbsp;</a></li>
-                                    <li><a href="#">22&nbsp;</a></li>
-                                    <li><a href="#">23&nbsp;</a></li>
-                                </ul>
-                            </div>
-                            :
-                            <div class="btn-group">
-                                <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="selection">&nbsp;Min&nbsp;</span><span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu scrollable-menu">
-                                    <li><a href="#">00&nbsp;</a></li>
-                                    <li><a href="#">05&nbsp;</a></li>
-                                    <li><a href="#">10&nbsp;</a></li>
-                                    <li><a href="#">15&nbsp;</a></li>
-                                    <li><a href="#">20&nbsp;</a></li>
-                                    <li><a href="#">25&nbsp;</a></li>
-                                    <li><a href="#">30&nbsp;</a></li>
-                                    <li><a href="#">35&nbsp;</a></li>
-                                    <li><a href="#">40&nbsp;</a></li>
-                                    <li><a href="#">45&nbsp;</a></li>
-                                    <li><a href="#">50&nbsp;</a></li>
-                                    <li><a href="#">55&nbsp;</a></li>
-                                </ul>
-                            </div>
-                            <!--Til tid-->
-
 
                         </div>
-                        <br>
-
-                        <!--Checkbox for tidsfravær, Velg klokkeslett (hvis ikke, fravær for tid ansatt jobber valgt dag)-->
-                        <input id="chooseTime" type="checkbox">
-                        <label for="chooseTime" class="unselectable label-checkbox">&nbsp; Timetilgjengelighet</label>
-                        <!--TODO: fiks tooltip på klokkeslett-->
-                        <br>
-                        <br>
-                        <!--Checkbox for endagsfravær, dagsfravær for en dag-->
-                        <input id="oneDay" type="checkbox">
-                        <label for="oneDay" class="unselectable label-checkbox">&nbsp; Tilgjengelighet for en hel dag</label><br>
-
-
-                    </div>
-                    <!--TODO:godkjenning av tilgjengelighet-->
-                    <div class="modal-footer">
-                        <div class="form-group">
-                            <div class="col-xs-5 col-xs-offset-2">
-                                <button id="go" type="submit" class="btn btn-default">Legg inn tilgjengelighet</button>
+                        <div class="modal-footer">
+                            <div class="form-group">
+                                <div class="col-xs-5 col-xs-offset-2">
+                                    <button id="go" type="submit" class="btn btn-default">Legg inn tilgjengelighet
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-
+                <!--TODO:godkjenning av tilgjengelighet-->
 
             </div>
 
+
         </div>
+
     </div>
-    </body>
+</div>
+</body>
 </html>
