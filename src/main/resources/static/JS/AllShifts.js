@@ -31,6 +31,7 @@ $(document).ready(function() {
 
         }
         //alert(diff)
+        //FIXME: feil skiftlengde, osv
 
         $("#testtest").css("left", "calc(11.11% + ((11.11%/3)*" + lengde +"))");
         $("#testtest").css("width", "calc((11.11%/3)*" + diff + " - 1px)");

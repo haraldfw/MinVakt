@@ -84,6 +84,7 @@
                             <div class="common-cell"></div>
                             <div class="common-cell"></div>
                             <div class="common-cell"></div>
+                            <div id="shift-7-19test" class="shift-box worker">Fra 01:00 - 09:00</div>
                         </div>
                     </div>
 
@@ -155,19 +156,19 @@
 
                         <div id="modalOwn">
                             Tid:<p></p>
-                            <br></br>
-                            Ditt skift <br></br>
+                            <br/>
+                            Ditt skift <br/>
                             Hvis du vil legge inn fravær gå inn på din egen skiftoversikt
                         </div>
 
 
                         <div id="modalOther">
                             Tid:
-                            <br></br>
-                            Ansatt: m/tlf
-                            <br></br>
+                            <br/>
+                            Ansatt:
+                            <br/>
                             <button id="shiftChange" class="btn btn-default">Be om vaktbytte</button>
-                            <br></br>
+                            <br/>
                             <div id="shiftSelect" style="display: none;">
                                 Velg dato for vakten du vil bytte den vakten her med:
                                 <form id="date" method="post" class="form-horizontal">
@@ -181,31 +182,36 @@
                                         </div>
                                     </div>
                                 </form>
-                                OVERSIKT OVER VAKTER - SELECTION
+                                <label for="shiftSelectedDay">Vakter på valgt dag</label>
+                                <select class="form-control" id="shiftSelectedDay">
+                                    <option>Test 1</option>
+                                    <option>Test 2</option>
+                                    <option>Test 3</option>
+                                    <option>Test 4</option>
+                                    <option>Test 5</option>
+
+                                </select>
+
                             </div>
-                            <!--FIXME: innlogget bruker sitt skift: se info, annen bruker sitt skift: se info + be om vaktbytte,
-                            ledig vakt: sett seg selv på vakt (få godkjenning) + se tilgjengelige personer (spør om vaktbytte for annen person,
-                            hvis ansvarlig og ingen admin på jobb) , vis vaktansvarlig?-->
+
                         </div>
 
                         <div id="modalFree">
                             Tid:
-                            <br></br>
-                            Vis tilgjengelige ansatte som kan ta skiftet.
-                            <br></br>
-                            <label for="sel1">Tilgjengelige ansatte</label>
-                            <select class="form-control" id="sel1">
-                                <option>test</option>
-                                <option>test</option>
-                                <option>test</option>
-                                <option>test</option>
-                                <option>test</option>
-                                <option>test</option>
-                                <option>test</option>
-
+                            <br/>
+                            <br/>
+                            <label for="available">Tilgjengelige ansatte som kan ta skiftet</label>
+                            <select class="form-control" id="available">
+                                <option>Test 1</option>
+                                <option>Test 2</option>
+                                <option>Test 3</option>
+                                <option>Test 4</option>
+                                <option>Test 5</option>
                             </select>
-                            be om ansatt tar skift, fiks for admin<br></br>
-                            Be om å ta skift<br></br>
+                            be om ansatt tar skift, fiks for admin, fiks design<br/>
+                            <br/>
+                            <button class="btn btn-default">Send forespørsel om å ta skift</button>
+
                         </div>
 
                     </div>
@@ -227,7 +233,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <p>Ant ansatte på jobb for: </p><br></br>
+                        <p>Ant ansatte på jobb for: </p><br/>
                         Vis intervall hvor kristisk, hvor mange som må på jobb i intervallet av de ulike kompetansene.
 
 

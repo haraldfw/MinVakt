@@ -19,6 +19,14 @@ body, head {
     min-height: 10%;
     height: 10%;
     border-top: 1px solid #7c7c7c;
+
+
+
+    /* For at det skal bli ... dersom for mye tekst */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .timedisplay:hover {
@@ -102,9 +110,10 @@ padding-right: 3.5%;
 }
 
 .shift-box:hover, .timedisplay:hover {
-    background-color: #9e9e9a !important;
+    /*background-color: #9e9e9a !important;
     /*FIXME: fiks hoverfarger*/
     cursor: pointer;
+    filter: brightness(85%);
 }
 
 .no-worker {
@@ -114,7 +123,7 @@ padding-right: 3.5%;
 
 .worker {
     /*background-color: rgba(0, 191, 0, 0.71);*/
-    background-color: rgba(63, 192, 57, 0.75);
+    background-color: rgba(90, 192, 79, 0.75);
     border: 1px solid rgba(43, 125, 38, 0.75);
 }
 
@@ -165,4 +174,8 @@ padding-right: 3.5%;
 
 #testtest {
 
+}
+#shift-7-19test {
+    left: calc(11.11% + ((11.11%)/3)*7);
+    width: calc(((11.11%)/3)*12 - 1px);
 }
