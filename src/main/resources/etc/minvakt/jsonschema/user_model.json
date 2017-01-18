@@ -22,7 +22,7 @@
     "employment_percentage": {
       "type": "integer"
     },
-    "competances": {
+    "competences": {
       "type": "array",
       "items": {
         "type": "string"
@@ -36,6 +36,7 @@
     "last_name",
     "email",
     "phonenumber",
-    "employment_percentage"
+    "employment_percentage",
+    "competences"
   ]
 }

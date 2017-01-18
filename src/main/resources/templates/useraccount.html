@@ -15,7 +15,8 @@
                 <th>Navn</th>
                 <td class="input-cell">
                     <!--/*@thymesVar id="user" type="no.ntnu.team5.minvakt.model.UserModel"*/-->
-                    <input type="text" th:value="${user.firstName + ' ' + user.lastName}" disabled="disabled"/></td>
+                    <input type="text" th:value="${user.firstName + ' ' + user.lastName}"
+                           disabled="disabled"/></td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
@@ -44,12 +45,15 @@
             </tr>
             <tr>
                 <th>Passord</th>
-                <td><input id="fake-pwd-input" type="text" value="••••••••(NIY)" disabled="disabled"/>
+                <td>
+                    <!--<input id="fake-pwd-input" type="text" value="••••••••(NIY)"/>-->
                     <div id="new-pwd-box">
-                        <input type="password" placeholder="Nåværende passord"/>
-                        <input type="password" placeholder="Nytt passord"/>
-                        <input type="password" placeholder="Gjenta nytt passord"/>
-                        <div id="save-pwd-btn" class="btn btn-primary pull-right">Lagre</div>
+                        <form action="#" th:action="@{/password/reset_wa}" th:object="${passwordResetWithAuth}">
+                            <input type="password" placeholder="Nåværende passord"/>
+                            <input type="password" placeholder="Nytt passord"/>
+                            <input type="password" placeholder="Gjenta nytt passord"/>
+                            <input type="submit" id="save-pwd-btn" class="btn btn-primary pull-right">Lagre</input>
+                        </form>
                     </div>
                 </td>
                 <td><span id="edit-pwd" class="glyphicon glyphicon-edit"></span></td>
