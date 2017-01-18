@@ -132,7 +132,7 @@ table, th, td {
 
 .normal-shift {
     background-color: #f0ad4e;
-    border: 2px solid #dd9c3f;
+    border: 1px solid #dd9c3f;
 }
 
 .normal-shift:hover {
@@ -141,7 +141,7 @@ table, th, td {
 
 .absence-shift {
     background-color: #f05942;
-    border: 2px solid #961d1d;
+    border: 1px solid #961d1d;
 }
 
 .absence-shift:hover {
@@ -150,7 +150,7 @@ table, th, td {
 
 .availible-shift {
     background-color: #5cb85c;
-    border-color: #378c37;
+    border: 1px solid #378c37;
 }
 
 .availible-shift:hover {
