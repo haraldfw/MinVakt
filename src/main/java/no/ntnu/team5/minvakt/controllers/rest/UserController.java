@@ -103,11 +103,11 @@ public class UserController {
         }
     }
     @Authorize
-    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
+    @RequestMapping(value = "/available", method = RequestMethod.POST)
     public boolean makeAvailability(
             Verifier verifier,
-            @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+            @RequestBody MakeAvailableModel mam,
+            @PathVariable String username) {
 
         verifier.ensure(Verifier.isUser(username));
 
