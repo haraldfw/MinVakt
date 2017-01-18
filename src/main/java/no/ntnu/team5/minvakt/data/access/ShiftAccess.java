@@ -97,7 +97,6 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
-
     public List<Shift> getShiftsFromDateToDate(Date dateFrom, Date dateTo) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Shift where :dateFrom < startTime and :dateTo > endTime");
@@ -107,18 +106,31 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
+    private Date setTimeOfDate(Date date, int hours, int minutes) {
+        CALENDAR.setTime(date);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, hours);
+        CALENDAR.set(Calendar.MINUTE, minutes);
+        return CALENDAR.getTime();
+    }
+
     public List<Shift> getShiftsOnDateDays(Date dateFrom, Date dateTo) {
-        CALENDAR.setTime(dateFrom);
-        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
-        CALENDAR.set(Calendar.MINUTE, 0);
-        dateFrom = CALENDAR.getTime();
-
-        CALENDAR.setTime(dateTo);
-        CALENDAR.set(Calendar.HOUR_OF_DAY, 23);
-        CALENDAR.set(Calendar.MINUTE, 59);
-        dateTo = CALENDAR.getTime();
-
+        dateFrom = setTimeOfDate(dateFrom, 0, 0);
+        dateTo = setTimeOfDate(dateTo, 23, 59);
         return getShiftsFromDateToDate(dateFrom, dateTo);
+    }
+
+    public List<Shift> getShiftOnDaysForUser(int userId, Date dateFrom, Date dateTo) {
+        return getDb().transaction(session -> {
+            Date from = setTimeOfDate(dateFrom, 0, 0);
+            Date to = setTimeOfDate(dateTo, 23, 59);
+
+            Query query = session.createQuery("from Shift " +
+                    "where :dateFrom < startTime and :dateTo > endTime and user.id = :user_id");
+            query.setParameter("dateFrom", from);
+            query.setParameter("dateTo", to);
+            query.setParameter("user_id", userId);
+            return (List<Shift>) query.list();
+        });
     }
 
     public List<Shift> getShiftsForAUser(String username) {
