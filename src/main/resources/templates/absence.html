@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+<head th:fragment="header">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css"/>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script th:src="@{/js/Modal.js}" src="../static/js/Modal.js"></script>
+    <link th:href="@{/style/Navbar.css}" rel="stylesheet" href="../static/style/Navbar.css" />
+    <link th:href="@{/style/Modal.css}" rel="stylesheet" href="../static/style/Modal.css" />
+</head>
+<body>
+<div class="container">
+    <h2>Fravær</h2>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absenceModal">Fravær</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="absenceModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i id="close2" class="ion-close close-color" data-dismiss="modal"></i>
+                    <h4 class="modal-title">Fravær</h4>
+                </div>
+
+                <div class="modal-body">
+                    <!--Checkbox for tidsfravær, Velg klokkeslett (hvis ikke, fravær for tid ansatt jobber valgt dag)-->
+                    <input id="chooseTime" type="checkbox"/>
+                    <label for="chooseTime" id="labelChooseTime" class="unselectable label-checkbox">&nbsp;
+                        Timefravær</label>
+                    <!--TODO: fiks tooltip på klokkeslett-->
+
+                    <!--Checkbox for endagsfravær, dagsfravær for en dag-->
+                    <input id="oneDay" type="checkbox"/>
+                    <label for="oneDay" id="labelOneDay" class="unselectable label-checkbox">&nbsp; Fravær for kun en
+                        dag</label><br/>
+                    <br/>
+
+                    <form id="fraDato" method="post" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label" id="fraDatoText">Fra dato</label>
+                            <div class="col-xs-5 date">
+                                <div class="-group input-append date" id="inputFra">
+                                    <input id="fraText" type="text" class="form-control" name="date"/>
+                                    <span class="input-group-addon add-on"><span
+                                            class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form id="tilDato" method="post" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Til dato</label>
+                            <div class="col-xs-5 date">
+                                <div class="input-group input-append date" id="inputTil">
+                                    <input id="tilText" type="text" class="form-control" name="date"/>
+                                    <span class="input-group-addon add-on"><span
+                                            class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <!--Select buttons for time-->
+                    <div id="selectTime">
+                        <!--Fra tid-->
+                        Fra&nbsp;
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span id="timeFra" class="selection">&nbsp;Time&nbsp;</span><span class="caret "></span>
+                            </button>
+                            <ul id="selectHour" class="dropdown-menu scrollable-menu">
+                                <li><a href="#">00&nbsp;</a></li>
+                                <li><a href="#">01&nbsp;</a></li>
+                                <li><a href="#">02&nbsp;</a></li>
+                                <li><a href="#">03&nbsp;</a></li>
+                                <li><a href="#">04&nbsp;</a></li>
+                                <li><a href="#">05&nbsp;</a></li>
+                                <li><a href="#">06&nbsp;</a></li>
+                                <li><a href="#">07&nbsp;</a></li>
+                                <li><a href="#">08&nbsp;</a></li>
+                                <li><a href="#">09&nbsp;</a></li>
+                                <li><a href="#">10&nbsp;</a></li>
+                                <li><a href="#">11&nbsp;</a></li>
+                                <li><a href="#">12&nbsp;</a></li>
+                                <li><a href="#">13&nbsp;</a></li>
+                                <li><a href="#">14&nbsp;</a></li>
+                                <li><a href="#">15&nbsp;</a></li>
+                                <li><a href="#">16&nbsp;</a></li>
+                                <li><a href="#">17&nbsp;</a></li>
+                                <li><a href="#">18&nbsp;</a></li>
+                                <li><a href="#">19&nbsp;</a></li>
+                                <li><a href="#">20&nbsp;</a></li>
+                                <li><a href="#">21&nbsp;</a></li>
+                                <li><a href="#">22&nbsp;</a></li>
+                                <li><a href="#">23&nbsp;</a></li>
+                            </ul>
+                        </div>
+                        :
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span id="minFra" class="selection">&nbsp;Min&nbsp;</span><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu">
+                                <li><a href="#">00&nbsp;</a></li>
+                                <li><a href="#">05&nbsp;</a></li>
+                                <li><a href="#">10&nbsp;</a></li>
+                                <li><a href="#">15&nbsp;</a></li>
+                                <li><a href="#">20&nbsp;</a></li>
+                                <li><a href="#">25&nbsp;</a></li>
+                                <li><a href="#">30&nbsp;</a></li>
+                                <li><a href="#">35&nbsp;</a></li>
+                                <li><a href="#">40&nbsp;</a></li>
+                                <li><a href="#">45&nbsp;</a></li>
+                                <li><a href="#">50&nbsp;</a></li>
+                                <li><a href="#">55&nbsp;</a></li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <!--Til tid-->
+                    <div id="selectTime2">
+                        Til&nbsp;
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span id="timeTil" class="selection">&nbsp;Time&nbsp;</span><span class="caret "></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu">
+                                <li><a href="#">00&nbsp;</a></li>
+                                <li><a href="#">01&nbsp;</a></li>
+                                <li><a href="#">02&nbsp;</a></li>
+                                <li><a href="#">03&nbsp;</a></li>
+                                <li><a href="#">04&nbsp;</a></li>
+                                <li><a href="#">05&nbsp;</a></li>
+                                <li><a href="#">06&nbsp;</a></li>
+                                <li><a href="#">07&nbsp;</a></li>
+                                <li><a href="#">08&nbsp;</a></li>
+                                <li><a href="#">09&nbsp;</a></li>
+                                <li><a href="#">10&nbsp;</a></li>
+                                <li><a href="#">11&nbsp;</a></li>
+                                <li><a href="#">12&nbsp;</a></li>
+                                <li><a href="#">13&nbsp;</a></li>
+                                <li><a href="#">14&nbsp;</a></li>
+                                <li><a href="#">15&nbsp;</a></li>
+                                <li><a href="#">16&nbsp;</a></li>
+                                <li><a href="#">17&nbsp;</a></li>
+                                <li><a href="#">18&nbsp;</a></li>
+                                <li><a href="#">19&nbsp;</a></li>
+                                <li><a href="#">20&nbsp;</a></li>
+                                <li><a href="#">21&nbsp;</a></li>
+                                <li><a href="#">22&nbsp;</a></li>
+                                <li><a href="#">23&nbsp;</a></li>
+                            </ul>
+                        </div>
+                        :
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span id="minTil" class="selection">&nbsp;Min&nbsp;</span><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu">
+                                <li><a href="#">00&nbsp;</a></li>
+                                <li><a href="#">05&nbsp;</a></li>
+                                <li><a href="#">10&nbsp;</a></li>
+                                <li><a href="#">15&nbsp;</a></li>
+                                <li><a href="#">20&nbsp;</a></li>
+                                <li><a href="#">25&nbsp;</a></li>
+                                <li><a href="#">30&nbsp;</a></li>
+                                <li><a href="#">35&nbsp;</a></li>
+                                <li><a href="#">40&nbsp;</a></li>
+                                <li><a href="#">45&nbsp;</a></li>
+                                <li><a href="#">50&nbsp;</a></li>
+                                <li><a href="#">55&nbsp;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+
+
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            <span id="absenceCause" class="selection">&nbsp;Fraværsgrunn&nbsp;</span><span
+                                class="caret "></span>
+                        </button>
+                        <ul class="dropdown-menu scrollable-menu">
+                            <li><a href="#">Egenmelding&nbsp;</a></li>
+                            <li><a href="#">Sykemelding&nbsp;</a></li>
+                            <li><a href="#">Permisjon&nbsp;</a></li>
+                            <li><a href="#">Annet&nbsp;</a></li>
+                        </ul>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <div class="form-group">
+                        <label for="elaboration">Utdypning:</label>
+                        <textarea class="form-control vresize" rows="4" id="elaboration"></textarea>
+                        <!--TODO: fix min size-->
+                    </div>
+
+                </div>
+                <!--TODO:godkjenning av fravær-->
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <div class="col-xs-5 col-xs-offset-2">
+                            <button id="go" type="submit" class="btn btn-default">Legg inn fravær</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--TODO: ikke senere enn to timer før arbeidstid, fiks fortidsfravær-->
+        </div>
+    </div>
+</div>
+</body>
+</html>

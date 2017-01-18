@@ -57,12 +57,21 @@ public class UserWebController {
     }
     @Authorize
     @RequestMapping("/{username}/registeravailability")
-    public String getNextShift(@PathVariable("username") String username,
+    public String registerAvailability(@PathVariable("username") String username,
                                Model model,
                                Verifier verify) {
         verify.ensure(isUser(username));
         model.addAttribute("makeAvailableModel", new MakeAvailableModel());
         return "registeravailability";
+    }
+    @Authorize
+    @RequestMapping("/{username}/absence")
+    public String absence(@PathVariable ("username") String username,
+                          Model model,
+                          Verifier verify) {
+        verify.ensure(isUser(username));
+
+        return "absence";
     }
 
 //    @ModelAttribute("user")
