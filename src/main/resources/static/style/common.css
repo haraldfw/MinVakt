@@ -80,7 +80,7 @@ header {
     margin: 0 auto;     /* 0:up/down, auto:right/left */
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
+    /*transform: translateY(-50%);*/
     border-style: solid;
     border-width: 1px;
     border-color: #4da5ba;

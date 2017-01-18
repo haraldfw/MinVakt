@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.db.Notification;
@@ -36,7 +37,7 @@ public class ShiftController {
         //FIXME: Should authorize as admin?
         int id = accessor.with(access -> {
             User user = access.user.fromID(shiftModel.getUserModel().getId());
-            Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent().byteValue(), shiftModel.getStandardHours().byteValue(), null);
+            Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent(), shiftModel.getStandardHours().byteValue(), null);
 
             access.shift.save(shift);
             return shift.getId();
@@ -72,6 +73,7 @@ public class ShiftController {
                                          @RequestParam("user_id") int user_id,
                                          HttpServletRequest httpServletRequest) {
 
+        verifier.ensure(hasRole(Constants.ADMIN));
         accessor.with(access -> {
 
             System.out.println("Er jeg admin?");
@@ -84,7 +86,7 @@ public class ShiftController {
             Notification notification = access.notification.fromActionURL(actionURL);
             if (notification == null) return;
 
-            Shift shift = access.shift.getShiftFromId(shift_id);
+        Shift shift = shiftAccess.getShiftFromId(shift_id);
 
             if (accept) {
                 User newShiftOwner = access.user.fromID(user_id);

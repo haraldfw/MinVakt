@@ -1,7 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.model.MakeAvailableModel;
+import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,13 +26,18 @@ public class UserWebController {
     @Autowired
     private AccessContextFactory accessor;
 
-    @Authorize
+    @Authorize("/error")
     @RequestMapping("/{username}")
-    public String show(Verifier verifier, @PathVariable("username") String username) {
+    public String show(Verifier verifier, @PathVariable("username") String username, Model model) {
         verifier.ensure(Verifier.isUser(username));
 
-        return "profile";
+        model.addAttribute("user", accessor.with(access -> {
+            return UserAccess.toModel(access.user.fromUsername(username));
+        }));
+
+        return "useraccount";
     }
+
     @Authorize
     @RequestMapping("/{username}/nextshifts")
     public String getNextShift(Verifier verifier,
@@ -50,6 +53,14 @@ public class UserWebController {
         System.out.println(shifts.size());
         model.addAttribute("shifts", shifts);
         return "nextshifts";
+    }
+
+    @RequestMapping("/{username}/registeravailability")
+    public String getNextShift(@PathVariable("username") String username,
+                               Model model) {
+
+        model.addAttribute("makeAvailableModel", new MakeAvailableModel());
+        return "registeravailability";
     }
 
 //    @ModelAttribute("user")

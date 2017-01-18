@@ -5,6 +5,7 @@ import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import org.aspectj.weaver.ast.Not;
+import no.ntnu.team5.minvakt.db.User;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
