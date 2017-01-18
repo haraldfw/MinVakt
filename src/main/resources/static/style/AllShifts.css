@@ -2,13 +2,17 @@ body, head {
     margin: 0;
     padding: 0;
 }
+:root {
+    --border-color: #7c7c7c;
+
+}
 
 .rad {
     width: 100%;
     display: inline-block;
     float: left;
     padding: 0;
-    border-left: 1px solid #7C7C7C;
+    border-left: 1px solid var(--border-color);
 
     position: relative;
 }
@@ -18,7 +22,7 @@ body, head {
     /*width: 10%;*/
     min-height: 10%;
     height: 10%;
-    border-top: 1px solid #7c7c7c;
+    border-top: 1px solid var(--border-color);
 
 
 
@@ -46,8 +50,8 @@ body, head {
     max-height: 45px;
     line-height: 45px;
     overflow: hidden;
-    border-right: 1px solid #7C7C7C;
-    border-bottom: 1px solid #7C7C7C;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .dropdown-cell, .common-cell {
@@ -82,13 +86,6 @@ body, head {
 }
 
 
-/*
-padding-right: 3.5%;
-    padding-left: 3.5%;{
-
-
-*/
-
 .shift-box {
     position: absolute;
     left: 11.11%;
@@ -122,12 +119,12 @@ padding-right: 3.5%;
 .worker {
     /*background-color: rgba(0, 191, 0, 0.71);*/
     background-color: rgba(158, 229, 123, 0.75);
-    border: 1px solid rgba(43, 125, 38, 0.75);
+    border: 1px solid rgba(64, 185, 56, 0.75);
 }
 
 .self {
-    background-color: rgba(138, 130, 180, 0.75);
-    border: 1px solid #6c4477;
+    background-color: rgba(158, 153, 180, 0.75);
+    border: 1px solid #a96aba;
 }
 
 .warning-1 {
@@ -137,17 +134,6 @@ padding-right: 3.5%;
 .warning-2 {
     background-color: rgba(250, 52, 22, 0.68) !important;
 }
-
-/*
-.placeholder-shift {
-    background-color: #7dade6;
-    border-color: #17777f;
-}
-
-.placeholder-shift:hover {
-    background-color: #549ae6;
-    border-color: #17777f;
-}*/
 
 
 
