@@ -134,3 +134,23 @@ header {
 #new-pwd-box .btn {
     margin: 10px 0;
 }
+
+.search-wrap { 
+    position: relative;
+}
+
+.search-wrap .glyphicon.glyphicon-search {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    font-size: 1.15em;
+    color: #666;
+}
+
+.search-query {
+    padding: 0px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    height: 40px;
+}
