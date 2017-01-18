@@ -3,6 +3,7 @@ package no.ntnu.team5.minvakt.data.access;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.NavbarModel;
+import no.ntnu.team5.minvakt.model.NotificationModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
@@ -89,10 +90,11 @@ public class UserAccess extends Access<User> {
         return navbar;
     }
 
-    public NavbarModel getNavbar(String username) {
+    public NavbarModel getNavbar(String username, List<NotificationModel> notifications) {
         NavbarModel navbar = new NavbarModel();
         navbar.setLoggedIn(true);
         navbar.setUserModel(toModel(fromUsername(username)));
+        navbar.setNotificationModels(notifications);
         return navbar;
     }
 

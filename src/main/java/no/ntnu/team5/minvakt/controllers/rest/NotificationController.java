@@ -15,6 +15,7 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 
 /**
  * Created by gards on 12-Jan-17.
+ *
  */
 
 @RestController
@@ -40,9 +41,8 @@ public class NotificationController {
 
     @Authorize
     @PostMapping("/api/notifications/close_notification")
-    public void closeNotification(Verifier verifier, @RequestParam("notification_id") int notificationId) {
+    public void closeNotification(Verifier verifier, @RequestParam("notification_id") int notificationId){
         accessor.with(access -> {
-
             Notification notification = access.notification.fromId(notificationId);
 
             verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole(Constants.ADMIN)));

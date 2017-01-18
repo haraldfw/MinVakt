@@ -6,6 +6,31 @@
     },
     "loggedIn": {
       "type": "boolean"
+    },
+    "notification_models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int"
+          },
+          "message": {
+            "type": "string"
+          },
+          "expiry": {
+            "type": "date-time"
+          },
+          "action_url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message",
+          "expiry",
+          "action_url"
+        ]
+      }
     }
   },
   "required": [
