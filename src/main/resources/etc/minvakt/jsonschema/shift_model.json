@@ -20,7 +20,7 @@
     }
   },
   "required": [
-    "user",
+    "user_model",
     "date_start",
     "date_end",
     "absent",

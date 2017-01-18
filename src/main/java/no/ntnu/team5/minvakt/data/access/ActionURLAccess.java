@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@Scope("singleton")
+@Scope("prototype")
 public class ActionURLAccess extends Access<Notification> {
     public Notification fromActionURL(String actionURL) {
         return getDb().transaction(session -> {
