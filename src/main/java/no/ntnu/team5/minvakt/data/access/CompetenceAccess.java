@@ -22,15 +22,6 @@ public class CompetenceAccess extends Access<Competence> {
         });
     }
 
-    public Set<Competence> getFromNames(List<String> compNames) {
-        Set<Competence> competences = new HashSet<>();
-        for(String name : compNames) {
-            competences.add(new Competence(name));
-        }
-
-        return competences;
-    }
-
     public Competence getFromName(String compName) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Competence where name = :name");
