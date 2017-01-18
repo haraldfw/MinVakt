@@ -76,8 +76,9 @@ public class AvailabilityAccess extends Access<Availability> {
             }
         });
     }
+
     public AvailabilityModel toModel(Availability availability) {
-        AvailabilityModel  model = new AvailabilityModel();
+        AvailabilityModel model = new AvailabilityModel();
         model.setUserId(availability.getUser().getId());
         model.setStartTime(availability.getStartTime());
         model.setEndTime(availability.getEndTime());
