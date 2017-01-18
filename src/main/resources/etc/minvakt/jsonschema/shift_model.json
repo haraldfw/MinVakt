@@ -21,7 +21,7 @@
     "competences": {
       "type": "array",
       "items": {
-        "type": "string"
+        "$ref": "competence.json"
       }
     }
   },
