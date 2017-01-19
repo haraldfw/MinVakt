@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a class="navbar-brand hidden-xs" href="#" style="margin-left: 10px;">
+                    <a class="navbar-brand hidden-xs" href="/" style="margin-left: 10px;">
                         MinVakt
                     </a>
                     <a class="navbar-brand visible-xs"><i
@@ -28,10 +28,10 @@
                                 <p th:text="${n.message}">
                                     <!-- melding havner her -->
                                 </p>
-                                <form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
                                     <button type="submit" class="btn btn-primary">Godta</button>
                                 </form>
-                                <form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
                                     <button type="submit" class="btn btn-primary">Avslå</button>
                                 </form>
                             </a>
@@ -39,7 +39,7 @@
                                 <p th:text="${n.message}">
                                     <!-- melding havner her -->
                                 </p>
-                                <form action="#"
+                                <form class="noti-form"
                                       th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
                                       method="post">
                                     <button type="submit" class="btn btn-primary">Lukk</button>
@@ -65,7 +65,7 @@
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
-        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/shift">Timer</a></li>
+        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/test">Timer</a></li>
         <li class="navbar-item"><a href="/user/availability">Tilgjengelighet</a></li>
         <li class="navbar-item"><a th:href="${'/user/' + username + '/absence'}">Fravær</a></li>
         <li class="navbar-item"><a href="/user/profile" th:text="${username}">Brukernavn her</a></li>
