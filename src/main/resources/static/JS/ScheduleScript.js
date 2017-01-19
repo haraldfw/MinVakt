@@ -70,7 +70,12 @@ $(document).ready(function() {
 
     });*/
 
-    $(".dayInnhold ").on("click", ".shift", function() {
+    /*$(document).on('click', '.dayInnhold .shift', function (e) {
+        console.log('this is the click');
+        e.preventDefault();
+    });*/
+
+    $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
 
 
 
@@ -113,6 +118,7 @@ $(document).ready(function() {
         }
 
         //alert(selectedShift);
+        e.preventDefault();
     });
 
     $("#absenceButton").click(function() {
