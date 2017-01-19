@@ -2,7 +2,6 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.ShiftAccess;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
@@ -12,7 +11,13 @@ import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
@@ -20,7 +25,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 
 /**
  * Created by alan on 11/01/2017.
@@ -59,7 +66,7 @@ public class ShiftController {
         return accessor.with(access -> {
            return access.shift.getAllCurrentWeekForUser(startWeek, username)
                    .stream()
-                   .map(ShiftAccess::toModel)
+                   .map(access.shift::toModel)
                    .collect(Collectors.toList());
         });
     }
@@ -78,7 +85,7 @@ public class ShiftController {
         return accessor.with(access -> {
             return access.shift.getShiftsOnDate(date)
                     .stream()
-                    .map(ShiftAccess::toModel)
+                    .map(access.shift::toModel)
                     .collect(Collectors.toList());
         });
     }

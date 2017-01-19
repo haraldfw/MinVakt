@@ -1,21 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="header">
-    <div style="color: white; background-color: black; text-align: center; padding: 1em; clear: left">
-        <h1>MinVakt</h1>
-    </div>
-</div>
-
-<div th:fragment="headfragment"> <!-- TODO: lag en for head som er i alle filer og en for navbar -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <script th:src="@{/JS/Navbar.js}" src="../static/JS/Navbar.js" type="text/javascript"></script>
-    <link th:href="@{/style/Navbar.css}" href="../static/style/Navbar.css" rel="stylesheet" type="text/css"/>
-</div>
-
 <div th:fragment="navbar">
     <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
         <div class="container-fluid">
@@ -67,7 +51,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
-                        <p th:text="#{user.username}">Ola Nordmann</p>
+                        <p th:text="${username}">Ola Nordmann</p>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -81,22 +65,13 @@
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
-        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="#timer">Timer</a>
-        </li>
+        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/shift">Timer</a></li>
         <li class="navbar-item"><a href="/user/availability">Tilgjengelighet</a></li>
-        <li class="navbar-item"><a href="/user/absence">Fravær</a></li>
-        <!--<li class="navbar-item"><a href="/user/profile" th:text="${user.username}">Brukernavn her</a></li>-->
-        <li class="navbar-item"><a href="/user/profile">Brukernavn her</a></li>
+        <li class="navbar-item"><a th:href="${'/user/' + username + '/absence'}">Fravær</a></li>
+        <li class="navbar-item"><a href="/user/profile" th:text="${username}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>
 </div>
-
-<div th:fragment="footer">
-    <div style="color: white; background-color: black; text-align: center; padding: 1em; clear: left">
-        Copyright &copy; Gruppe 5
-    </div>
-</div>
-
 </html>

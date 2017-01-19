@@ -20,7 +20,7 @@ import java.util.List;
 
 @Component
 @Scope("prototype")
-public class NotificationAccess extends Access<Notification> {
+public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Notification noti where noti.user.username = :username and closed = false");
@@ -103,5 +103,11 @@ public class NotificationAccess extends Access<Notification> {
         notification.setExpiry(expiry);
 
         save(notification);
+    }
+
+    @Override
+    NotificationModel toModel(Notification notification) {
+        //TODO: hello
+        return null;
     }
 }
