@@ -22,10 +22,7 @@ header {
 }
 
 .content {
-    position: relative;
-    margin-left: 4%;
-    margin-right: 4%;
-    margin-top: 7%;
+    margin-top: 5%;
 }
 
 #kebab {
