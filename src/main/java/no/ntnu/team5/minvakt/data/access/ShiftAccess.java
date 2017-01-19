@@ -2,14 +2,14 @@ package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.model.Competence;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Kenan on 1/12/2017.
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Scope("prototype")
-public class ShiftAccess extends Access<Shift> {
+public class ShiftAccess extends Access<Shift, ShiftModel> {
     private static final Calendar CALENDAR = Calendar.getInstance();
 
     static {
@@ -144,14 +144,14 @@ public class ShiftAccess extends Access<Shift> {
         });
     }
 
-    public static ShiftModel toModel(Shift shift) {
+    public ShiftModel toModel(Shift shift) {
         ShiftModel model = new ShiftModel();
         model.setAbsent(shift.getAbsent());
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
-        model.setUserModel(UserAccess.toModel(shift.getUser()));
-        model.setCompetences(CompetenceAccess.toModel(shift.getCompetences()));
+        model.setUserModel(getContext().user.toModel(shift.getUser()));
+        model.setCompetences(getContext().competence.toModel(shift.getCompetences()));
 
         return model;
     }
@@ -225,9 +225,5 @@ public class ShiftAccess extends Access<Shift> {
             query.setParameter("end", end);
             return query.list();
         });
-    }
-
-    public static List<ShiftModel> toModel(List<Shift> list) {
-        return list.stream().map(ShiftAccess::toModel).collect(Collectors.toList());
     }
 }

@@ -88,6 +88,7 @@ body, head {
     color: #17777f;
     cursor: pointer;
 }
+
 .scrollable-menu {
     height: auto;
     max-height: 200px;

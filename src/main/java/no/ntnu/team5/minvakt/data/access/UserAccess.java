@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Scope("prototype")
-public class UserAccess extends Access<User> {
+public class UserAccess extends Access<User, UserModel> {
     public User fromID(int userId) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("from User where id = :id");
@@ -59,7 +59,7 @@ public class UserAccess extends Access<User> {
         });
     }
 
-    public static UserModel toModel(User user) {
+    public UserModel toModel(User user) {
         UserModel model = new UserModel();
         model.setId(user.getId());
         model.setUsername(user.getUsername());
@@ -96,9 +96,5 @@ public class UserAccess extends Access<User> {
         navbar.setUserModel(toModel(fromUsername(username)));
         navbar.setNotificationModels(notifications);
         return navbar;
-    }
-
-    public static List<UserModel> toModel(List<User> list) {
-        return list.stream().map(UserAccess::toModel).collect(Collectors.toList());
     }
 }

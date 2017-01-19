@@ -2,7 +2,6 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
@@ -124,7 +123,7 @@ public class UserController {
         verifier.ensure(or(isUser(username), hasRole("admin")));
 
         return accessor.with(access -> {
-            return UserAccess.toModel(access.user.fromUsername(username));
+            return access.user.toModel(access.user.fromUsername(username));
         });
     }
 

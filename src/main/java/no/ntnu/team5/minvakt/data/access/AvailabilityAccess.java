@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Component
 @Scope("prototype")
-public class AvailabilityAccess extends Access<Availability> {
+public class AvailabilityAccess extends Access<Availability, AvailabilityModel> {
     public boolean makeAvailable(User user, Date from, Date to) {
         Availability av = new Availability();
         av.setUser(user);

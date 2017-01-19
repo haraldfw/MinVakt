@@ -1,9 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
-import io.jsonwebtoken.Jwts;
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.PasswordResetWithAuth;
@@ -30,7 +28,7 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 
 @Controller
 @RequestMapping("/user")
-public class UserWebController {
+public class UserWebController extends NavBarController {
     @Autowired
     private AccessContextFactory accessor;
 
@@ -40,7 +38,7 @@ public class UserWebController {
         verifier.ensure(Verifier.isUser(username));
 
         model.addAttribute("user", accessor.with(access -> {
-            return UserAccess.toModel(access.user.fromUsername(username));
+            return access.user.toModel(access.user.fromUsername(username));
         }));
 
         return "useraccount";
@@ -100,7 +98,7 @@ public class UserWebController {
     @GetMapping("/list")
     public String users(Model model) {
         model.addAttribute("users", accessor.with(accessContext -> {
-            return UserAccess.toModel(accessContext.user.getAllContactInfo());
+            return accessContext.user.toModel(accessContext.user.getAllContactInfo());
         }));
         return "employeeoverview";
     }
