@@ -10,6 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,15 +29,15 @@ public class JWT {
         SECURE_KEY = Base64.encodeBase64String(salt);
     }
 
-    static private java.util.Date expieryDate(){
-        Instant ins = new java.util.Date().toInstant().plusSeconds(60 * 30);
-        java.util.Date date = java.util.Date.from(ins);
+    static private Date expieryDate() {
+        Instant ins = new Date().toInstant().plusSeconds(60 * 30);
+        Date date = Date.from(ins);
 
         System.out.println(date);
-        return java.util.Date.from(ins);
+        return Date.from(ins);
     }
 
-    static public String generate(User user){
+    static public String generate(User user) {
         //TODO: Add some claims(iss, aud)?
         HashMap<String, Object> claims = new HashMap<>();
 
