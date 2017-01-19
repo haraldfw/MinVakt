@@ -9,6 +9,7 @@ import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.expression.Dates;
 
@@ -27,7 +28,7 @@ public class WelcomeController extends NavBarController {
     static private final Dates DATES = new Dates(new Locale("nb"));
 
     @Authorize("/")
-    @RequestMapping("/welcome")
+    @GetMapping("/welcome")
     public String welcome(Verifier verifier, Model model) {
 
         accessor.with(access -> {
@@ -53,6 +54,12 @@ public class WelcomeController extends NavBarController {
             model.addAttribute("first", first);
             model.addAttribute("upcoming", upcoming);
         });
+        return "welcome";
+    }
+
+    @Authorize("/login")
+    @GetMapping("/")
+    public String showSlash() {
         return "welcome";
     }
 }
