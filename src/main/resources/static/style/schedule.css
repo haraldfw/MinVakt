@@ -9,6 +9,10 @@ table, th, td {
     height: 95vh;
 }
 
+.content {
+    height: 95vh;
+}
+
 .dayDisplay {
     width: 14.285714%;
     height: 99.2%;/*100%;*/

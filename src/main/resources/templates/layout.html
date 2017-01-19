@@ -24,6 +24,6 @@
 <body>
 <header th:if="${username != null}" th:include="fragments :: navbar"></header>
     <!-- This line is replaced by content from other template -->
-<div class="content" th:include="this :: content"></div>
+<div class="content container" th:include="this :: content"></div>
 </body>
 </html>
