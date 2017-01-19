@@ -3,6 +3,7 @@ package no.ntnu.team5.minvakt.security.auth.intercept;
 import io.jsonwebtoken.Claims;
 import no.ntnu.team5.minvakt.security.auth.JWT;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.Cookies;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Created by alan on 14/01/2017.
@@ -19,12 +19,7 @@ import java.util.stream.Stream;
 
 public class AuthorizeHandler {
     public static boolean handle(HttpServletRequest request, HttpServletResponse response, HandlerMethod hm, Authorize annotation) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) return false;
-
-        Optional<Cookie> token = Stream.of(cookies)
-                .filter(cookie -> cookie.getName().equals("access_token"))
-                .findAny();
+        Optional<Cookie> token = Cookies.getCookie(request, "access_token");
 
         if (!token.isPresent()) {
             return fail(annotation.value(), response);

@@ -6,15 +6,11 @@
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a class="navbar-brand hidden-xs" href="/" style="margin-left: 10px;">
+                    <a class="navbar-brand hidden-xs" th:href="@{/}" style="margin-left: 10px;">
                         MinVakt
                     </a>
                     <a class="navbar-brand visible-xs"><i
                             class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
-
-                </li>
-                <li class="active">
-                    <a class="hidden-xs" href="#">asda</a>
                 </li>
             </ul>
 
@@ -62,7 +58,7 @@
     <ul id="navbar-side" class="navbar-side-ute">
         <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/test">Timer</a></li>
         <li class="navbar-item"><a th:href="@{'/user/' + ${navbar.username} + '/availability'}">Tilgjengelighet</a></li>
-        <li class="navbar-item"><a th:href="${'/user/' + username + '/absence'}">Fravær</a></li>
+        <li class="navbar-item"><a th:href="${'/user/' + navbar.username + '/absence'}">Fravær</a></li>
         <li class="navbar-item"><a href="/user/profile" th:text="${navbar.username}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
