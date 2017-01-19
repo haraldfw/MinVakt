@@ -62,7 +62,7 @@ public class UserWebController extends NavBarController {
     }
 
     @Authorize
-    @RequestMapping("/{username}/AddAvailability")
+    @RequestMapping("/{username}/availability")
     public String registerAvailability(@PathVariable("username") String username,
                                Model model,
                                Verifier verify) {
@@ -70,7 +70,7 @@ public class UserWebController extends NavBarController {
         model.addAttribute("makeAvailableModel", new MakeAvailableModel());
         return "AddAvailability";
     }
-    @Authorize
+    @Authorize("/")
     @RequestMapping("/{username}/absence")
     public String absence(@PathVariable ("username") String username,
                           Model model,
@@ -80,7 +80,7 @@ public class UserWebController extends NavBarController {
         return "absence";
     }
 
-    @Authorize
+    @Authorize("/")
     @GetMapping("/profile")
     public String getProfile(Verifier verifier, Model model) {
         String username = verifier.claims.getSubject();

@@ -24,21 +24,16 @@ public class ShiftWebController extends NavBarController {
     @Autowired
     private AccessContextFactory accessor;
 
-    @Authorize
+    @Authorize("/")
     @GetMapping
     public String site(Model model, Verifier verifier) {
         accessor.with(access -> {
             model.addAttribute("shifts", access.shift.toModel(access.shift.getAllCurrentMonth()));
 
             String username = verifier.claims.getSubject();
-            List<Notification> notifications = access.notification.fromUsername(username);
-            List<NotificationModel> notificationModels = access.notification.convertToModel(notifications);
-            model.addAttribute("notifications", notificationModels);
 
             UserModel userModel = access.user.toModel(access.user.fromUsername(username));
             model.addAttribute("user", userModel);
-
-            model.addAttribute("navbar", access.user.getNavbar(username, notificationModels));
         });
 
         return "schedule";

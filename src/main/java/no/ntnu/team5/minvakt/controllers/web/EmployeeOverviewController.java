@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
+import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class EmployeeOverviewController {
+    @Authorize("/")
     @RequestMapping("/employeeoverview")
     public String employeeoverview(){
         return "employeeoverview";

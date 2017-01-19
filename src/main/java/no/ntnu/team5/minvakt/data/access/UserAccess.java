@@ -83,18 +83,4 @@ public class UserAccess extends Access<User, UserModel> {
             return (User) query.uniqueResult();
         });
     }
-
-    public NavbarModel getNavbar() {
-        NavbarModel navbar = new NavbarModel();
-        navbar.setLoggedIn(false);
-        return navbar;
-    }
-
-    public NavbarModel getNavbar(String username, List<NotificationModel> notifications) {
-        NavbarModel navbar = new NavbarModel();
-        navbar.setLoggedIn(true);
-        navbar.setUserModel(toModel(fromUsername(username)));
-        navbar.setNotificationModels(notifications);
-        return navbar;
-    }
 }
