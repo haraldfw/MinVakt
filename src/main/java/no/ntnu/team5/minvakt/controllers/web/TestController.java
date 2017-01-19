@@ -16,27 +16,6 @@ public class TestController {
 
     @GetMapping("/test")
     public String test() {
-        accessor.with(access -> {
-            Competence comp = new Competence("arne");
-
-            access.competence.save(comp);
-        });
-
-        accessor.with(access -> {
-            Competence comp = new Competence("arne2");
-
-            access.competence.save(comp);
-        });
-
-        accessor.with(access -> {
-        });
-        accessor.with(access -> {
-        });
-        accessor.with(access -> {
-        });
-        accessor.with(access -> {
-        });
-
         return "YourSchedule";
     }
 }
