@@ -62,7 +62,7 @@ public class UserWebController extends NavBarController {
     }
 
     @Authorize
-    @RequestMapping("/{username}/AddAvailability")
+    @RequestMapping("/{username}/availability")
     public String registerAvailability(@PathVariable("username") String username,
                                Model model,
                                Verifier verify) {
