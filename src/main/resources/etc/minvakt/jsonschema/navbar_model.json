@@ -1,11 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "user_model": {
-      "$ref": "user_model.json"
-    },
-    "loggedIn": {
-      "type": "boolean"
+    "username": {
+      "type": "string"
     },
     "notification_models": {
       "type": "array",

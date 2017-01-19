@@ -107,7 +107,14 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
 
     @Override
     NotificationModel toModel(Notification notification) {
-        //TODO: hello
-        return null;
+        NotificationModel notificationModel = new NotificationModel();
+        notificationModel.setActionUrl(notification.getActionUrl());
+        notificationModel.setExpiry(notification.getExpiry());
+        notificationModel.setMessage(notification.getMessage());
+        notificationModel.setId(notification.getId());
+
+        return notificationModel;
     }
+
+
 }

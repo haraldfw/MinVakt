@@ -23,7 +23,7 @@
                        aria-expanded="false">
                         <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
                     <ul class="dropdown-menu">
-                        <li th:each="n: ${notifications}">
+                        <li th:each="n: ${navbar.notificationModels}">
                             <a th:if="${n.actionUrl} != null">
                                 <p th:text="${n.message}">
                                     <!-- melding havner her -->
@@ -51,7 +51,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
-                        <p th:text="${username}">Ola Nordmann</p>
+                        <p th:text="${navbar.username}">Ola Nordmann</p>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -68,7 +68,7 @@
         <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/shift">Timer</a></li>
         <li class="navbar-item"><a href="/user/availability">Tilgjengelighet</a></li>
         <li class="navbar-item"><a th:href="${'/user/' + username + '/absence'}">Fravær</a></li>
-        <li class="navbar-item"><a href="/user/profile" th:text="${username}">Brukernavn her</a></li>
+        <li class="navbar-item"><a href="/user/profile" th:text="${navbar.username}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
