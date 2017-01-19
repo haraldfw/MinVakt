@@ -44,11 +44,6 @@ public class WelcomeController extends NavBarController {
                 upcoming = shifts.subList(1, shiftsSize);
             }
 
-            String username = verifier.claims.getSubject();
-            List<Notification> notifications = access.notification.fromUsername(username);
-            List<NotificationModel> notificationModels = access.notification.convertToModel(notifications);
-            model.addAttribute("notifications", notificationModels);
-
             model.addAttribute("dates", DATES);
             model.addAttribute("first", first);
             model.addAttribute("upcoming", upcoming);
