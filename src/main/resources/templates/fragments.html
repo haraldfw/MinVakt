@@ -2,18 +2,15 @@
 
 <div th:fragment="navbar">
     <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
+        <span th:id="username" style="display: none" th:text="${navbar.username}"></span>
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a class="navbar-brand hidden-xs" href="/" style="margin-left: 10px;">
+                    <a class="navbar-brand hidden-xs" th:href="@{/}" style="margin-left: 10px;">
                         MinVakt
                     </a>
                     <a class="navbar-brand visible-xs"><i
                             class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
-
-                </li>
-                <li class="active">
-                    <a class="hidden-xs" href="#">asda</a>
                 </li>
             </ul>
 
@@ -48,17 +45,11 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">
-                        <p th:text="${navbar.username}">Ola Nordmann</p>
-                        <span class="caret"></span>
+                <li>
+                    <a th:if="${user} == null" href="/user/profile" th:text="${navbar.username}">
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a>Endre profilinstillinger</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a>Logg ut</a></li>
-                    </ul>
+                    <a th:if="${user} != null" href="/user/profile" th:text="${user.firstName + ' ' + user.lastName}">
+                    </a>
                 </li>
             </ul>
         </div>
