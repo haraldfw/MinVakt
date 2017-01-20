@@ -35,13 +35,13 @@ public class PasswordUtil {
         return inputHashed.equals(hash);
     }
 
-    public static LoginResponse login(User user, String password) {
+    public static LoginResponse login(User user, String password, boolean remember) {
         boolean isVerified = user != null && PasswordUtil.verifyPassword(password, user.getPasswordHash(), user.getSalt());
 
         LoginResponse lr = new LoginResponse();
         if (isVerified) {
             lr.setSuccess(true);
-            String token = JWT.generate(user);
+            String token = JWT.generate(user, remember);
             lr.setToken(token);
         } else {
             lr.setSuccess(false);
