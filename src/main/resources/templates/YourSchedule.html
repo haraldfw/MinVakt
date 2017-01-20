@@ -1,23 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layout :: mainLayout">
-<head th:fragment="header">
-    <link th:href="@{/style/Schedule.css}" rel="stylesheet" href="../static/style/schedule.css"/>
-    <link rel="stylesheet"
-          href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css"/>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MinVakt</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="/style/navbar.css"/>
+
+    <!-- Ikke endre her no, det virker -->
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/navbar.js"></script>
+
+    <link th:href="@{/style/Schedule.css}" rel="stylesheet" href="../static/style/schedule.css" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
     <script th:src="@{/JS/ScheduleScript.js}" type="text/javascript" src="../static/JS/ScheduleScript.js"></script>
     <script th:src="@{/JS/Modal.js}" src="../static/JS/Modal.js" type="text/javascript"></script>
-    <link th:href="@{/style/Modal.css}" rel="stylesheet" href="../static/style/Modal.css"/>
+    <link th:href="@{/style/Modal.css}" rel="stylesheet" href="../static/style/Modal.css" />
+
 </head>
+<body>
 
-<div th:fragment="content" class="container test">
+<div th:include="fragments :: navbar"></div>
 
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absenceModal">Legg inn fravær
-    </button>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn
-        tilgjengelighet
-    </button>
-    <button id="refresh-button" type="button" class="btn btn-info">Test refresh</button>
+
+<div class="container test">
+
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absenceModal">Legg inn fravær</button>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn tilgjengelighet</button>
 
     <div class="shiftsheet" style="margin-top: 20px;">
 
@@ -36,8 +51,7 @@
                 <div class="line-box"><p class="time-display">16:00</p></div>
                 <div class="line-box"><p class="time-display">18:00</p></div>
                 <div class="line-box"><p class="time-display">20:00</p></div>
-                <div class="line-box"><p class="time-display">22:00</p>
-                    <p class="time-display-bottom">24:00</p></div>
+                <div class="line-box"><p class="time-display">22:00</p><p class="time-display-bottom">24:00</p></div>
                 <!-- Tider på venstre side av tabellen -->
                 <!-- slutt tider til venstre -->
             </div>
@@ -169,8 +183,7 @@
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading" data-toggle="collapse" href="#co-worker-collapse">
-                            <a data-toggle="collapse" href="#co-worker-collapse">Vis ansatte som jobber samtidig som
-                                dette skiftet</a>
+                            <a data-toggle="collapse" href="#co-worker-collapse">Vis ansatte som jobber samtidig som dette skiftet</a>
                         </div>
                         <div id="co-worker-collapse" class="panel-collapse collapse">
                             <div class="panel-body co-worker-panel-box">John Doe</div>
@@ -233,6 +246,7 @@
 </div>
 
 
+
 <!-- Modal for basic yes/no pop-up -->
 <div id="modalYesNo" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm" id="modal-dialogYesNo">
@@ -262,8 +276,7 @@
             </div>
             <!-- modal body -->
             <div class="modal-body">
-                <label>Navn:&nbsp;&nbsp;</label>
-                <p class="co-worker-name" style="display: inline-block;">Ola Nordmann</p>
+                <label>Navn:&nbsp;&nbsp;</label><p class="co-worker-name" style="display: inline-block;">Ola Nordmann</p>
                 <br></br>
 
                 <!-- Endre farge på knappene? -->
@@ -272,8 +285,7 @@
                 <button class="btn btn-primary" type="button"><i class="ion-ios-telephone"></i> Ring</button>
                 <br></br>
 
-                <label>Addresse: </label>
-                <p style="display: inline-block;">&nbsp;&nbsp;Kongens gate 1, Trondheim</p>
+                <label>Addresse: </label><p style="display: inline-block;">&nbsp;&nbsp;Kongens gate 1, Trondheim</p>
                 <br></br>
 
                 <label>Epost addresse:&nbsp;&nbsp;</label><a href="mailto:text@minvakt.no">text@minvakt.no</a>
@@ -282,6 +294,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 
 <!-- Modal for å legge til fravær -->
@@ -297,15 +312,13 @@
 
             <div class="modal-body">
                 <!--Checkbox for tidsfravær, Velg klokkeslett (hvis ikke, fravær for tid ansatt jobber valgt dag)-->
-                <input id="chooseTime" type="checkbox"/>
-                <label for="chooseTime" id="labelChooseTime" class="unselectable label-checkbox">&nbsp;
-                    Timefravær</label>
+                <input id="chooseTime" type="checkbox" />
+                <label for="chooseTime" id="labelChooseTime" class="unselectable label-checkbox">&nbsp; Timefravær</label>
                 <!--TODO: fiks tooltip på klokkeslett-->
 
                 <!--Checkbox for endagsfravær, dagsfravær for en dag-->
-                <input id="oneDay" type="checkbox"/>
-                <label for="oneDay" id="labelOneDay" class="unselectable label-checkbox">&nbsp; Fravær for kun en
-                    dag</label>
+                <input id="oneDay" type="checkbox" />
+                <label for="oneDay" id="labelOneDay" class="unselectable label-checkbox">&nbsp; Fravær for kun en dag</label>
                 <br></br>
                 <br></br>
 
@@ -314,9 +327,8 @@
                         <label class="col-xs-3 control-label" id="fraDatoText">Fra dato</label>
                         <div class="col-xs-5 date">
                             <div class="input-group input-append date" id="inputFra">
-                                <input id="fraText" type="text" class="form-control" name="date"/>
-                                <span class="input-group-addon add-on"><span
-                                        class="glyphicon glyphicon-calendar"></span></span>
+                                <input id="fraText" type="text" class="form-control" name="date" />
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                     </div>
@@ -327,9 +339,8 @@
                         <label class="col-xs-3 control-label">Til dato</label>
                         <div class="col-xs-5 date">
                             <div class="input-group input-append date" id="inputTil">
-                                <input id="tilText" type="text" class="form-control" name="date"/>
-                                <span class="input-group-addon add-on"><span
-                                        class="glyphicon glyphicon-calendar"></span></span>
+                                <input id="tilText" type="text" class="form-control" name="date" />
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                     </div>
@@ -341,8 +352,7 @@
                     <!--Fra tid-->
                     Fra&nbsp;
                     <div class="btn-group">
-                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span id="timeFra" class="selection">&nbsp;Time&nbsp;</span><span class="caret "></span>
                         </button>
                         <ul id="selectHour" class="dropdown-menu scrollable-menu">
@@ -374,8 +384,7 @@
                     </div>
                     :
                     <div class="btn-group">
-                        <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span id="minFra" class="selection">&nbsp;Min&nbsp;</span><span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu scrollable-menu">
@@ -395,13 +404,14 @@
                     </div>
 
 
+
+
                 </div>
                 <!--Til tid-->
                 <div id="selectTime2">
                     Til&nbsp;
                     <div class="btn-group">
-                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span id="timeTil" class="selection">&nbsp;Time&nbsp;</span><span class="caret "></span>
                         </button>
                         <ul class="dropdown-menu scrollable-menu">
@@ -433,8 +443,7 @@
                     </div>
                     :
                     <div class="btn-group">
-                        <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-default btn-sm dropdown-toggle button-sizing" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span id="minTil" class="selection">&nbsp;Min&nbsp;</span><span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu scrollable-menu">
@@ -458,10 +467,8 @@
 
 
                 <div class="btn-group">
-                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                        <span id="absenceCause" class="selection">&nbsp;Fraværsgrunn&nbsp;</span><span
-                            class="caret "></span>
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="absenceCause" class="selection">&nbsp;Fraværsgrunn&nbsp;</span><span class="caret "></span>
                     </button>
                     <ul class="dropdown-menu scrollable-menu">
                         <li><a href="#">Egenmelding&nbsp;</a></li>
@@ -494,4 +501,7 @@
     </div>
 
 </div><!-- Slutt modal fravær -->
+
+
+</body>
 </html>

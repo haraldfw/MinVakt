@@ -9,6 +9,8 @@ $(document).ready(function() {
     var questionAnswer = false;
     var shiftType = -1; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift, 3 = ??, 4 =
 
+    var username = $("#username").html();
+
     /* For displaying the weeknames and current month*/
     var dayCounter = 1;
     var today = new Date();
@@ -23,8 +25,8 @@ $(document).ready(function() {
         dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
     });
 
-    $("#refresh-button").click(function() {
-        $.get("/api/shift/haraldfw/week", function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: legg inn brukernavn som er pålogget
+    function getShifts() {
+        $.get("/api/shift/" + username +"/week", function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: legg inn brukernavn som er pålogget
             //alert("okidoki" + data);
         }).done(function(data) {
             var jsonArray = data;
@@ -56,18 +58,24 @@ $(document).ready(function() {
                 $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
             }
 
-            alert("DONE. ok" + data);
+            //alert("DONE. ok" + data);
         }).fail(function() {
             alert("Det skjedde en feil med innhenting av skift for brukeren.");
         });
-    });
+    };
+    getShifts();
 
 
     /*$(".dayInnhold").click(function() {
 
     });*/
 
-    $(".dayInnhold ").on("click", ".shift", function() {
+    /*$(document).on('click', '.dayInnhold .shift', function (e) {
+        console.log('this is the click');
+        e.preventDefault();
+    });*/
+
+    $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
 
 
 
@@ -110,6 +118,7 @@ $(document).ready(function() {
         }
 
         //alert(selectedShift);
+        e.preventDefault();
     });
 
     $("#absenceButton").click(function() {
