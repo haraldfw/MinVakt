@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-public class CreatePassword {
-    @RequestMapping("/createpassword")
+public class SetPassword {
+    @RequestMapping("/setpassword")
     public String createpassword() {
-        return "createpassword";
+        return "setpassword";
     }
 }
