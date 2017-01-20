@@ -27,7 +27,7 @@ $(document).ready(function () {
      alert("inne remove");
      }
      }
-
+     <!-- TODO: ikke fjern kommentarer -->
      $(".close-close").removeClass("ion-close").addClass("ion-navicon-round");
      $(".close-iconburger").removeClass("ion-close").addClass("ion-navicon-round");
      $("#navbar-side").addClass("navbar-side-ute").removeClass("navbar-side-inne");

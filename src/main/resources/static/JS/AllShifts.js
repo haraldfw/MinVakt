@@ -5,6 +5,7 @@
 /*
 left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
 width: calc(((11.11%)/3)*8 - calc((11.11%)/3) - 1px);
+TODO: ikke fjern
 */
 
 
@@ -34,15 +35,10 @@ $(document).ready(function() {
                     var minToPros = minTo/60;
 
                     if(startTime.getFullYear() === endTime.getFullYear() && startTime.getMonth() === endTime.getMonth() && startTime.getDate() === endTime.getDate()) {
-
                         var diff = hourTo+minToPros-hourFrom+minFromPros; //7h
-
                     } else {
 
                     }
-
-
-
 
 
                     var lengde = hourFrom+minFromPros;
@@ -156,7 +152,7 @@ $(document).ready(function() {
      diff %= 100;
 
      }*/
-    /*
+    /* TODO: ikkje fjern noko!!!!!
      $("#testtest").css("left", "calc(11.11% + ((11.11%/3)*" + lengde +"))");
      $("#testtest").css("width", "calc((11.11%/3)*" + diff + " - 1px)");
      $("#testtest").addClass("worker");
