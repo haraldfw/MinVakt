@@ -33,13 +33,17 @@ $(document).ready(function() {
                     var minFromPros = minFrom/60;
                     var minToPros = minTo/60;
 
-                    alert(hourTo);
-                    alert(minToPros);
-                    alert(hourFrom);
-                    alert(minFromPros);
-                    alert("ny");
+                    if(startTime.getFullYear() === endTime.getFullYear() && startTime.getMonth() === endTime.getMonth() && startTime.getDate() === endTime.getDate()) {
 
-                    var diff = hourTo+minToPros-hourFrom+minFromPros; //7h
+                        var diff = hourTo+minToPros-hourFrom+minFromPros; //7h
+
+                    } else {
+
+                    }
+
+
+
+
 
                     var lengde = hourFrom+minFromPros;
                     var komp = "test2";

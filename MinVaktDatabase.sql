@@ -208,11 +208,11 @@ VALUES ('gardste', 'Gard', 'Stenvik', 'gardste@gmail.com', '666', 100, 'INSERT I
 
 -- Shift
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (1, '2017-01-17 10:00:00', '2017-01-27 18:00:00', 8, 0);
+VALUES (1, '2017-01-20 10:00:00', '2017-01-21 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (1, '2017-01-18 10:00:00', '2017-01-28 18:00:00', 8, 0);
+VALUES (1, '2017-01-19 10:00:00', '2017-01-20 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (1, '2017-01-19 10:00:00', '2017-01-29 18:00:00', 8, 0);
+VALUES (1, '2017-01-20 10:00:00', '2017-01-20 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (1, '2017-01-30 10:00:00', '2017-01-30 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
@@ -232,17 +232,22 @@ VALUES (2, '2017-01-29 12:00:00', '2017-01-29 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-30 12:00:00', '2017-01-30 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (3, '2017-01-25 20:00:00', '2017-01-25 10:00:00', 14, 0);
+VALUES (3, '2017-01-25 20:00:00', '2017-01-26 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (3, '2017-01-26 20:00:00', '2017-01-26 10:00:00', 14, 0);
+VALUES (3, '2017-01-26 20:00:00', '2017-01-27 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (3, '2017-01-27 20:00:00', '2017-01-27 10:00:00', 14, 0);
+VALUES (3, '2017-01-27 20:00:00', '2017-01-28 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (3, '2017-01-28 20:00:00', '2017-01-28 10:00:00', 14, 0);
+VALUES (3, '2017-01-28 20:00:00', '2017-01-29 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (3, '2017-01-29 20:00:00', '2017-01-29 10:00:00', 14, 0);
+VALUES (3, '2017-01-29 20:00:00', '2017-01-30 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (3, '2017-01-30 20:00:00', '2017-01-30 10:00:00', 14, 0);
+VALUES (3, '2017-01-30 20:00:00', '2017-01-31 10:00:00', 14, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (2, '2017-01-20 20:00:00', '2017-01-20 24:00:00', 14, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (2, '2017-01-21 20:00:00', '2017-01-22 07:00:00', 14, 0);
+
 
 -- availability
 INSERT INTO availability (start_time, end_time, user_id)
