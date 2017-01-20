@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import javax.websocket.server.PathParam;
 
 /**
  * Created by Harald Floor Wilhelmsen on 20.01.2017.
@@ -37,7 +35,7 @@ public class ImageController {
         Image image = accessContextFactory.with(accessContext -> {
             return accessContext.image.getById(image_id);
         });
-        if(image == null) {
+        if (image == null) {
             return ResponseEntity
                     .notFound()
                     .build();
@@ -66,7 +64,7 @@ public class ImageController {
                 user.setImage(image);
                 accessContext.user.save(user);
 
-                if(prevImage != null) {
+                if (prevImage != null) {
                     accessContext.image.delete(prevImage);
                 }
             } catch (IOException e) {

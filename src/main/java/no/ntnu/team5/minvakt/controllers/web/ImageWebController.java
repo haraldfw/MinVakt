@@ -15,7 +15,7 @@ public class ImageWebController {
     @Authorize("/")
     @GetMapping("/images/upload")
     public String show(Model model) {
-         model.addAttribute("uploadModel", new ImageUpload());
-         return "upload_form";
+        model.addAttribute("uploadModel", new ImageUpload());
+        return "upload_form";
     }
 }
