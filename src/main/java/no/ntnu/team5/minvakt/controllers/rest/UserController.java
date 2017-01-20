@@ -1,12 +1,12 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.NewUser;
-import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
@@ -23,10 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -52,7 +55,8 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
-        verifier.ensure(hasRole("admin"));
+
+        verifier.ensure(hasRole(Constants.ADMIN));
 
         String salt = PasswordUtil.generateSalt();
         String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
@@ -62,6 +66,16 @@ public class UserController {
 
         String resetKey = PasswordUtil.generateSalt();
         String username = usernameGen.generateUsername(firstName, lastName);
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 1);
+        Date resetKeyExpiry = c.getTime();
+
+        Set<Competence> comps = new HashSet<>();
+        newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
+            return accessContext.competence.getFromName(s);
+        })));
+
 
         accessor.with(access -> {
             User user = new User(
@@ -74,32 +88,30 @@ public class UserController {
                     newUser.getPhoneNr(),
                     newUser.getEmploymentPercentage());
 
-            Set<Competence> comps = access.competence.getFromNames(newUser.getCompetences());
-            System.out.println("comps: " + comps.size());
             user.setCompetences(comps);
-
             user.setResetKey(resetKey);
-
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE, 1);
-            user.setResetKeyExpiry(c.getTime());
+            user.setResetKeyExpiry(resetKeyExpiry);
 
             access.user.save(user);
         });
 
-        // TODO make sure creation is successful before sending email
         // TODO email templating
 
 
         try {
             String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
-            System.out.println("key: " + resetKey);
-            System.out.println("encoded key: " + encodedKey);
+            String subject = "User has been created for you in MinVakt";
+            String link = "http://localhost:8080/password/reset?username=" +
+                    username + "&resetkey=" + encodedKey;
+            String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+
+            Map<String, String> vars = new HashMap<>();
+            vars.put("link", link);
+            vars.put("expiry", expiry);
+
             emailService.sendEmail(
-                    newUser.getEmail(),
-                    "User has been created for you in MinVakt",
-                    "http://localhost:8080/password/reset?username=" +
-                            username + "&resetkey=" + encodedKey);
+                    newUser.getEmail(), subject, "email/user_created", vars);
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -116,18 +128,6 @@ public class UserController {
     }
 
     @Authorize
-    @RequestMapping("/{username}/nextshifts")
-    public List<ShiftModel> getNextShift(Verifier verifier, @PathVariable("username") String username) {
-        verifier.ensure(isUser(username));
-
-        return accessor.with(access -> {
-            return access.shift.getShiftsForAUser(username)
-                    .stream()
-                    .map(shift -> access.shift.toModel(shift)).collect(Collectors.toList());
-        });
-    }
-
-    @Authorize
     @RequestMapping(value = "/{username}/registerabsence/{shift}", method = RequestMethod.PUT)
     public boolean registerAbsence(
             Verifier verifier,
@@ -137,22 +137,21 @@ public class UserController {
         verifier.ensure(isUser(username));
 
         accessor.with(access -> {
-            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), (byte) 1);
+            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), true);
         });
 
         return true;
     }
+
     @Authorize
-    @RequestMapping(value = "/{username}/available", method = RequestMethod.POST)
-    public boolean makeAvailability(
-            Verifier verifier,
-            @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+    @PostMapping("/{username}/available")
+    public boolean makeAvailability(Verifier verify,
+                                    @PathVariable("username") String username,
+                                    @ModelAttribute MakeAvailableModel makeAvailableModel) {
 
-        verifier.ensure(Verifier.isUser(username));
-
+        verify.ensure(isUser(username));
         return accessor.with(access -> {
-            return access.availability.makeAvailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+            return access.availability.makeAvailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
     }
 
@@ -161,13 +160,13 @@ public class UserController {
     public boolean makeUnavailable(
             Verifier verify,
             @PathVariable("username") String username,
-            @RequestBody MakeAvailableModel mam) {
+            @RequestBody MakeAvailableModel makeAvailableModel) {
 
 
         verify.ensure(Verifier.isUser(username));
 
         accessor.with(access -> {
-            access.availability.makeUnavailable(access.user.fromUsername(username), mam.getDateFrom(), mam.getDateTo());
+            access.availability.makeUnavailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
 
         return true;

@@ -8,23 +8,24 @@
             <div class="panel-heading">
                 <h3 id="shift-box-title" class="panel-title">Neste vakt</h3>
             </div>
-            <div class="panel-body">
-                <div class="date">Torsdag 12.01</div>
-                <div class="time">12:00 - 18:00 </div>
-                <div id="upcoming-shifts">
-                    <hr/>
-                    <div class="date">Fredag 13.01</div>
-                    <div class="time">18:00 - 22:00 </div>
-                    <hr/>
-                    <div class="date">Søndag 15.01</div>
-                    <div class="time">08:00 - 16:00 </div>
-                    <hr/>
-                    <div class="date">Tirsdag 17.01</div>
-                    <div class="time">10:00 - 14:00 </div>
+            <div th:if="${firstAvailable}" class="panel-body">
+                <div class="date" th:text="${#strings.capitalize(dates.dayOfWeekName(first.startTime))}">Unavailable
+                </div>
+                <div class="time"
+                     th:text="${dates.format(first.startTime, 'HH:MM') + ' - ' + dates.format(first.endTime, 'HH:MM')}">
+                    Unavailable
+                </div>
+                <div th:if="${upcomingAvailable}" id="upcoming-shifts">
+                    <hr th:each="shift : ${upcoming}">
+                    <div class="date" th:text="${#strings.capitalize(dates.dayOfWeekName(shift.startTime))}"></div>
+                    <div class="time"
+                         th:text="${dates.format(shift.startTime, 'HH:MM') + ' - ' + dates.format(shift.endTime, 'HH:MM')}"></div>
+                    </hr>
                 </div>
             </div>
         </div>
-        <a id="show-more-shifts-btn" href="#" class="btn btn-lg btn-primary">Vis flere vakter</a>
+        <a th:if="${upcomingAvailable}" id="show-more-shifts-btn" href="#" class="btn btn-lg btn-primary">Vis flere
+            vakter</a>
         <a href="#" class="btn btn-lg btn-default">Vis vaktoversikt</a>
     </section>
     <script>

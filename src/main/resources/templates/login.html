@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       th:include="layout :: mainLayout">
-<body>
+
+<head th:fragment="header">
+    <script src="/js/login.js"></script>
+</head>
+
 <div th:fragment="content">
     <div id="login" class="login-box">
-        <form action="#" th:action="@{/api/login}" th:object="${loginInfo}" method="post">
+        <form id="form" th:object="${loginInfo}">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Brukernavn" th:field="*{username}" th:required="required"/>
+                <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn"
+                       th:field="*{username}" th:required="required"/>
             </div>
-            <div class="form -group">
+            <div class="form-group">
                 <input type="password" class="form-control" placeholder="Passord" th:field="*{password}" th:required="required"/>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox"/> Husk meg</label>
+                <label><input type="checkbox"/>Husk meg</label>
             </div>
-            <button type="submit" value="Login" class="btn btn-primary">Logg inn</button>
+            <button type="submit" class="btn btn-primary" value="Login">Logg inn</button>
         </form>
         <a href="forgotpassword.html">Glemt passord?</a>
     </div>
 </div>
-</body>
 </html>

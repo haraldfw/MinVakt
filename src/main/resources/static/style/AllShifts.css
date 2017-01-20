@@ -1,0 +1,147 @@
+body, head {
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --border-color: #7c7c7c;
+}
+
+.rad {
+    width: 100%;
+    display: inline-block;
+    float: left;
+    padding: 0;
+    border-left: 1px solid var(--border-color);
+    position: relative;
+}
+
+.timedisplay, .timedisplay-komp {
+    background-color: rgba(18, 103, 132, 0.45);
+    min-height: 10%;
+    height: 10%;
+    border-top: 1px solid var(--border-color);
+
+    /* For at det skal bli ... dersom for mye tekst */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.timedisplay:hover {
+    cursor: pointer;
+}
+
+#rammediv {
+    width: 100%;
+
+}
+
+.cell, .common-cell, .kompetanse-cell, .dropdown-cell {
+    text-align: center;
+    display: inline-block;
+    float: left;
+    min-height: 45px;
+    max-height: 45px;
+    line-height: 45px;
+    overflow: hidden;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-cell, .common-cell {
+    width: 11.11%;
+
+}
+
+.dropdown-cell, .kompetanse-cell {
+    background-color: #ededed;
+}
+
+.kompetanse-cell {
+    width: 88.88%;
+}
+
+.burger-style {
+    font-size: 130%;
+    color: #1fa3ae;
+}
+
+#testingg:hover, #testingg2:hover, #testing:hover, #testing2:hover {
+    cursor: pointer;
+}
+
+.burger-style:hover {
+    color: #17777f;
+    cursor: pointer;
+}
+
+.shift-box {
+    position: absolute;
+    left: 11.11%;
+    height: calc(101% - 1px);
+    width: calc((11.11%)/3 - 1px);
+
+    /* For sentrering av teksten */
+    line-height: 45px;
+    text-align: center;
+
+    border-radius: 5px;
+
+    /* For at det skal bli ... dersom for mye tekst */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shift-box:hover, .timedisplay:hover {
+    cursor: pointer;
+    filter: brightness(85%);
+}
+
+.no-worker {
+    background-color: rgba(147, 208, 230, 0.75);
+    border: 1px solid #4f6f7c;
+}
+
+.worker {
+    background-color: rgba(158, 229, 123, 0.75);
+    border: 1px solid rgba(64, 185, 56, 0.75);
+}
+
+.self {
+    background-color: rgba(158, 153, 180, 0.75);
+    border: 1px solid #a96aba;
+}
+
+.warning-1 {
+    background-color: rgba(255, 152, 16, 0.81) !important;
+}
+
+.warning-2 {
+    background-color: rgba(250, 52, 22, 0.68) !important;
+}
+
+#shift-1-9test {
+    left: calc(11.11% + (11.11%)/3);
+    width: calc(((11.11%)/3)*8 - 1px);
+}
+
+#shift-9-17test {
+    left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*8);
+    width: calc(((11.11%)/3)*8 - 1px);
+}
+
+#shift-17-24test {
+    left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
+    width: calc(((11.11%)/3)*8 - (11.11%)/3 - 1px);
+}
+
+#modalOther, #modalOwn, #modalFree {
+    display: none;
+}
+
+#shift-7-19test {
+    left: calc(11.11% + ((11.11%)/3)*7);
+    width: calc(((11.11%)/3)*12 - 1px);
+}

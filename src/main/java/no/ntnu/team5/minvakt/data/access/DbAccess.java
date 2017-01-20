@@ -47,6 +47,8 @@ public class DbAccess {
     }
 
     public void close() {
-        sess.close();
+        if (sess != null) {
+            sess.close();
+        }
     }
 }

@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       th:include="layout :: mainLayout">
 <body>
+
+<head th:fragment="header">
+    <script src="/js/useraccount.js"></script>
+</head>
+
 <div th:fragment="content">
     <div class="account-box">
         <h3 id="account-title">Profil</h3>
@@ -9,75 +14,52 @@
             <tr>
                 <th>Navn</th>
                 <td class="input-cell">
-                    <input type="text" value="Ingunn Sund" disabled="disabled"/></td>
+                    <!--/*@thymesVar id="user" type="no.ntnu.team5.minvakt.model.UserModel"*/-->
+                    <input type="text" th:value="${user.firstName + ' ' + user.lastName}"
+                           disabled="disabled"/></td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>Fødselsdato</th>
                 <td class="input-cell">
-                    <input type="text" value="22.08.96" disabled="disabled"/></td>
+                    <input type="text" value="22.08.96 (NIY)" disabled="disabled"/></td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>Adresse</th>
                 <td class="input-cell">
-                    <input type="text" value="Vanvikan 7125" disabled="disabled"/></td>
+                    <input type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/></td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>Mobil</th>
                 <td class="input-cell">
-                    <input type="text" value="94123456" disabled="disabled"/></td>
+                    <input type="text" th:value="${user.phonenumber}" disabled="disabled"/></td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>E-post</th>
                 <td class="input-cell">
-                    <input type="email" value="ingunn@sund.no" disabled="disabled"/></td>
+                    <input type="email" th:value="${user.email}" disabled="disabled"/></td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>Passord</th>
-                <td><input id="fake-pwd-input" type="text" value="••••••••" disabled="disabled"/>
+                <td>
+                    <!--<input id="fake-pwd-input" type="text" value="••••••••(NIY)"/>-->
                     <div id="new-pwd-box">
-                        <input type="password" placeholder="Nåværende passord"/>
-                        <input type="password" placeholder="Nytt passord"/>
-                        <input type="password" placeholder="Gjenta nytt passord"/>
-                        <div id="save-pwd-btn" class="btn btn-primary pull-right">Lagre</div>
+                        <form action="#" th:action="@{/password/reset_wa}" th:object="${passwordResetWithAuth}">
+                            <input type="password" placeholder="Nåværende passord"/>
+                            <input type="password" placeholder="Nytt passord"/>
+                            <input type="password" placeholder="Gjenta nytt passord"/>
+                            <input type="submit" id="save-pwd-btn" class="btn btn-primary pull-right">Lagre</input>
+                        </form>
                     </div>
                 </td>
                 <td><span id="edit-pwd" class="glyphicon glyphicon-edit"></span></td>
             </tr>
         </table>
     </div>
-    <script>
-        $(".glyphicon.glyphicon-edit").click(function() {
-            disableEnabledInputs();
-            var targetInput = $(this).parent().siblings(".input-cell").find("input");
-            targetInput.removeAttr("disabled");
-            targetInput.select();
-        });
-        $(".account-box input").keypress(function(event) {
-            if(event.which == 13) {
-                $(this).attr("disabled", true);
-            }
-        });
-        $(".account-box input").blur(function() {
-            $(this).attr("disabled", true);
-        });
-        $("#edit-pwd").click(function() {
-            $("#fake-pwd-input").slideUp(100);
-            $("#new-pwd-box").slideDown(200);
-        });
-        $("#save-pwd-btn").click(function(){
-            $("#new-pwd-box").slideUp(200);
-            $("#fake-pwd-input").slideDown(100);
-        })
-        function disableEnabledInputs() {
-            var enabledInputs = $(".account-box input:not(:disabled)");
-            enabledInputs.attr("disabled", true);
-        }
-    </script>
 </div>
 </body>
 </html>

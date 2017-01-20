@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       th:fragment="mainLayout">
-<head>
+
+<head><!-- TODO: Ikke legg inn denne på alle filer, den er ikke en felles fil, common.css passer ikke til alle html sider  -->
     <title>MinVakt</title>
+    <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="style.css"/>
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="/style/navbar.css"/>
+    <link rel="stylesheet" href="/style/common.css"/>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/common.js"></script>
 </head>
+
+<head th:include="this :: header"></head>
+
 <body>
-    <header>
-        <div id="kebab">
-            <div id="menuBtn">
-                <img src="kebab.svg"/>
-            </div>
-            <div id="menuOverlay" class="open">
-                <ul>
-                    <li><a>Tilgjengelighet</a></li>
-                    <li><a>Registrer fravær</a></li>
-                    <li><a>Profil</a></li>
-                    <li><a>Logg ut</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-    <main th:include="this :: content"/> <!-- This line is replaced by content from other template -->
-    <script src="scripts.js"></script>
+<header th:if="${username != null}" th:include="fragments :: navbar"></header>
+    <!-- This line is replaced by content from other template -->
+<div class="content container" th:include="this :: content"></div>
 </body>
 </html>

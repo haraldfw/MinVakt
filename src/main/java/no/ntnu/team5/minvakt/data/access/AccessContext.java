@@ -35,6 +35,12 @@ public class AccessContext {
         competence.setDb(db);
         availability.setDb(db);
         notification.setDb(db);
+
+        user.setContext(this);
+        shift.setContext(this);
+        competence.setContext(this);
+        availability.setContext(this);
+        notification.setContext(this);
     }
 
     public void close() {

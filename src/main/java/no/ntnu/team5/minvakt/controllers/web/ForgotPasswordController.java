@@ -1,4 +1,4 @@
-package no.ntnu.team5.minvakt.controllers;
+package no.ntnu.team5.minvakt.controllers.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ForgotPasswordController {
     @RequestMapping("/forgotpassword")
-    public String forgotpassword(){
+    public String forgotpassword() {
         return "forgotpassword";
     }
 

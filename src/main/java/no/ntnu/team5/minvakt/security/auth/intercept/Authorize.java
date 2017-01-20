@@ -12,5 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Authorize {
+    static final String NONE = "I_HATE_JAVA_WHY_CANT_THIS_BE_NULL?";
 
+    String value() default NONE;
 }

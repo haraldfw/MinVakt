@@ -1,8 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "user_id": {
-      "type": "integer"
+    "user_model": {
+      "$ref": "user_model.json"
     },
     "start_time": {
       "type": "string",
@@ -13,17 +13,24 @@
       "format": "date-time"
     },
     "absent": {
-      "type": "integer"
+      "type": "boolean"
     },
     "standard_hours": {
       "type": "integer"
+    },
+    "competences": {
+      "type": "array",
+      "items": {
+        "$ref": "competence.json"
+      }
     }
   },
   "required": [
-    "userId",
+    "user_model",
     "date_start",
     "date_end",
     "absent",
-    "standardHours"
+    "standardHours",
+    "competences"
   ]
 }

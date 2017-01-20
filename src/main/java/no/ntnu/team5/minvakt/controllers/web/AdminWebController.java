@@ -2,6 +2,7 @@ package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.model.NewUser;
+import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminWebController {
     @Autowired
     private AccessContextFactory accessor;
 
+    @Authorize("/")
     @RequestMapping(method = RequestMethod.GET)
     public String show(Model model) {
         model.addAttribute("newUser", new NewUser());
