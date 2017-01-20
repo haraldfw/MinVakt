@@ -42,7 +42,6 @@ public class ImageController {
                     .notFound()
                     .build();
         }
-        System.out.println("poop");
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_TYPE, image.getType())
@@ -60,9 +59,9 @@ public class ImageController {
             try {
                 Image image = new Image(file.getBytes(), file.getContentType());
                 accessContext.image.save(image);
-//                User user = accessContext.user.fromUsername(verifier.claims.getSubject());
-//                user.setImageId(image.getId());
-//                accessContext.user.save(user);
+                User user = accessContext.user.fromUsername(verifier.claims.getSubject());
+                user.setImage(image);
+                accessContext.user.save(user);
             } catch (IOException e) {
                 e.printStackTrace();
             }

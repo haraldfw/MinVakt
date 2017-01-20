@@ -12,9 +12,9 @@ DROP TABLE IF EXISTS image;
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
+SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
+SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
 -- Schema g_scrum05
@@ -23,83 +23,88 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema g_scrum05
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `g_scrum05` DEFAULT CHARACTER SET utf8mb4 ;
-USE `g_scrum05` ;
+CREATE SCHEMA IF NOT EXISTS `g_scrum05`
+  DEFAULT CHARACTER SET utf8mb4;
+USE `g_scrum05`;
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`competence`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`competence` (
   `name` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`name`))
+  PRIMARY KEY (`name`)
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`user` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
-  `first_name` VARCHAR(45) NOT NULL,
-  `last_name` VARCHAR(45) NOT NULL,
-  `password_hash` VARCHAR(128) NOT NULL,
-  `salt` VARCHAR(128) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `phonenumber` VARCHAR(45) NOT NULL,
-  `employment_percentage` INT NOT NULL,
-  `reset_key` VARCHAR(128) NULL,
-  `reset_key_expiry` DATETIME NULL,
+  `id`                    INT          NOT NULL AUTO_INCREMENT,
+  `username`              VARCHAR(45)  NOT NULL,
+  `first_name`            VARCHAR(45)  NOT NULL,
+  `last_name`             VARCHAR(45)  NOT NULL,
+  `password_hash`         VARCHAR(128) NOT NULL,
+  `salt`                  VARCHAR(128) NOT NULL,
+  `email`                 VARCHAR(45)  NOT NULL,
+  `phonenumber`           VARCHAR(45)  NOT NULL,
+  `employment_percentage` INT          NOT NULL,
+  `reset_key`             VARCHAR(128) NULL,
+  `reset_key_expiry`      DATETIME     NULL,
+  `image_id`              INT,
+  FOREIGN KEY fk_image_id_user(`image_id`)
+  REFERENCES `g_scrum05`.`image` (`id`),
+
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC)
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`shift`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `start_time` DATETIME NOT NULL,
-  `end_time` DATETIME NOT NULL,
-  `absent` BIT NULL DEFAULT 0,
+  `id`             INT        NOT NULL AUTO_INCREMENT,
+  `start_time`     DATETIME   NOT NULL,
+  `end_time`       DATETIME   NOT NULL,
+  `absent`         BIT        NULL     DEFAULT 0,
   `standard_hours` DECIMAL(2) NOT NULL,
-  `user_id` INT NULL,
+  `user_id`        INT        NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Shift_User1_idx` (`user_id` ASC),
   CONSTRAINT `fk_Shift_User1`
   FOREIGN KEY (`user_id`)
   REFERENCES `g_scrum05`.`user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`availability`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`availability` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id`         INT      NOT NULL AUTO_INCREMENT,
   `start_time` DATETIME NOT NULL,
-  `end_time` DATETIME NOT NULL,
-  `user_id` INT NOT NULL,
+  `end_time`   DATETIME NOT NULL,
+  `user_id`    INT      NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Availability_User1_idx` (`user_id` ASC),
   CONSTRAINT `fk_Availability_User1`
   FOREIGN KEY (`user_id`)
   REFERENCES `g_scrum05`.`user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`user_competence`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`user_competence` (
   `competence_name` VARCHAR(30) NOT NULL,
-  `user_id` INT NOT NULL,
+  `user_id`         INT         NOT NULL,
   PRIMARY KEY (`competence_name`, `user_id`),
   INDEX `fk_Competence_has_User_User1_idx` (`user_id` ASC),
   INDEX `fk_Competence_has_User_Competence_idx` (`competence_name` ASC),
@@ -112,15 +117,15 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`user_competence` (
   FOREIGN KEY (`user_id`)
   REFERENCES `g_scrum05`.`user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`shift_competence`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift_competence` (
-  `shift_id` INT NOT NULL,
+  `shift_id`        INT         NOT NULL,
   `competence_name` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`shift_id`, `competence_name`),
   INDEX `fk_Shift_has_Competence_Competence1_idx` (`competence_name` ASC),
@@ -134,21 +139,21 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift_competence` (
   FOREIGN KEY (`competence_name`)
   REFERENCES `g_scrum05`.`competence` (`name`)
     ON DELETE NO ACTION
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`notification`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`notification` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `message` VARCHAR(300) NOT NULL,
-  `action_url` VARCHAR(512) NULL,
-  `expiry` DATETIME NULL,
-  `user_id` INT NULL,
-  `competence_name` VARCHAR(30) NULL,
-  `closed` BIT NULL DEFAULT 0,
+  `id`              INT          NOT NULL AUTO_INCREMENT,
+  `message`         VARCHAR(300) NOT NULL,
+  `action_url`      VARCHAR(512) NULL,
+  `expiry`          DATETIME     NULL,
+  `user_id`         INT          NULL,
+  `competence_name` VARCHAR(30)  NULL,
+  `closed`          BIT          NULL     DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_notification_User1_idx` (`user_id` ASC),
   INDEX `fk_notification_competence1_idx` (`competence_name` ASC),
@@ -161,25 +166,25 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`notification` (
   FOREIGN KEY (`competence_name`)
   REFERENCES `g_scrum05`.`competence` (`name`)
     ON DELETE NO ACTION
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
+)
   ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `g_scrum05`.`image`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `g_scrum05`.`image` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `content` MEDIUMBLOB NOT NULL,
-  `type` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+  `id`      INT         NOT NULL AUTO_INCREMENT,
+  `content` MEDIUMBLOB  NOT NULL,
+  `type`    VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+)
   ENGINE = InnoDB;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
+SET SQL_MODE = @OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
 -- DUMMY DATA
@@ -194,13 +199,16 @@ INSERT INTO competence (name) VALUES ('Sykepleier');
 INSERT INTO competence (name) VALUES ('Vernepleier');
 INSERT INTO competence (name) VALUES ('Helsefagarbeider');
 
-
 -- User
 INSERT INTO user (username, first_name, last_name, email, phonenumber, employment_percentage, password_hash, salt)
-VALUES ('erlentob', 'Erlend', 'Tobiassen', 'erlentob@gmail.com', '95835420', 50, 'ea880dec00850f06209e5f99553778aa79dfb933797b7edf80990230ea6666acdfc8ff6ce5f7ed0a1799a7f56dfb2665f9dcd5cccf6dfe4f2c1453b58ce59c71', 'det');
+VALUES ('erlentob', 'Erlend', 'Tobiassen', 'erlentob@gmail.com', '95835420', 50,
+        'ea880dec00850f06209e5f99553778aa79dfb933797b7edf80990230ea6666acdfc8ff6ce5f7ed0a1799a7f56dfb2665f9dcd5cccf6dfe4f2c1453b58ce59c71',
+        'det');
 
 INSERT INTO user (username, first_name, last_name, email, phonenumber, employment_percentage, password_hash, salt)
-VALUES ('haraldfw', 'Harald', 'Floor Wilhelmsen', 'haraldfw@gmail.com', '45566637', 25, 'ea32b66b153c31136f57f56b8852049b390c42cf28a670f30ca94069a2ac1ff499a596f777ab7ea1725c214debe068f9f773581f9cf29ad4c10d80fece5c0ded', 'det1');
+VALUES ('haraldfw', 'Harald', 'Floor Wilhelmsen', 'haraldfw@gmail.com', '45566637', 25,
+        'ea32b66b153c31136f57f56b8852049b390c42cf28a670f30ca94069a2ac1ff499a596f777ab7ea1725c214debe068f9f773581f9cf29ad4c10d80fece5c0ded',
+        'det1');
 
 INSERT INTO user (username, first_name, last_name, email, phonenumber, employment_percentage, password_hash, salt)
 VALUES ('gardste', 'Gard', 'Stenvik', 'gardste@gmail.com', '666', 100, 'INSERT INTO user (username, first_name, last_name, phonenumber, employment_percentage, password_hash, salt)
@@ -247,7 +255,6 @@ INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-20 20:00:00', '2017-01-20 24:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-21 20:00:00', '2017-01-22 07:00:00', 14, 0);
-
 
 -- availability
 INSERT INTO availability (start_time, end_time, user_id)
