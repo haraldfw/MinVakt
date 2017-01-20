@@ -35,15 +35,10 @@ $(document).ready(function() {
                     var minToPros = minTo/60;
 
                     if(startTime.getFullYear() === endTime.getFullYear() && startTime.getMonth() === endTime.getMonth() && startTime.getDate() === endTime.getDate()) {
-
                         var diff = hourTo+minToPros-hourFrom+minFromPros; //7h
-
                     } else {
 
                     }
-
-
-
 
 
                     var lengde = hourFrom+minFromPros;
