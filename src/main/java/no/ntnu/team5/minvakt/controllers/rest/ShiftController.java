@@ -57,14 +57,47 @@ public class ShiftController {
      * Get shifts for the current week for a given user
      * @return a list of shifts
      */
-    @Authorize
-    @RequestMapping("/{user}/week")
+    @Authorize("/")
+    @RequestMapping("/{user}/week") //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
         Calendar cal = Calendar.getInstance();
         Date startWeek = cal.getTime();
 
         return accessor.with(access -> {
            return access.shift.getAllCurrentWeekForUser(startWeek, username)
+                   .stream()
+                   .map(access.shift::toModel)
+                   .collect(Collectors.toList());
+        });
+    }
+
+    /**
+     * Get shifts for a week with a given start date
+     * @param username the user that we gets shifts for
+     * @param year startYear
+     * @param month startMonth
+     * @param day startDay
+     * @return a list of shifts for a week for a user with a given start date
+     */
+    @Authorize("/")
+    @RequestMapping("/{user}/{year}/{month}/{day}/week")
+    public List<ShiftModel> getShiftsWeek(@PathVariable("user") String username,
+                                              @PathVariable("year") int year,
+                                              @PathVariable("month") int month,
+                                              @PathVariable("day") int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day); //TODO: check if is correct with other dates than rigth now
+        calendar.set(Calendar.HOUR, 0); //TODO: trenger vi hour, minute, second, millisecond
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date fromDate = calendar.getTime();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        Date toDate = calendar.getTime();
+
+        return accessor.with(access -> {
+           return access.shift.getShiftsFromDateToDateForUser(fromDate, toDate, username)
                    .stream()
                    .map(access.shift::toModel)
                    .collect(Collectors.toList());
