@@ -57,9 +57,8 @@ public class EmailService {
         SimpleMailMessage original = new SimpleMailMessage();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("sample@dolszewski.com");
             messageHelper.setTo(to);
-            messageHelper.setSubject("Sample mail subject");
+            messageHelper.setSubject(subject);
             messageHelper.setText(text, true);
         };
         mailSender.send(messagePreparator);
