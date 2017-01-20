@@ -21,6 +21,9 @@ public class AccessContext {
     public ShiftAccess shift;
 
     @Autowired
+    public ImageAccess image;
+
+    @Autowired
     public NotificationAccess notification;
 
     @Autowired
@@ -35,12 +38,14 @@ public class AccessContext {
         competence.setDb(db);
         availability.setDb(db);
         notification.setDb(db);
+        image.setDb(db);
 
         user.setContext(this);
         shift.setContext(this);
         competence.setContext(this);
         availability.setContext(this);
         notification.setContext(this);
+        image.setContext(this);
     }
 
     public void close() {
