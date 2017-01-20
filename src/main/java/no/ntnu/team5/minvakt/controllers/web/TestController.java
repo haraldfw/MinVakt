@@ -14,7 +14,7 @@ public class TestController extends NavBarController {
     @Autowired
     AccessContextFactory accessor;
 
-    @Authorize("")
+    @Authorize("/")
     @GetMapping("/test")
     public String test() {
         return "YourSchedule";
