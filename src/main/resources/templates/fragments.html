@@ -26,10 +26,10 @@
                                     <!-- melding havner her -->
                                 </p>
                                 <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
-                                    <button type="submit" class="btn btn-primary">Godta</button>
+                                    <button type="submit" class="ion-checkmark-round"></button>
                                 </form>
                                 <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
-                                    <button type="submit" class="btn btn-primary">Avslå</button>
+                                    <button type="submit" class="ion-close-round"></button>
                                 </form>
                             </a>
                             <a th:if="${n.actionUrl} == null">
@@ -39,7 +39,7 @@
                                 <form class="noti-form"
                                       th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
                                       method="post">
-                                    <button type="submit" class="btn btn-primary">Lukk</button>
+                                    <button type="submit" class="ion-close-round"></button>
                                 </form>
                             </a>
                         </li>
