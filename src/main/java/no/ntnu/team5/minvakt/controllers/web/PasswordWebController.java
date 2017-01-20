@@ -43,7 +43,7 @@ public class PasswordWebController {
                 model.addAttribute("username", user.getUsername());
             }
         });
-        return "password_reset";
+        return "setpassword";
     }
 
     @GetMapping("/forgot")
