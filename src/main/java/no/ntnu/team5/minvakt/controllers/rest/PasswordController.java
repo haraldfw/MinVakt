@@ -3,7 +3,9 @@ package no.ntnu.team5.minvakt.controllers.rest;
 import no.ntnu.team5.minvakt.data.access.AccessContext;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.ChangePassword;
 import no.ntnu.team5.minvakt.model.ForgottenPassword;
+import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.PasswordResetInfo;
 import no.ntnu.team5.minvakt.model.PasswordResetWithAuth;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
@@ -11,11 +13,14 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -32,7 +37,7 @@ import java.util.Map;
 public class PasswordController {
 
     @Autowired
-    private AccessContextFactory accessContextFactory;
+    private AccessContextFactory accessor;
 
     @Autowired
     private EmailService emailService;
@@ -41,7 +46,7 @@ public class PasswordController {
     public void forgot(@ModelAttribute ForgottenPassword forgotInfo) {
         String input = forgotInfo.getUsernameEmail().trim();
 
-        accessContextFactory.with(accessContext -> {
+        accessor.with(accessContext -> {
             User user;
 
             if (input.contains("@")) {
@@ -86,7 +91,7 @@ public class PasswordController {
 
     @PostMapping("/reset")
     public void resetPassword(@ModelAttribute PasswordResetInfo pwrInfo) {
-        accessContextFactory.with(accessContext -> {
+        accessor.with(accessContext -> {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
 
@@ -100,7 +105,7 @@ public class PasswordController {
     @PostMapping("/reset_wa")
     public void resetPasswordWithAuth(@ModelAttribute PasswordResetWithAuth pwrInfo,
                                       Verifier verifier) {
-        accessContextFactory.with(accessContext -> {
+        accessor.with(accessContext -> {
             User user = accessContext.user.fromUsername(verifier.claims.getSubject());
 
             boolean correctPassword = PasswordUtil.verifyPassword(pwrInfo.getPasswordCurrent(), user.getPasswordHash(),
@@ -121,4 +126,27 @@ public class PasswordController {
 
         accessContext.user.save(user);
     }
+
+    @Authorize
+    @PostMapping("/change")
+    public void change_password(HttpServletResponse response, Verifier verifier, @RequestBody ChangePassword pwInfo) {
+        accessor.with(access -> {
+            User user = access.user.fromUsername(verifier.claims.getSubject());
+
+            LoginResponse lr = PasswordUtil.login(user, pwInfo.getOldPassword(), false);
+            if (!lr.getSuccess()) {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return;
+            }
+
+            String newSalt = PasswordUtil.generateSalt();
+            String newHash = PasswordUtil.generatePasswordHash(pwInfo.getNewPassword(), newSalt);
+
+            user.setSalt(newSalt);
+            user.setPasswordHash(newHash);
+
+            access.user.save(user);
+        });
+    }
+
 }

@@ -16,11 +16,14 @@ public class NavBarController {
 
     @ModelAttribute("username")
     public String username(Verifier verify) {
+        if (verify == null) return null;
         return verify.claims.getSubject();
     }
 
     @ModelAttribute("navbar")
     public NavbarModel getNavbarModel(Verifier verify) {
+        if (verify == null) return null;
+
         NavbarModel model = new NavbarModel();
         String username = verify.claims.getSubject();
         model.setUsername(username);

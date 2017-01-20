@@ -102,9 +102,4 @@ public class UserWebController extends NavBarController {
         }));
         return "employeeoverview";
     }
-
-//    @ModelAttribute("user")
-//    public List<Variety> populateVarieties() {
-//        return this.varietyService.findAll();
-//    }
 }
