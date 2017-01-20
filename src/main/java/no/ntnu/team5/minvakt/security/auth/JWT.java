@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 public class JWT {
     private static final int KEY_SIZE = 1024;
     private static final String SECURE_KEY;
+    private static final int SECONDS_IN_YEAR = 525_600 * 60;
+    private static final int SECONDS_IN_30_MIN = 60 * 30;
 
     static {
         byte[] salt = new byte[KEY_SIZE];
@@ -29,15 +31,21 @@ public class JWT {
         SECURE_KEY = Base64.encodeBase64String(salt);
     }
 
-    static private Date expieryDate() {
-        Instant ins = new Date().toInstant().plusSeconds(60 * 30);
+    static private Date expieryDate(boolean remember) {
+        Instant ins;
+        if (remember) {
+            ins = new Date().toInstant().plusSeconds(SECONDS_IN_YEAR);
+        } else {
+            ins = new Date().toInstant().plusSeconds(SECONDS_IN_30_MIN);
+        }
+
         Date date = Date.from(ins);
 
         System.out.println(date);
         return Date.from(ins);
     }
 
-    static public String generate(User user) {
+    static public String generate(User user, boolean remember) {
         //TODO: Add some claims(iss, aud)?
         HashMap<String, Object> claims = new HashMap<>();
 
@@ -49,7 +57,7 @@ public class JWT {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getUsername())
-                .setExpiration(expieryDate())
+                .setExpiration(expieryDate(remember))
                 .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
                 .compact();
     }

@@ -29,7 +29,7 @@ public class LoginController {
     public ResponseEntity<LoginResponse> verifyUser(HttpServletResponse response, @RequestBody LoginInfo loginInfo) {
         LoginResponse lr = accessor.with(access -> {
             User user = access.user.fromUsername(loginInfo.getUsername());
-            return PasswordUtil.login(user, loginInfo.getPassword());
+            return PasswordUtil.login(user, loginInfo.getPassword(), loginInfo.getRememberMe());
         });
 
         if (lr.getSuccess()) {
