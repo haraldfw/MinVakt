@@ -158,3 +158,20 @@ header {
     width: 100%;
     height: 40px;
 }
+
+.check-wrap {
+    position: relative;
+}
+
+.check-wrap .glyphicon.glyphicon-ok {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 1.15em;
+    color: #21a56d;
+    display: none;
+}
+
+#incorrect-pwd {
+    display: none;
+}

@@ -49,6 +49,6 @@ public class PasswordWebController {
     @GetMapping("/forgot")
     public String show(Model model) {
         model.addAttribute("forgotInfo", new ForgottenPassword());
-        return "forgotten_password";
+        return "forgotpassword";
     }
 }

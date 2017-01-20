@@ -9,13 +9,20 @@ import no.ntnu.team5.minvakt.model.PasswordResetWithAuth;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Harald on 15.01.2017.
@@ -26,6 +33,9 @@ public class PasswordController {
 
     @Autowired
     private AccessContextFactory accessContextFactory;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/forgot")
     public void forgot(@ModelAttribute ForgottenPassword forgotInfo) {
@@ -44,7 +54,32 @@ public class PasswordController {
 
 
             if (user != null) {
+                String resetKey = PasswordUtil.generateSalt();
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.DATE, 1);
+                Date resetKeyExpiry = c.getTime();
+                user.setResetKey(resetKey);
+                user.setResetKeyExpiry(resetKeyExpiry);
 
+                accessContext.user.save(user);
+
+                try {
+                    String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+                    String subject = "Your password reset request";
+                    String link = "http://localhost:8080/password/reset?username=" +
+                            user.getUsername() + "&resetkey=" + encodedKey;
+                    String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+
+                    Map<String, String> vars = new HashMap<>();
+                    vars.put("link", link);
+                    vars.put("expiry", expiry);
+
+                    emailService.sendEmail(
+                            user.getEmail(), subject, "email/forgot_password", vars);
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
