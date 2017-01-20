@@ -54,7 +54,6 @@ public class EmailService {
     @Async
     public void sendEmail(String to, String subject, String templateName, Map<String, String> values) {
         String text = mailContentBuilder.build(templateName, values);
-        SimpleMailMessage original = new SimpleMailMessage();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(to);
