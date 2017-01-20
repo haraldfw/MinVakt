@@ -43,6 +43,15 @@ public abstract class Access<T, M> {
         return true; //FIXME(erl)
     }
 
+    public boolean delete(T t) {
+        db.transaction(session -> {
+            session.delete(t);
+            session.flush();
+        });
+
+        return true; //FIXME(erl)
+    }
+
     void setDb(DbAccess db) {
         this.db = db;
     }

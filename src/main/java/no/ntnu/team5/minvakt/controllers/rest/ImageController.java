@@ -31,7 +31,7 @@ public class ImageController {
     @Autowired
     private AccessContextFactory accessContextFactory;
 
-    @Authorize("/")
+    @Authorize
     @GetMapping("/get/{image_id}")
     public ResponseEntity<byte[]> serveImage(@PathVariable("image_id") int image_id) {
         Image image = accessContextFactory.with(accessContext -> {
@@ -49,7 +49,7 @@ public class ImageController {
     }
 
 
-    @Authorize("/")
+    @Authorize
     @PostMapping("/upload")
     public String imageUpload(@RequestParam("file") MultipartFile file,
                               RedirectAttributes redirectAttributes,
@@ -60,8 +60,15 @@ public class ImageController {
                 Image image = new Image(file.getBytes(), file.getContentType());
                 accessContext.image.save(image);
                 User user = accessContext.user.fromUsername(verifier.claims.getSubject());
+
+                Image prevImage = user.getImage();
+
                 user.setImage(image);
                 accessContext.user.save(user);
+
+                if(prevImage != null) {
+                    accessContext.image.delete(prevImage);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
