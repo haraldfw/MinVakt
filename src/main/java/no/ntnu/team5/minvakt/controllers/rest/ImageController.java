@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,17 +24,25 @@ import javax.websocket.server.PathParam;
 /**
  * Created by Harald Floor Wilhelmsen on 20.01.2017.
  */
-@RestController("/images")
+@RestController
+@RequestMapping(value = "/api/images")
 public class ImageController {
 
     @Autowired
     private AccessContextFactory accessContextFactory;
 
-    @GetMapping("/{image_id}")
-    public ResponseEntity<byte[]> serveImage(@PathParam("image_id") int image_id) {
+    @Authorize("/")
+    @GetMapping("/get/{image_id}")
+    public ResponseEntity<byte[]> serveImage(@PathVariable("image_id") int image_id) {
         Image image = accessContextFactory.with(accessContext -> {
             return accessContext.image.getById(image_id);
         });
+        if(image == null) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+        System.out.println("poop");
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_TYPE, image.getType())
@@ -39,8 +50,8 @@ public class ImageController {
     }
 
 
-    @Authorize
-    @PostMapping("/")
+    @Authorize("/")
+    @PostMapping("/upload")
     public String imageUpload(@RequestParam("file") MultipartFile file,
                               RedirectAttributes redirectAttributes,
                               Verifier verifier) {
