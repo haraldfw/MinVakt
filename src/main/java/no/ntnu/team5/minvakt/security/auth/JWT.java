@@ -39,9 +39,6 @@ public class JWT {
             ins = new Date().toInstant().plusSeconds(SECONDS_IN_30_MIN);
         }
 
-        Date date = Date.from(ins);
-
-        System.out.println(date);
         return Date.from(ins);
     }
 

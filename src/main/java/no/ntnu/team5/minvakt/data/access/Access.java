@@ -20,7 +20,7 @@ public abstract class Access<T, M> {
 
     protected AccessContext getContext() {
         if (context == null) {
-            throw new RuntimeException("You need to use this object through a AccessContext, you can get one from AccessContextFactory. See UserController for an example.");
+            illegalState();
         }
 
         return context;
@@ -28,14 +28,18 @@ public abstract class Access<T, M> {
 
     protected DbAccess getDb() {
         if (db == null) {
-            throw new RuntimeException("You need to use this object through a AccessContext, you can get one from AccessContextFactory. See UserController for an example.");
+            illegalState();
         }
 
         return db;
     }
 
+    private void illegalState() {
+        throw new IllegalStateException("You need to use this object through a AccessContext, you can get one from AccessContextFactory. See UserController for an example.");
+    }
+
     public boolean save(T t) {
-        db.transaction(session -> {
+        getDb().transaction(session -> {
             session.save(t);
             session.flush();
         });
@@ -44,7 +48,7 @@ public abstract class Access<T, M> {
     }
 
     public boolean delete(T t) {
-        db.transaction(session -> {
+        getDb().transaction(session -> {
             session.delete(t);
             session.flush();
         });

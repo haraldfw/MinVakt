@@ -34,7 +34,6 @@ public class AuthorizeHandler {
         String tokenValue = token.get().getValue();
         Optional<Claims> claims = JWT.verify(tokenValue);
 
-
         if (!claims.isPresent()) {
             return fail(annotation.value(), response);
         }
