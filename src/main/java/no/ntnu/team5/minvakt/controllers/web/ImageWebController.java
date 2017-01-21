@@ -25,13 +25,6 @@ public class ImageWebController {
     @Autowired
     private AccessContextFactory accessContextFactory;
 
-    @Authorize("/")
-    @GetMapping("/images/upload")
-    public String show(Model model) {
-        model.addAttribute("uploadModel", new ImageUpload());
-        return "upload_form";
-    }
-
     @Authorize
     @PostMapping("/api/images/upload")
     public String imageUpload(@RequestParam("file") MultipartFile file,
