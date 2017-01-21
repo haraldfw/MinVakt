@@ -6,12 +6,13 @@
     <link rel="stylesheet" href="/style/password/change.css"/>
 
     <script src="/js/libs/zxcvbn.min.js"></script>
+    <script src="/js/jsonSubmit.js"></script>
     <script src="/js/password/change.js"></script>
 </head>
 
 <div th:fragment="content">
     <div id="login" class="login-box">
-        <form id="form">
+        <form onsubmit="return jsonSubmitFns(this, '/api/password/change', passwords_equal, submitted, failed)">
             <div class="form-group">
                 <input type="password" name="old_password" autofocus="autofocus" class="form-control"
                        placeholder="Passord"
