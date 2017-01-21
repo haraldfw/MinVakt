@@ -50,6 +50,18 @@ public class PasswordUtil {
         return lr;
     }
 
+    public static boolean setPassword(User user, String password) {
+        if (password.length() < 8) return false;
+
+        String newSalt = PasswordUtil.generateSalt();
+        String newHash = PasswordUtil.generatePasswordHash(password, newSalt);
+
+        user.setSalt(newSalt);
+        user.setPasswordHash(newHash);
+
+        return true;
+    }
+
 //    public static void main(String[] args) {
 //        dummyPassword("det");
 //        dummyPassword("det1");

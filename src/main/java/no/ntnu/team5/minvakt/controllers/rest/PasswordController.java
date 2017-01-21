@@ -1,13 +1,11 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.data.access.AccessContext;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ChangePassword;
 import no.ntnu.team5.minvakt.model.ForgottenPassword;
 import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.PasswordResetInfo;
-import no.ntnu.team5.minvakt.model.PasswordResetWithAuth;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
@@ -90,41 +88,27 @@ public class PasswordController {
     }
 
     @PostMapping("/reset")
-    public void resetPassword(@ModelAttribute PasswordResetInfo pwrInfo) {
+    public void resetPassword(HttpServletResponse response, @ModelAttribute PasswordResetInfo pwrInfo) {
         accessor.with(accessContext -> {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
 
             if (pwrInfo.getPassword().equals(pwrInfo.getPasswordRepeat()) && user != null) {
-                finalizePasswordSet(user, pwrInfo.getPassword(), accessContext);
+                boolean changed = PasswordUtil.setPassword(user, pwrInfo.getPassword());
+
+                if (changed) {
+                    user.setResetKey("");
+                    user.setResetKeyExpiry(new Date());
+
+                    accessContext.user.save(user);
+
+                    return;
+                }
             }
+
+            // If no early exit then the password reset failed
+            response.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
         });
-    }
-
-    @Authorize
-    @PostMapping("/reset_wa")
-    public void resetPasswordWithAuth(@ModelAttribute PasswordResetWithAuth pwrInfo,
-                                      Verifier verifier) {
-        accessor.with(accessContext -> {
-            User user = accessContext.user.fromUsername(verifier.claims.getSubject());
-
-            boolean correctPassword = PasswordUtil.verifyPassword(pwrInfo.getPasswordCurrent(), user.getPasswordHash(),
-                    user.getSalt());
-
-            if (pwrInfo.getPasswordNew().equals(pwrInfo.getPasswordNewRepeat()) && correctPassword) {
-                finalizePasswordSet(user, pwrInfo.getPasswordNew(), accessContext);
-            }
-        });
-    }
-
-    private void finalizePasswordSet(User user, String password, AccessContext accessContext) {
-        user.setResetKey("");
-        user.setResetKeyExpiry(new Date());
-        String salt = PasswordUtil.generateSalt();
-        user.setSalt(salt);
-        user.setPasswordHash(PasswordUtil.generatePasswordHash(password, salt));
-
-        accessContext.user.save(user);
     }
 
     @Authorize
@@ -139,14 +123,13 @@ public class PasswordController {
                 return;
             }
 
-            String newSalt = PasswordUtil.generateSalt();
-            String newHash = PasswordUtil.generatePasswordHash(pwInfo.getNewPassword(), newSalt);
+            boolean changed = PasswordUtil.setPassword(user, pwInfo.getNewPassword());
 
-            user.setSalt(newSalt);
-            user.setPasswordHash(newHash);
-
-            access.user.save(user);
+            if (changed) {
+                access.user.save(user);
+            } else {
+                response.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+            }
         });
     }
-
 }
