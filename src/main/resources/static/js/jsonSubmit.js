@@ -2,13 +2,14 @@
  * Created by alan on 17/01/2017.
  */
 
-function jsonSubmitFns(form, actionUrl, predecate, success, fail = console.error) {
-    let json = $(form).serializeJSON();
+function jsonSubmitFns(form, predecate, success, fail = console.error) {
+    let $form = $(form);
+    let json = $form.serializeJSON();
 
     if (predecate(json)) {
         $.ajax({
-            type: "post",
-            url: actionUrl,
+            type: $form.attr("method"),
+            url: $form.attr("action"),
             data: JSON.stringify(json),
             contentType: "application/json; charset=utf-8",
             success: success
@@ -19,8 +20,8 @@ function jsonSubmitFns(form, actionUrl, predecate, success, fail = console.error
     return false;
 }
 
-function jsonSubmit(form, redirectUrl, actionUrl) {
-    return jsonSubmitFns(form, actionUrl, () => true, () => {
+function jsonSubmit(form, redirectUrl) {
+    return jsonSubmitFns(form, () => true, () => {
         window.location = redirectUrl;
     });
 }

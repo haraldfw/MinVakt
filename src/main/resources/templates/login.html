@@ -8,7 +8,7 @@
 
 <div th:fragment="content">
     <div id="login" class="login-box">
-        <form th:object="${loginInfo}" onsubmit="return jsonSubmit(this, '/welcome', '/api/login')">
+        <form th:object="${loginInfo}" action="/api/login" method="post" onsubmit="return jsonSubmit(this, '/welcome')">
             <div class="form-group">
                 <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn"
                        th:field="*{username}" th:required="required"/>
