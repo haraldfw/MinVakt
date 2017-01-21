@@ -3,12 +3,12 @@
       th:include="layout :: mainLayout">
 
 <head th:fragment="header">
-    <script src="/js/login.js"></script>
+    <script src="/js/jsonSubmit.js"></script>
 </head>
 
 <div th:fragment="content">
     <div id="login" class="login-box">
-        <form id="form" th:object="${loginInfo}">
+        <form th:object="${loginInfo}" action="/api/login" method="post" onsubmit="return jsonSubmit(this, '/welcome')">
             <div class="form-group">
                 <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn"
                        th:field="*{username}" th:required="required"/>

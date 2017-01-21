@@ -16,17 +16,29 @@ public class NavBarController {
 
     @ModelAttribute("username")
     public String username(Verifier verify) {
+        if (verify == null) return null;
         return verify.claims.getSubject();
     }
 
+    @ModelAttribute("name")
+    public String name(Verifier verify) {
+        if (verify == null) return null;
+        return (String) verify.claims.get("name");
+    }
+
+
+
     @ModelAttribute("navbar")
     public NavbarModel getNavbarModel(Verifier verify) {
+        if (verify == null) return null;
+
         NavbarModel model = new NavbarModel();
         String username = verify.claims.getSubject();
         model.setUsername(username);
 
         accessor.with(accessContext -> {
             model.setNotificationModels(accessContext.notification.toModel(accessContext.notification.fromUsername(username)));
+            model.setProfileImageId(accessContext.user.getImageIdFromUsername(username));
         });
 
         return model;

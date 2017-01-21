@@ -5,6 +5,7 @@
 
 <head th:fragment="header">
     <script src="/js/useraccount.js"></script>
+    <script src="/js/jsonSubmit.js"></script>
 </head>
 
 <div th:fragment="content">
@@ -60,6 +61,20 @@
             </tr>
         </table>
     </div>
+    <table class="table table-striped">
+        <tr>
+            <td>
+                <img src="" th:src="@{'/api/images/get/' + ${navbar.profileImageId}}" height="256" width="256"
+                     style="margin: auto 0;"/>
+            </td>
+            <td>
+                <form enctype="multipart/form-data" th:action="@{/api/images/upload}" method="post">
+                    <input class="form-control" type="file" name="file"/>
+                    <input type="submit" value="Last opp"/>
+                </form>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

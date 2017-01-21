@@ -1,21 +1,24 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.data.access.AccessContext;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.ChangePassword;
 import no.ntnu.team5.minvakt.model.ForgottenPassword;
+import no.ntnu.team5.minvakt.model.LoginResponse;
 import no.ntnu.team5.minvakt.model.PasswordResetInfo;
-import no.ntnu.team5.minvakt.model.PasswordResetWithAuth;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -32,7 +35,7 @@ import java.util.Map;
 public class PasswordController {
 
     @Autowired
-    private AccessContextFactory accessContextFactory;
+    private AccessContextFactory accessor;
 
     @Autowired
     private EmailService emailService;
@@ -41,7 +44,7 @@ public class PasswordController {
     public void forgot(@ModelAttribute ForgottenPassword forgotInfo) {
         String input = forgotInfo.getUsernameEmail().trim();
 
-        accessContextFactory.with(accessContext -> {
+        accessor.with(accessContext -> {
             User user;
 
             if (input.contains("@")) {
@@ -85,40 +88,48 @@ public class PasswordController {
     }
 
     @PostMapping("/reset")
-    public void resetPassword(@ModelAttribute PasswordResetInfo pwrInfo) {
-        accessContextFactory.with(accessContext -> {
+    public void resetPassword(HttpServletResponse response, @ModelAttribute PasswordResetInfo pwrInfo) {
+        accessor.with(accessContext -> {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
 
             if (pwrInfo.getPassword().equals(pwrInfo.getPasswordRepeat()) && user != null) {
-                finalizePasswordSet(user, pwrInfo.getPassword(), accessContext);
+                boolean changed = PasswordUtil.setPassword(user, pwrInfo.getPassword());
+
+                if (changed) {
+                    user.setResetKey("");
+                    user.setResetKeyExpiry(new Date());
+
+                    accessContext.user.save(user);
+
+                    return;
+                }
             }
+
+            // If no early exit then the password reset failed
+            response.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
         });
     }
 
     @Authorize
-    @PostMapping("/reset_wa")
-    public void resetPasswordWithAuth(@ModelAttribute PasswordResetWithAuth pwrInfo,
-                                      Verifier verifier) {
-        accessContextFactory.with(accessContext -> {
-            User user = accessContext.user.fromUsername(verifier.claims.getSubject());
+    @PostMapping("/change")
+    public void change_password(HttpServletResponse response, Verifier verifier, @RequestBody ChangePassword pwInfo) {
+        accessor.with(access -> {
+            User user = access.user.fromUsername(verifier.claims.getSubject());
 
-            boolean correctPassword = PasswordUtil.verifyPassword(pwrInfo.getPasswordCurrent(), user.getPasswordHash(),
-                    user.getSalt());
+            LoginResponse lr = PasswordUtil.login(user, pwInfo.getOldPassword(), false);
+            if (!lr.getSuccess()) {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return;
+            }
 
-            if (pwrInfo.getPasswordNew().equals(pwrInfo.getPasswordNewRepeat()) && correctPassword) {
-                finalizePasswordSet(user, pwrInfo.getPasswordNew(), accessContext);
+            boolean changed = PasswordUtil.setPassword(user, pwInfo.getNewPassword());
+
+            if (changed) {
+                access.user.save(user);
+            } else {
+                response.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
             }
         });
-    }
-
-    private void finalizePasswordSet(User user, String password, AccessContext accessContext) {
-        user.setResetKey("");
-        user.setResetKeyExpiry(new Date());
-        String salt = PasswordUtil.generateSalt();
-        user.setSalt(salt);
-        user.setPasswordHash(PasswordUtil.generatePasswordHash(password, salt));
-
-        accessContext.user.save(user);
     }
 }

@@ -31,6 +31,5 @@ public class AvailabilityController {
                     .map(access.availability::toModel)
                     .collect(Collectors.toList());
         });
-
     }
 }
