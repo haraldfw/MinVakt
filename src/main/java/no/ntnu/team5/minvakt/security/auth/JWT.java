@@ -69,5 +69,13 @@ public class JWT {
             return Optional.empty();
         }
     }
+
+    public static String refresh(Claims claims) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(expieryDate(false))
+                .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
+                .compact();
+    }
 }
 
