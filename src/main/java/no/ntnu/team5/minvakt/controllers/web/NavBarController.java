@@ -20,6 +20,14 @@ public class NavBarController {
         return verify.claims.getSubject();
     }
 
+    @ModelAttribute("name")
+    public String name(Verifier verify) {
+        if (verify == null) return null;
+        return (String) verify.claims.get("name");
+    }
+
+
+
     @ModelAttribute("navbar")
     public NavbarModel getNavbarModel(Verifier verify) {
         if (verify == null) return null;

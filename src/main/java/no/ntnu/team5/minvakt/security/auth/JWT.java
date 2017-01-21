@@ -39,9 +39,6 @@ public class JWT {
             ins = new Date().toInstant().plusSeconds(SECONDS_IN_30_MIN);
         }
 
-        Date date = Date.from(ins);
-
-        System.out.println(date);
         return Date.from(ins);
     }
 
@@ -53,6 +50,8 @@ public class JWT {
                 .stream()
                 .map(Competence::getName)
                 .collect(Collectors.toList()));
+
+        claims.put("name", user.getFirstName() + ' ' + user.getLastName());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -68,6 +67,14 @@ public class JWT {
         } catch (JwtException je) {
             return Optional.empty();
         }
+    }
+
+    public static String refresh(Claims claims) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(expieryDate(false))
+                .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
+                .compact();
     }
 }
 
