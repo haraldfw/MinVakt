@@ -35,6 +35,7 @@ public class ImageController {
         Image image = accessContextFactory.with(accessContext -> {
             return accessContext.image.getById(image_id);
         });
+
         if (image == null) {
             return ResponseEntity
                     .notFound()

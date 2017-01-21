@@ -51,6 +51,8 @@ public class JWT {
                 .map(Competence::getName)
                 .collect(Collectors.toList()));
 
+        claims.put("name", user.getFirstName() + ' ' + user.getLastName());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getUsername())

@@ -2,7 +2,7 @@
 
 <div th:fragment="navbar">
     <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
-        <span th:id="username" style="display: none" th:text="${navbar.username}"></span>
+        <span th:id="username" style="display: none" th:text="${name}"></span>
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left">
                 <li>
@@ -46,10 +46,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a th:if="${user} == null" href="/user/profile" th:text="${navbar.username}">
-                    </a>
-                    <a th:if="${user} != null" href="/user/profile" th:text="${user.firstName + ' ' + user.lastName}">
-                    </a>
+                    <a href="/user/profile" th:text="${name}"></a>
                 </li>
             </ul>
         </div>
@@ -60,7 +57,7 @@
         <li class="navbar-item"><a href="/shiftss">Alle vakter</a></li>
         <!--<li class="navbar-item"><a th:href="@{'/user/' + ${navbar.username} + '/availability'}">Tilgjengelighet</a></li>-->
         <!--<li class="navbar-item"><a th:href="${'/user/' + navbar.username + '/absence'}">Fravær</a></li>-->
-        <li class="navbar-item"><a href="/user/profile" th:text="${navbar.username}">Brukernavn her</a></li>
+        <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
