@@ -2,22 +2,14 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Image;
-import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
-import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
 
 /**
  * Created by Harald Floor Wilhelmsen on 20.01.2017.
@@ -44,37 +36,5 @@ public class ImageController {
                 .ok()
                 .header(HttpHeaders.CONTENT_TYPE, image.getType())
                 .body(image.getContent());
-    }
-
-
-    @Authorize
-    @PostMapping("/upload")
-    public String imageUpload(@RequestParam("file") MultipartFile file,
-                              RedirectAttributes redirectAttributes,
-                              Verifier verifier) {
-
-        accessContextFactory.with(accessContext -> {
-            try {
-                Image image = new Image(file.getBytes(), file.getContentType());
-                accessContext.image.save(image);
-                User user = accessContext.user.fromUsername(verifier.claims.getSubject());
-
-                Image prevImage = user.getImage();
-
-                user.setImage(image);
-                accessContext.user.save(user);
-
-                if (prevImage != null) {
-                    accessContext.image.delete(prevImage);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:/";
     }
 }

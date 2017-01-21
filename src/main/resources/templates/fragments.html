@@ -13,7 +13,6 @@
                             class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -46,10 +45,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a th:if="${user} == null" href="/user/profile" th:text="${navbar.username}">
-                    </a>
-                    <a th:if="${user} != null" href="/user/profile" th:text="${user.firstName + ' ' + user.lastName}">
-                    </a>
+                    <a href="/user/profile" th:text="${navbar.username}"></a>
+                    <img src="" th:src="@{'/api/images/get/' + ${navbar.profileImageId}}" height="42" width="42" style="margin: auto 0;" />
                 </li>
             </ul>
         </div>
