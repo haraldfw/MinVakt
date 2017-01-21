@@ -3,12 +3,12 @@
       th:include="layout :: mainLayout">
 
 <head th:fragment="header">
-    <script src="/js/password/change.js"></script>
+    <script src="/js/jsonSubmit.js"></script>
 </head>
 
 <div th:fragment="content">
     <div id="login" class="login-box">
-        <form id="form">
+        <form onsubmit="return jsonSubmit(this, '/user/profile', '/api/password/change')">
             <div class="form-group">
                 <input type="password" name="old_password" autofocus="autofocus" class="form-control"
                        placeholder="Passord"
