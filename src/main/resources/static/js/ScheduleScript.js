@@ -12,12 +12,16 @@ $(document).ready(function() {
     var username = $("#username").html();
 
     /* For displaying the weeknames and current month*/
-    var dayCounter = 1; // [0-6?]
+    var dayCounter = 0; // [0-6, man-søn]
     var today = new Date();
-    var dateCounter = 1; // [0-31]
-    var dayNames = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"];
+    //var dateCounter = 1; // [0-31]
+    //var dayNames = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"];
+    var dayNames = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
+    //I javascript er 0=søndag, 1= mandag osv.
+    var tempFix = [6, 0, 1, 2, 3, 4, 5];
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
     //TODO: fix this when changing week
+    var weekStartDate = today.getDate() - tempFix[today.getDay()];
 
     /* To change the date names */
 
@@ -28,12 +32,14 @@ $(document).ready(function() {
     $(".dayTop").each(function() {
         //dateCounter = today.getDate();
 
-        $(this).html(dayNames[dateCounter] + " " + (today.getDate() - today.getDay() + dayCounter) + ". " + monthNames[today.getMonth()]);
-        if (today.getDay() === dayCounter) {
+        var dateToday = weekStartDate + dayCounter;
+
+        $(this).html(dayNames[dayCounter] + " " + dateToday + ". " + monthNames[today.getMonth()]);
+        if (today.getDate() === dateToday) {
             $(this).addClass("dayTop-today");
         }
         dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
-        dateCounter++;
+        //dateCounter++;
     });
 
     var currentWeekUrl = "/api/shift/" + username +"/week";
@@ -58,7 +64,7 @@ $(document).ready(function() {
                 var hoursOfWork = Math.abs(shiftEnd - shiftStart) / 3600000; //3600000 is milliseconds in hour
                 var elementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
 
-                var dateNumber = shiftStart.getDate() - (today.getDate() - today.getDay());
+                var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
 
                 var absence = "";
                 if (obj.absent) {
@@ -209,7 +215,22 @@ $(document).ready(function() {
         $(".shift").remove();
         //TODO: make function
 
-        url = "/api/shift/haraldfw/2017/0/20/week";
+        weekStartDate -= 7;
+        dayCounter = 0;
+        $(".dayTop").each(function() {
+            //dateCounter = today.getDate();
+
+            var dateToday = (weekStartDate + dayCounter);
+
+            $(this).html(dayNames[dayCounter] + " " + dateToday + ". " + monthNames[today.getMonth()]);
+            if (today.getDate() === dateToday) {
+                $(this).addClass("dayTop-today");
+            }
+            dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
+            //dateCounter++;
+        });
+
+        url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
 
         getShifts(url);
     });
@@ -218,5 +239,24 @@ $(document).ready(function() {
 
     $("#buttonNextWeek").click(function() {
         $(".shift").remove();
+
+        weekStartDate += 7;
+        dayCounter = 0;
+        $(".dayTop").each(function() {
+            //dateCounter = today.getDate();
+
+            var dateToday = (weekStartDate + dayCounter);
+
+            $(this).html(dayNames[dayCounter] + " " + dateToday + ". " + monthNames[today.getMonth()]);
+            if (today.getDate() === dateToday) {
+                $(this).addClass("dayTop-today");
+            }
+            dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
+            //dateCounter++;
+        });
+
+        url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
+
+        getShifts(url);
     });
 });
