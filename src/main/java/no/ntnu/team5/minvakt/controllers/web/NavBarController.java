@@ -37,9 +37,9 @@ public class NavBarController {
 
         accessor.with(accessContext -> {
             model.setNotificationModels(accessContext.notification.toModel(accessContext.notification.fromUsername(username)));
-            Object id = accessContext.user.getImageIdFromUsername(username);
+            Integer id = accessContext.user.getImageIdFromUsername(username);
             if (id != null)
-                model.setProfileImageId((Integer) accessContext.user.getImageIdFromUsername(username));
+                model.setProfileImageId(accessContext.user.getImageIdFromUsername(username));
         });
 
         return model;
