@@ -84,11 +84,11 @@ public class UserAccess extends Access<User, UserModel> {
         });
     }
 
-    public int getImageIdFromUsername(String username) { // FIXME optimaliser pl0x
+    public Object getImageIdFromUsername(String username) { // FIXME optimaliser pl0x
         return getDb().transaction(session -> {
             Query query = session.createQuery("select image.id from User where username = :username");
             query.setParameter("username", username);
-            return (Integer) query.uniqueResult();
+            return query.uniqueResult();
         });
     }
 }
