@@ -16,16 +16,16 @@ $(document).ready(function() {
 
 
         $.get("api/shift/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "", function() {
-            alert("asdasd");
+
 
         })
             .done(function(data) {
-                var jarray = data;
+                var jArray = data;
 
-                for(var i = 0; i < jarray.length; i++) {
+                for(var i = 0; i < jArray.length; i++) {
                     //12.30 - 14.45
-                    var startTime = new Date(jarray[i].start_time);
-                    var endTime = new Date(jarray[i].end_time);
+                    var startTime = new Date(jArray[i].start_time);
+                    var endTime = new Date(jArray[i].end_time);
 
                     var minFrom = startTime.getMinutes();
                     var hourFrom = startTime.getHours();
@@ -33,16 +33,36 @@ $(document).ready(function() {
                     var hourTo = endTime.getHours();
                     var minFromPros = minFrom/60;
                     var minToPros = minTo/60;
+                    var diff = 0; //skiftlengde
+                    var lengde = 0; //start pkt
 
+                    //if same date    TODO:endre dags dato til annet senere
                     if(startTime.getFullYear() === endTime.getFullYear() && startTime.getMonth() === endTime.getMonth() && startTime.getDate() === endTime.getDate()) {
-                        var diff = hourTo+minToPros-hourFrom+minFromPros; //7h
-                    } else {
+                        diff = hourTo+minToPros-hourFrom+minFromPros; // tiltid - starttid
+                        lengde = hourFrom+minFromPros;
 
+                    } else if(startTime.getFullYear() === today.getFullYear() && startTime.getMonth() === today.getMonth() && startTime.getDate() === today.getDate()) {
+                        //hvis vakt starter på valgt dato og går til ny dag
+                        diff = 24.0-hourFrom+minFromPros;
+                        lengde = hourFrom+minFromPros;
+
+                    } else if(endTime.getFullYear() === today.getFullYear() && endTime.getMonth() === today.getMonth() && endTime.getDate() === today.getDate()) {
+                        //hvis vakt slutter på valgt dato
+                        diff = hourTo+minToPros-0; //ikke fjern 0
+                        //lengde blir lik 0
+
+                    } else {
+                        //hvis vakt går igjennom hele dagen
+                        diff = 24;
+                        //lengde blir lik 0
                     }
 
+                    var komp = "";
+                    var kompArray = jArray[i].competences;
+                    for(var j = 0; j < kompArray.length; j++) {
+                        komp += (", " + kompArray[j].name);
+                    }
 
-                    var lengde = hourFrom+minFromPros;
-                    var komp = "test2";
                     var tidtid = "test";
                     var classKomp = "worker";
                     var vakt = '<div class="shift-box ' + classKomp + '" style="left: calc(11.11% + ((11.11%/3)*' + lengde + ')); width: calc((11.11%/3)*' + diff + ' - 1px);">' + tidtid + '</div>';
@@ -90,8 +110,6 @@ $(document).ready(function() {
                     }
                 });
 
-
-
                 $(".no-worker").click(function() {
                     $("#modalShift").modal("show");
                     $("#modalFree").css("display", "inline");
@@ -129,19 +147,12 @@ $(document).ready(function() {
                     $("#titleTime").html(text);
                 });
 
-
-
                 $("#date").on("changeDate", function() {
                     $("#selectDay").css("display", "none");
                     $("#selectDay").css("display", "inline");
                 });
-
-
             });
-
     });
-
-
     /*
      var diffMin = 0;
      var lengde = diffHour + ;
@@ -152,7 +163,7 @@ $(document).ready(function() {
      diff %= 100;
 
      }*/
-    /* TODO: ikkje fjern noko!!!!!
+    /* TODO: ikke fjern kommentarer
      $("#testtest").css("left", "calc(11.11% + ((11.11%/3)*" + lengde +"))");
      $("#testtest").css("width", "calc((11.11%/3)*" + diff + " - 1px)");
      $("#testtest").addClass("worker");
@@ -171,6 +182,4 @@ $(document).ready(function() {
      }
 
      });*/
-
-
 });
