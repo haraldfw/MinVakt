@@ -18,9 +18,9 @@
     <script src="/js/navbar.js"></script>
 </head>
 <head th:include="this :: header"></head>
-<body>
+<body th:class="${navbar != null} ? 'navbar-open' : ''">
 <header th:if="${navbar != null}" th:include="fragments :: navbar"></header>
     <!-- This line is replaced by content from other template -->
-<div class="content container" th:include="this :: content"></div>
+<div class="content container-fluid" th:include="this :: content"></div>
 </body>
 </html>

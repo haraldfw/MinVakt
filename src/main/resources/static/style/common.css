@@ -1,63 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
     background-color: #eee;
 }
 
 body {
-    padding: 84px 20px 20px 20px;
+    padding: 70px 0 20px 0;
 }
 
 main {
     height: 100%;
 }
-
-header {
-    height: 64px;
-    background-color: white;
-    border-bottom: 1px solid #a7a7a8;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
-
-.content {
-    margin-top: 5%;
-}
-
-#kebab {
-    position: relative;
-}
-
-#menuBtn {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-}
-
-#menuOverlay {
-    list-style: none;
-    background-color: white;
-    position: absolute; /*manually specify position*/
-    right: 20px;
-    top: 50px;
-    padding: 5px 40px 5px 15px; /*clockwise (from top)*/
-    box-shadow: 0px 0px 4px 1px rgba(0,0,0,.3);
-    display: none;
-    z-index: 999999999999;
-}
-
-#menuOverlay ul {
-    list-style: none;
-    padding: 0;
-}
-
-#menuOverlay ul li a {
-    display: block;
-    padding: 5px 0; /*up-down right-left*/
-    margin: 5px 0;
-}
-
 
 #welcome-page .btn {
     width: 100%;
