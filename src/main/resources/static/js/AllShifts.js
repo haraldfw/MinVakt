@@ -59,6 +59,7 @@ $(document).ready(function() {
 
                     var komp = "";
                     var kompArray = jArray[i].competences;
+                    kompArray.sort(); //TODO: sjekk om dette virker
                     for(var j = 0; j < kompArray.length; j++) {
                         komp += (", " + kompArray[j].name);
                     }
