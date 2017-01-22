@@ -27,7 +27,6 @@ public class NavBarController {
     }
 
 
-
     @ModelAttribute("navbar")
     public NavbarModel getNavbarModel(Verifier verify) {
         if (verify == null) return null;
@@ -38,7 +37,9 @@ public class NavBarController {
 
         accessor.with(accessContext -> {
             model.setNotificationModels(accessContext.notification.toModel(accessContext.notification.fromUsername(username)));
-            model.setProfileImageId(accessContext.user.getImageIdFromUsername(username));
+            Object id = accessContext.user.getImageIdFromUsername(username);
+            if (id != null)
+                model.setProfileImageId((Integer) accessContext.user.getImageIdFromUsername(username));
         });
 
         return model;
