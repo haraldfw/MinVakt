@@ -22,5 +22,16 @@
 <header th:if="${navbar != null}" th:include="fragments :: navbar"></header>
     <!-- This line is replaced by content from other template -->
 <div class="content container-fluid" th:include="this :: content"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    if(document.body.clientWidth <= 480) {
+        document.body.classList.remove("navbar-open");
+        document.body.classList.add("no-anim");
+    }
+    setTimeout(function () {
+        document.body.classList.remove("no-anim");
+    }, 1000);
+    /*]]>*/
+</script>
 </body>
 </html>

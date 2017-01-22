@@ -20,10 +20,16 @@ body.navbar-open {
     box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.6);
     z-index: 1000;
     transition: transform .5s;
+    transform: translateX(-100%);
 }
 
-#navbar-side.navbar-open {
-    transform: translateX(-100%);
+body.no-anim,
+.no-anim #navbar-side {
+    transition: none;
+}
+
+.navbar-open #navbar-side{
+    transform: translateX(0);
 }
 
 /* Testing av animasjoner */
