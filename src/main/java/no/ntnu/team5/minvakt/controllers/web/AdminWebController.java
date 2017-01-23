@@ -1,6 +1,8 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
+import no.ntnu.team5.minvakt.model.NewCompetence;
+import no.ntnu.team5.minvakt.model.NewShift;
 import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ public class AdminWebController {
         model.addAttribute("competences", accessor.with(access -> {
             return access.competence.getCompetencesNames();
         }));
+        model.addAttribute("newShift", new NewShift());
+        model.addAttribute("competences", accessor.with(access -> {
+            return access.competence.getCompetencesNames();
+        }));
+        model.addAttribute("newCompetence", new NewCompetence());
 
         return "admin";
     }

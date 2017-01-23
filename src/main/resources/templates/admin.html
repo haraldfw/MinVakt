@@ -75,18 +75,17 @@
 
                 <div class="modal-body">
                     <form action="#" th:action="@{/api/admin/createshift}" th:object="${newShift}" method="post">
-                        <p>Velg vaktinnehaver: <input type="text" th:field="*{user}" th:required="required"/></p>
+                        <p>Velg vaktinnehaver: <input type="object" th:field="*{user}" th:required="required"/></p>
                         <p>Velg start-tidspunkt: <input type="datetime" th:field="*{startTime}" th:required="required"/></p>
                         <p>Velg slutt-tidspunkt: <input type="datetime" th:field="*{endTime}" th:required="required"/></p>
                         <input type="text" th:hidden="hidden" th:field="*{absent}" th:value="false" th:required="required"/>
-                        <input type="number" th:hidden="hidden" th:field="*{standardHours}" th:value=""/>
                         <p>Kompetanser:
                             <select th:list="*{competences}" th:field="*{competences}" multiple="multiple">
                                 <option th:each="comp : ${competences}"
                                         th:text="${comp}" th:value="${comp}"></option>
                             </select>
                         </p>
-                        <p><input type="submit" value="Create User"/></p>
+                        <p><input type="submit" value="Create Shift"/></p>
                     </form>
                 </div>
             </div>
@@ -112,7 +111,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form action="#" th:action="@{/api/admin/createcompetence}" th:object="${newUser}" method="post">
+                    <form action="#" th:action="@{/api/admin/createcompetence}" th:object="${newCompetence}" method="post">
 
                         <p><input type="submit" value="Create Competence"/></p>
                     </form>
