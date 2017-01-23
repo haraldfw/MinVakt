@@ -88,7 +88,7 @@ public class PasswordController {
     }
 
     @PostMapping("/reset")
-    public void resetPassword(HttpServletResponse response, @ModelAttribute PasswordResetInfo pwrInfo) {
+    public void resetPassword(HttpServletResponse response, @RequestBody PasswordResetInfo pwrInfo) {
         accessor.with(accessContext -> {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());

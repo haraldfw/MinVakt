@@ -37,6 +37,4 @@ public class AdminWebController {
 
         return "admin";
     }
-
-
 }

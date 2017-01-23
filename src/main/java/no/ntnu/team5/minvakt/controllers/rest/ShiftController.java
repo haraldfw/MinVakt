@@ -123,6 +123,15 @@ public class ShiftController {
         });
     }
 
+    @RequestMapping("/get_available_users_for_shift")
+    public List<User> getAvailableUsers(@RequestParam("shift_id") int shift_id){
+        return accessor.with(access -> {
+            Shift shift = access.shift.getShiftFromId(shift_id);
+            Date fromDate = shift.getStartTime(), toDate = shift.getEndTime();
+            return access.availability.listAvailableUsers(fromDate, toDate);
+        });
+    }
+
     @Authorize
     @PostMapping("/transfer")
     public ResponseEntity acceptTransfer(Verifier verifier,

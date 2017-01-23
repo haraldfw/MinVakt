@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Competence;
+import no.ntnu.team5.minvakt.db.Image;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.UserModel;
 import org.hibernate.Query;
@@ -82,11 +83,11 @@ public class UserAccess extends Access<User, UserModel> {
         });
     }
 
-    public Integer getImageIdFromUsername(String username) { // FIXME optimaliser pl0x
+    public Image getImageFromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("select image.id from User where username = :username");
+            Query query = session.createQuery("select u.image from User u where username = :username");
             query.setParameter("username", username);
-            return (Integer) query.uniqueResult();
+            return (Image) query.uniqueResult();
         });
     }
 }

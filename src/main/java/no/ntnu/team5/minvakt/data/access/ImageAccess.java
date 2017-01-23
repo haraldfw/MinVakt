@@ -5,7 +5,6 @@ import no.ntnu.team5.minvakt.model.ImageModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by Harald Floor Wilhelmsen on 20.01.2017.

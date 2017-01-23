@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       th:include="layout :: mainLayout">
-<body>
 
 <head th:fragment="header">
     <script src="/js/useraccount.js"></script>
     <script src="/js/jsonSubmit.js"></script>
-    <script type="text/javascript">
-        function uploadImage(form, actionUrl, redirectUrl) {
-            jsonSubmit(form, actionUrl, redirectUrl);
-            let b64_content = form.elements["b64_content"];
-            form.elements["b64_content"]
-
-            // prevent form standard submit
-            return false;
-        }
-    </script>
+    <script src="/js/imageUpload.js"></script>
 </head>
+
+<body>
 
 <div th:fragment="content">
     <div class="account-box">
@@ -59,11 +51,13 @@
                 <td>
                     <!--<input id="fake-pwd-input" type="text" value="••••••••(NIY)"/>-->
                     <div id="new-pwd-box">
-                        <form action="#" th:action="@{/password/reset_wa}" th:object="${passwordResetWithAuth}">
+                        <form action="#" th:action="@{/password/reset_wa}"
+                              th:object="${passwordResetWithAuth}">
                             <input type="password" placeholder="Nåværende passord"/>
                             <input type="password" placeholder="Nytt passord"/>
                             <input type="password" placeholder="Gjenta nytt passord"/>
-                            <input type="submit" id="save-pwd-btn" class="btn btn-primary pull-right">Lagre</input>
+                            <input type="submit" id="save-pwd-btn"
+                                   class="btn btn-primary pull-right">Lagre</input>
                         </form>
                     </div>
                 </td>
@@ -79,13 +73,20 @@
     <table class="table table-striped">
         <tr>
             <td>
-                <img src="" th:src="@{'/api/images/get/' + ${navbar.profileImageId}}" height="256" width="256"
-                     style="margin: auto 0;"/>
+                <img src=""
+                     th:if="${navbar.profileImageB64 != null}"
+                     th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
+                     height="256" width="256" style="margin: auto 0;"/>
+                <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"
+                     height="42" width="42" style="margin: auto 0;" />
             </td>
             <td>
-                <form onsubmit="return uploadImage(this, '/user/profile')" th:action="@{/api/images/upload}" >
-                    <input name="b64_content" class="form-control" type="file" />
-                    <input type="submit" value="Last opp" />
+                <form onsubmit="return uploadImage(this, '/user/profile', 'imgUpload')"
+                      action="/api/images/upload" method="post">
+                    <input class="form-control" type="file" id="imgUpload"/>
+                    <input name="b64_content" type="text" hidden="hidden"/>
+                    <input name="content_type" type="text" hidden="hidden"/>
+                    <input type="submit" value="Last opp"/>
                 </form>
             </td>
         </tr>
