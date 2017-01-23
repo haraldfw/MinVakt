@@ -4,11 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
-import org.apache.commons.codec.binary.Base64;
 
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,16 +19,9 @@ import java.util.stream.Collectors;
  */
 
 public class JWT {
-    private static final int KEY_SIZE = 1024;
-    private static final String SECURE_KEY;
+
     private static final int SECONDS_IN_YEAR = 525_600 * 60;
     private static final int SECONDS_IN_30_MIN = 60 * 30;
-
-    static {
-        byte[] salt = new byte[KEY_SIZE];
-        new SecureRandom().nextBytes(salt);
-        SECURE_KEY = Base64.encodeBase64String(salt);
-    }
 
     static private Date expieryDate(boolean remember) {
         Instant ins;
@@ -57,13 +49,13 @@ public class JWT {
                 .setClaims(claims)
                 .setSubject(user.getUsername())
                 .setExpiration(expieryDate(remember))
-                .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
+                .signWith(SignatureAlgorithm.HS512, Constants.SECURE_KEY)
                 .compact();
     }
 
     static public Optional<Claims> verify(String token) {
         try {
-            return Optional.of(Jwts.parser().setSigningKey(SECURE_KEY).parseClaimsJws(token).getBody());
+            return Optional.of(Jwts.parser().setSigningKey(Constants.SECURE_KEY).parseClaimsJws(token).getBody());
         } catch (JwtException je) {
             return Optional.empty();
         }
@@ -73,7 +65,7 @@ public class JWT {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(expieryDate(false))
-                .signWith(SignatureAlgorithm.HS512, SECURE_KEY)
+                .signWith(SignatureAlgorithm.HS512, Constants.SECURE_KEY)
                 .compact();
     }
 }

@@ -88,10 +88,12 @@ public class PasswordController {
     }
 
     @PostMapping("/reset")
-    public void resetPassword(HttpServletResponse response, @ModelAttribute PasswordResetInfo pwrInfo) {
+    public void resetPassword(HttpServletResponse response, @RequestBody PasswordResetInfo pwrInfo) {
         accessor.with(accessContext -> {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
+
+            System.out.println(pwrInfo);
 
             if (pwrInfo.getPassword().equals(pwrInfo.getPasswordRepeat()) && user != null) {
                 boolean changed = PasswordUtil.setPassword(user, pwrInfo.getPassword());
