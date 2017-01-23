@@ -20,7 +20,7 @@ $(document).ready(function() {
     //I javascript er 0=søndag, 1= mandag osv.
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
-    //TODO: fix this when changing week
+
     var weekStartDate = today.getDate() - tempFix[today.getDay()];
 
 
@@ -45,20 +45,10 @@ $(document).ready(function() {
                     $(this).removeClass("dayTop-today");
                 }
             }
-            dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
+            dayCounter++;
             //dateCounter++;
 
             currentDate = addDays(currentDate, 1);
-            //alert(currentDate.getDate());
-
-            /*var tempDate = addDays(currentDate, 1);
-            currentDate = tempDate;
-            alert(dayCounter);
-            alert(currentDate.getDate());*/
-
-            //currentDate = addDays(currentDate, 1);
-            //alert(testDate.getDate());
-
         });
         currentDate = addDays(currentDate, -7);
     }
@@ -69,7 +59,7 @@ $(document).ready(function() {
     var url = currentWeekUrl;
 
     function getShifts(url) {
-        $.get(url, function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: legg inn brukernavn som er pålogget
+        $.get(url, function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: kan kanskje hente brukernavn i backend istenden
             //alert("okidoki" + data);
         }).done(function(data) {
             var jsonArray = data;
@@ -80,6 +70,7 @@ $(document).ready(function() {
                 //alert(user_model.id);
 
                 //alert(jsonArray[i].start_time);
+                var shiftId = obj.id;
                 var shiftStart = new Date(jsonArray[i].start_time);
                 var shiftEnd = new Date(jsonArray[i].end_time);
                 //alert(dateStart.getHours());
@@ -99,11 +90,36 @@ $(document).ready(function() {
                 //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
                 var dateNumber = shiftStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
 
+                var fromTime = "";
+                if (shiftStart.getHours() < 10) {
+                    fromTime = "0";//TODO: fix 00:00 --> blir 0:00
+                }
+                fromTime = shiftStart.getHours() + ":";
+                if (shiftStart.getMinutes() % 10 === 0) {
+                    fromTime += "0";
+                }
+                fromTime += shiftStart.getMinutes();
+
+                var toTime = "";
+                if (shiftEnd.getHours() < 10) {
+                    toTime = "0";
+                }
+                toTime += shiftEnd.getHours() + ":";
+                if (shiftEnd.getMinutes() % 10 === 0) {
+                    toTime += "0";
+                }
+                toTime += shiftEnd.getMinutes();
+
+                var shiftCenteredText = '<p class="shift-center-text">' + fromTime + ' - ' + toTime + '</p></div>';
+                var dateRange = '<br />' + shiftStart.getDate() + ". " + monthNames[shiftStart.getMonth()] + ' - ' + shiftEnd.getDate() + ". " + monthNames[shiftEnd.getMonth()];
+                var shiftCenteredTextTwoDays = '<p class="shift-center-text">' + fromTime + ' - ' + toTime + dateRange + '</p></div>';
+
                 //For checking if the shift start at a date and goes to the next date
                 if (shiftStart.getDate() === shiftEnd.getDate() && shiftStart.getMonth() === shiftEnd.getMonth() &&
                                                                 shiftStart.getFullYear() === shiftEnd.getFullYear()) {
                     //If the shift is only on the same day
-                    var newElement = '<div id="2" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">Skift test</div>';
+                    var newElement = '<div id="' + shiftId + '" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
+                        shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
                 } else {
                     //If the shift goes from one day to another
@@ -116,15 +132,16 @@ $(document).ready(function() {
                     //TODO: elementHeight
 
                     //Element 1, det som går til enden først
-                    var newElement = '<div id="2" class="shift' + absence + ' shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">Skift test</div>';
+                    var newElement = '<div id="' + shiftId + '" class="shift' + absence + ' shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">' +
+                        shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
 
                     //Element next day(s)
 
                     var extraElementCounter = 0;
                     var nonRoundedClass = "";
-                    while(totalElementHeight > heightDone) {
-                        alert(totalElementHeight + "; " + heightDone);
+                    while(totalElementHeight > heightDone) {//TODO: endre til sånn at den går maks 7 ganger
+                        //alert(totalElementHeight + "; " + heightDone);
                         var currentElementHeight = 0;
                         if ((totalElementHeight - heightDone) > 89) {
                             //Det er større enn en dag og man vil få element med samme størrelse som en dag
@@ -138,24 +155,14 @@ $(document).ready(function() {
                         }
                         extraElementCounter++;
 
-                        var newElementNextDay = '<div id="2" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0vh; height: ' + currentElementHeight + 'vh">Skift test</div>';
+                        var newElementNextDay = '<div id="' + shiftId + '" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0vh; height: ' + currentElementHeight + 'vh">' +
+                            shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
-                        alert("heisann");
                     }
 
                     /*var elementHeightNextDay = (hoursOfWork * (44.5 / 12)) - elementHeight;
                     var newElementNextDay = '<div id="2" class="shift' + absence + '" style="top: 0vh; height: ' + elementHeightNextDay + 'vh">Skift test</div>';
                     $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+1) + ") .dayInnhold").append(newElementNextDay);*/
-
-
-                    //TODO: add while løkke som går i maks 7 dager sånn at man ikke går uendelig og får veldig krevende js-fil
-                    /*while(elementHeight > 1) {
-                        alert(elementHeight);
-                        elementHeight -= 10;
-                    }*/
-                    /*while (hoursLeft > 24) {
-
-                    }*/
                 }
 
 
@@ -168,11 +175,26 @@ $(document).ready(function() {
     };
     getShifts(url);
 
+    function getAvailibleUsers(url) {
+        $.get(url, function() {
+            alert("okidoki1");
+        }).done(function() {
+            alert("okidoki2");
+        }).fail(function () {
+            alert("Det skjedde en feil med innhenting av data for skift.");
+        });
+    }
+
+    //Clickevent handler for a shift element
     $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
-        //alert("heisann");
+
         $("#modalTest").modal("show");
         //TODO: gjøre ting med iden man får her og hente fra database$(this).attr("id")
         selectedShift = $(this).attr("id");
+
+        //Get availible users for changing worker of a shift
+        var availibilityUrl = "/api/shift/get_available_users_for_shift?shift_id=" + selectedShift;
+        getAvailibleUsers(availibilityUrl);
 
         if ($(this).hasClass("normal-shift")) {
             //Modal for shift
