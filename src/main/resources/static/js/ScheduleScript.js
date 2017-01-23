@@ -19,14 +19,14 @@ $(document).ready(function() {
     var dayNames = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
     //I javascript er 0=søndag, 1= mandag osv.
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
-    var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
+    var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
     //TODO: fix this when changing week
     var weekStartDate = today.getDate() - tempFix[today.getDay()];
 
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
-        return new Date(date.getTime() + days*24*60*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
+        return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
     var currentDate = new Date();
@@ -36,7 +36,7 @@ $(document).ready(function() {
             //dateCounter = today.getDate();
             var dateToday = weekStartDate + dayCounter;
 
-            $(this).html(dayNames[dayCounter] + " " + dateToday + ". " + monthNames[today.getMonth()]);
+            $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             if (today.getDate() === dateToday) {
                 $(this).addClass("dayTop-today");
             } else {
@@ -48,10 +48,19 @@ $(document).ready(function() {
             dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
             //dateCounter++;
 
+            currentDate = addDays(currentDate, 1);
+            //alert(currentDate.getDate());
+
+            /*var tempDate = addDays(currentDate, 1);
+            currentDate = tempDate;
+            alert(dayCounter);
+            alert(currentDate.getDate());*/
+
             //currentDate = addDays(currentDate, 1);
             //alert(testDate.getDate());
 
         });
+        currentDate = addDays(currentDate, -7);
     }
     changeTopDayNames();
 
@@ -76,9 +85,9 @@ $(document).ready(function() {
                 //alert(dateStart.getHours());
                 var elementDistanceTop = shiftStart.getHours() * (44.5 / 12); //44.5 is the height of 12 hours //TODO: make constant of this
                 var hoursOfWork = Math.abs(shiftEnd - shiftStart) / 3600000; //3600000 is milliseconds in hour
-                var elementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
 
-                var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
+                var totalElementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
+                //TODO: does only work with hours yet
 
                 var absence = "";
                 if (obj.absent) {
@@ -87,9 +96,69 @@ $(document).ready(function() {
                     absence = " normal-shift"
                 }
 
-                var newElement = '<div id="2" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + elementHeight + 'vh">Skift test</div>';
+                //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
+                var dateNumber = shiftStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
 
-                $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+                //For checking if the shift start at a date and goes to the next date
+                if (shiftStart.getDate() === shiftEnd.getDate() && shiftStart.getMonth() === shiftEnd.getMonth() &&
+                                                                shiftStart.getFullYear() === shiftEnd.getFullYear()) {
+                    //If the shift is only on the same day
+                    var newElement = '<div id="2" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">Skift test</div>';
+                    $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+                } else {
+                    //If the shift goes from one day to another
+                    //elementHeight = hoursOfWork * (44.5 / 12);
+                    var heightDone = 89 - elementDistanceTop;
+
+                    //alert(elementHeight); //=129
+
+                    //elementHeight = heightDone; //89vh is the max size of "dayInnhold" elements
+                    //TODO: elementHeight
+
+                    //Element 1, det som går til enden først
+                    var newElement = '<div id="2" class="shift' + absence + ' shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">Skift test</div>';
+                    $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+
+                    //Element next day(s)
+
+                    var extraElementCounter = 0;
+                    var nonRoundedClass = "";
+                    while(totalElementHeight > heightDone) {
+                        alert(totalElementHeight + "; " + heightDone);
+                        var currentElementHeight = 0;
+                        if ((totalElementHeight - heightDone) > 89) {
+                            //Det er større enn en dag og man vil få element med samme størrelse som en dag
+                            currentElementHeight = 89;
+                            heightDone += 89;
+                            nonRoundedClass = "shift-non-rounded-both";
+                        } else {
+                            currentElementHeight = totalElementHeight - heightDone;
+                            heightDone += currentElementHeight;
+                            nonRoundedClass = "shift-non-rounded-top";
+                        }
+                        extraElementCounter++;
+
+                        var newElementNextDay = '<div id="2" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0vh; height: ' + currentElementHeight + 'vh">Skift test</div>';
+                        $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
+                        alert("heisann");
+                    }
+
+                    /*var elementHeightNextDay = (hoursOfWork * (44.5 / 12)) - elementHeight;
+                    var newElementNextDay = '<div id="2" class="shift' + absence + '" style="top: 0vh; height: ' + elementHeightNextDay + 'vh">Skift test</div>';
+                    $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+1) + ") .dayInnhold").append(newElementNextDay);*/
+
+
+                    //TODO: add while løkke som går i maks 7 dager sånn at man ikke går uendelig og får veldig krevende js-fil
+                    /*while(elementHeight > 1) {
+                        alert(elementHeight);
+                        elementHeight -= 10;
+                    }*/
+                    /*while (hoursLeft > 24) {
+
+                    }*/
+                }
+
+
             }
 
             //alert("DONE. ok" + data);
@@ -226,11 +295,14 @@ $(document).ready(function() {
         $(".shift").remove();
         //TODO: make function
 
+        currentDate = addDays(currentDate, -7);
+
         weekStartDate -= 7;
         dayCounter = 0;
         changeTopDayNames();
 
-        url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
+        //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
+        url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
     });
@@ -240,11 +312,13 @@ $(document).ready(function() {
     $("#buttonNextWeek").click(function() {
         $(".shift").remove();
 
+        currentDate = addDays(currentDate, 7);
         weekStartDate += 7;
         dayCounter = 0;
         changeTopDayNames();
 
-        url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week"; //TODO: legg til månedsvariabel
+        //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week"; //TODO: legg til månedsvariabel
+        url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
     });

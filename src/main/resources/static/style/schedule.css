@@ -129,6 +129,18 @@
     cursor: pointer;
 }
 
+/* For shifts that goes from one day to another*/
+.shift-non-rounded-top {
+    border-radius: 0px 0px 5px 5px;
+}
+
+.shift-non-rounded-bottom {
+    border-radius: 5px 5px 0px 0px;
+}
+
+.shift-non-rounded-both {
+    border-radius: 0px;
+}
 
 
 .normal-shift {

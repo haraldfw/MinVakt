@@ -93,6 +93,8 @@ public class PasswordController {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
 
+            System.out.println(pwrInfo);
+
             if (pwrInfo.getPassword().equals(pwrInfo.getPasswordRepeat()) && user != null) {
                 boolean changed = PasswordUtil.setPassword(user, pwrInfo.getPassword());
 
