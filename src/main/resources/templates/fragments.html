@@ -66,6 +66,14 @@
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
 
+        <th:block th:if="${isAdmin}">
+            <hr/>
+            <li class="navbar-item"><a href="/admin/shift">Legg til shift</a></li>
+            <li class="navbar-item"><a href="/admin/createuser">Legg til bruker</a></li>
+            <li class="navbar-item"><a href="/admin/competence">Legg til kompetanse</a></li>
+            <li class="navbar-item"><a href="/admin/message">Send melding</a></li>
+        </th:block>
+
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>
 </div>
