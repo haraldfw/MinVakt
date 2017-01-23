@@ -86,7 +86,7 @@ $(document).ready(function() {
                 var elementDistanceTop = shiftStart.getHours() * (44.5 / 12); //44.5 is the height of 12 hours //TODO: make constant of this
                 var hoursOfWork = Math.abs(shiftEnd - shiftStart) / 3600000; //3600000 is milliseconds in hour
 
-                var elementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
+                var totalElementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
                 //TODO: does only work with hours yet
 
                 var absence = "";
@@ -102,21 +102,63 @@ $(document).ready(function() {
                 //For checking if the shift start at a date and goes to the next date
                 if (shiftStart.getDate() === shiftEnd.getDate() && shiftStart.getMonth() === shiftEnd.getMonth() &&
                                                                 shiftStart.getFullYear() === shiftEnd.getFullYear()) {
-
+                    //If the shift is only on the same day
+                    var newElement = '<div id="2" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">Skift test</div>';
+                    $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
                 } else {
-                    alert("ikke samme dag");
-                    elementHeight = 89 - elementDistanceTop; //89vh is the max size of "dayInnhold" elements
+                    //If the shift goes from one day to another
+                    //elementHeight = hoursOfWork * (44.5 / 12);
+                    var heightDone = 89 - elementDistanceTop;
 
-                    //Element next day
-                    var elementHeightNextDay = (hoursOfWork * (44.5 / 12)) - elementHeight;
+                    //alert(elementHeight); //=129
+
+                    //elementHeight = heightDone; //89vh is the max size of "dayInnhold" elements
+                    //TODO: elementHeight
+
+                    //Element 1, det som går til enden først
+                    var newElement = '<div id="2" class="shift' + absence + ' shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">Skift test</div>';
+                    $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+
+                    //Element next day(s)
+
+                    var extraElementCounter = 0;
+                    var nonRoundedClass = "";
+                    while(totalElementHeight > heightDone) {
+                        alert(totalElementHeight + "; " + heightDone);
+                        var currentElementHeight = 0;
+                        if ((totalElementHeight - heightDone) > 89) {
+                            //Det er større enn en dag og man vil få element med samme størrelse som en dag
+                            currentElementHeight = 89;
+                            heightDone += 89;
+                            nonRoundedClass = "shift-non-rounded-both";
+                        } else {
+                            currentElementHeight = totalElementHeight - heightDone;
+                            heightDone += currentElementHeight;
+                            nonRoundedClass = "shift-non-rounded-top";
+                        }
+                        extraElementCounter++;
+
+                        var newElementNextDay = '<div id="2" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0vh; height: ' + currentElementHeight + 'vh">Skift test</div>';
+                        $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
+                        alert("heisann");
+                    }
+
+                    /*var elementHeightNextDay = (hoursOfWork * (44.5 / 12)) - elementHeight;
                     var newElementNextDay = '<div id="2" class="shift' + absence + '" style="top: 0vh; height: ' + elementHeightNextDay + 'vh">Skift test</div>';
-                    $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+1) + ") .dayInnhold").append(newElementNextDay);
+                    $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+1) + ") .dayInnhold").append(newElementNextDay);*/
+
+
                     //TODO: add while løkke som går i maks 7 dager sånn at man ikke går uendelig og får veldig krevende js-fil
+                    /*while(elementHeight > 1) {
+                        alert(elementHeight);
+                        elementHeight -= 10;
+                    }*/
+                    /*while (hoursLeft > 24) {
+
+                    }*/
                 }
 
-                var newElement = '<div id="2" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + elementHeight + 'vh">Skift test</div>';
 
-                $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
             }
 
             //alert("DONE. ok" + data);
