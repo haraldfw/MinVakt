@@ -49,9 +49,10 @@
                 </li>
                 <li>
                     <a href="/user/profile" th:text="${name}"></a>
-                    <img src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
+                    <img th:if="${navbar.profileImageB64 != null}" src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
                          height="42" width="42" style="margin: auto 0;" />
-                         <!--th:src="@{'/api/images/get/' + ${navbar.profileImageId}}"-->
+                    <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"
+                         height="42" width="42" style="margin: auto 0;" />
                 </li>
             </ul>
         </div>
