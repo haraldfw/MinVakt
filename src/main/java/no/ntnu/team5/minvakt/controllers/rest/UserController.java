@@ -13,7 +13,13 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -53,7 +59,7 @@ public class UserController {
         verifier.ensure(hasRole(Constants.ADMIN));
 
         String salt = PasswordUtil.generateSalt();
-        String password_hash = PasswordUtil.generatePasswordHash(newUser.getPassword(), salt);
+        String password_hash = PasswordUtil.generatePasswordHash(PasswordUtil.generateSalt(), salt);
 
         String firstName = newUser.getFirstName().trim();
         String lastName = newUser.getLastName().trim();

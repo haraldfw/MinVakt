@@ -80,6 +80,7 @@ public class ShiftController {
      * @return a list of shifts for a week for a user with a given start date
      */
     //@Authorize("/") //FIXME: will not authorize
+    //FIXME: If the user sends a lot of requests in a short period the server will crash.
     @RequestMapping("/{user}/{year}/{month}/{day}/week")
     public List<ShiftModel> getShiftsWeek(@PathVariable("user") String username,
                                               @PathVariable("year") int year,
