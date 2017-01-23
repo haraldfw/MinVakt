@@ -48,8 +48,8 @@ $(document).ready(function() {
             dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
             //dateCounter++;
 
-            currentDate = addDays(currentDate, 1);
-            alert(testDate.getDate());
+            //currentDate = addDays(currentDate, 1);
+            //alert(testDate.getDate());
 
         });
     }
