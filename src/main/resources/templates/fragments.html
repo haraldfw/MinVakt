@@ -1,21 +1,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="navbar">
+    <div id="burger-menu">
+        <i class="ion-navicon-round close-iconburger navbar-brand"></i>
+        <a th:href="@{/}">
+            MinVakt
+        </a>
+    </div>
     <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
         <span th:id="username" style="display: none" th:text="${navbar.username}"></span>
         <div class="container-fluid">
-            <ul class="nav navbar-nav navbar-left">
-                <li>
-                    <a class="navbar-brand">
-                        <i class="ion-navicon-round close-iconburger navbar-brand"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="navbar-brand" th:href="@{/}" style="margin-left: 10px;">
-                        MinVakt
-                    </a>
-                </li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -47,21 +41,20 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li class="hidden-xs">
                     <a href="/user/profile" th:text="${name}"></a>
                 </li>
-                <li>
-                    <img th:if="${navbar.profileImageB64 != null}" src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
-                         height="42" width="42" style="margin: auto 0;" />
-                    <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"
-                         height="42" width="42" style="margin: auto 0;" />
+                <li class="profile-picture">
+                    <img th:if="${navbar.profileImageB64 != null}" src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
+                    <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"/>
                 </li>
             </ul>
         </div>
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
-        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/test">Egen timeliste</a></li>
+        <img src="images/MinVakt_Linje_200.png"/>
+        <li class="navbar-item"><a class="active" href="/test">Egen timeliste</a></li>
         <li class="navbar-item"><a href="/shiftss">Alle vakter</a></li>
         <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
