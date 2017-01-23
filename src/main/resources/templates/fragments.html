@@ -49,9 +49,12 @@
                 </li>
                 <li>
                     <a href="/user/profile" th:text="${name}"></a>
-                    <img src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
+                </li>
+                <li>
+                    <img th:if="${navbar.profileImageB64 != null}" src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
                          height="42" width="42" style="margin: auto 0;" />
-                         <!--th:src="@{'/api/images/get/' + ${navbar.profileImageId}}"-->
+                    <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"
+                         height="42" width="42" style="margin: auto 0;" />
                 </li>
             </ul>
         </div>
@@ -65,6 +68,14 @@
         <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
+
+        <th:block th:if="${isAdmin}">
+            <hr/>
+            <li class="navbar-item"><a href="/admin/shift">Legg til shift</a></li>
+            <li class="navbar-item"><a href="/admin/createuser">Legg til bruker</a></li>
+            <li class="navbar-item"><a href="/admin/competence">Legg til kompetanse</a></li>
+            <li class="navbar-item"><a href="/admin/message">Send melding</a></li>
+        </th:block>
 
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>

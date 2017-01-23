@@ -1,11 +1,14 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Image;
 import no.ntnu.team5.minvakt.model.NavbarModel;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.List;
 
 /**
  * Created by alan on 19/01/2017.
@@ -27,6 +30,10 @@ public class NavBarController {
         return (String) verify.claims.get("name");
     }
 
+    @ModelAttribute("isAdmin")
+    public boolean isAdmin(Verifier verify) {
+        return verify != null && ((List<String>) verify.claims.get("competance")).contains(Constants.ADMIN);
+    }
 
     @ModelAttribute("navbar")
     public NavbarModel getNavbarModel(Verifier verify) {
