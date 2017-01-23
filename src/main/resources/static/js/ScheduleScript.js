@@ -19,14 +19,14 @@ $(document).ready(function() {
     var dayNames = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
     //I javascript er 0=søndag, 1= mandag osv.
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
-    var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
+    var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
     //TODO: fix this when changing week
     var weekStartDate = today.getDate() - tempFix[today.getDay()];
 
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
-        return new Date(date.getTime() + days*24*60*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
+        return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
     var currentDate = new Date();
@@ -36,7 +36,7 @@ $(document).ready(function() {
             //dateCounter = today.getDate();
             var dateToday = weekStartDate + dayCounter;
 
-            $(this).html(dayNames[dayCounter] + " " + dateToday + ". " + monthNames[today.getMonth()]);
+            $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             if (today.getDate() === dateToday) {
                 $(this).addClass("dayTop-today");
             } else {
@@ -48,10 +48,19 @@ $(document).ready(function() {
             dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
             //dateCounter++;
 
+            currentDate = addDays(currentDate, 1);
+            //alert(currentDate.getDate());
+
+            /*var tempDate = addDays(currentDate, 1);
+            currentDate = tempDate;
+            alert(dayCounter);
+            alert(currentDate.getDate());*/
+
             //currentDate = addDays(currentDate, 1);
             //alert(testDate.getDate());
 
         });
+        currentDate = addDays(currentDate, -7);
     }
     changeTopDayNames();
 
@@ -78,7 +87,8 @@ $(document).ready(function() {
                 var hoursOfWork = Math.abs(shiftEnd - shiftStart) / 3600000; //3600000 is milliseconds in hour
                 var elementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours
 
-                var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
+                //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
+                var dateNumber = shiftStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
 
                 var absence = "";
                 if (obj.absent) {
@@ -226,11 +236,14 @@ $(document).ready(function() {
         $(".shift").remove();
         //TODO: make function
 
+        currentDate = addDays(currentDate, -7);
+
         weekStartDate -= 7;
         dayCounter = 0;
         changeTopDayNames();
 
-        url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
+        //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
+        url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
     });
@@ -240,11 +253,13 @@ $(document).ready(function() {
     $("#buttonNextWeek").click(function() {
         $(".shift").remove();
 
+        currentDate = addDays(currentDate, 7);
         weekStartDate += 7;
         dayCounter = 0;
         changeTopDayNames();
 
-        url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week"; //TODO: legg til månedsvariabel
+        //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week"; //TODO: legg til månedsvariabel
+        url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
     });
