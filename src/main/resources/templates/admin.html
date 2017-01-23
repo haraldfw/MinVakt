@@ -3,9 +3,7 @@
       th:include="layout :: mainLayout">
 <head th:fragment="header">
     <title>Registrer tilgjengelighet</title>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/js/registeravailability.js"></script>
@@ -76,8 +74,10 @@
                 <div class="modal-body">
                     <form action="#" th:action="@{/api/admin/createshift}" th:object="${newShift}" method="post">
                         <p>Velg vaktinnehaver: <input type="object" th:field="*{user}" th:required="required"/></p>
-                        <p>Velg start-tidspunkt: <input type="datetime" th:field="*{startTime}" th:required="required"/></p>
-                        <p>Velg slutt-tidspunkt: <input type="datetime" th:field="*{endTime}" th:required="required"/></p>
+                        <p>Velg start-tidspunkt: <input type="text" th:field="*{startTime}" th:required="required"/><span class="input-group-addon add-on"><span
+                                class="glyphicon glyphicon-calendar"></span></span></p>
+                        <p>Velg slutt-tidspunkt: <input type="text" th:field="*{endTime}" th:required="required"/><span class="input-group-addon add-on"><span
+                                class="glyphicon glyphicon-calendar"></span></span></p>
                         <input type="text" th:hidden="hidden" th:field="*{absent}" th:value="false" th:required="required"/>
                         <p>Kompetanser:
                             <select th:list="*{competences}" th:field="*{competences}" multiple="multiple">
