@@ -6,23 +6,8 @@ let pwd;
 let pwd2;
 let meter;
 
-function passwords_equal(json) {
-    if (json.new_password !== pwd2.val()) {
-        console.log("Passordene må stemme overens.");
-        pwd[0].setCustomValidity("Passordene må stemme overens."); //FIXME
-        return false;
-    }
-
-    return true;
-}
-
 function submitted(data) {
     window.location = '/user/profile';
-}
-
-function failed(err) {
-    console.error("Failed to change!");
-    console.error(err);
 }
 
 $(document).ready(() => {
@@ -45,4 +30,12 @@ function vaildate() {
     let result = zxcvbn(password);
 
     meter.val(result.score);
+
+    if (password !== pwd2.val()) {
+        pwd[0].setCustomValidity("Passordene må stemme overens.");
+    } else {
+        pwd[0].setCustomValidity("");
+    }
+
+    return true;
 }

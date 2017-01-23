@@ -2,26 +2,24 @@
  * Created by alan on 17/01/2017.
  */
 
-function jsonSubmitFns(form, predecate, success, fail = console.error) {
+function jsonSubmitFns(form, success, fail = console.error) {
     let $form = $(form);
     let json = $form.serializeJSON();
 
-    if (predecate(json)) {
-        $.ajax({
-            type: $form.attr("method"),
-            url: $form.attr("action"),
-            data: JSON.stringify(json),
-            contentType: "application/json; charset=utf-8",
-            success: success
-        }).fail(fail);
-    }
+    $.ajax({
+        type: $form.attr("method"),
+        url: $form.attr("action"),
+        data: JSON.stringify(json),
+        contentType: "application/json; charset=utf-8",
+        success: success
+    }).fail(fail);
 
     // prevent form default action
     return false;
 }
 
 function jsonSubmit(form, redirectUrl) {
-    return jsonSubmitFns(form, () => true, () => {
+    return jsonSubmitFns(form, () => {
         window.location = redirectUrl;
     });
 }
