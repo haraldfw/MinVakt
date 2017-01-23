@@ -54,7 +54,7 @@ public class UserController {
 
     @Authorize
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
+    public void create(Verifier verifier, @RequestBody NewUser newUser) {
 
         verifier.ensure(hasRole(Constants.ADMIN));
 
@@ -75,7 +75,6 @@ public class UserController {
         newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
             return accessContext.competence.getFromName(s);
         })));
-
 
         accessor.with(access -> {
             User user = new User(
