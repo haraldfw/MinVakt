@@ -13,7 +13,7 @@
 <div th:fragment="content">
     <div id="login" class="login-box">
         <form action="/api/password/change" method="post"
-              onsubmit="return jsonSubmitFns(this, passwords_equal, submitted, failed)">
+              onsubmit="return jsonSubmit(this, '/user/profile')">
             <div class="form-group">
                 <input type="password" name="old_password" autofocus="autofocus" class="form-control"
                        placeholder="Passord"
