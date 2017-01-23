@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.web;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
+import no.ntnu.team5.minvakt.db.Image;
 import no.ntnu.team5.minvakt.model.NavbarModel;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,11 @@ public class NavBarController {
 
         accessor.with(accessContext -> {
             model.setNotificationModels(accessContext.notification.toModel(accessContext.notification.fromUsername(username)));
-            Integer id = accessContext.user.getImageIdFromUsername(username);
-            if (id != null)
-                model.setProfileImageId(accessContext.user.getImageIdFromUsername(username));
+            Image image = accessContext.user.getImageFromUsername(username);
+            if (image != null) {
+                model.setProfileImageB64(image.getContent());
+                model.setProfileImageType(image.getType());
+            }
         });
 
         return model;
