@@ -155,7 +155,7 @@ $(document).ready(function() {
                         }
                         extraElementCounter++;
 
-                        var newElementNextDay = '<div id="' + shiftId + '" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0vh; height: ' + currentElementHeight + 'vh">' +
+                        var newElementNextDay = '<div id="' + shiftId + '" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">' +
                             shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
@@ -172,7 +172,7 @@ $(document).ready(function() {
         }).fail(function() {
             alert("Det skjedde en feil med innhenting av skift for brukeren.");
         });
-    };
+    }
     getShifts(url);
 
     function getAvailibleUsers(url) {

@@ -117,8 +117,8 @@
 
     width: 100%;
     position: absolute;
-    top: 0%;
-    left: 0%;
+    top: 0;
+    left: 0;
 
     border-radius: 5px;
 
@@ -131,15 +131,15 @@
 
 /* For shifts that goes from one day to another*/
 .shift-non-rounded-top {
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0 0 5px 5px;
 }
 
 .shift-non-rounded-bottom {
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0 0;
 }
 
 .shift-non-rounded-both {
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 
@@ -210,7 +210,7 @@
         position: absolute;
         left: 0;
         bottom: -22%;
-        padding: 0px;
+        padding: 0;
     }
 }
 
@@ -257,7 +257,7 @@
         position: absolute;
         left: -3em;
         bottom: -22%;
-        padding: 0px;
+        padding: 0;
     }
 }
 
@@ -303,7 +303,7 @@
     /* TODO: make an animation so the background overlay appear smoother */
 }
 
-.shift-center-text {
+.shift-center-text { /* TODO: add overflow (text-overflow?) på små shift element */
     position: relative;
     top: 50%;
 }
