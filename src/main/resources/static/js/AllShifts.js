@@ -23,7 +23,7 @@ $(document).ready(function() {
                 var jArray = data;
 
                 for(var i = 0; i < jArray.length; i++) {
-                    //12.30 - 14.45
+
                     var startTime = new Date(jArray[i].start_time);
                     var endTime = new Date(jArray[i].end_time);
 
@@ -57,16 +57,36 @@ $(document).ready(function() {
                         //lengde blir lik 0
                     }
 
-                    var komp = "";
                     var kompArray = jArray[i].competences;
-                    kompArray.sort(); //TODO: sjekk om dette virker
-                    for(var j = 0; j < kompArray.length; j++) {
+                    kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sjekk om dette virker
+
+                    var komp = kompArray[0].name;
+                    for(var j = 1; j < kompArray.length; j++) {
                         komp += (", " + kompArray[j].name);
                     }
 
-                    var tidtid = "test";
+                    if(hourFrom < 10) {
+                        hourFrom = "0" + hourFrom;
+                    }
+                    if(hourTo < 10) {
+                        hourTo = "0" + hourTo;
+                    }
+                    if(minFrom % 10 === 0) {
+                        minFrom += "0";
+                    }
+                    if(minTo % 10 === 0) {
+                        minTo += "0";
+                    }
+                    var tidtid = hourFrom + ":" + minFrom + " - " + hourTo + ":" + minTo;
                     var classKomp = "worker";
-                    var vakt = '<div class="shift-box ' + classKomp + '" style="left: calc(11.11% + ((11.11%/3)*' + lengde + ')); width: calc((11.11%/3)*' + diff + ' - 1px);">' + tidtid + '</div>';
+
+                    var tid = 'Start: ' + startTime.getFullYear() + '/' + startTime.getMonth()+1 + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
+                    'Slutt: ' + endTime.getFullYear() + '/' + endTime.getMonth()+1 + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
+                    var un = jArray[i].user_model.username;
+                    var navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
+
+                    var vakt = '<div class="shift-box ' + classKomp + '" style="left: calc(11.11% + ((11.11%/3)*' + lengde + ')); width: calc((11.11%/3)*' + diff + ' - 1px);"><p class="tidtidtid">' + tidtid +
+                        '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p></div>';
 
                     var vaktRad = '<div class="rad">' +
                         '<div class="common-cell position-id">a1</div>' +
@@ -95,10 +115,11 @@ $(document).ready(function() {
                         '</div>' +
                         '</div>';
 
+
+
                     $("#superDiv").append(kompetansegruppe);
 
                 }
-
 
 
                 /* Andre functions */
@@ -131,6 +152,13 @@ $(document).ready(function() {
                     $("#modalOther").css("display", "inline");
                     $("#modalOwn").css("display", "none");
                     $("#modalFree").css("display", "none");
+                    var text = $(".tidtidtid", this).html();
+                    $(".modal-title").html(text);
+
+                    var tid = $(".tidLagring", this).html();
+                    var navn = $(".navnLagring", this).html();
+                    $("#tidsviser").html(tid);
+                    $("#ansatt").html(navn);
 
                 });
 
