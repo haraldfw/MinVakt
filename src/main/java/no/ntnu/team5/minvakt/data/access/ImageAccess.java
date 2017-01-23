@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Image;
+import no.ntnu.team5.minvakt.model.ImageModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,11 +12,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 @Component
 @Scope("prototype")
-public class ImageAccess extends Access<Image, Void> {
+public class ImageAccess extends Access<Image, ImageModel> {
 
     @Override
-    Void toModel(Image image) {
-        throw new NotImplementedException();
+    public ImageModel toModel(Image image) {
+        ImageModel imageModel = new ImageModel();
+        imageModel.setB64Content(image.getContent());
+        imageModel.setContentType(image.getType());
+        return imageModel;
     }
 
     public Image getById(int image_id) {

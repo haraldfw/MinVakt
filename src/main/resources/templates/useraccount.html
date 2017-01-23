@@ -6,6 +6,16 @@
 <head th:fragment="header">
     <script src="/js/useraccount.js"></script>
     <script src="/js/jsonSubmit.js"></script>
+    <script type="text/javascript">
+        function uploadImage(form, actionUrl, redirectUrl) {
+            jsonSubmit(form, actionUrl, redirectUrl);
+            let b64_content = form.elements["b64_content"];
+            form.elements["b64_content"]
+
+            // prevent form standard submit
+            return false;
+        }
+    </script>
 </head>
 
 <div th:fragment="content">
@@ -73,9 +83,9 @@
                      style="margin: auto 0;"/>
             </td>
             <td>
-                <form enctype="multipart/form-data" th:action="@{/api/images/upload}" method="post">
-                    <input class="form-control" type="file" name="file"/>
-                    <input type="submit" value="Last opp"/>
+                <form onsubmit="return uploadImage(this, '/user/profile')" th:action="@{/api/images/upload}" >
+                    <input name="b64_content" class="form-control" type="file" />
+                    <input type="submit" value="Last opp" />
                 </form>
             </td>
         </tr>

@@ -1,13 +1,16 @@
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "image_content": {
+    "b64_content": {
+      "type": "string"
+    },
+    "content_type": {
       "type": "string"
     }
   },
   "required": [
-    "image_content"
+    "b64_content",
+    "content_type"
   ]
 }
