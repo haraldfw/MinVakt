@@ -4,8 +4,11 @@
     "username": {
       "type": "string"
     },
-    "profile_image_id": {
-      "type": "integer"
+    "profile_image_b64": {
+      "type": "string"
+    },
+    "profile_image_type": {
+      "type": "string"
     },
     "notification_models": {
       "type": "array",

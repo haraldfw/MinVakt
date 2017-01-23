@@ -33,7 +33,7 @@ public class AdminController {
 
     @Authorize
     @RequestMapping("/createshift")
-    public void createShift(Verifier verify, @ModelAttribute("newShift") NewShift newShift ) {
+    public void createShift(Verifier verify, @ModelAttribute("newShift") NewShift newShift) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
         Set<Competence> comps = new HashSet<>();
