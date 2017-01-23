@@ -26,8 +26,6 @@ public class ImageController {
     @PostMapping("/upload")
     public String imageUpload(@RequestBody ImageModel imageModel,
                               Verifier verifier) {
-        System.out.println("Content:");
-        System.out.println(imageModel.getB64Content());
         if (imageModel.getB64Content().length() != 0) {
 
             Image image;
