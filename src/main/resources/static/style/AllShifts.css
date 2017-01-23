@@ -85,7 +85,6 @@ body, head {
     /* For sentrering av teksten */
     line-height: 45px;
     text-align: center;
-
     border-radius: 5px;
 
     /* For at det skal bli ... dersom for mye tekst */
@@ -122,6 +121,10 @@ body, head {
     background-color: rgba(250, 52, 22, 0.68) !important;
 }
 
+#modalOther, #modalOwn, #modalFree {
+    display: none;
+}
+
 #shift-1-9test {
     left: calc(11.11% + (11.11%)/3);
     width: calc(((11.11%)/3)*8 - 1px);
@@ -135,10 +138,6 @@ body, head {
 #shift-17-24test {
     left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
     width: calc(((11.11%)/3)*8 - (11.11%)/3 - 1px);
-}
-
-#modalOther, #modalOwn, #modalFree {
-    display: none;
 }
 
 #shift-7-19test {
