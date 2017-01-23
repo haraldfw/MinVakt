@@ -14,13 +14,14 @@ import java.util.List;
 /**
  * Created by Kenan on 1/12/2017.
  */
-
 //TODO: Maybe added shift methods
 
 @Component
 @Scope("prototype")
 public class ShiftAccess extends Access<Shift, ShiftModel> {
     private static final Calendar CALENDAR = Calendar.getInstance();
+
+    private CompetenceAccess competenceAccess;
 
     static {
         CALENDAR.setFirstDayOfWeek(Calendar.MONDAY);
@@ -154,6 +155,18 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         model.setCompetences(getContext().competence.toModel(shift.getCompetences()));
 
         return model;
+    }
+
+    public Shift toShift(ShiftModel sm) {
+        Shift shift = new Shift();
+        shift.setUser(getContext().user.fromUsername(sm.getUserModel().getUsername()));
+        shift.setStartTime(sm.getStartTime());
+        shift.setEndTime(sm.getEndTime());
+        shift.setAbsent(sm.getAbsent());
+        shift.setStandardHours(sm.getStandardHours().byteValue());
+        shift.setCompetences(getContext().competence.getFromNames(competenceAccess.getCompetenceNames(sm.getCompetences())));
+
+        return shift;
     }
 
     public Shift getShiftFromId(int id) {

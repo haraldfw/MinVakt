@@ -4,31 +4,31 @@
     "user_model": {
       "$ref": "user_model.json"
     },
-    "start_time": {
+    "startTime": {
       "type": "string",
       "format": "date-time"
     },
-    "end_time": {
+    "endTime": {
       "type": "string",
       "format": "date-time"
     },
     "absent": {
       "type": "boolean"
     },
-    "standard_hours": {
+    "standardHours": {
       "type": "integer"
     },
     "competences": {
       "type": "array",
       "items": {
-        "$ref": "competence.json"
+        "type": "string"
       }
     }
   },
   "required": [
-    "user_model",
-    "start_time",
-    "end_time",
+    "user",
+    "startTime",
+    "endTime",
     "absent",
     "standardHours",
     "competences"

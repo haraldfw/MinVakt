@@ -2,6 +2,7 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Image;
+import no.ntnu.team5.minvakt.model.ImageModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,19 +24,24 @@ public class ImageController {
 
     @Authorize
     @GetMapping("/get/{image_id}")
-    public ResponseEntity<byte[]> serveImage(@PathVariable("image_id") int image_id) {
-        Image image = accessContextFactory.with(accessContext -> {
-            return accessContext.image.getById(image_id);
+    public ResponseEntity<String> serveImage(@PathVariable("image_id") int image_id) {
+        ImageModel imageModel = accessContextFactory.with(accessContext -> {
+            Image img = accessContext.image.getById(image_id);
+            if(img == null) {
+                return null;
+            }
+            return accessContext.image.toModel(img);
         });
 
-        if (image == null) {
+        if (imageModel == null) {
             return ResponseEntity
                     .notFound()
                     .build();
         }
         return ResponseEntity
                 .ok()
-                .header(HttpHeaders.CONTENT_TYPE, image.getType())
-                .body(image.getContent());
+                .header(HttpHeaders.CONTENT_TYPE, imageModel.getContentType())
+                .body(imageModel.getB64Content());
     }
+
 }

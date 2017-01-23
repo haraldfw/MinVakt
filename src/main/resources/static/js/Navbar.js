@@ -4,17 +4,8 @@
 
 $(document).ready(function () {
     $(".close-close, .close-iconburger").click(function () {
-        if ($(this).hasClass("ion-close")) {
-            $(".close-close").removeClass("ion-close").addClass("ion-navicon-round");
-            $(".close-iconburger").removeClass("ion-close").addClass("ion-navicon-round");
-            $("#navbar-side").addClass("navbar-side-ute").removeClass("navbar-side-inne");
-            $("#navbar-top").addClass("navbar-top-ute").removeClass("navbar-top-inne");
-        } else {
-            $(".close-iconburger").removeClass("ion-navicon-round").addClass("ion-close");
-            $(".close-close").removeClass("ion-navicon-round").addClass("ion-close");
-            $("#navbar-side").addClass("navbar-side-inne").removeClass("navbar-side-ute");
-            $("#navbar-top").addClass("navbar-top-inne").removeClass("navbar-top-ute");
-        }
+        $("body").toggleClass("navbar-open");
+        $("#navbar-side").toggleClass("navbar-open");
     });
 
     /*$(window).click(function(e) {
