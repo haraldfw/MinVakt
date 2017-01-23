@@ -2,18 +2,20 @@
 
 <div th:fragment="navbar">
     <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
-        <span th:id="username" style="display: none" th:text="${navbar.username}"></span>
+        <span th:id="username" style="display: none" th:text="${name}"></span>
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a class="navbar-brand hidden-xs" th:href="@{/}" style="margin-left: 10px;">
+                    <a class="navbar-brand">
+                        <i class="ion-navicon-round close-iconburger navbar-brand"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" th:href="@{/}" style="margin-left: 10px;">
                         MinVakt
                     </a>
-                    <a class="navbar-brand visible-xs"><i
-                            class="ion-navicon-round close-iconburger navbar-brand visible-xs"></i></a>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -26,10 +28,10 @@
                                     <!-- melding havner her -->
                                 </p>
                                 <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
-                                    <button type="submit" class="btn btn-primary">Godta</button>
+                                    <button type="submit" class="ion-checkmark-round"></button>
                                 </form>
                                 <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
-                                    <button type="submit" class="btn btn-primary">Avslå</button>
+                                    <button type="submit" class="ion-close-round"></button>
                                 </form>
                             </a>
                             <a th:if="${n.actionUrl} == null">
@@ -39,30 +41,31 @@
                                 <form class="noti-form"
                                       th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
                                       method="post">
-                                    <button type="submit" class="btn btn-primary">Lukk</button>
+                                    <button type="submit" class="ion-close-round"></button>
                                 </form>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a th:if="${user} == null" href="/user/profile" th:text="${navbar.username}">
-                    </a>
-                    <a th:if="${user} != null" href="/user/profile" th:text="${user.firstName + ' ' + user.lastName}">
-                    </a>
+                    <a href="/user/profile" th:text="${name}"></a>
+                    <img src="" th:src="@{'/api/images/get/' + ${navbar.profileImageId}}" height="42" width="42" style="margin: auto 0;" />
                 </li>
             </ul>
         </div>
     </nav>
 
-    <ul id="navbar-side" class="navbar-side-ute">
-        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/test">Timer</a></li>
-        <li class="navbar-item"><a th:href="@{'/user/' + ${navbar.username} + '/availability'}">Tilgjengelighet</a></li>
-        <li class="navbar-item"><a th:href="${'/user/' + navbar.username + '/absence'}">Fravær</a></li>
-        <li class="navbar-item"><a href="/user/profile" th:text="${navbar.username}">Brukernavn her</a></li>
+    <ul id="navbar-side">
+        <li class="navbar-item" style="margin-top: 15%;"><a class="active" href="/test">Egen timeliste</a></li>
+        <li class="navbar-item"><a href="/shiftss">Alle vakter</a></li>
+        <!--<li class="navbar-item"><a th:href="@{'/user/' + ${navbar.username} + '/availability'}">Tilgjengelighet</a></li>-->
+        <!--<li class="navbar-item"><a th:href="${'/user/' + navbar.username + '/absence'}">Fravær</a></li>-->
+        <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>
 </div>
 </html>
+
+

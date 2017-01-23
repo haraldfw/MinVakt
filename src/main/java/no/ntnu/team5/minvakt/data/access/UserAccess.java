@@ -2,8 +2,6 @@ package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.model.NavbarModel;
-import no.ntnu.team5.minvakt.model.NotificationModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
@@ -81,6 +79,14 @@ public class UserAccess extends Access<User, UserModel> {
             Query query = session.createQuery("from User where email = :email");
             query.setParameter("email", email);
             return (User) query.uniqueResult();
+        });
+    }
+
+    public Integer getImageIdFromUsername(String username) { // FIXME optimaliser pl0x
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("select image.id from User where username = :username");
+            query.setParameter("username", username);
+            return (Integer) query.uniqueResult();
         });
     }
 }

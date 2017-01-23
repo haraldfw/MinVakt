@@ -26,12 +26,12 @@ public class JWTTest {
         competences.add(new Competence("testC2"));
         user.setCompetences(competences);
 
-        String token = JWT.generate(user);
+        String token = JWT.generate(user, false);
 
         Optional<Claims> ok = JWT.verify(token);
         Assert.assertTrue(ok.isPresent());
 
-        Optional<Claims> fail = JWT.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImNvbXBldGVuY2VzIjpbIkFkbWluIl19.KUFLyJz2mnjlXQKYO4D8GqkISwbsTCcNlxbxHtCKaVc");
+        Optional<Claims> fail = JWT.verify("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImNvbXBldGFuY2UiOlsidGVzdEMxIiwidGVzdEMyIl0sImV4cCI6MTQ4NDkwMjE4OH0.m4e2l4fNQYz1YnaeKzD_0oVD0qFCptt00pbm18yxhaKwfOWIVtEJ7LeHfMhLpTxsBX-wb4mIidICNiKysyjzvw");
         Assert.assertFalse(fail.isPresent());
     }
 }

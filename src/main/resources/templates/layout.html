@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       th:fragment="mainLayout">
-
 <head><!-- TODO: Ikke legg inn denne på alle filer, den er ikke en felles fil, common.css passer ikke til alle html sider  -->
     <title>MinVakt</title>
     <meta charset="UTF-8"/>
@@ -10,20 +9,29 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="/style/navbar.css"/>
     <link rel="stylesheet" href="/style/common.css"/>
+    <link rel="stylesheet" href="/style/navbar.css"/>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/js/navbar.js"></script>
     <script src="/js/common.js"></script>
+    <script src="/js/navbar.js"></script>
 </head>
-
 <head th:include="this :: header"></head>
-
-<body>
-<header th:if="${username != null}" th:include="fragments :: navbar"></header>
+<body th:class="${navbar != null} ? 'navbar-open' : ''">
+<header th:if="${navbar != null}" th:include="fragments :: navbar"></header>
     <!-- This line is replaced by content from other template -->
-<div class="content container" th:include="this :: content"></div>
+<div class="content container-fluid" th:include="this :: content"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    if(document.body.clientWidth <= 480) {
+        document.body.classList.remove("navbar-open");
+        document.body.classList.add("no-anim");
+    }
+    setTimeout(function () {
+        document.body.classList.remove("no-anim");
+    }, 1000);
+    /*]]>*/
+</script>
 </body>
 </html>

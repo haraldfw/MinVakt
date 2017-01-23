@@ -11,7 +11,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
       max-active: 2
-      connection-properties: useUnicode=true;characterEncoding=utf-8;
+      connection-properties: useUnicode=true;characterEncoding=utf-8;max_allowed_packet=16000000;
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect

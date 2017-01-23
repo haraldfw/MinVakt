@@ -32,7 +32,7 @@ public class UserWebController extends NavBarController {
     @Autowired
     private AccessContextFactory accessor;
 
-    @Authorize("/error")
+    @Authorize("/")
     @RequestMapping("/{username}")
     public String show(Verifier verifier, @PathVariable("username") String username, Model model) {
         verifier.ensure(Verifier.isUser(username));
@@ -102,9 +102,4 @@ public class UserWebController extends NavBarController {
         }));
         return "employeeoverview";
     }
-
-//    @ModelAttribute("user")
-//    public List<Variety> populateVarieties() {
-//        return this.varietyService.findAll();
-//    }
 }

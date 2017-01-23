@@ -35,19 +35,31 @@ public class PasswordUtil {
         return inputHashed.equals(hash);
     }
 
-    public static LoginResponse login(User user, String password) {
+    public static LoginResponse login(User user, String password, boolean remember) {
         boolean isVerified = user != null && PasswordUtil.verifyPassword(password, user.getPasswordHash(), user.getSalt());
 
         LoginResponse lr = new LoginResponse();
         if (isVerified) {
             lr.setSuccess(true);
-            String token = JWT.generate(user);
+            String token = JWT.generate(user, remember);
             lr.setToken(token);
         } else {
             lr.setSuccess(false);
         }
 
         return lr;
+    }
+
+    public static boolean setPassword(User user, String password) {
+        if (password.length() < 8) return false;
+
+        String newSalt = PasswordUtil.generateSalt();
+        String newHash = PasswordUtil.generatePasswordHash(password, newSalt);
+
+        user.setSalt(newSalt);
+        user.setPasswordHash(newHash);
+
+        return true;
     }
 
 //    public static void main(String[] args) {

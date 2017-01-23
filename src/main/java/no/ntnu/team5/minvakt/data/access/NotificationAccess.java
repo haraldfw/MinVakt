@@ -23,7 +23,8 @@ import java.util.List;
 public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Notification noti where noti.user.username = :username and closed = false");
+            Query query = session.createQuery("from Notification noti where (noti.user.username = :username and closed = false)" +
+                    "and expiry >= current_date");
             query.setParameter("username", username);
             return (List<Notification>) query.list();
         });
@@ -51,19 +52,6 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
             query.setParameter("notification_id", notificationId);
             return (Notification) query.uniqueResult();
         });
-    }
-
-    public List<NotificationModel> convertToModel(List<Notification> notifications){
-        List<NotificationModel> notificationModels = new ArrayList<>();
-        for (Notification n: notifications){
-            NotificationModel notificationModel = new NotificationModel();
-            notificationModel.setId(n.getId());
-            notificationModel.setActionUrl(n.getActionUrl());
-            notificationModel.setExpiry(n.getExpiry());
-            notificationModel.setMessage(n.getMessage());
-            notificationModels.add(notificationModel);
-        }
-        return notificationModels;
     }
 
     public void closeNotification(Notification notification) {

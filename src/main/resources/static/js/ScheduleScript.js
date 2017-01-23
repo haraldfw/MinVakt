@@ -12,21 +12,35 @@ $(document).ready(function() {
     var username = $("#username").html();
 
     /* For displaying the weeknames and current month*/
-    var dayCounter = 1;
+    var dayCounter = 1; // [0-6?]
     var today = new Date();
+    var dateCounter = 1; // [0-31]
+    var dayNames = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"];
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
     //TODO: fix this when changing week
 
+    /* To change the date names */
+
+    function changeTopDayNames() {
+
+    }
+
     $(".dayTop").each(function() {
-        $(this).append(" " + (today.getDate() - today.getDay() + dayCounter) + ". " + monthNames[today.getMonth()]);
+        //dateCounter = today.getDate();
+
+        $(this).html(dayNames[dateCounter] + " " + (today.getDate() - today.getDay() + dayCounter) + ". " + monthNames[today.getMonth()]);
         if (today.getDay() === dayCounter) {
             $(this).addClass("dayTop-today");
         }
         dayCounter++; /*TODO: monthNames[today.getMonth() vil kanskje ikke vise riktig måned i månedsskifte */
+        dateCounter++;
     });
 
-    function getShifts() {
-        $.get("/api/shift/" + username +"/week", function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: legg inn brukernavn som er pålogget
+    var currentWeekUrl = "/api/shift/" + username +"/week";
+    var url = currentWeekUrl;
+
+    function getShifts(url) {
+        $.get(url, function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: legg inn brukernavn som er pålogget
             //alert("okidoki" + data);
         }).done(function(data) {
             var jsonArray = data;
@@ -63,17 +77,7 @@ $(document).ready(function() {
             alert("Det skjedde en feil med innhenting av skift for brukeren.");
         });
     };
-    getShifts();
-
-
-    /*$(".dayInnhold").click(function() {
-
-    });*/
-
-    /*$(document).on('click', '.dayInnhold .shift', function (e) {
-        console.log('this is the click');
-        e.preventDefault();
-    });*/
+    getShifts(url);
 
     $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
 
@@ -198,5 +202,21 @@ $(document).ready(function() {
 
     $("#modalUserProfile").on("hidden.bs.modal", function() {
         $("#shift-modal-shadow").css("display", "none");
+    });
+
+    /* For displaying previous and next week */
+    $("#buttonPreviousWeek").click(function() {
+        $(".shift").remove();
+        //TODO: make function
+
+        url = "/api/shift/haraldfw/2017/0/20/week";
+
+        getShifts(url);
+    });
+
+    //TODO: change the topDisplay to display new current days
+
+    $("#buttonNextWeek").click(function() {
+        $(".shift").remove();
     });
 });
