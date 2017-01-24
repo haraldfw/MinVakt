@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+
+<head th:fragment="header">
+    <script src="/js/jsonSubmit.js"></script>
+</head>
+
+<div th:fragment="content">
+    <p th:fragment="content">
+    <p action="/api/user/createshift" method="post" onsubmit="return jsonSubmit(this, '#)">
+    <p>Velg bruker:
+        <select name="users[]">
+            <option th:each="user : ${users}"
+                    th:text="${user}" th:value="${user}"></option>
+        </select></p>
+    <p>Velg start-tidspunkt:
+        <input th:field="*{dateFrom}" type="text" class="form-control"/>
+        <span class="input-group-addon"><span
+                class="glyphicon glyphicon-calendar"></span></span>
+    </p>
+    <p>Velg endte-tidspunkt:
+        <input th:field="*{dateTo}" type="text" class="form-control"/>
+        <span class="input-group-addon add-on"><span
+                class="glyphicon glyphicon-calendar"></span></span>
+    </p>
+    <p>Kompetanser for vakten:
+    <select name="competences[]" multiple="multiple">
+        <option th:each="comp : ${competences}"
+                th:text="${comp}" th:value="${comp}"></option>
+    </select>
+    </p>
+    <p><input type="submit" value="Opprett"></p>
+</div>
+</html>

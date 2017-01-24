@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 public class Constants {
 
     public static String ADMIN;
-    public static String SECURE_KEY;
+    public static String SECURE_KEY = "1235";
+    public static String HOSTNAME;
 
     @Value("${roles.admin}")
     public void setADMIN(String ADMIN) {
@@ -21,5 +22,10 @@ public class Constants {
     @Value("${application.secret_key}")
     public void setSecureKey(String secretKey) {
         Constants.SECURE_KEY = secretKey;
+    }
+
+    @Value("${roles.admin}")
+    public static void setHOSTNAME(String HOSTNAME) {
+        Constants.HOSTNAME = HOSTNAME;
     }
 }
