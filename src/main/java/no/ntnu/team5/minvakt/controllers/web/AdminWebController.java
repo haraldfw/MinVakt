@@ -8,6 +8,7 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminWebController {
+public class AdminWebController extends NavBarController {
     @Autowired
     private AccessContextFactory accessor;
 
@@ -35,6 +36,16 @@ public class AdminWebController {
         }));
         model.addAttribute("newCompetence", new NewCompetence());
 
-        return "admin";
+        return "/message";
+    }
+
+    @Authorize("/")
+    @GetMapping("/message")
+    public String showMessaging(Model model) {
+        accessor.with(accessContext -> {
+            model.addAttribute("users", accessContext.user.getUsernames());
+            model.addAttribute("competences", accessContext.competence.getCompetencesNames());
+        });
+        return "admin/message";
     }
 }
