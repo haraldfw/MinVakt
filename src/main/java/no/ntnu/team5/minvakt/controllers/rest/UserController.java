@@ -53,8 +53,8 @@ public class UserController {
     EmailService emailService;
 
     @Authorize
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create(Verifier verifier, @RequestBody NewUser newUser) {
+    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
+    public void createUser(Verifier verifier, @RequestBody NewUser newUser) {
 
         verifier.ensure(hasRole(Constants.ADMIN));
 
