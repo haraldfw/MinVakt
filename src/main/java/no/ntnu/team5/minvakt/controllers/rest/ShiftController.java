@@ -203,7 +203,7 @@ public class ShiftController {
                         " ønsker å ta over følgende skift fra " + shift.getUser().getUsername() +
                         ": " + shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 String nyActionURL = "/api/shift/transfer?user_id=" + user_id + "&shift_id=" + shift_id;
-                access.notification.generateTransferNotification(access.competence.getFromName("Admin"), message, nyActionURL, shift);
+                access.notification.generateTransferNotification(access.competence.getFromName("Admin"), message, nyActionURL);
             } else {
                 User originalOwner = shift.getUser();
                 if (originalOwner != null) {

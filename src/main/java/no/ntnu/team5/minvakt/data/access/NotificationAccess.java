@@ -9,9 +9,6 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +20,7 @@ import java.util.List;
 public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Notification noti where (noti.user.username = :username and closed = false)" +
-                    "and expiry >= current_date");
+            Query query = session.createQuery("from Notification noti where (noti.user.username = :username and closed = false)");
             query.setParameter("username", username);
             return (List<Notification>) query.list();
         });
@@ -62,10 +58,6 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
     public void generateMessageNotification(User toUser, String message) {
         Notification notification = new Notification(message);
         notification.setUser(toUser);
-        Date date = Calendar.getInstance().getTime(); //Today
-        long plusOneWeek = date.getTime() + 7000000L;
-        date.setTime(plusOneWeek);
-        notification.setExpiry(date);
 
         save(notification);
     }
@@ -73,15 +65,11 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
     public void generateMessageNotification(Competence competence, String message) {
         Notification notification = new Notification(message);
         notification.setCompetence(competence);
-        Date date = Calendar.getInstance().getTime(); //Today
-        long plusOneWeek = date.getTime() + 7000000L;
-        date.setTime(plusOneWeek);
-        notification.setExpiry(date);
 
         save(notification);
     }
 
-    public void generateTransferRequestNotification(String message, String actionUrl, User toUser){
+    public void generateTransferRequestNotification(String message, String actionUrl, User toUser) {
         Notification notification = new Notification(message);
         notification.setUser(toUser);
         notification.setActionUrl(actionUrl);
@@ -90,13 +78,10 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
     }
 
 
-    public void generateTransferNotification(Competence competence, String message, String actionURL, Shift shift) {
+    public void generateTransferNotification(Competence competence, String message, String actionURL) {
         Notification notification = new Notification(message);
         notification.setCompetence(competence);
         notification.setActionUrl(actionURL);
-        Date expiry = new Date();
-        expiry.setTime(shift.getEndTime().getTime() + 1000000L); // 1 dag etter skiftet er over
-        notification.setExpiry(expiry);
 
         save(notification);
     }
@@ -105,7 +90,6 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
     NotificationModel toModel(Notification notification) {
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.setActionUrl(notification.getActionUrl());
-        notificationModel.setExpiry(notification.getExpiry());
         notificationModel.setMessage(notification.getMessage());
         notificationModel.setId(notification.getId());
 
