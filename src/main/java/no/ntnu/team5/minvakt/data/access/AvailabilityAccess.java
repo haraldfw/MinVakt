@@ -6,7 +6,6 @@ import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.AvailabilityModel;
 import no.ntnu.team5.minvakt.utils.DateInterval;
 import org.hibernate.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
