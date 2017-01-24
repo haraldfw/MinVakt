@@ -45,7 +45,7 @@ public class AdminWebController extends NavBarController {
     }
 
     @Authorize("/")
-    @GetMapping("/createshift")
+    @GetMapping("/create/shift")
     public String createShift(Model model) {
         accessor.with(access -> {
             model.addAttribute("competences", access.competence.getCompetencesNames());
