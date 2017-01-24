@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string"
+    },
+    "comp_recs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "user_recs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "message",
+    "comp_recs",
+    "user_recs"
+  ]
+}
