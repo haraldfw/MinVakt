@@ -21,7 +21,8 @@ $(document).ready(function() {
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
 
-    var weekStartDate = today.getDate() - tempFix[today.getDay()];
+    //var weekStartDate = today.getDate() - tempFix[today.getDay()];
+    var weekStartDate = addDays(today, -tempFix[today.getDay()]);
 
 
     /* Function for adding days to a javascript date object */
@@ -34,7 +35,7 @@ $(document).ready(function() {
     function changeTopDayNames() {
         $(".dayTop").each(function() {
             //dateCounter = today.getDate();
-            var dateToday = weekStartDate + dayCounter;
+            var dateToday = weekStartDate.getDate() + dayCounter;
 
             $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             if (today.getDate() === dateToday) {
@@ -67,13 +68,10 @@ $(document).ready(function() {
             for(var i = 0; i < jsonArray.length; i++) {
                 var obj = jsonArray[i];
                 var user_model = obj.user_model;
-                //alert(user_model.id);
 
-                //alert(jsonArray[i].start_time);
                 var shiftId = obj.id;
                 var shiftStart = new Date(jsonArray[i].start_time);
                 var shiftEnd = new Date(jsonArray[i].end_time);
-                //alert(dateStart.getHours());
                 var elementDistanceTop = shiftStart.getHours() * (44.5 / 12); //44.5 is the height of 12 hours //TODO: make constant of this
                 var hoursOfWork = Math.abs(shiftEnd - shiftStart) / 3600000; //3600000 is milliseconds in hour
 
@@ -89,12 +87,24 @@ $(document).ready(function() {
 
                 //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
                 var dateNumber = shiftStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
+                var tempDateNumber = addDays(shiftStart, - (weekStartDate.getDate() + tempFix[currentDate.getDay()]) + 2);
+
+                console.log("\n-------------------");
+                console.log("\nNygreie");
+                console.log('shiftStart.getDate(): ' +  shiftStart.getDate() +
+                    ", currentDate.getDate(): " + currentDate.getDate() +
+                    ", tempFix[currentDate.getDay()]: "+  tempFix[currentDate.getDay()]);
+
+                //alert(shiftStart.getDate() + ", " + currentDate.getDate() + ", "+  tempFix[currentDate.getDay()] + ", ");
+                //alert(tempDateNumber.getDate());
+                dateNumber = tempDateNumber.getDate();
+                dateNumber = Math.floor(shiftStart.getTime() - weekStartDate.getTime());
 
                 var fromTime = "";
                 if (shiftStart.getHours() < 10) {
-                    fromTime = "0";//TODO: fix 00:00 --> blir 0:00
+                    fromTime = "0";
                 }
-                fromTime = shiftStart.getHours() + ":";
+                fromTime += shiftStart.getHours() + ":";
                 if (shiftStart.getMinutes() % 10 === 0) {
                     fromTime += "0";
                 }
@@ -121,12 +131,11 @@ $(document).ready(function() {
                     var newElement = '<div id="' + shiftId + '" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
                         shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+                    alert(dateNumber + "; ");
                 } else {
                     //If the shift goes from one day to another
                     //elementHeight = hoursOfWork * (44.5 / 12);
                     var heightDone = 89 - elementDistanceTop;
-
-                    //alert(elementHeight); //=129
 
                     //elementHeight = heightDone; //89vh is the max size of "dayInnhold" elements
                     //TODO: elementHeight
@@ -141,7 +150,6 @@ $(document).ready(function() {
                     var extraElementCounter = 0;
                     var nonRoundedClass = "";
                     while(totalElementHeight > heightDone) {//TODO: endre til sånn at den går maks 7 ganger
-                        //alert(totalElementHeight + "; " + heightDone);
                         var currentElementHeight = 0;
                         if ((totalElementHeight - heightDone) > 89) {
                             //Det er større enn en dag og man vil få element med samme størrelse som en dag
@@ -177,9 +185,15 @@ $(document).ready(function() {
 
     function getAvailibleUsers(url) {
         $.get(url, function() {
-            alert("okidoki1");
-        }).done(function() {
-            alert("okidoki2");
+            //alert("okidoki1");
+        }).done(function(data) {
+            //alert("test");
+            var jsonArray = data;
+            for (var i = 0; i < jsonArray.length; i++) {
+                //alert(jsonArray[i].username);
+                //alert(jsonArray[i].first_name + " " + jsonArray[i].last_name);
+                alert(jsonArray[i].first_name + " " + jsonArray[i].last_name);
+            }
         }).fail(function () {
             alert("Det skjedde en feil med innhenting av data for skift.");
         });
@@ -319,7 +333,8 @@ $(document).ready(function() {
 
         currentDate = addDays(currentDate, -7);
 
-        weekStartDate -= 7;
+        //weekStartDate -= 7;
+        weekStartDate = addDays(weekStartDate, -7);
         dayCounter = 0;
         changeTopDayNames();
 
@@ -335,7 +350,8 @@ $(document).ready(function() {
         $(".shift").remove();
 
         currentDate = addDays(currentDate, 7);
-        weekStartDate += 7;
+        //weekStartDate += 7;
+        weekStartDate = addDays(weekStartDate, 7);
         dayCounter = 0;
         changeTopDayNames();
 
