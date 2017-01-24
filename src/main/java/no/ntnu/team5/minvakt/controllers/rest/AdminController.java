@@ -11,6 +11,7 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +33,7 @@ public class AdminController {
     UserAccess userAccess;
 
     @Authorize
-    @RequestMapping("/createshift")
+    @RequestMapping("/create/shift")
     public void createShift(Verifier verify, @ModelAttribute("newShift") NewShift newShift) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
@@ -57,8 +58,8 @@ public class AdminController {
     }
 
     @Authorize
-    @RequestMapping("/createcompetence")
-    public void createCompetence(Verifier verify, @ModelAttribute("newCompetence") NewCompetence newCompetence) {
+    @RequestMapping("/create/competence")
+    public void createCompetence(Verifier verify, @RequestBody NewCompetence newCompetence) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
         accessor.with(access -> {

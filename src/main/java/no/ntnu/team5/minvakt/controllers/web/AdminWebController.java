@@ -28,6 +28,12 @@ public class AdminWebController extends NavBarController {
     }
 
     @Authorize("/")
+    @GetMapping("/competence")
+    public String competence(Model model) {
+        return "admin/competence";
+    }
+
+    @Authorize("/")
     @GetMapping("/message")
     public String showMessaging(Model model) {
         accessor.with(accessContext -> {
