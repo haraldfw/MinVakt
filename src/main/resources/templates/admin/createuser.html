@@ -3,6 +3,10 @@
       th:include="layout :: mainLayout">
 
 <head th:fragment="header">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+
     <script src="/js/jsonSubmit.js"></script>
 </head>
 
@@ -23,7 +27,7 @@
         <p><input type="submit" value="Opprett"/></p>
 
     <form action="/api/user/create" method="post" onsubmit="return jsonSubmit(this, '#')">
-        <div cass="page-header">
+        <div class="page-header">
             <h3>Legg til ny bruker</h3>
         </div>
         <div class="border-box row">
@@ -45,18 +49,13 @@
             </div>
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Kompetanse</h4>
-                <div class="form-group">
-                    <label><input type="checkbox"/>Sykepleier</label>
-                </div>
-                <div class="form-group">
-                    <label><input type="checkbox"/>Lege</label>
-                </div>
-                <div class="form-group">
-                    <label><input type="checkbox"/>Yolo</label>
-                </div>
-                <div class="form-group">
-                    <label><input type="checkbox"/>Harambe</label>
-                </div>
+                <select name="competences[]" class="selectpicker" data-live-search="true" multiple="multiple">
+                    <th:block th:each="comp : ${competences}">
+                        <div class="form-group">
+                            <option th:text="${comp}" th:value="${comp}"></option>
+                        </div>
+                    </th:block>
+                </select>
             </div>
         </div>
         <button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Lagre</button>

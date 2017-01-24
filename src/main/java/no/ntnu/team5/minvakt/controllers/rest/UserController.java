@@ -1,14 +1,8 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
-import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.generation.UsernameGen;
-import no.ntnu.team5.minvakt.db.Competence;
-import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
-import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.UserModel;
-import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
@@ -20,16 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -47,74 +31,7 @@ public class UserController {
     private AccessContextFactory accessor;
 
     @Autowired
-    private UsernameGen usernameGen;
-
-    @Autowired
     EmailService emailService;
-
-    @Authorize
-    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
-    public void createUser(Verifier verifier, @RequestBody NewUser newUser) {
-
-        verifier.ensure(hasRole(Constants.ADMIN));
-
-        String salt = PasswordUtil.generateSalt();
-        String password_hash = PasswordUtil.generatePasswordHash(PasswordUtil.generateSalt(), salt);
-
-        String firstName = newUser.getFirstName().trim();
-        String lastName = newUser.getLastName().trim();
-
-        String resetKey = PasswordUtil.generateSalt();
-        String username = usernameGen.generateUsername(firstName, lastName);
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 1);
-        Date resetKeyExpiry = c.getTime();
-
-        Set<Competence> comps = new HashSet<>();
-        newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
-            return accessContext.competence.getFromName(s);
-        })));
-
-        accessor.with(access -> {
-            User user = new User(
-                    username,
-                    firstName,
-                    lastName,
-                    password_hash,
-                    salt,
-                    newUser.getEmail(),
-                    newUser.getPhoneNr(),
-                    newUser.getEmploymentPercentage());
-
-            user.setCompetences(comps);
-            user.setResetKey(resetKey);
-            user.setResetKeyExpiry(resetKeyExpiry);
-
-            access.user.save(user);
-        });
-
-        // TODO email templating
-
-
-        try {
-            String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
-            String subject = "User has been created for you in MinVakt";
-            String link = "http://localhost:8080/password/reset?username=" +
-                    username + "&resetkey=" + encodedKey;
-            String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
-
-            Map<String, String> vars = new HashMap<>();
-            vars.put("link", link);
-            vars.put("expiry", expiry);
-
-            emailService.sendEmail(
-                    newUser.getEmail(), subject, "email/user_created", vars);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Authorize
     @RequestMapping(value = "/{username}")
