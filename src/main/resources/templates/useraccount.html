@@ -53,9 +53,9 @@
                     <div id="new-pwd-box">
                         <form action="#" th:action="@{/password/reset_wa}"
                               th:object="${passwordResetWithAuth}">
-                            <input type="password" placeholder="Nåværende passord"/>
-                            <input type="password" placeholder="Nytt passord"/>
-                            <input type="password" placeholder="Gjenta nytt passord"/>
+                            <input class="pwd-input" type="password" placeholder="Nåværende passord"/>
+                            <input class="pwd-input" type="password" placeholder="Nytt passord"/>
+                            <input class="pwd-input" type="password" placeholder="Gjenta nytt passord"/>
                             <input type="submit" id="save-pwd-btn"
                                    class="btn btn-primary pull-right">Lagre</input>
                         </form>
