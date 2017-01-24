@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
         <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
 
-
+        <link rel="stylesheet" href="../static/style/Calendar.css" />
         <link rel="stylesheet" href="../static/style/Modal.css" />
         <script src="../static/JS/Calendar.js"></script>
     </head>
@@ -20,88 +20,90 @@
     <button data-toggle="modal" data-target="#calendarModal">Test</button>
 
 
-        <div class="modal fade" id="calendarModal" role="dialog">
-            <div class="modal-dialog">
+        <div class="modal fade " id="calendarModal" role="dialog">
+            <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <i class="ion-close close-color" data-dismiss="modal"></i>
-                        <h4 class="modal-title">Informasjon</h4>
+                        <h4 class="modal-title">Velg uke</h4> <!--TODO: legg inn i JS endring for velg dato i alle skift-->
                     </div>
                     <div class="modal-body">
-                        <table class="table table-bordered">
+                        <table class="table tabletable">
                             <tr id="monthAndWeeknr">
-                                <td>MÅNED 2017</td>
+                                <td colspan="3" class="month left"><i class="ion-arrow-left-b"></i></td>
+                                <td colspan="2" class="month">Måned 2017</td>
+                                <td colspan="3" class="month right"><i class="ion-arrow-right-b"></i></td>
                             </tr>
                             <tr id="weekdays">
-                                <td>UKENR</td>
-                                <td>Mandag</td>
-                                <td>Tirsdag</td>
-                                <td>Onsdag</td>
-                                <td>Torsdag</td>
-                                <td>Fredag</td>
-                                <td>Lørdag</td>
-                                <td>Søndag</td>
+                                <td class="weekNr">UKENR</td>
+                                <td class="cell-day">Mandag</td>
+                                <td class="cell-day">Tirsdag</td>
+                                <td class="cell-day">Onsdag</td>
+                                <td class="cell-day">Torsdag</td>
+                                <td class="cell-day">Fredag</td>
+                                <td class="cell-day">Lørdag</td>
+                                <td class="cell-day">Søndag</td>
                             </tr>
                             <tr id="week1">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="weekNr">1</td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
                             </tr>
                             <tr id="week2">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="weekNr">2</td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
                             </tr>
                             <tr id="week3">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="weekNr">3</td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
                             </tr>
                             <tr id="week4">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="weekNr">4</td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
                             </tr>
                             <tr id="week5">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="weekNr">5</td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
                             </tr>
                             <tr id="week6">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="weekNr">6</td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
+                                <td class="cell"></td>
                             </tr>
                         </table>
 

@@ -4,6 +4,14 @@
 
 
 $(document).ready(function() {
+    $(".cell").hover(function() {
+        $(this).css("background-color", "#969696").css("cursor", "pointer");
+        $(this).siblings(".cell").css("background-color", "#969696").css("cursor", "pointer");
+
+    }, function() {
+        $(this).css("background-color", "transparent").css("cursor", "auto");
+        $(this).siblings(".cell").css("background-color", "transparent").css("cursor", "auto");
+    });
 
 
 

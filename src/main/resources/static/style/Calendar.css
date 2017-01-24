@@ -1,0 +1,39 @@
+body, head {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --border-color-calendar: #D0D0D0;
+}
+
+.month {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color-calendar);
+}
+
+.tabletable {
+    table-layout: fixed;
+}
+
+.cell, .cell-day, .weekNr {
+    border-right: 1px solid var(--border-color-calendar);
+    border-top: none !important;
+    border-bottom: 1px solid var(--border-color-calendar);
+}
+
+.weekNr, .left {
+    border-left: 1px solid var(--border-color-calendar);
+}
+
+.right {
+    border-right: 1px solid var(--border-color-calendar);
+}
+
+.month {
+    font-size: 150%;
+}
+
+.ion-arrow-left-b:hover, .ion-arrow-right-b:hover {
+    cursor: pointer;
+}
