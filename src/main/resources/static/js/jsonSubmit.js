@@ -5,9 +5,10 @@
 function jsonSubmitFns(form, success, fail = console.error) {
     let $form = $(form);
     let json = $form.serializeJSON();
+    let method = $form.attr("method") || "post";
 
     $.ajax({
-        type: $form.attr("method"),
+        type: method,
         url: $form.attr("action"),
         data: JSON.stringify(json),
         contentType: "application/json; charset=utf-8",
