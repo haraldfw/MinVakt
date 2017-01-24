@@ -57,8 +57,8 @@ public class NotificationController {
     @Authorize
     @PostMapping("/api/notifications/generate_transfer_request_notification")
     public void generateTransferRequestNotification(Verifier verifier,
-                                                    @RequestParam("user_id") int user_id,
-                                                    @RequestParam("shift_id") int shift_id){
+                                                    @RequestParam("shift_id") int shift_id,
+                                                    @RequestParam("user_id") int user_id){
         accessor.with(access -> {
             User shiftOwner = access.user.fromUsername(verifier.claims.getSubject());
             User requestedOwner = access.user.fromID(user_id);
@@ -69,7 +69,7 @@ public class NotificationController {
             String message = shiftOwner.getFirstName() + " " + shiftOwner.getLastName() + " forespør om du kan ta følgende vakt:\n" +
                     shift.getStartTime() + " til " + shift.getEndTime();
 
-            String actionUrl = "/api/shift/pass_notification_to_admin?user_id="+user_id+"&shift_id="+shift_id;
+            String actionUrl = "/api/shift/pass_notification_to_admin?shift_id="+shift_id+"&user_id="+user_id;
 
             access.notification.generateTransferRequestNotification(message, actionUrl, requestedOwner);
         });
