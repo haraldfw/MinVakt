@@ -3,46 +3,46 @@
       th:include="layout :: mainLayout">
 
 <head th:fragment="header">
-
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+    <script src="/js/jsonSubmit.js"></script>
 </head>
 
 <body>
 <div th:fragment="content">
-    <form action="/api/admin/message" class="form-control">
-        <table>
-            <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <th>Bukere å sende til</th>
-                            <th>Kompetanser å sende til</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div>
-                                    <select class="form-control" name="comp_recs"
-                                            multiple="multiple"></select>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <select class="form-control" name="user_recs"
-                                            multiple="multiple"></select>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                    <textarea class="form-control" placeholder="Melding her..."></textarea>
-                </td>
-            </tr>
-        </table>
-
-    </form>
+    <div class="page-header">
+        <h3>Send ny melding</h3>
+    </div>
+    <div class="panel panel-default">
+        <form action="/api/admin/message"
+              onsubmit="return jsonSubmit(this, '/admin/message')" th:action="@{/api/admin/message}"
+              method="post">
+            <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
+                <h4>Kompetanser å sende til</h4>
+                <select name="comp_recs[]" class="selectpicker"
+                        data-live-search="true" multiple="multiple" data-width="100%">
+                    <option th:each="comp : ${competences}"
+                            th:text="${comp}" th:value="${comp}"></option>
+                </select>
+            </div>
+            <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
+                <h4>Brukere å sende til</h4>
+                <select name="user_recs[]" class="selectpicker"
+                        data-live-search="true" multiple="multiple" data-width="100%">
+                    <option th:each="uname : ${users}" th:text="${uname}"
+                            th:value="${uname}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <textarea name="message" class="form-control"
+                          placeholder="Melding her..." rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary form-control" value="Send"/>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

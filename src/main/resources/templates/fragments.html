@@ -7,12 +7,14 @@
             MinVakt
         </a>
     </div>
-    <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute" role="navigation">
+    <nav id="navbar-top" class="navbar navbar-inverse navbar-fixed-top navbar-top-ute"
+         role="navigation">
         <span th:id="username" style="display: none" th:text="${navbar.username}"></span>
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
                        aria-expanded="false">
                         <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
                     <ul class="dropdown-menu">
@@ -21,10 +23,12 @@
                                 <p th:text="${n.message}">
                                     <!-- melding havner her -->
                                 </p>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}"
+                                      method="post">
                                     <button type="submit" class="ion-checkmark-round"></button>
                                 </form>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}"
+                                      method="post">
                                     <button type="submit" class="ion-close-round"></button>
                                 </form>
                             </a>
@@ -45,15 +49,16 @@
                     <a href="/user/profile" th:text="${name}"></a>
                 </li>
                 <li class="profile-picture">
-                    <img th:if="${navbar.profileImageB64 != null}" src="" th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
-                    <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"/>
+                    <img th:if="${navbar.profileImageB64 != null}" src=""
+                         th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
+                    <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>
                 </li>
             </ul>
         </div>
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
-        <img src="/images/MinVakt_Linje_200.png"/>
+        <a th:href="@{/}"><img src="/images/MinVakt_Linje_200.png"/></a>
         <li class="navbar-item"><a class="active" href="/test">Egen timeliste</a></li>
         <li class="navbar-item"><a href="/shiftss">Alle vakter</a></li>
         <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
@@ -62,9 +67,9 @@
 
         <th:block th:if="${isAdmin}">
             <hr/>
-            <li class="navbar-item"><a href="/admin/shift">Legg til shift</a></li>
-            <li class="navbar-item"><a href="/admin/createuser">Legg til bruker</a></li>
-            <li class="navbar-item"><a href="/admin/competence">Legg til kompetanse</a></li>
+            <li class="navbar-item"><a href="/admin/create/shift">Legg til shift</a></li>
+            <li class="navbar-item"><a href="/admin/create/user">Legg til bruker</a></li>
+            <li class="navbar-item"><a href="/admin/create/competence">Legg til kompetanse</a></li>
             <li class="navbar-item"><a href="/admin/message">Send melding</a></li>
         </th:block>
 

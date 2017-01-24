@@ -2,7 +2,6 @@ package no.ntnu.team5.minvakt.data.access;
 
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
-import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.NotificationModel;
 import org.hibernate.Query;
@@ -58,13 +57,7 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
     public void generateMessageNotification(User toUser, String message) {
         Notification notification = new Notification(message);
         notification.setUser(toUser);
-
-        save(notification);
-    }
-
-    public void generateMessageNotification(Competence competence, String message) {
-        Notification notification = new Notification(message);
-        notification.setCompetence(competence);
+        notification.setClosed(false);
 
         save(notification);
     }
@@ -73,15 +66,16 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         Notification notification = new Notification(message);
         notification.setUser(toUser);
         notification.setActionUrl(actionUrl);
+        notification.setClosed(false);
 
         save(notification);
     }
-
 
     public void generateTransferNotification(Competence competence, String message, String actionURL) {
         Notification notification = new Notification(message);
         notification.setCompetence(competence);
         notification.setActionUrl(actionURL);
+        notification.setClosed(false);
 
         save(notification);
     }
@@ -95,6 +89,4 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
 
         return notificationModel;
     }
-
-
 }

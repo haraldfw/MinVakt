@@ -6,6 +6,7 @@
     <script src="/js/useraccount.js"></script>
     <script src="/js/jsonSubmit.js"></script>
     <script src="/js/imageUpload.js"></script>
+    <script src="/js/libs/zxcvbn.min.js"></script>
 </head>
 
 <body>
@@ -17,47 +18,51 @@
             <tr>
                 <th>Navn</th>
                 <td class="input-cell">
-                    <!--/*@thymesVar id="user" type="no.ntnu.team5.minvakt.model.UserModel"*/-->
                     <input type="text" th:value="${user.firstName + ' ' + user.lastName}"
-                           disabled="disabled"/></td>
-                <td><span class="glyphicon glyphicon-edit"></span></td>
+                           disabled="disabled"/>
+                </td>
+                <td></td>
             </tr>
             <tr>
-                <th>Fødselsdato</th>
+                <th>E-post</th>
                 <td class="input-cell">
-                    <input type="text" value="22.08.96 (NIY)" disabled="disabled"/></td>
-                <td><span class="glyphicon glyphicon-edit"></span></td>
+                    <input type="email" th:value="${user.email}" disabled="disabled"/>
+                </td>
+                <td></td>
             </tr>
             <tr>
                 <th>Adresse</th>
                 <td class="input-cell">
-                    <input type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/></td>
+                    <input class="sbmts" type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/>
+                </td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>Mobil</th>
                 <td class="input-cell">
-                    <input type="text" th:value="${user.phonenumber}" disabled="disabled"/></td>
-                <td><span class="glyphicon glyphicon-edit"></span></td>
-            </tr>
-            <tr>
-                <th>E-post</th>
-                <td class="input-cell">
-                    <input type="email" th:value="${user.email}" disabled="disabled"/></td>
+                    <input class="sbmts" type="text" th:value="${user.phonenumber}" disabled="disabled"/>
+                </td>
                 <td><span class="glyphicon glyphicon-edit"></span></td>
             </tr>
             <tr>
                 <th>Passord</th>
                 <td>
-                    <!--<input id="fake-pwd-input" type="text" value="••••••••(NIY)"/>-->
                     <div id="new-pwd-box">
-                        <form action="#" th:action="@{/password/reset_wa}"
-                              th:object="${passwordResetWithAuth}">
-                            <input class="pwd-input" type="password" placeholder="Nåværende passord"/>
-                            <input class="pwd-input" type="password" placeholder="Nytt passord"/>
-                            <input class="pwd-input" type="password" placeholder="Gjenta nytt passord"/>
-                            <input type="submit" id="save-pwd-btn"
-                                   class="btn btn-primary pull-right">Lagre</input>
+                        <form action="/api/password/change" method="post" class="sbmts"
+                              onsubmit="return jsonSubmitFns(this, success, failure)">
+                            <input class="pwd-input" type="password" name="old_password"
+                                   placeholder="Nåværende passord"/>
+                            <input id="new-pwd" class="pwd-input" type="password" pattern=".{8,}" name="new_password"
+                                   placeholder="Nytt passord"/>
+                            <meter max="4" id="password-strength-meter" value="0"></meter>
+                            <input id="rpt-pwd" class="pwd-input" type="password" pattern=".{8,}"
+                                   placeholder="Gjenta nytt passord"/>
+                            <div id="incorrect-pwd" class="alert alert-danger">
+                                <p><strong>Passordene er ikke like</strong></p>
+                            </div>
+                            <button type="submit" id="save-pwd-btn"
+                                    class="btn btn-primary pull-right">Lagre
+                            </button>
                         </form>
                     </div>
                 </td>
@@ -65,8 +70,8 @@
             </tr>
             <tr>
                 <th>Timer denne uken</th>
-                <td>
-                </td>
+                <td> </td>
+                <td> </td>
             </tr>
         </table>
     </div>
@@ -77,8 +82,8 @@
                      th:if="${navbar.profileImageB64 != null}"
                      th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
                      height="256" width="256" style="margin: auto 0;"/>
-                <img th:if="${navbar.profileImageB64 == null}" src="@{/images/profile.png}"
-                     height="42" width="42" style="margin: auto 0;" />
+                <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"
+                     height="256" width="256" style="margin: auto 0;" />
             </td>
             <td>
                 <form onsubmit="return uploadImage(this, '/user/profile', 'imgUpload')"

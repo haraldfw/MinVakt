@@ -5,7 +5,6 @@ import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
-import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,9 +28,6 @@ public class UserController {
 
     @Autowired
     private AccessContextFactory accessor;
-
-    @Autowired
-    EmailService emailService;
 
     @Authorize
     @RequestMapping(value = "/{username}")
