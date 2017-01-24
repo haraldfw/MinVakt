@@ -23,13 +23,14 @@
         <img src="/images/MinVakt_Linje_200.png" style="margin-bottom: 4em"/>
     </div>
     <div id="login" class="login-box">
-        <form th:object="${loginInfo}" action="/api/login" method="post" onsubmit="return jsonSubmit(this, '/welcome')">
+        <form action="/api/login" method="post" onsubmit="return jsonSubmit(this, '/')">
             <div class="form-group">
-                <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn"
-                       th:field="*{username}" th:required="required"/>
+                <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn" name="username"
+                       required="required"/>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Passord" th:field="*{password}" th:required="required"/>
+                <input type="password" class="form-control" placeholder="Passord" name="password"
+                       th:required="required"/>
             </div>
             <div id="error" hidden="hidden" class="alert alert-danger fade in">
                 Feil brukernavn eller passord!

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/shift")
+@RequestMapping("/shifts")
 public class ShiftWebController extends NavBarController {
 
     @Authorize("/")
-    @GetMapping("/shifts")
+    @GetMapping("")
     public String test() {
         return "site/shifts";
     }

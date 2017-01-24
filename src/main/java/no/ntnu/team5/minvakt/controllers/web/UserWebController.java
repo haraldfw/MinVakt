@@ -4,6 +4,7 @@ import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,15 @@ public class UserWebController extends NavBarController {
     private AccessContextFactory accessor;
 
     @Authorize("/")
-    @RequestMapping("/{username}")
+    @RequestMapping("/profile/{username}")
     public String show(Verifier verifier, @PathVariable("username") String username, Model model) {
         model.addAttribute("user", accessor.with(access -> {
-            return access.user.toModel(access.user.fromUsername(username));
+            User user = access.user.fromUsername(username);
+            if (user == null) {
+                throw new ResourceNotFoundException("User not found");
+            }
+
+            return access.user.toModel(user);
         }));
 
         //TODO: display diffrent info depending on role (owner, admin, user)
@@ -56,7 +62,7 @@ public class UserWebController extends NavBarController {
     }
 
     @Authorize("/")
-    @GetMapping("/user/schedule")
+    @GetMapping("/schedule")
     public String test() {
         return "site/user/schedule";
     }

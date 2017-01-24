@@ -31,7 +31,7 @@ public class AdminWebController extends NavBarController {
     @Authorize("/")
     @GetMapping("/create/competence")
     public String competence() {
-        return "site/admin/competence";
+        return "site/admin/create/competence";
     }
 
     @Authorize("/")
