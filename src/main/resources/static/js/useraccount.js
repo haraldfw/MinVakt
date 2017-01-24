@@ -39,3 +39,11 @@ function disableEnabledInputs() {
     let enabledInputs = $(".account-box input:not(:disabled)");
     enabledInputs.attr("disabled", true);
 }
+
+function success() {
+    console.log("Passord ble endret!");
+}
+
+function failure() {
+    console.log("Passord ble IKKE endret!");
+}
