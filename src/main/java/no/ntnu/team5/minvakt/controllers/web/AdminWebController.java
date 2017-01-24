@@ -26,4 +26,15 @@ public class AdminWebController extends NavBarController {
 
         return "admin/createuser";
     }
+
+    @Authorize("/")
+    @GetMapping("/message")
+    public String showMessaging(Model model) {
+        accessor.with(accessContext -> {
+            model.addAttribute("users", accessContext.user.getUsernames());
+            model.addAttribute("competences", accessContext.competence.getCompetencesNames());
+        });
+
+        return "admin/message";
+    }
 }

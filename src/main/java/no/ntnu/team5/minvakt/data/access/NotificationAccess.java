@@ -81,6 +81,14 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         save(notification);
     }
 
+    public void generateTransferRequestNotification(String message, String actionUrl, User toUser){
+        Notification notification = new Notification(message);
+        notification.setUser(toUser);
+        notification.setActionUrl(actionUrl);
+
+        save(notification);
+    }
+
 
     public void generateTransferNotification(Competence competence, String message, String actionURL, Shift shift) {
         Notification notification = new Notification(message);

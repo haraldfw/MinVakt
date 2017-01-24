@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+
+<head th:fragment="header">
+
+</head>
+
+<body>
+<div th:fragment="content">
+    <form action="/api/admin/message" class="form-control">
+        <table>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <th>Bukere å sende til</th>
+                            <th>Kompetanser å sende til</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <select class="form-control" name="comp_recs"
+                                            multiple="multiple"></select>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <select class="form-control" name="user_recs"
+                                            multiple="multiple"></select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="form-control" placeholder="Melding her..."></textarea>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+</body>
+</html>

@@ -132,6 +132,27 @@ main {
     display: none;
 }
 
+.border-box {
+    background: #f2f2f2;
+    border: 1px dashed;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.spacious-column {
+    margin-top: 10px;
+}
+@media(max-width: 768px) {
+    .spacious-column {
+        margin-top: 30px;
+
+    }
+}
+
+#page-container {
+    margin: 20px;
+}
+
 meter {
     margin: 0 auto 1em;
     width: 100%;

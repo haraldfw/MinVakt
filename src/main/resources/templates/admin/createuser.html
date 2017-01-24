@@ -21,6 +21,45 @@
             </select>
         </p>
         <p><input type="submit" value="Opprett"/></p>
+
+    <form action="/api/user/create" method="post" onsubmit="return jsonSubmit(this, '#')">
+        <div cass="page-header">
+            <h3>Legg til ny bruker</h3>
+        </div>
+        <div class="border-box row">
+            <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
+                <h4>Personinfo</h4>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Navn" required="required"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="birthdate" name="birthdate" placeholder="Fødselsdato" required="required"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Epost" required="required"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobil" required="required"/>
+                </div>
+
+            </div>
+            <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
+                <h4>Kompetanse</h4>
+                <div class="form-group">
+                    <label><input type="checkbox"/>Sykepleier</label>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox"/>Lege</label>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox"/>Yolo</label>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox"/>Harambe</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Lagre</button>
     </form>
 </div>
 </html>
