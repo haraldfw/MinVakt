@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Notifications</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script th:src="@{/js/notifications.js}" type="text/javascript"></script>
 </head>
 <body>
 Heiii boiii
 
-<form th:action="@{'/api/notifications/generate_transfer_request_notification' (user_id=#user_input,shift_id=#shift_input)}" method="post">
-    <input aria-label="user_id" type="text" id="user_input">
-    <input aria-label="shift_id" type="text" id="shift_input">
-    <button type="submit" value="erlenfixpls">Lag notification om vaktbytte</button>
-
-</form>
+<input placeholder="user_id" type="text" id="user_input"/>
+<input placeholder="shift_id" type="text" id="shift_input"/>
+<button type="submit" id="generate_transfer_request" value="generate_transfer_request">Lag notification om vaktbytte</button>
 
 <p>Notifikasjoner for bruker:</p>
 <table border="1px solid black">

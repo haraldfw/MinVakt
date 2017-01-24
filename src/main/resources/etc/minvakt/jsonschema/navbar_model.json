@@ -21,16 +21,12 @@
           "message": {
             "type": "string"
           },
-          "expiry": {
-            "type": "date-time"
-          },
           "action_url": {
             "type": "string"
           }
         },
         "required": [
           "message",
-          "expiry",
           "action_url"
         ]
       }

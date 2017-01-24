@@ -2,7 +2,6 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
@@ -15,14 +14,17 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 
@@ -42,9 +44,6 @@ public class AdminController {
 
     @Autowired
     EmailService emailService;
-
-    @Autowired
-    UserAccess userAccess;
 
     @Authorize
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)
@@ -94,17 +93,13 @@ public class AdminController {
     public void createShift(Verifier verify, @RequestBody NewShift newShift) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
-        List<String> users = userAccess.getUsernames();
-
-        Set<Competence> comps = new HashSet<>();
-        newShift.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
-            return accessContext.competence.getFromName(s);
-        })));
-
         accessor.with(access -> {
+            List<String> users = access.user.getUsernames();
+
+            Set<Competence> comps = new HashSet<>();
+            newShift.getCompetences().forEach(s -> comps.add(access.competence.getFromName(s)));
+
             Shift shift = new Shift();
-
-
             shift.setUser(access.user.fromUsername(newShift.getUserModel().getUsername()));
             shift.setStartTime(newShift.getStartTime());
             shift.setEndTime(newShift.getEndTime());
@@ -114,7 +109,6 @@ public class AdminController {
 
             access.shift.save(shift);
         });
-
     }
 
     @Authorize
@@ -128,7 +122,6 @@ public class AdminController {
             );
 
             access.competence.save(competence);
-
         });
     }
 }
