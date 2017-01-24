@@ -146,7 +146,7 @@ public class ShiftController {
         verifier.ensure(hasRole(Constants.ADMIN));
         accessor.with(access -> {
 
-            String actionURL = httpServletRequest.getRequestURI() + "?user_id=" + user_id + "&shift_id=" + shift_id;
+            String actionURL = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
             Notification notification = access.notification.fromActionURL(actionURL);
             if (notification == null) return;
 
@@ -159,7 +159,7 @@ public class ShiftController {
                 String message = "Du har blitt tildelt følgende skift: " +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(newShiftOwner, message);
-                message = "Følgende skift har blitt overtatt: " +
+                message = "Følgende skift har blitt overtatt av " + newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName() + ": \n" +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(oldShiftOwner, message);
             } else {
@@ -181,9 +181,9 @@ public class ShiftController {
     @Authorize
     @PostMapping("/pass_notification_to_admin")
     public void passTransferToAdmin(Verifier verifier,
-                                    @RequestParam("accept") boolean accept,
                                     @RequestParam("shift_id") int shift_id,
                                     @RequestParam("user_id") int user_id,
+                                    @RequestParam("accept") boolean accept,
                                     HttpServletRequest httpServletRequest) {
 
         accessor.with(access -> {
@@ -202,7 +202,7 @@ public class ShiftController {
                 String message = "Bruker " + access.user.fromID(user_id).getUsername() +
                         " ønsker å ta over følgende skift fra " + shift.getUser().getUsername() +
                         ": " + shift.getStartTime() + " til " + shift.getEndTime() + ".";
-                String nyActionURL = "/api/shift/transfer?user_id=" + user_id + "&shift_id=" + shift_id;
+                String nyActionURL = "/api/shift/transfer?shift_id=" + shift_id + "&user_id=" + user_id;
                 access.notification.generateTransferNotification(access.competence.getFromName("Admin"), message, nyActionURL);
             } else {
                 User originalOwner = shift.getUser();
