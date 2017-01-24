@@ -24,6 +24,7 @@ $(document).ready(() => {
     });
 
     $("#edit-pwd").click(function () {
+        $("#new-pwd-box input").removeAttr("disabled");
         $("#fake-pwd-input").slideUp(100);
         $("#new-pwd-box").slideDown(200);
     });
