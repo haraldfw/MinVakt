@@ -147,6 +147,7 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
 
     public ShiftModel toModel(Shift shift) {
         ShiftModel model = new ShiftModel();
+        model.setId(shift.getId());
         model.setAbsent(shift.getAbsent());
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
@@ -194,6 +195,19 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         Date dateTo = CALENDAR.getTime();
 
         return getShiftsFromDateToDateForUser(dateFrom, dateTo, username);
+    }
+
+    public double getHoursInWeekForUser(Date currentDate, String username) {
+        CALENDAR.setTime(currentDate);
+        CALENDAR.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+        CALENDAR.set(Calendar.MINUTE, 0);
+        Date dateFrom = CALENDAR.getTime();
+        CALENDAR.add(CALENDAR.DAY_OF_YEAR, 7);
+        Date dateTo = CALENDAR.getTime();
+
+        return getShiftsFromDateToDateForUser(dateFrom, dateTo, username)
+                .stream().mapToDouble(value -> value.getStandardHours()).sum();
     }
 
     public List<Shift> getShiftsFromDateToDateForUser(Date dateFrom, Date dateTo, String username) {

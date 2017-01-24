@@ -57,7 +57,7 @@ public class ShiftController {
      * Get shifts for the current week for a given user
      * @return a list of shifts
      */
-    @Authorize("/")
+    //@Authorize("/") //FIXME: will not authorize
     @RequestMapping("/{user}/week") //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
         Calendar cal = Calendar.getInstance();
