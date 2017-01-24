@@ -6,6 +6,7 @@ import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.MessageModel;
 import no.ntnu.team5.minvakt.model.NewCompetence;
 import no.ntnu.team5.minvakt.model.NewShift;
 import no.ntnu.team5.minvakt.model.NewUser;
@@ -14,6 +15,7 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -108,6 +110,28 @@ public class AdminController {
             shift.setCompetences(comps);
 
             access.shift.save(shift);
+        });
+    }
+
+    @Authorize
+    @PostMapping("/message")
+    public void sendMessage(@RequestBody MessageModel msg) {
+        System.out.println(msg.toString());
+        Set<String> usernames = new HashSet<>();
+        usernames.addAll(msg.getUserRecs());
+
+        accessor.with(accessContext -> {
+            msg.getCompRecs().forEach(comp -> {
+                Competence competence = accessContext.competence.getFromName(comp);
+                System.out.println(competence);
+                System.out.println(comp);
+                competence.getUsers().stream().map(User::getUsername).forEach(usernames::add);
+            });
+
+            usernames.forEach(username -> {
+                User user = accessContext.user.fromUsername(username);
+                accessContext.notification.generateMessageNotification(user, msg.getMessage());
+            });
         });
     }
 
