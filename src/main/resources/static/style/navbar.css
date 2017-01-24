@@ -4,14 +4,44 @@ body {
 body.navbar-open {
     padding-left: 200px;
 }
+#burger-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    z-index: 2000;
+}
+#buger-menu > * {
+    float: left;
+}
+#burger-menu a {
+    line-height: 70px;
+    color: #ccc;
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+        font-size: 18px;
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+}
+
+.profile-picture img {
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+}
 
 #navbar-side {
     width: 200px;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    padding-top: 50px;
-    background-color: #353532;
+    padding-top: 70px;
+    background-color: #222;
     position: fixed;
     top: 0;
     left: 0;
@@ -23,6 +53,12 @@ body.navbar-open {
     transform: translateX(-100%);
 }
 
+#navbar-side img {
+    width: 100px;
+    margin: 20px auto;
+    display: block;
+}
+
 body.no-anim,
 .no-anim #navbar-side {
     transition: none;
@@ -31,18 +67,31 @@ body.no-anim,
 .navbar-open #navbar-side{
     transform: translateX(0);
 }
+.nav.navbar-nav.navbar-right {
+    margin: 0 !important;
+    float: right;
+}
+
+.dropdown-toggle {
+    padding: 10px !important;
+    margin: 10px;
+    line-height: 30px !important;
+    font-size: 18px;
+}
+
+.nav.navbar-nav.navbar-right > * {
+    float: left;
+}
+
 
 /* Testing av animasjoner */
 #navbar-top {
-    height: 50px;
+    height: 70px;
 }
 
 /* For responsive design */
 /* For mobile usage */
 @media only screen and (max-width: 768px) {
-    .nav.navbar-nav.navbar-right {
-        display: none;
-    }
     .close-close {
         font-size: 300%;
     }
@@ -80,10 +129,9 @@ body.no-anim,
 
 .close-iconburger {
     color: #1fa3ae !important;
-    text-align: center;
-    font-size: 175%;
-    margin-top: -40%;
-    margin-left: 0;
+    font-size: 237%;
+    padding: 20px;
+    height: 70px;
 }
 
 .close-iconburger:hover {
