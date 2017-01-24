@@ -3,6 +3,8 @@ package no.ntnu.team5.minvakt.controllers.rest;
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Notification;
+import no.ntnu.team5.minvakt.db.Shift;
+import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 
 @RestController
 //@RequestMapping(value = "/api/notifications")
+//FIXME: ordne mappings når testing er ferdig ~Gard
 public class NotificationController {
     @Autowired
     private AccessContextFactory accessor;
@@ -48,6 +51,27 @@ public class NotificationController {
             verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole(Constants.ADMIN)));
 
             access.notification.closeNotification(notification);
+        });
+    }
+
+    @Authorize
+    @PostMapping("/api/notifications/generate_transfer_request_notification")
+    public void generateTransferRequestNotification(Verifier verifier,
+                                                    @RequestParam("user_id") int user_id,
+                                                    @RequestParam("shift_id") int shift_id){
+        accessor.with(access -> {
+            User shiftOwner = access.user.fromUsername(verifier.claims.getSubject());
+            User requestedOwner = access.user.fromID(user_id);
+            Shift shift = access.shift.getShiftFromId(shift_id);
+
+            verifier.ensure(or(isUser(shift.getUser().getUsername()), hasRole(Constants.ADMIN)));
+
+            String message = shiftOwner.getFirstName() + " " + shiftOwner.getLastName() + " forespør om du kan ta følgende vakt:\n" +
+                    shift.getStartTime() + " til " + shift.getEndTime();
+
+            String actionUrl = "/api/shift/pass_notification_to_admin?user_id="+user_id+"&shift_id="+shift_id;
+
+            access.notification.generateTransferRequestNotification(message, actionUrl, requestedOwner);
         });
     }
 }
