@@ -6,7 +6,6 @@ $(document).ready(() => {
     let fromDate = null;
     let toDate = null;
 
-
     $("#go").click(event => {
         let json = {
             date_from: $("#fraDato").serializeObject().date,
