@@ -5,7 +5,8 @@
 let rpt_pwd, new_pwd, meter;
 
 $(document).ready(() => {
-    $(".glyphicon.glyphicon-edit").click(function () {
+    $(".btn-edit:not(#edit-pwd)").click(function () {
+        $("#new-pwd-box").slideUp(200);
         disableEnabledInputs();
         let targetInput = $(this).parent().siblings(".input-cell").find("input");
 
@@ -47,6 +48,11 @@ $(document).ready(() => {
     rpt_pwd.on("input", () => {
         vaildate();
     });
+
+    $(document).on("change", "#imgUpload", function() {
+        $("#upload-file-info").html($(this).val()).show();
+    });
+
 });
 
 function disableEnabledInputs() {
