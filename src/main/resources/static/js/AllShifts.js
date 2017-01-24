@@ -2,16 +2,9 @@
  * Created by Ingunn on 13.01.2017.
  */
 
-/*
-left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
-width: calc(((11.11%)/3)*8 - calc((11.11%)/3) - 1px);
-TODO: ikke fjern
-*/
-
-
 $(document).ready(function() {
 
-    $("#response-button").click(function() {
+    $(document).ready(function() {
         var today = new Date();
 
 
@@ -78,7 +71,7 @@ $(document).ready(function() {
 
                     var classKomp;
                     var tidtid = hourFrom + ":" + minFrom + " - " + hourTo + ":" + minTo;
-                    if(jArray[i].absent === 0) {
+                    if(jArray[i].absent) {
                         classKomp = "no-worker";
                     } else {
                         classKomp = "worker";
@@ -157,6 +150,12 @@ $(document).ready(function() {
                     $("#modalFree").css("display", "inline");
                     $("#modalOther").css("display", "none");
                     $("#modalOwn").css("display", "none");
+                    var text = $(".tidtidtid", this).html();
+                    $(".modal-title").html(text);
+                    var tid = $(".tidLagring", this).html();
+                    $("#tidsviser").html(tid);
+
+
                 });
 
 
