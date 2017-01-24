@@ -265,7 +265,7 @@
     text-align: center;
 }
 
-#co-worker-collapse {
+.co-worker-list {
     max-height: 30vh;
     overflow-y: scroll;
 }
@@ -306,6 +306,10 @@
 .shift-center-text { /* TODO: add overflow (text-overflow?) på små shift element */
     position: relative;
     top: 50%;
+}
+
+.non-display-class {
+    display: none;
 }
 
 #buttonNextWeek {

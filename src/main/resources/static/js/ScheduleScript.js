@@ -30,14 +30,20 @@ $(document).ready(function() {
         return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
-    var currentDate = new Date();
+    var currentDate = weekStartDate; //new Date();
     /* Function for changing what date and month is displayed at the top of each day */
     function changeTopDayNames() {
+        /*alert(weekStartDate.getDate());
+         alert(dayCounter);
+         alert(currentDate.getDate());*/
+        dayCounter = 0;
         $(".dayTop").each(function() {
+            //dateCounter = today.getDate();
             //dateCounter = today.getDate();
             var dateToday = weekStartDate.getDate() + dayCounter;
 
-            $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
+            //$(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
+            $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             if (today.getDate() === dateToday) {
                 $(this).addClass("dayTop-today");
             } else {
@@ -59,7 +65,7 @@ $(document).ready(function() {
     var currentWeekUrl = "/api/shift/" + username +"/week";
     var url = currentWeekUrl;
 
-    function getShifts(url) {
+    function getShifts(url) { //TODO: teste og sjekke om denne virker
         $.get(url, function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: kan kanskje hente brukernavn i backend istenden
             //alert("okidoki" + data);
         }).done(function(data) {
@@ -87,7 +93,7 @@ $(document).ready(function() {
 
                 //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
                 var dateNumber = shiftStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
-                var tempDateNumber = addDays(shiftStart, - (weekStartDate.getDate() + tempFix[currentDate.getDay()]) + 2);
+                var tempDateNumber = addDays(shiftStart, - (weekStartDate.getDate() + tempFix[currentDate.getDay()]) + 1);
 
                 console.log("\n-------------------");
                 console.log("\nNygreie");
@@ -98,7 +104,7 @@ $(document).ready(function() {
                 //alert(shiftStart.getDate() + ", " + currentDate.getDate() + ", "+  tempFix[currentDate.getDay()] + ", ");
                 //alert(tempDateNumber.getDate());
                 dateNumber = tempDateNumber.getDate();
-                dateNumber = Math.floor(shiftStart.getTime() - weekStartDate.getTime());
+                //dateNumber = Math.floor(shiftStart.getTime() - weekStartDate.getTime());
 
                 var fromTime = "";
                 if (shiftStart.getHours() < 10) {
@@ -131,7 +137,7 @@ $(document).ready(function() {
                     var newElement = '<div id="' + shiftId + '" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
                         shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
-                    alert(dateNumber + "; ");
+                    //alert(dateNumber + "; "); //TODO: CHECK
                 } else {
                     //If the shift goes from one day to another
                     //elementHeight = hoursOfWork * (44.5 / 12);
@@ -189,10 +195,18 @@ $(document).ready(function() {
         }).done(function(data) {
             //alert("test");
             var jsonArray = data;
+            var workerCounter = 1;
             for (var i = 0; i < jsonArray.length; i++) {
                 //alert(jsonArray[i].username);
                 //alert(jsonArray[i].first_name + " " + jsonArray[i].last_name);
-                alert(jsonArray[i].first_name + " " + jsonArray[i].last_name);
+                var workerId = jsonArray[i].id;
+                var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                var workerType = "panel-footer ";
+                if (workerCounter % 2 === 0) {
+                    workerType = "panel-body ";
+                }
+                $("#co-worker-availible-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box">' + workerName + '</div>')
+                workerCounter++;
             }
         }).fail(function () {
             alert("Det skjedde en feil med innhenting av data for skift.");
@@ -219,7 +233,8 @@ $(document).ready(function() {
             $("#removeAvailibilityButton").css("display", "none");
             shiftType = 0;
             //alert("vanlig skift");
-            $(".panel-group").css("display", "block");
+            $("#other-workers-panel").css("display", "block");
+            $("#changeShiftOwnerButton").css("display", "block");
 
         } else if ($(this).hasClass("absence-shift")) {
             //absenceButton
@@ -230,7 +245,8 @@ $(document).ready(function() {
             $("#removeAbsenceButton").css("display", "inline-block");
             $("#removeAvailibilityButton").css("display", "none");
             shiftType = 1;
-            $(".panel-group").css("display", "block");
+            $("#other-workers-panel").css("display", "block");
+            $("#changeShiftOwnerButton").css("display", "none");
 
         } else if ($(this).hasClass("availible-shift")) {
             //alert("tilgjengelig");
@@ -240,11 +256,16 @@ $(document).ready(function() {
             $("#removeAbsenceButton").css("display", "none");
             $("#removeAvailibilityButton").css("display", "inline-block");
             shiftType = 2;
-            $(".panel-group").css("display", "none");
+            $("#other-workers-panel").css("display", "none");
+            $("#changeShiftOwnerButton").css("display", "none");
         }
 
         //alert(selectedShift);
         e.preventDefault();
+    });
+
+    $("#changeShiftOwnerButton").click(function() {
+        $("#availible-workers-panel").toggleClass("non-display-class");
     });
 
     $("#absenceButton").click(function() {
@@ -335,7 +356,6 @@ $(document).ready(function() {
 
         //weekStartDate -= 7;
         weekStartDate = addDays(weekStartDate, -7);
-        dayCounter = 0;
         changeTopDayNames();
 
         //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
@@ -352,7 +372,6 @@ $(document).ready(function() {
         currentDate = addDays(currentDate, 7);
         //weekStartDate += 7;
         weekStartDate = addDays(weekStartDate, 7);
-        dayCounter = 0;
         changeTopDayNames();
 
         //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week"; //TODO: legg til månedsvariabel
