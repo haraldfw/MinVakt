@@ -42,7 +42,7 @@ public class PasswordController {
     private EmailService emailService;
 
     @PostMapping("/forgot")
-    public void forgot(@ModelAttribute ForgottenPassword forgotInfo) {
+    public void forgot(@RequestBody ForgottenPassword forgotInfo) {
         String input = forgotInfo.getUsernameEmail().trim();
 
         accessor.with(accessContext -> {
@@ -70,6 +70,8 @@ public class PasswordController {
                 try {
                     String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
                     String subject = "Your password reset request";
+                    System.out.println("Hostname");
+                    System.out.println(Constants.HOSTNAME);
                     String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
                             user.getUsername() + "&resetkey=" + encodedKey;
                     String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);

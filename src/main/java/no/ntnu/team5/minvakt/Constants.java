@@ -24,8 +24,8 @@ public class Constants {
         Constants.SECURE_KEY = secretKey;
     }
 
-    @Value("${roles.admin}")
-    public static void setHOSTNAME(String HOSTNAME) {
+    @Value("${application.hostname}")
+    public void setHOSTNAME(String HOSTNAME) {
         Constants.HOSTNAME = HOSTNAME;
     }
 }
