@@ -19,11 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
@@ -46,7 +51,7 @@ public class AdminController {
     EmailService emailService;
 
     @Authorize
-    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/create/user", method = RequestMethod.POST)
     public void createUser(Verifier verifier, @RequestBody NewUser newUser) {
 
         verifier.ensure(hasRole(Constants.ADMIN));
@@ -86,6 +91,25 @@ public class AdminController {
 
             access.user.save(user);
         });
+
+        try {
+            String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+            String subject = "User has been created for you in MinVakt";
+            String link = "http://localhost:8080/password/reset?username=" +
+                    username + "&resetkey=" + encodedKey;
+            String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+
+            Map<String, String> vars = new HashMap<>();
+            vars.put("link", link);
+            vars.put("expiry", expiry);
+            vars.put("username", username);
+
+            emailService.sendEmail(
+                    newUser.getEmail(), subject, "email/user_created", vars);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Authorize

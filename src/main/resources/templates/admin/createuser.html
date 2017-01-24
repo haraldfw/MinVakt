@@ -11,7 +11,7 @@
 </head>
 
 <div th:fragment="content">
-    <form action="/api/user/create" method="post" onsubmit="return jsonSubmit(this, '#')">
+    <form action="/api/admin/create/user" method="post" onsubmit="return jsonSubmit(this, '#')">
         <div class="page-header">
             <h3>Legg til ny bruker</h3>
         </div>
@@ -19,18 +19,22 @@
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Personinfo</h4>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Navn" required="required"/>
+                    <input type="text" class="form-control" name="firstName" placeholder="Navn" required="required"/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="birthdate" name="birthdate" placeholder="Fødselsdato" required="required"/>
+                    <input type="text" class="form-control" name="lastName" placeholder="Etternavn"
+                           required="required"/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Epost" required="required"/>
+                    <input type="text" class="form-control" name="email" placeholder="Epost" required="required"/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobil" required="required"/>
+                    <input type="text" class="form-control" name="employmentPercentage:number"
+                           placeholder="Stillingsprosent" required="required"/>
                 </div>
-
+                <div class="form-group">
+                    <input type="text" class="form-control" name="phoneNr" placeholder="Mobil" required="required"/>
+                </div>
             </div>
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Kompetanse</h4>
@@ -43,7 +47,7 @@
                 </select>
             </div>
         </div>
-        <button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Legg till</button>
+        <button type="submit" class="btn btn-primary pull-right">Opprett</button>
     </form>
 </div>
 </html>
