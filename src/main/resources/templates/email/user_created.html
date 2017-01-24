@@ -5,7 +5,10 @@
 </head>
 <body>
 <p>Hei!<br/>
-    En bruker har blitt laget for deg i MinVakt-systemet. Du må selv sette passord på brukeren.<br/>
+    En bruker har blitt laget for deg i MinVakt-systemet. <br/>
+    Brukernavn: <span th:text="${username}"></span><br/>
+    <br/>
+    Du må selv sette passord på brukeren.<br/>
     <br/>
     Trykk denne lenken for å sette passord på brukeren.
     Den er gyldig til <span th:text="${expiry}"></span>. Du kan få en ny lenke ved å trykke
