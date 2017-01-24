@@ -75,8 +75,15 @@ $(document).ready(function() {
                     if(minTo % 10 === 0) {
                         minTo += "0";
                     }
+
+                    var classKomp;
                     var tidtid = hourFrom + ":" + minFrom + " - " + hourTo + ":" + minTo;
-                    var classKomp = "worker";
+                    if(jArray[i].absent === 0) {
+                        classKomp = "no-worker";
+                    } else {
+                        classKomp = "worker";
+                    }
+
 
                     var tid = 'Start: ' + startTime.getFullYear() + '/' + startTime.getMonth()+1 + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
                     'Slutt: ' + endTime.getFullYear() + '/' + endTime.getMonth()+1 + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
@@ -87,7 +94,7 @@ $(document).ready(function() {
                         '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p></div>';
 
                     var vaktRad = '<div class="rad">' +
-                        '<div class="common-cell position-id">a1</div>' +
+                        '<div class="common-cell position-id">' + jArray[i].id + '</div>' +
                         '<div class="common-cell"></div>' +
                         '<div class="common-cell"></div>' +
                         '<div class="common-cell"></div>' +
