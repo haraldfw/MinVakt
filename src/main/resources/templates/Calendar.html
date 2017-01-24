@@ -3,12 +3,24 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+
+
+        <link rel="stylesheet" href="../static/style/Modal.css" />
         <script src="../static/JS/Calendar.js"></script>
     </head>
     <body>
 
-        <div class="modal fade" id="infoTime" role="dialog">
+    <button data-toggle="modal" data-target="#calendarModal">Test</button>
+
+
+        <div class="modal fade" id="calendarModal" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -19,15 +31,10 @@
                     <div class="modal-body">
                         <table class="table table-bordered">
                             <tr id="monthAndWeeknr">
-                                <td>UKENR</td>
                                 <td>MÅNED 2017</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <tr id="weekdays">
+                                <td>UKENR</td>
                                 <td>Mandag</td>
                                 <td>Tirsdag</td>
                                 <td>Onsdag</td>
@@ -44,8 +51,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr id="week2">
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -62,8 +71,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr id="week4">
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -80,8 +91,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr id="week6">
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
