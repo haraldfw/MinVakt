@@ -3,7 +3,7 @@
 <div th:fragment="navbar">
     <div id="burger-menu">
         <i class="ion-navicon-round close-iconburger navbar-brand"></i>
-        <a th:href="@{/}">
+        <a href="/">
             MinVakt
         </a>
     </div>
@@ -58,8 +58,8 @@
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
-        <a th:href="@{/}"><img src="/images/MinVakt_Linje_200.png"/></a>
-        <li class="navbar-item"><a class="active" href="/test">Egen timeliste</a></li>
+        <a href="/"><img src="/images/MinVakt_Linje_200.png"/></a>
+        <li class="navbar-item"><a class="active" href="/user/schedule">Egen timeliste</a></li>
         <li class="navbar-item"><a href="/shiftss">Alle vakter</a></li>
         <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>

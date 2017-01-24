@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminWebController extends NavBarController {
+
     @Autowired
     private AccessContextFactory accessor;
 
@@ -24,13 +25,24 @@ public class AdminWebController extends NavBarController {
             model.addAttribute("competences", access.competence.getCompetencesNames());
         });
 
-        return "admin/createuser";
+        return "site/admin/create/user";
     }
 
     @Authorize("/")
     @GetMapping("/create/competence")
-    public String competence(Model model) {
-        return "admin/competence";
+    public String competence() {
+        return "site/admin/competence";
+    }
+
+    @Authorize("/")
+    @GetMapping("/create/shift")
+    public String createShift(Model model) {
+        accessor.with(access -> {
+            model.addAttribute("competences", access.competence.getCompetencesNames());
+            model.addAttribute("users", access.user.getUsernames());
+        });
+
+        return "site/admin/create/shift";
     }
 
     @Authorize("/")
@@ -41,16 +53,6 @@ public class AdminWebController extends NavBarController {
             model.addAttribute("competences", accessContext.competence.getCompetencesNames());
         });
 
-        return "admin/message";
-    }
-
-    @Authorize("/")
-    @GetMapping("/create/shift")
-    public String createShift(Model model) {
-        accessor.with(access -> {
-            model.addAttribute("competences", access.competence.getCompetencesNames());
-            model.addAttribute("users", access.user.getUsernames());
-        });
-        return "admin/createshift";
+        return "site/admin/message";
     }
 }
