@@ -5,12 +5,12 @@
 
 $(document).ready(function() {
     $(".cell").hover(function() {
-        $(this).css("background-color", "#B1B1B1").css("cursor", "pointer"); //    filter: brightness(85%);//    filter: brightness(85%);"background-color", "#969696"("filter", "brightness(115%)").css("cursor", "pointer");
-        $(this).siblings(".cell").css("background-color", "#B1B1B1").css("cursor", "pointer");
+        $(this).toggleClass("hover-adjust"); //    filter: brightness(85%);//    filter: brightness(85%);"background-color", "#969696"("filter", "brightness(115%)").css("cursor", "pointer");
+        $(this).siblings(".cell").toggleClass("hover-adjust");
 
     }, function() {
-        $(this).css("background-color", "transparent").css("cursor", "auto");
-        $(this).siblings(".cell").css("background-color", "transparent").css("cursor", "auto");
+        $(this).toggleClass("hover-adjust");
+        $(this).siblings(".cell").toggleClass("hover-adjust");
     });
 
     function dayOfYear(now) { //var now = new Date();
@@ -38,11 +38,19 @@ $(document).ready(function() {
         var firstDay = new Date(year, month, 1);
         var firstCalendarDay = addDays(firstDay, -(backDays[firstDay.getDay()]));
 
+
         for(var i = 0; i < weeks.length; i++) {
             for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").html(firstCalendarDay.getDate());
-                firstCalendarDay = addDays(firstCalendarDay, 1);
+                if(firstCalendarDay.getDate() === thisDay.getDate() && firstCalendarDay.getMonth() === thisDay.getMonth() && firstCalendarDay.getFullYear() === thisDay.getFullYear()) {
+                    $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("today");
+                }
+                if(firstCalendarDay.getMonth() != startDay.getMonth()) {
+                    $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("inactive-month");
+                }
 
+
+                firstCalendarDay = addDays(firstCalendarDay, 1);
             }
         }
     }
