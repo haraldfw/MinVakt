@@ -147,6 +147,7 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
 
     public ShiftModel toModel(Shift shift) {
         ShiftModel model = new ShiftModel();
+        model.setId(shift.getId());
         model.setAbsent(shift.getAbsent());
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
