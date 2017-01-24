@@ -23,6 +23,9 @@
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="Passord" th:field="*{password}" th:required="required"/>
             </div>
+            <div id="error" hidden="hidden" class="alert alert-danger fade in">
+                Feil brukernavn eller passord!
+            </div>
             <div class="checkbox">
                 <label><input name="remember_me:boolean" type="checkbox"/>Husk meg</label>
             </div>
