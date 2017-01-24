@@ -213,7 +213,7 @@ VALUES ('haraldfw', 'Harald', 'Floor Wilhelmsen', 'haraldfw@gmail.com', '4556663
         'det1');
 
 INSERT INTO user (username, first_name, last_name, email, phonenumber, employment_percentage, password_hash, salt)
-VALUES ('gardste', 'Gard', 'Stenvik', 'gardste@gmail.com', '666', 100,
+VALUES ('gardste', 'Gard', 'Steinsvik', 'gardste@gmail.com', '666', 120,
         'ff6c1b38456ebee57b17314aa43d56eb2e2aee1c4bbb1d0b4a7b53b20dab767f772675ae5a9ba6c879ecba2799b8781df114909c019b05dc9abdc2a47a671694',
         'det2');
 

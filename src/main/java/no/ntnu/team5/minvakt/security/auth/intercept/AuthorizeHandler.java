@@ -41,6 +41,7 @@ public class AuthorizeHandler {
         if (claims.get().getExpiration().getTime() - new Date().getTime() < MINUTES_10) {
             String newToken = JWT.refresh(claims.get());
             token.get().setValue(newToken);
+            token.get().setPath("/");
             response.addCookie(token.get());
         }
 

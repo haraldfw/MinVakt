@@ -58,7 +58,7 @@ $(document).ready(function() {
                     }
 
                     var kompArray = jArray[i].competences;
-                    kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sjekk om dette virker
+                    kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sjekk om dette virker, virker kanskje vet ikke
 
                     var komp = kompArray[0].name;
                     for(var j = 1; j < kompArray.length; j++) {
@@ -101,34 +101,56 @@ $(document).ready(function() {
                             vakt +
                         '</div>';
 
-                    var kompetansegruppe = '<div id="kompetanseGruppe">' +
+                    var kompetansegruppe = '<div class="kompetansegruppe">' +
                         '<div class="rad kompetanse-rad">' +
-                        '<div id="testingg" class="dropdown-cell testing">' +
-                        '<i id="close" class="ion-navicon-round burger-style"></i>' +
+                        '<div class="dropdown-cell testing">' +
+                        '<i class="ion-navicon-round burger-style"></i>' +
                         '</div>' +
-                        '<div id="testing" class="kompetanse-cell testing">' +
+
+                        '<div class="kompetanse-cell testing">' +
                         komp +
                         '</div>' +
                         '</div>'+
-                        '<div id="test" class="test">' +
+                        '<div class="drop">' +
                         vaktRad +
                         '</div>' +
                         '</div>';
 
 
 
-                    $("#superDiv").append(kompetansegruppe);
+                    /*if($("#kompetanseGruppe").length) {
+
+                    }*/
+                    if(i = 0) {
+                        $("#superDiv").append(kompetansegruppe);
+                    } else {
+                        $("#superDiv").children(".rad .kompetanse-rad").children(".kompetanse-cell .testing").filter(function() {
+                            alert("hei");
+                            if($(this).text() === komp) {
+                                $(".drop", this).append(vaktRad);
+                                alert("hei2");
+                            } else {
+                                $("#superDiv").append(kompetansegruppe);
+                            }
+
+                        });
+                    }
+
+
+
+
+
 
                 }
 
 
                 /* Andre functions */
 
-                $(".testing, #testing, #testingg").click(function() {
-                    if(($(this).parent().siblings(".test").css("display") == "none")) {
-                        $(this).parent().siblings(".test").css("display", "inline");
+                $(".testing").click(function() {
+                    if(($(this).parent().siblings(".drop").css("display") == "none")) {
+                        $(this).parent().siblings(".drop").css("display", "inline");
                     } else {
-                        $(this).parent().siblings(".test").css("display", "none");
+                        $(this).parent().siblings(".drop").css("display", "none");
                     }
                 });
 

@@ -6,6 +6,7 @@ import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ShiftModel;
+import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class ShiftController {
      * Get shifts for the current week for a given user
      * @return a list of shifts
      */
-    @Authorize("/")
+    //@Authorize("/") //FIXME: will not authorize
     @RequestMapping("/{user}/week") //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
         Calendar cal = Calendar.getInstance();
@@ -80,6 +81,7 @@ public class ShiftController {
      * @return a list of shifts for a week for a user with a given start date
      */
     //@Authorize("/") //FIXME: will not authorize
+    //FIXME: If the user sends a lot of requests in a short period the server will crash.
     @RequestMapping("/{user}/{year}/{month}/{day}/week")
     public List<ShiftModel> getShiftsWeek(@PathVariable("user") String username,
                                               @PathVariable("year") int year,
@@ -124,11 +126,12 @@ public class ShiftController {
     }
 
     @RequestMapping("/get_available_users_for_shift")
-    public List<User> getAvailableUsers(@RequestParam("shift_id") int shift_id){
+    public List<UserModel> getAvailableUsers(@RequestParam("shift_id") int shift_id){
         return accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shift_id);
             Date fromDate = shift.getStartTime(), toDate = shift.getEndTime();
-            return access.availability.listAvailableUsers(fromDate, toDate);
+            List<User>  users = access.availability.listAvailableUsers(fromDate, toDate);
+            return access.user.toModel(users);
         });
     }
 
@@ -176,7 +179,7 @@ public class ShiftController {
     }
 
     @Authorize
-    @PostMapping("/pass_notification")
+    @PostMapping("/pass_notification_to_admin")
     public void passTransferToAdmin(Verifier verifier,
                                     @RequestParam("accept") boolean accept,
                                     @RequestParam("shift_id") int shift_id,

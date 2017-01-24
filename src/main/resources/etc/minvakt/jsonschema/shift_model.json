@@ -4,6 +4,9 @@
     "user_model": {
       "$ref": "user_model.json"
     },
+    "id": {
+      "type": "integer"
+    },
     "start_time": {
       "type": "string",
       "format": "date-time"
@@ -27,6 +30,7 @@
   },
   "required": [
     "user_model",
+    "id",
     "start_time",
     "end_time",
     "absent",
