@@ -3,8 +3,6 @@
  */
 
 $(document).ready(function() {
-
-
     var selectedShift = -1;
     var questionAnswer = false;
     var shiftType = -1; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift, 3 = ??, 4 =
@@ -22,7 +20,6 @@ $(document).ready(function() {
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
 
     var weekStartDate = today.getDate() - tempFix[today.getDay()];
-
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
@@ -53,7 +50,6 @@ $(document).ready(function() {
         currentDate = addDays(currentDate, -7);
     }
     changeTopDayNames();
-
 
     var currentWeekUrl = "/api/shift/" + username +"/week";
     var url = currentWeekUrl;
@@ -164,8 +160,6 @@ $(document).ready(function() {
                     var newElementNextDay = '<div id="2" class="shift' + absence + '" style="top: 0vh; height: ' + elementHeightNextDay + 'vh">Skift test</div>';
                     $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+1) + ") .dayInnhold").append(newElementNextDay);*/
                 }
-
-
             }
 
             //alert("DONE. ok" + data);
