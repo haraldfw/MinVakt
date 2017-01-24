@@ -5,8 +5,8 @@
 
 $(document).ready(function() {
     $(".cell").hover(function() {
-        $(this).css("background-color", "#969696").css("cursor", "pointer");
-        $(this).siblings(".cell").css("background-color", "#969696").css("cursor", "pointer");
+        $(this).css("background-color", "#B1B1B1").css("cursor", "pointer"); //    filter: brightness(85%);//    filter: brightness(85%);"background-color", "#969696"("filter", "brightness(115%)").css("cursor", "pointer");
+        $(this).siblings(".cell").css("background-color", "#B1B1B1").css("cursor", "pointer");
 
     }, function() {
         $(this).css("background-color", "transparent").css("cursor", "auto");
@@ -22,16 +22,32 @@ $(document).ready(function() {
 
     var thisDay = new Date();
     var weeks = ["week1", "week2", "week3", "week4", "week5", "week6"];
-    //dagnr: td:nth-child(2)
+    var months = ["Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"];
+    var backDays = [6, 0, 1, 2, 3, 4, 5];
 
-    for(var i = 0; i < weeks.length; i++) {
-
-        for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
-
-
-        }
-
+    /* Function for adding and subtracting days to a javascript date object */
+    function addDays(date, days) {
+        return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
+
+    function plotDays(startDay) {
+
+        var month = thisDay.getMonth();
+        var year = thisDay.getFullYear();
+        $("#monthYear").html(months[month] + " " + year);
+        var firstDay = new Date(year, month, 1);
+        var firstCalendarDay = addDays(firstDay, -(backDays[firstDay.getDay()]));
+
+        for(var i = 0; i < weeks.length; i++) {
+            for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
+                $("#" + weeks[i] + " td:nth-child(" + j + ")").html(firstCalendarDay.getDate());
+                firstCalendarDay = addDays(firstCalendarDay, 1);
+
+            }
+        }
+    }
+
+    plotDays(thisDay)
 
 
 });

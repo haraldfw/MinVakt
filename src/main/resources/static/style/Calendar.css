@@ -37,3 +37,11 @@ body, head {
 .ion-arrow-left-b:hover, .ion-arrow-right-b:hover {
     cursor: pointer;
 }
+
+.cell {
+    text-align: center;
+}
+
+.unactive-month {
+
+}
