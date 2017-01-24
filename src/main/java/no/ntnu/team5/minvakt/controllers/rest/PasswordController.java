@@ -97,8 +97,8 @@ public class PasswordController {
                 boolean changed = PasswordUtil.setPassword(user, pwrInfo.getPassword());
 
                 if (changed) {
-                    user.setResetKey("");
-                    user.setResetKeyExpiry(new Date());
+                    user.setResetKey(PasswordUtil.generateSalt());
+                    user.setResetKeyExpiry(new Date(0));
 
                     accessContext.user.save(user);
 
