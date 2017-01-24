@@ -19,7 +19,7 @@ $(document).ready(() => {
         }
     });
 
-    input_box.blur(function () {
+    input_box.not(".pwd-input").blur(function () {
         $(this).attr("disabled", true);
     });
 
