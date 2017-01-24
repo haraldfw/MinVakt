@@ -18,13 +18,19 @@ public class AdminWebController extends NavBarController {
     private AccessContextFactory accessor;
 
     @Authorize("/")
-    @GetMapping("/createuser")
+    @GetMapping("/create/user")
     public String createUser(Model model) {
         accessor.with(access -> {
             model.addAttribute("competences", access.competence.getCompetencesNames());
         });
 
         return "admin/createuser";
+    }
+
+    @Authorize("/")
+    @GetMapping("/create/competence")
+    public String competence(Model model) {
+        return "admin/competence";
     }
 
     @Authorize("/")
@@ -36,5 +42,15 @@ public class AdminWebController extends NavBarController {
         });
 
         return "admin/message";
+    }
+
+    @Authorize("/")
+    @GetMapping("/createshift")
+    public String createShift(Model model) {
+        accessor.with(access -> {
+            model.addAttribute("competences", access.competence.getCompetencesNames());
+            model.addAttribute("users", access.user.getUsernames());
+        });
+        return "admin/createshift";
     }
 }

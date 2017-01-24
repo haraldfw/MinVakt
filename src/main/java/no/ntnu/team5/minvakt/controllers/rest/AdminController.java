@@ -2,7 +2,6 @@ package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
-import no.ntnu.team5.minvakt.data.access.UserAccess;
 import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
@@ -15,10 +14,22 @@ import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 
@@ -39,11 +50,8 @@ public class AdminController {
     @Autowired
     EmailService emailService;
 
-    @Autowired
-    UserAccess userAccess;
-
     @Authorize
-    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/create/user", method = RequestMethod.POST)
     public void createUser(Verifier verifier, @RequestBody NewUser newUser) {
 
         verifier.ensure(hasRole(Constants.ADMIN));
@@ -83,24 +91,39 @@ public class AdminController {
 
             access.user.save(user);
         });
+
+        try {
+            String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+            String subject = "User has been created for you in MinVakt";
+            String link = "http://localhost:8080/password/reset?username=" +
+                    username + "&resetkey=" + encodedKey;
+            String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+
+            Map<String, String> vars = new HashMap<>();
+            vars.put("link", link);
+            vars.put("expiry", expiry);
+            vars.put("username", username);
+
+            emailService.sendEmail(
+                    newUser.getEmail(), subject, "email/user_created", vars);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Authorize
-    @RequestMapping("/createshift")
+    @RequestMapping(value = "/create/shift", method = RequestMethod.POST)
     public void createShift(Verifier verify, @RequestBody NewShift newShift) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
-        List<String> users = userAccess.getUsernames();
-
-        Set<Competence> comps = new HashSet<>();
-        newShift.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
-            return accessContext.competence.getFromName(s);
-        })));
-
         accessor.with(access -> {
+            List<String> users = access.user.getUsernames();
+
+            Set<Competence> comps = new HashSet<>();
+            newShift.getCompetences().forEach(s -> comps.add(access.competence.getFromName(s)));
+
             Shift shift = new Shift();
-
-
             shift.setUser(access.user.fromUsername(newShift.getUserModel().getUsername()));
             shift.setStartTime(newShift.getStartTime());
             shift.setEndTime(newShift.getEndTime());
@@ -110,11 +133,10 @@ public class AdminController {
 
             access.shift.save(shift);
         });
-
     }
 
     @Authorize
-    @RequestMapping("/createcompetence")
+    @RequestMapping("/create/competence")
     public void createCompetence(Verifier verify, @RequestBody NewCompetence newCompetence) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
@@ -124,7 +146,6 @@ public class AdminController {
             );
 
             access.competence.save(competence);
-
         });
     }
 }
