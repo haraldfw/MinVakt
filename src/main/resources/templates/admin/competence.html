@@ -7,7 +7,7 @@
 </head>
 
 <div th:fragment="content">
-    <form action="/api/admin/create/competence" method="post" onsubmit="return jsonSubmit(this, '#')">
+    <form action="/api/admin/create/" method="post" onsubmit="return jsonSubmit(this, '#')">
         <div cass="page-header">
             <h3>Legg til ny kompetanse</h3>
         </div>
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" id="submit" class="btn btn-primary pull-right">Legg til</button>
+        <button type="button" id="submit" class="btn btn-primary pull-right">Legg til</button>
     </form>
 </div>
 </html>
