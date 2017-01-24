@@ -89,7 +89,7 @@ public class AdminController {
     }
 
     @Authorize
-    @RequestMapping("/create/shift")
+    @RequestMapping(value = "/create/shift", method = RequestMethod.POST)
     public void createShift(Verifier verify, @RequestBody NewShift newShift) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 

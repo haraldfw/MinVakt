@@ -43,4 +43,14 @@ public class AdminWebController extends NavBarController {
 
         return "admin/message";
     }
+
+    @Authorize("/")
+    @GetMapping("/createshift")
+    public String createShift(Model model) {
+        accessor.with(access -> {
+            model.addAttribute("competences", access.competence.getCompetencesNames());
+            model.addAttribute("users", access.user.getUsernames());
+        });
+        return "admin/createshift";
+    }
 }
