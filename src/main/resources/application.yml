@@ -1,7 +1,13 @@
 roles:
   admin: Admin
 
-application.secret_key: ENC(Q1FpkUHdVfYU0DfzyX2GR/wuHTf0+AlkYOJiPf2LRRrV5ZwGUC8TT0C2zriKTd3ZUGm/b4FfAVNgzzLFrzurAbxM7Sg9wNb4GpLC8SC3wFeQftesGlFgGlVS9W+tmoODK9hQNsKlaAUAqnDmqJnvSqApHoSMZbDLOJxTF+YG7Gagq0udu3Ab3ulrxN2nPI5gzfZN8q4TxO1QfKmfAYe+J/pc+xSwGcIskOOu7UqlpbAoVf7T+cf8QheA7S+vjGfpYkQYqZVxue4SqqJwkyZOhmfs9ZSd54KVLREFvQ66A9Q86FG8WyffZGHTxzCpwhEADzSR8Xu1ZaMJ+5BjnTHjHBRAFg4McjPTNSLn/9rrBXo=)
+
+application:
+  hostname: localhost:8080
+  secret_key: ENC(Q1FpkUHdVfYU0DfzyX2GR/wuHTf0+AlkYOJiPf2LRRrV5ZwGUC8TT0C2zriKTd3ZUGm/b4FfAVNgzzLFrzurAbxM7Sg9wNb4GpLC8SC3wFeQftesGlFgGlVS9W+tmoODK9hQNsKlaAUAqnDmqJnvSqApHoSMZbDLOJxTF+YG7Gagq0udu3Ab3ulrxN2nPI5gzfZN8q4TxO1QfKmfAYe+J/pc+xSwGcIskOOu7UqlpbAoVf7T+cf8QheA7S+vjGfpYkQYqZVxue4SqqJwkyZOhmfs9ZSd54KVLREFvQ66A9Q86FG8WyffZGHTxzCpwhEADzSR8Xu1ZaMJ+5BjnTHjHBRAFg4McjPTNSLn/9rrBXo=)
+
+server:
+  port: 8080
 
 spring:
   thymeleaf.cache: false
@@ -38,3 +44,13 @@ jasypt:
     encryptor:
         bean: hibernateEncryptor
         password: ${SCRUM5_ENCPW:}
+
+
+---
+spring:
+  profiles: prod
+
+server:
+  port: 8080
+
+application.hostname: puffin.tihlde.org

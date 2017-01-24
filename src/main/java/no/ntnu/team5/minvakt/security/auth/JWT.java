@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.User;
+import org.apache.logging.log4j.LogManager;
 
 import java.time.Instant;
 import java.util.Date;
@@ -57,6 +58,7 @@ public class JWT {
         try {
             return Optional.of(Jwts.parser().setSigningKey(Constants.SECURE_KEY).parseClaimsJws(token).getBody());
         } catch (JwtException je) {
+            LogManager.getLogger().error(je);
             return Optional.empty();
         }
     }

@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ChangePassword;
@@ -69,13 +70,14 @@ public class PasswordController {
                 try {
                     String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
                     String subject = "Your password reset request";
-                    String link = "http://localhost:8080/password/reset?username=" +
+                    String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
                             user.getUsername() + "&resetkey=" + encodedKey;
                     String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
 
                     Map<String, String> vars = new HashMap<>();
                     vars.put("link", link);
                     vars.put("expiry", expiry);
+                    vars.put("username", user.getUsername());
 
                     emailService.sendEmail(
                             user.getEmail(), subject, "email/forgot_password", vars);
@@ -93,14 +95,12 @@ public class PasswordController {
             User user = accessContext.user.getUserFromSecretKey(
                     pwrInfo.getUsername(), pwrInfo.getResetKey());
 
-            System.out.println(pwrInfo);
-
             if (pwrInfo.getPassword().equals(pwrInfo.getPasswordRepeat()) && user != null) {
                 boolean changed = PasswordUtil.setPassword(user, pwrInfo.getPassword());
 
                 if (changed) {
-                    user.setResetKey("");
-                    user.setResetKeyExpiry(new Date());
+                    user.setResetKey(PasswordUtil.generateSalt());
+                    user.setResetKeyExpiry(new Date(0));
 
                     accessContext.user.save(user);
 

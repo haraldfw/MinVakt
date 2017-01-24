@@ -53,8 +53,8 @@ public class UserController {
     EmailService emailService;
 
     @Authorize
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create(Verifier verifier, @ModelAttribute("newUser") NewUser newUser) {
+    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
+    public void createUser(Verifier verifier, @RequestBody NewUser newUser) {
 
         verifier.ensure(hasRole(Constants.ADMIN));
 
@@ -75,7 +75,6 @@ public class UserController {
         newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
             return accessContext.competence.getFromName(s);
         })));
-
 
         accessor.with(access -> {
             User user = new User(
