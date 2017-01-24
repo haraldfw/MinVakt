@@ -17,11 +17,11 @@ $(document).ready(function() {
 
         $.get("api/shift/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "", function() {
 
-
+            alert("knapptest");
         })
             .done(function(data) {
                 var jArray = data;
-
+                alert("kt2");
                 for(var i = 0; i < jArray.length; i++) {
 
                     var startTime = new Date(jArray[i].start_time);
@@ -118,29 +118,30 @@ $(document).ready(function() {
 
 
 
-                    /*if($("#kompetanseGruppe").length) {
-
-                    }*/
-                    if(i = 0) {
+                    if(i === 0) {
+                        alert("heh");
                         $("#superDiv").append(kompetansegruppe);
                     } else {
-                        $("#superDiv").children(".rad .kompetanse-rad").children(".kompetanse-cell .testing").filter(function() {
+                        var bool = false;
+                        alert("hhhh");
+                        $(".kompetanse-cell.testing").filter(function(index) {
                             alert("hei");
+                            alert($(this).text());
+                            alert(komp);
                             if($(this).text() === komp) {
-                                $(".drop", this).append(vaktRad);
+                                alert("testing");
+                                $($(this).parent().siblings(".drop")).append(vaktRad);
                                 alert("hei2");
-                            } else {
-                                $("#superDiv").append(kompetansegruppe);
+                                bool = true;
                             }
-
                         });
+
+                        if(!(bool)) {
+                            $("#superDiv").append(kompetansegruppe);
+                            bool = false;
+                        }
                     }
-
-
-
-
-
-
+                    
                 }
 
 
