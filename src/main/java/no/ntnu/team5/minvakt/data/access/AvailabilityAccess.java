@@ -43,6 +43,10 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
+    public List<Availability> getAvailibilityFromDateToDateForUser(Date fromDate, Date toDate, String username) {
+
+    }
+
     public List<User> listAvailableUsers(Date dateFrom, Date dateTo) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("select distinct user from Availability as a where (:dateFrom between a.startTime and a.endTime) " +
