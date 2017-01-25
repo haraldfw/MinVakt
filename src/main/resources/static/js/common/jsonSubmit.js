@@ -17,7 +17,9 @@ function jsonSubmitFns(form, success, fail = console.error, process = id) {
         data: JSON.stringify(json),
         contentType: "application/json; charset=utf-8",
         success: success
-    }).fail(fail);
+    }).fail(function () {
+        $("#error").show();
+    });
 
     // prevent form default action
     return false;
