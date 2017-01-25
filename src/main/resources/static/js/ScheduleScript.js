@@ -218,8 +218,13 @@ $(document).ready(function() {
                 if (workerCounter % 2 === 0) {
                     workerType = "panel-body ";
                 }
-                $("#co-worker-availible-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
-                workerCounter++;
+                if (username === jsonArray[i].username) {
+                    //TODO: fix
+                } else {
+                    $("#co-worker-availible-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
+                    workerCounter++;
+                }
+
             }
         }).fail(function () {
             alert("Det skjedde en feil med innhenting av data for skift.");
@@ -346,8 +351,23 @@ $(document).ready(function() {
     $("#yesButton").click(function() {
         questionAnswer = true;
         $("#modalYesNo").modal("toggle");
-        if (shiftType === 0) {
-            $(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
+        if (shiftType === 0) { //Shift goes from normal to absence
+            var postUrl = "/api/user/" + username + "/registerabsence/" + selectedShift;
+            /*}).fail(function() {alert("Det gikk en feil med å legge inn fravær for dette skiftet")*/
+            //TODO: legg til egenmeldingsystem
+            $.ajax({
+                url: postUrl,
+                type: 'PUT',
+                success: function(res) {
+                    $(".shift#" + selectedShift).removeClass("normal-shift").addClass("absence-shift");
+                    $(".shift").each(function() {
+                        if ($(this).attr("id") === selectedShift) {
+                            $(this).removeClass("normal-shift").addClass("absence-shift");
+                        }
+                    });
+                }//TODO: legg inn error/fail
+            });
+
         } else if (shiftType === 1) {
             $(".shift#" + selectedShift).removeClass("absence-shift").addClass("normal-shift");
         } else if (shiftType === 2){
@@ -359,7 +379,7 @@ $(document).ready(function() {
             $.post(sendUrl, function() {
 
             }).done(function() {
-                alert("doneyea");
+                alert("Du har sendt forespørsel om å bytte dette skiftet.");
             }).fail(function() {
                 alert("Kunne ikke sende forespørsel om vaktbytte");
             });
@@ -373,7 +393,6 @@ $(document).ready(function() {
     });
 
     $(".co-worker-panel-box").click(function() {
-        //alert($(this).html());
         $(".co-worker-name").html($(this).html());
         //$("#shift-modal-shadow").css("display", "block");
         $("#modalUserProfile").modal("show");
@@ -403,11 +422,9 @@ $(document).ready(function() {
 
         currentDate = addDays(currentDate, -7);
 
-        //weekStartDate -= 7;
         weekStartDate = addDays(weekStartDate, -7);
         changeTopDayNames();
 
-        //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week";
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
@@ -419,11 +436,9 @@ $(document).ready(function() {
         $(".shift").remove();
 
         currentDate = addDays(currentDate, 7);
-        //weekStartDate += 7;
         weekStartDate = addDays(weekStartDate, 7);
         changeTopDayNames();
 
-        //url = "/api/shift/haraldfw/2017/0/" + weekStartDate + "/week"; //TODO: legg til månedsvariabel
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
