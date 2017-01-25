@@ -8,7 +8,7 @@ $(document).ready(function() {
     var today = new Date();
 
     function plotShifts(date) {
-        $.get("api/shift/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "", function () {
+        $.get("api/shift/" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + "", function () {
 
         }).done(function (data) {
             var jArray = data;
@@ -31,12 +31,12 @@ $(document).ready(function() {
                     diff = hourTo + minToPros - hourFrom + minFromPros; // tiltid - starttid
                     lengde = hourFrom + minFromPros;
 
-                } else if (startTime.getFullYear() === today.getFullYear() && startTime.getMonth() === today.getMonth() && startTime.getDate() === today.getDate()) {
+                } else if (startTime.getFullYear() === date.getFullYear() && startTime.getMonth() === date.getMonth() && startTime.getDate() === date.getDate()) {
                     //hvis vakt starter på valgt dato og går til ny dag
                     diff = 24.0 - hourFrom + minFromPros;
                     lengde = hourFrom + minFromPros;
 
-                } else if (endTime.getFullYear() === today.getFullYear() && endTime.getMonth() === today.getMonth() && endTime.getDate() === today.getDate()) {
+                } else if (endTime.getFullYear() === date.getFullYear() && endTime.getMonth() === date.getMonth() && endTime.getDate() === date.getDate()) {
                     //hvis vakt slutter på valgt dato
                     diff = hourTo + minToPros - 0; //ikke fjern 0
                     //lengde blir lik 0
@@ -79,8 +79,8 @@ $(document).ready(function() {
                 var un;
                 var navn
 
-                var tid = 'Start: ' + startTime.getFullYear() + '/' + startTime.getMonth() + 1 + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
-                    'Slutt: ' + endTime.getFullYear() + '/' + endTime.getMonth() + 1 + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
+                var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
+                    'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
                 if(jArray[i].user_model.username == null || jArray[i].user_model.username === undefined) {
                     un = "";
                     navn = "";
@@ -139,6 +139,8 @@ $(document).ready(function() {
                 }
 
             }
+
+            $("#datedate").html(date);
 
             /* Andre functions */
             //$(".testing").click(function() {
@@ -214,13 +216,15 @@ $(document).ready(function() {
 
     plotShifts(today);
     var count = today;
-/*
+
     $("#dayBack").click(function() {
-        count = addDays(count, -1);
+        $("#superDiv").empty();
+        count = addDays(count, -1); //FIXME februar er måned 11?
         plotShifts(count);
     });
     $("#dayForth").click(function() {
+        $("#superDiv").empty();
         count = addDays(count, 1);
         plotShifts(count);
-    });*/
+    });
 });
