@@ -271,4 +271,16 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
             return query.list();
         });
     }
+
+    public List<Shift> getTheseThreeDays(String username) {
+        CALENDAR.setTime(new Date());
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+        CALENDAR.set(Calendar.MINUTE, 0);
+        CALENDAR.add(Calendar.DAY_OF_YEAR, -1);
+        Date fromDate = CALENDAR.getTime();
+
+        CALENDAR.add(Calendar.DAY_OF_YEAR, 3);
+        Date toDate = CALENDAR.getTime();
+        return getShiftsFromDateToDateForUser(fromDate, toDate, username);
+    }
 }

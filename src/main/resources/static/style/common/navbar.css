@@ -1,15 +1,17 @@
 body {
     transition: padding .5s;
 }
-body.navbar-open {
-    padding-left: 200px;
+@media(min-width: 480px) {
+    body.navbar-open {
+        padding-left: 200px;
+    }
 }
 #burger-menu {
     position: fixed;
     top: 0;
     left: 0;
     height: 70px;
-    z-index: 2000;
+    z-index: 2000; /* This bugs out modals if displayed on a small screen */
 }
 #buger-menu > * {
     float: left;
@@ -48,7 +50,7 @@ body.navbar-open {
     height: 100%;
     overflow: auto;
     box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.6);
-    z-index: 1000;
+    z-index: 1000; /* This bugs out modals if displayed on a small screen */
     transition: transform .5s;
     transform: translateX(-100%);
 }
@@ -154,4 +156,10 @@ body.no-anim,
 
 a:focus, a:hover { /* TODO: fjerne at det skjer for alle a? tagger? */
     text-decoration: none;
+}
+
+/* Class for preventing "jumping" of the website when opening a modal.
+This class is added to the body when a modal is shown and removed when hidden */
+.modal-prevent-jump {
+    transition: none;
 }

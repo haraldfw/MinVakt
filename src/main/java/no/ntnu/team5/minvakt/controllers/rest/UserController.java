@@ -6,7 +6,6 @@ import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,9 +58,12 @@ public class UserController {
     @PostMapping("/{username}/available")
     public boolean makeAvailability(Verifier verify,
                                     @PathVariable("username") String username,
-                                    @ModelAttribute MakeAvailableModel makeAvailableModel) {
+                                    @RequestBody MakeAvailableModel makeAvailableModel) {
 
         verify.ensure(isUser(username));
+
+        System.out.println(makeAvailableModel);
+
         return accessor.with(access -> {
             return access.availability.makeAvailable(access.user.fromUsername(username), makeAvailableModel.getDateFrom(), makeAvailableModel.getDateTo());
         });
