@@ -2,10 +2,14 @@
  * Created by alan on 17/01/2017.
  */
 
-function jsonSubmitFns(form, success, fail = console.error) {
+const id = (x) => x;
+
+function jsonSubmitFns(form, success, fail = console.error, process = id) {
     let $form = $(form);
-    let json = $form.serializeJSON();
+    let json = process($form.serializeJSON());
     let method = $form.attr("method") || "post";
+
+    console.log(json);
 
     $.ajax({
         type: method,
