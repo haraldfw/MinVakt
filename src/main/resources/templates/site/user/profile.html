@@ -17,7 +17,7 @@
         <div class="spacious-column col-md-5 col-lg-5">
             <table class="table">
                 <tr>
-                    <td>
+                    <td class="no-border">
                         <img src=""
                              th:if="${navbar.profileImageB64 != null}"
                              th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
@@ -27,7 +27,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="no-border">
                         <form onsubmit="return uploadImage(this, '/user/profile', 'imgUpload')"
                               action="/api/images/upload" method="post">
                             <div style="position:relative;overflow:auto;">
