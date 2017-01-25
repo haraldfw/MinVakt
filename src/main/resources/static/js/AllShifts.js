@@ -5,11 +5,6 @@
 $(document).ready(function() {
 
 
-
-
-
-
-
     var today = new Date();
 
     function plotShifts(date) {

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Created by Ingunn on 17.01.2017.
  */
 @Controller
-public class TestingController {
+public class TestingController extends NavBarController {
 
     @GetMapping("/shiftss")
     public String test() {
