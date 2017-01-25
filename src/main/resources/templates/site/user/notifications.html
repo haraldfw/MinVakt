@@ -10,22 +10,38 @@ Heiii boiii
 
 <input placeholder="user_id" type="text" id="user_input"/>
 <input placeholder="shift_id" type="text" id="shift_input"/>
-<button type="submit" id="generate_transfer_request" value="generate_transfer_request">Lag notification om vaktbytte</button>
+<button type="submit" id="generate_transfer_request" value="generate_transfer_request">Lag notification om vaktbytte
+</button>
+<button type="submit" id="generate_remove_request" value="generate_remove_request">Lag notification om gi fra seg vakt
+</button>
 
 <p>Notifikasjoner for bruker:</p>
 <table border="1px solid black">
     <tr th:each="n: ${userNotifications}">
         <td th:text="${n.message}"></td>
         <td th:text="${n.actionUrl}"></td>
-        <td><form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
-            <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification_to_admin" class="btn btn-primary">Accept transfer to admin</button>
-        </form></td>
-        <td><form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
-            <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification_to_admin" class="btn btn-primary">Decline transfer to admin</button>
-        </form></td>
-        <td><form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
-            <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">Close notification</button>
-        </form></td>
+        <td>
+            <form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification_to_admin"
+                        class="btn btn-primary">Accept transfer to admin
+                </button>
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                <button th:if="${n.actionUrl} != null" type="submit" value="pass_notification_to_admin"
+                        class="btn btn-primary">Decline transfer to admin
+                </button>
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
+                  method="post">
+                <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">
+                    Close notification
+                </button>
+            </form>
+        </td>
     </tr>
 </table>
 <p>Notifikasjoner for admins:</p>
@@ -33,15 +49,28 @@ Heiii boiii
     <tr th:each="n: ${adminNotifications}">
         <td th:text="${n.message}"></td>
         <td th:text="${n.actionUrl}"></td>
-        <td><form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
-            <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">Accept transfer</button>
-        </form></td>
-        <td><form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
-            <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">Decline transfer</button>
-        </form></td>
-        <td><form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
-            <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">Close notification</button>
-        </form></td>
+        <td>
+            <form action="#" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">
+                    Accept transfer
+                </button>
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                <button th:if="${n.actionUrl} != null" type="submit" value="transfer" class="btn btn-primary">
+                    Decline transfer
+                </button>
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
+                  method="post">
+                <button th:if="${n.actionUrl} == null" type="submit" value="close" class="btn btn-primary">
+                    Close notification
+                </button>
+            </form>
+        </td>
     </tr>
 </table>
 </body>
