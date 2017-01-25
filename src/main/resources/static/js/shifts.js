@@ -76,11 +76,19 @@ $(document).ready(function() {
                     //TODO: legg inn innlogget bruker
                     classKomp = "worker";
                 }
+                var un;
+                var navn
 
                 var tid = 'Start: ' + startTime.getFullYear() + '/' + startTime.getMonth() + 1 + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
                     'Slutt: ' + endTime.getFullYear() + '/' + endTime.getMonth() + 1 + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
-                var un = jArray[i].user_model.username;
-                var navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
+                if(jArray[i].user_model.username == null || jArray[i].user_model.username === undefined) {
+                    un = "";
+                    navn = "";
+                } else {
+                    un = jArray[i].user_model.username;
+                    navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
+                }
+
 
                 var vakt = '<div class="shift-box ' + classKomp + '" style="left: calc(11.11% + ((11.11%/3)*' + lengde + ')); width: calc((11.11%/3)*' + diff + ' - 1px);"><p class="tidtidtid">' + tidtid +
                     '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p></div>';
@@ -199,6 +207,20 @@ $(document).ready(function() {
 
     };
 
+    /* Function for adding and subtracting days to a javascript date object */
+    function addDays(date, days) {
+        return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
+    }
 
     plotShifts(today);
+    var count = today;
+/*
+    $("#dayBack").click(function() {
+        count = addDays(count, -1);
+        plotShifts(count);
+    });
+    $("#dayForth").click(function() {
+        count = addDays(count, 1);
+        plotShifts(count);
+    });*/
 });
