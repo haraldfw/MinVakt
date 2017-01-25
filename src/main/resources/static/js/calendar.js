@@ -72,5 +72,7 @@ $(document).ready(function() {
 
     });
 
-
+    $("tr td:first-child").each(function() {
+       //alert($(this).html());
+    });
 });

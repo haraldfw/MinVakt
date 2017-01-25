@@ -21,6 +21,8 @@ public class AdminWebController extends NavBarController {
     @Authorize("/")
     @GetMapping("/create/user")
     public String createUser(Model model) {
+        model.addAttribute("activeAdminCreateUserPage", "active");
+
         accessor.with(access -> {
             model.addAttribute("competences", access.competence.getCompetencesNames());
         });
@@ -30,13 +32,15 @@ public class AdminWebController extends NavBarController {
 
     @Authorize("/")
     @GetMapping("/create/competence")
-    public String competence() {
+    public String competence(Model model) {
+        model.addAttribute("activeAdminCreateCompPage", "active");
         return "site/admin/create/competence";
     }
 
     @Authorize("/")
     @GetMapping("/create/shift")
     public String createShift(Model model) {
+        model.addAttribute("activeAdminCreateShiftPage", "active");
         accessor.with(access -> {
             model.addAttribute("competences", access.competence.getCompetencesNames());
             model.addAttribute("users", access.user.getUsernames());
@@ -48,6 +52,7 @@ public class AdminWebController extends NavBarController {
     @Authorize("/")
     @GetMapping("/message")
     public String showMessaging(Model model) {
+        model.addAttribute("activeAdminMessagePage", "active");
         accessor.with(accessContext -> {
             model.addAttribute("users", accessContext.user.getUsernames());
             model.addAttribute("competences", accessContext.competence.getCompetencesNames());

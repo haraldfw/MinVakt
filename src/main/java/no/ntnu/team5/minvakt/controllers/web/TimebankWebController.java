@@ -20,6 +20,7 @@ public class TimebankWebController extends NavBarController {
     @Authorize("/")
     @GetMapping("/timebank")
     public String show(Model model, Verifier verifier) {
+        model.addAttribute("activeTimebankPage", "active");
         accessor.with(accessContext -> {
             model.addAttribute("shifts", accessContext.shift.toModel(
                     accessContext.shift.getTheseThreeDays(verifier.claims.getSubject())

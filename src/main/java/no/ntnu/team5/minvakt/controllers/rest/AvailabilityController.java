@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,9 +36,33 @@ public class AvailabilityController {
                     .collect(Collectors.toList());
         });
     }
-    @Authorize
+
+    @RequestMapping("/{user}/week")
+    public List<AvailabilityModel> getAvailibilityCurrentWeek(@PathParam("user") String username) {
+        Calendar calendar = Calendar.getInstance();
+        Date dateStart = calendar.getTime();
+
+        return accessor.with(access -> {
+           return access.availability.getAllCurrentWeekForUser(dateStart, username)
+                   .stream()
+                   .map(access.availability::toModel)
+                   .collect(Collectors.toList());
+        });
+    }
+
+    /**
+     * Get availability for a week with a given start date
+     *
+     * @param username the user that we gets shifts for
+     * @param year     startYear
+     * @param month    startMonth
+     * @param day      startDay
+     * @return a list of availability for a week for a user with a given start date
+     */
+
+    //@Authorize
     @RequestMapping("/{user}/{year}/{month}/{day}/week")
-    public List<AvailabilityModel> getAvailibilityWeek(@PathVariable("user") String username,
+    public List<AvailabilityModel> getAvailabilityWeek(@PathVariable("user") String username,
                                                        @PathVariable("year") int year,
                                                        @PathVariable("month") int month,
                                                        @PathVariable("day") int day) {
@@ -53,7 +78,10 @@ public class AvailabilityController {
         Date toDate = calendar.getTime();
 
         return accessor.with(access -> {
-            return access.availability;
+            return access.availability.getAvailabilityFromDateToDateForUser(fromDate, toDate, username)
+                    .stream()
+                    .map(access.availability::toModel)
+                    .collect(Collectors.toList());
         });
     }
 }

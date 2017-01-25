@@ -21,6 +21,12 @@ import java.util.Optional;
 @Component
 @Scope("prototype")
 public class AvailabilityAccess extends Access<Availability, AvailabilityModel> {
+    private static final Calendar calendar = Calendar.getInstance();
+
+    static {
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+    }
+
     public boolean makeAvailable(User user, Date from, Date to) {
         Availability av = new Availability();
         av.setUser(user);
@@ -43,8 +49,28 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
-    public List<Availability> getAvailibilityFromDateToDateForUser(Date fromDate, Date toDate, String username) {
+    public List<Availability> getAllCurrentWeekForUser(Date fromDate, String username) {
+        calendar.setTime(fromDate);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        fromDate = calendar.getTime();
 
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        Date toDate = calendar.getTime();
+
+        return getAvailabilityFromDateToDateForUser(fromDate, toDate, username);
+    }
+
+    public List<Availability> getAvailabilityFromDateToDateForUser(Date fromDate, Date toDate, String username) {
+        return getDb().transaction(session -> {
+            Query query = session.createQuery("from Availability where :fromDate <= startTime and :toDate >= endTime " +
+                                                 "and user.username = :username order by startTime asc");
+            query.setParameter("fromDate", fromDate);
+            query.setParameter("toDate", toDate);
+            query.setParameter("username", username);
+            return (List<Availability>) query.list();
+        });
     }
 
     public List<User> listAvailableUsers(Date dateFrom, Date dateTo) {

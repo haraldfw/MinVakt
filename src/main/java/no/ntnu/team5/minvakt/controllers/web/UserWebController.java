@@ -23,7 +23,7 @@ public class UserWebController extends NavBarController {
     private AccessContextFactory accessor;
 
     @Authorize("/")
-    @RequestMapping("/profile/{username}")
+    @RequestMapping("/profile/{username}") //TODO: viser bilde til pålogget bruker
     public String show(Verifier verifier, @PathVariable("username") String username, Model model) {
         model.addAttribute("user", accessor.with(access -> {
             User user = access.user.fromUsername(username);
@@ -41,6 +41,8 @@ public class UserWebController extends NavBarController {
     @Authorize("/")
     @GetMapping("/profile")
     public String getProfile(Verifier verifier, Model model) {
+        model.addAttribute("activeProfilePage", "active");
+
         String username = verifier.claims.getSubject();
 
         accessor.with(accessContext -> {
@@ -54,6 +56,7 @@ public class UserWebController extends NavBarController {
     @Authorize("/")
     @GetMapping("/list")
     public String users(Model model) {
+        model.addAttribute("activeListPage", "active");
         model.addAttribute("users", accessor.with(accessContext -> {
             return accessContext.user.toModel(accessContext.user.getAllContactInfo());
         }));
@@ -63,7 +66,8 @@ public class UserWebController extends NavBarController {
 
     @Authorize("/")
     @GetMapping("/schedule")
-    public String test() {
+    public String test(Model model) {
+        model.addAttribute("activeSchedulePage", "active");
         return "site/user/schedule";
     }
 }
