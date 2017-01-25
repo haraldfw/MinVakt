@@ -11,9 +11,9 @@ body {
     top: 0;
     left: 0;
     height: 70px;
-    z-index: 2000; /* This bugs out modals if displayed on a small screen */
+    z-index: 1031; /* This bugs out modals if displayed on a small screen */
 }
-#buger-menu > * {
+#burger-menu > * {
     float: left;
 }
 #burger-menu a {
