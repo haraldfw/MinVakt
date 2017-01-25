@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: mainLayout">
+
+<head th:fragment="header">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+
+    <script src="/js/common/jsonSubmit.js"></script>
+</head>
+
+<body>
+<div th:fragment="content">
+    <div class="search-wrap">
+        <input type="text" class="search-query" placeholder="Søk etter navn"/>
+        <span class="glyphicon glyphicon-search"></span>
+    </div>
+    <div class="account-box">
+        <h3 id="account-title">Ansatte</h3>
+        <form action="/api/admin/assign/shift" method="post" onsubmit="return jsonSubmit(this, '#')">
+            <table id="employee-table" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Mobilnummer</th>
+                    <th>E-post</th>
+                    <th>Kompetanse</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn
+                    </td>
+                    <td th:text="${user.phonenumber}">tlf</td>
+                    <td th:text="${user.email}">email</td>
+                    <td><span th:each="comp : ${user.competences}" th:text="${comp + ' '}">comps</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div>
+    </div>
+    <script>
+        $(".search-query").on("input", function () {
+            var search = $(this).val().toLowerCase();
+            var tableRows = $("#employee-table tbody tr");
+            tableRows.hide();
+            var matches = tableRows.filter(function () {
+                var name = $(this).find(".employee-name").text().toLowerCase();
+                return name.indexOf(search) > -1;
+            });
+            matches.show();
+        });
+    </script>
+</div>
+</body>
+</html>

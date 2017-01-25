@@ -41,6 +41,17 @@ public class UserAccess extends Access<User, UserModel> {
         });
     }
 
+    public List<String> getFirstNames() {
+        return getDb().transaction(session -> {
+            return session.createQuery("select firstName from User").list();
+        });
+    }
+    public List<String> getLastNames() {
+        return getDb().transaction(session -> {
+            return session.createQuery("select lastName from User").list();
+        });
+    }
+
     public List<User> getAllContactInfo() {
         return getDb().transaction(session -> {
             return session.createQuery("from User order by firstName asc").list();

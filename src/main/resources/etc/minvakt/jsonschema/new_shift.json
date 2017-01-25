@@ -26,7 +26,6 @@
     }
   },
   "required": [
-    "user",
     "startTime",
     "endTime",
     "competences"

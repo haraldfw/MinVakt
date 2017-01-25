@@ -15,23 +15,16 @@
 </head>
 
 <div th:fragment="content">
-    <form action="/api/user/createshift" method="post" onsubmit="return jsonSubmit(this, '#')">
+    <form action="/api/admin/create/shift" method="post" onsubmit="return jsonSubmit(this, '#')">
         <div class="page-header">
             <h3>Legg til skift</h3>
         </div>
         <div>
-            <div>
-                <select name="users[]" class="selectpicker" data-live-search="true">
-                    <div>
-                        <option th:each="user : ${users}" th:text="${user}" th:value="${user}"></option>
-                    </div>
-                </select>
-            </div>
             <div class="form-group">
                 <div class="col-xs-5 date">
                     <div class="input-group input-append date" id="inputFrom">
                         <label class="col-xs-3 control-label" id="fraDatoText">Fra</label>
-                        <input name="startTime" type="text" class="form-control"/>
+                        <input data-format="dd/MM/yyyy hh:mm" name="startTime" type="text" class="form-control"/>
                         <span class="input-group-addon"><span
                                 class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -41,7 +34,7 @@
                 <div class="col-xs-5 date">
                     <div class="input-group input-append date" id="inputTil">
                         <label class="col-xs-3 control-label">Til</label>
-                        <input name="endTime" type="text" class="form-control"/>
+                        <input data-format="dd/MM/yyyy hh:mm" name="endTime" type="text" class="form-control"/>
                         <span class="input-group-addon add-on"><span
                                 class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -58,7 +51,7 @@
                 </select>
             </div>
         </div>
-        <button type="submit" id="submit" name="submit" class="btn btn-primary pull-right">Lagre</button>
+        <button type="submit" id="submit" name="submit" class="btn btn-primary pull-right">Neste</button>
     </form>
 </div>
 </html>
