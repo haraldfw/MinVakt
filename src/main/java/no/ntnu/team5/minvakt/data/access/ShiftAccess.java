@@ -170,8 +170,13 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
-        model.setUserModel(getContext().user.toModel(shift.getUser()));
         model.setCompetences(getContext().competence.toModel(shift.getCompetences()));
+
+        User user = shift.getUser();
+        if (user != null) {
+            model.setUserModel(getContext().user.toModel(user));
+        }
+
 
         return model;
     }

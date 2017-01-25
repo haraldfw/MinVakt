@@ -165,12 +165,12 @@
     background-color: #f0433a;
 }
 
-.availible-shift {
+.available-shift {
     background-color: #5cb85c;
     border: 1px solid #378c37;
 }
 
-.availible-shift:hover {
+.available-shift:hover {
     background-color: #72d772;
 }
 
