@@ -29,7 +29,7 @@ public class NotificationController {
     private AccessContextFactory accessor;
 
     @Authorize
-    @RequestMapping(value = "/notifications", method = RequestMethod.GET)
+    @RequestMapping(value = "/site/user/notifications", method = RequestMethod.GET)
     public Model notification(Model model, Verifier verifier) {
         List<Notification> userNotifications = accessor.with(access -> {
             return access.notification.fromUsername(verifier.claims.getSubject());
