@@ -46,12 +46,12 @@
                     </ul>
                 </li>
                 <li class="hidden-xs">
-                    <a href="/user/profile">Min profil</a>
+                    <a href="/user/profile" th:text="${name}"></a>
                 </li>
-                <li class="profile-picture">
-                    <img th:if="${navbar.profileImageB64 != null}" src=""
+                <li class="profile-picture ">
+                    <img class="img-circle" th:if="${navbar.profileImageB64 != null}" src=""
                          th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
-                    <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>
+                    <img class="img-circle" th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>
                 </li>
             </ul>
         </div>
@@ -61,7 +61,7 @@
         <a href="/"><img src="/images/MinVakt_Linje_200.png"/></a>
         <li class="navbar-item"><a href="/user/schedule">Egen timeliste</a></li>
         <li class="navbar-item"><a href="/shifts">Alle vakter</a></li>
-        <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
+        <li class="navbar-item"><a href="/user/profile">Min profil</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/timebank">Timebank</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
