@@ -12,90 +12,101 @@
 <body>
 
 <div th:fragment="content">
-    <div class="account-box">
-        <h3 id="account-title">Profil</h3>
-        <table class="table table-striped">
-            <tr>
-                <th>Navn</th>
-                <td class="input-cell">
-                    <input type="text" th:value="${user.firstName + ' ' + user.lastName}"
-                           disabled="disabled"/>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>E-post</th>
-                <td class="input-cell">
-                    <input type="email" th:value="${user.email}" disabled="disabled"/>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td class="input-cell">
-                    <input class="sbmts" type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/>
-                </td>
-                <td><span class="glyphicon glyphicon-edit"></span></td>
-            </tr>
-            <tr>
-                <th>Mobil</th>
-                <td class="input-cell">
-                    <input class="sbmts" type="text" th:value="${user.phonenumber}" disabled="disabled"/>
-                </td>
-                <td><span class="glyphicon glyphicon-edit"></span></td>
-            </tr>
-            <tr>
-                <th>Passord</th>
-                <td>
-                    <div id="new-pwd-box">
-                        <form action="/api/password/change" method="post" class="sbmts"
-                              onsubmit="return jsonSubmitFns(this, success, failure)">
-                            <input class="pwd-input" type="password" name="old_password"
-                                   placeholder="Nåværende passord"/>
-                            <input id="new-pwd" class="pwd-input" type="password" pattern=".{8,}" name="new_password"
-                                   placeholder="Nytt passord"/>
-                            <meter max="4" id="password-strength-meter" value="0"></meter>
-                            <input id="rpt-pwd" class="pwd-input" type="password" pattern=".{8,}"
-                                   placeholder="Gjenta nytt passord"/>
-                            <div id="incorrect-pwd" class="alert alert-danger">
-                                <p><strong>Passordene er ikke like</strong></p>
+    <h3 id="account-title">Profil</h3>
+    <div class="border-box row">
+        <div class="spacious-column col-md-5 col-lg-5">
+            <table class="table">
+                <tr>
+                    <td>
+                        <img src=""
+                             th:if="${navbar.profileImageB64 != null}"
+                             th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
+                             height="256" width="256" style="margin: auto 0;"/>
+                        <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"
+                             height="256" width="256" style="margin: auto 0;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form onsubmit="return uploadImage(this, '/user/profile', 'imgUpload')"
+                              action="/api/images/upload" method="post">
+                            <div style="position:relative;overflow:auto;">
+                                <a class='btn btn-primary pull-left' href='javascript:;'>
+                                    Velg bilde
+                                    <input id="imgUpload" type="file" class="file-btn" name="file_source" size="40"/>
+                                </a>
+                                <span id="upload-file-info" style="display:none"></span>
                             </div>
-                            <button type="submit" id="save-pwd-btn"
-                                    class="btn btn-primary pull-right">Lagre
-                            </button>
+                            <input name="b64_content" type="text" hidden="hidden"/>
+                            <input name="content_type" type="text" hidden="hidden"/>
+                            <br/>
+                            <input class="btn btn-primary" type="submit" value="Last opp"/>
                         </form>
-                    </div>
-                </td>
-                <td><span id="edit-pwd" class="glyphicon glyphicon-edit"></span></td>
-            </tr>
-            <tr>
-                <th>Timer denne uken</th>
-                <td> </td>
-                <td> </td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="spacious-column col-md-7 col-lg-7">
+            <div class="account-box">
+                <table class="table">
+                    <tr>
+                        <th>Navn</th>
+                        <td class="input-cell">
+                            <input type="text" th:value="${user.firstName + ' ' + user.lastName}"
+                                   disabled="disabled"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>E-post</th>
+                        <td class="input-cell">
+                            <input type="email" th:value="${user.email}" disabled="disabled"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Adresse</th>
+                        <td class="input-cell">
+                            <input class="sbmts" type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/>
+                        </td>
+                        <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                    </tr>
+                    <tr>
+                        <th>Mobil</th>
+                        <td class="input-cell">
+                            <input class="sbmts" type="text" th:value="${user.phonenumber}" disabled="disabled"/>
+                        </td>
+                        <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                    </tr>
+                    <tr>
+                        <th>Passord</th>
+                        <td>
+                            <div id="new-pwd-box">
+                                <form action="/api/password/change" method="post" class="sbmts"
+                                      onsubmit="return jsonSubmitFns(this, success, failure)">
+                                    <input class="pwd-input" type="password" name="old_password"
+                                           placeholder="Nåværende passord"/>
+                                    <input id="new-pwd" class="pwd-input" type="password" pattern=".{8,}"
+                                           name="new_password"
+                                           placeholder="Nytt passord"/>
+                                    <meter max="4" id="password-strength-meter" value="0"></meter>
+                                    <input id="rpt-pwd" class="pwd-input" type="password" pattern=".{8,}"
+                                           placeholder="Gjenta nytt passord"/>
+                                    <div id="incorrect-pwd" class="alert alert-danger">
+                                        <p><strong>Passordene er ikke like</strong></p>
+                                    </div>
+                                    <button type="submit" id="save-pwd-btn"
+                                            class="btn btn-primary pull-right">Lagre
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        <td><div id="edit-pwd" class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-    <table class="table table-striped">
-        <tr>
-            <td>
-                <img src=""
-                     th:if="${navbar.profileImageB64 != null}"
-                     th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
-                     height="256" width="256" style="margin: auto 0;"/>
-                <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"
-                     height="256" width="256" style="margin: auto 0;" />
-            </td>
-            <td>
-                <form onsubmit="return uploadImage(this, '/user/profile', 'imgUpload')"
-                      action="/api/images/upload" method="post">
-                    <input class="form-control" type="file" id="imgUpload"/>
-                    <input name="b64_content" type="text" hidden="hidden"/>
-                    <input name="content_type" type="text" hidden="hidden"/>
-                    <input type="submit" value="Last opp"/>
-                </form>
-            </td>
-        </tr>
-    </table>
 </div>
 </body>
 </html>

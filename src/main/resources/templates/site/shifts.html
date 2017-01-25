@@ -56,118 +56,121 @@
             </div>
         </div>
 
-        <div id="superDiv">
+                <div id="superDiv">
 
-            <!--ikke fjern-->
-            <div class="kompetansegruppe" style="display:none">
-                <div class="rad kompetanse-rad">
-                    <div class="kompetanse-cell testing">
-                        Test
+                    <!--ikke fjern-->
+                    <div class="kompetansegruppe" style="display:none">
+                        <div class="rad kompetanse-rad">
+                            <div class="kompetanse-cell testing">
+                                Test
+                            </div>
+                        </div>
+                        <div class="drop">
+                            <div class="rad"></div>
+                        </div>
                     </div>
+
                 </div>
-                <div class="drop">
-                    <div class="rad"></div>
-                </div>
+
             </div>
         </div>
-    </div>
-</div>
 
-<!--Modal for skift start-->
-<div class="modal fade" id="modalShift" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <i class="ion-close close-color" data-dismiss="modal"></i>
-                <h4 class="modal-title">Informasjon</h4>
-            </div>
-            <div class="modal-body">
 
-                <!--Modal for egen vakt-->
-                <div id="modalOwn">
-                    Tid:<p></p>
-                    <br/>
-                    Ditt skift <br/>
-                    Hvis du vil legge inn fravær gå inn på din egen skiftoversikt
-                </div>
+        <!--Modal for skift start-->
+        <div class="modal fade" id="modalShift" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="ion-close close-color" data-dismiss="modal"></i>
+                        <h4 class="modal-title">Informasjon</h4>
+                    </div>
+                    <div class="modal-body">
 
-                <!--Modal for andres vakt-->
-                <div id="modalOther">
-                    <p id="tidsviser">Tid:</p>
-                    <br/>
-                    <p id="ansatt">Ansatt:</p>
-                    <br/>
-                    <button id="shiftChange" class="btn btn-default">Be om vaktbytte</button>
-                    <br/>
-                    <div id="shiftSelect" style="display: none;">
-                        Velg dato for vakten du vil bytte den vakten her med:
-                        <form id="date" method="post" class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-xs-3 control-label" id="fraDatoText"></label>
-                                <div class="col-xs-5 date">
-                                    <div class="input-group input-append date" id="inputFra">
-                                        <input id="dateText" type="text" class="form-control" name="date" />
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <p id="tidsviser">Tid:</p>
+
+                        <!--Modal for egen vakt-->
+                        <div id="modalOwn">
+                            <br/>
+                            Ditt skift <br/>
+                            Hvis du vil legge inn fravær gå inn på din egen skiftoversikt
+                        </div>
+
+                        <!--Modal for andres vakt-->
+                        <div id="modalOther">
+                            <br/>
+                            <p id="ansatt">Ansatt:</p>
+                            <br/>
+                            <button id="shiftChange" class="btn btn-default">Be om vaktbytte</button>
+                            <br/>
+                            <div id="shiftSelect" style="display: none;">
+                                Velg dato for vakten du vil bytte den vakten her med:
+                                <form id="date" method="post" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label" id="fraDatoText"></label>
+                                        <div class="col-xs-5 date">
+                                            <div class="input-group input-append date" id="inputFra">
+                                                <input id="dateText" type="text" class="form-control" name="date" />
+                                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                        </div>
                                     </div>
+                                </form>
+                                <div id="selectDay" style="display: none;">
+                                    <label for="shiftSelectedDay">Vakter på valgt dag</label>
+                                    <select class="form-control" id="shiftSelectedDay">
+                                        <option>Test 1</option>
+                                        <option>Test 2</option>
+                                        <option>Test 3</option>
+                                        <option>Test 4</option>
+                                        <option>Test 5</option>
+
+                                    </select>
                                 </div>
                             </div>
-                        </form>
-                        <div id="selectDay" style="display: none;">
-                            <label for="shiftSelectedDay">Vakter på valgt dag</label>
-                            <select class="form-control" id="shiftSelectedDay">
+                        </div>
+
+                        <!--Modal for ledig vakt-->
+                        <div id="modalFree">
+                            <br/>
+                            <br/>
+                            <label for="available">Tilgjengelige ansatte som kan ta skiftet</label>
+                            <select class="form-control" id="available">
                                 <option>Test 1</option>
                                 <option>Test 2</option>
                                 <option>Test 3</option>
                                 <option>Test 4</option>
                                 <option>Test 5</option>
-
                             </select>
+                            be om ansatt tar skift, fiks for admin, fiks design<br/>
+                            <br/>
+                            <button class="btn btn-default">Send forespørsel om å ta skift</button>
+
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!--Modal for skift slutt-->
 
-                <!--Modal for ledig vakt-->
-                <div id="modalFree">
-                    Tid:
-                    <br/>
-                    <br/>
-                    <label for="available">Tilgjengelige ansatte som kan ta skiftet</label>
-                    <select class="form-control" id="available">
-                        <option>Test 1</option>
-                        <option>Test 2</option>
-                        <option>Test 3</option>
-                        <option>Test 4</option>
-                        <option>Test 5</option>
-                    </select>
-                    be om ansatt tar skift, fiks for admin, fiks design<br/>
-                    <br/>
-                    <button class="btn btn-default">Send forespørsel om å ta skift</button>
+
+        <!--Modal for info om klokkeslett start-->
+        <div class="modal fade" id="infoTime" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="ion-close close-color" data-dismiss="modal"></i>
+                        <h4 id="titleTime" class="modal-title">Informasjon</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ant ansatte på jobb for: </p><br/>
+                        Vis intervall hvor evt. kritisk, hvor mange som må på jobb i intervallet av de ulike kompetansene.
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!--Modal for skift slutt-->
-
-
-<!--Modal for info om klokkeslett start-->
-<div class="modal fade" id="infoTime" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <i class="ion-close close-color" data-dismiss="modal"></i>
-                <h4 id="titleTime" class="modal-title">Informasjon</h4>
-            </div>
-            <div class="modal-body">
-                <p>Ant ansatte på jobb for: </p><br/>
-                Vis intervall hvor evt. kritisk, hvor mange som må på jobb i intervallet av de ulike kompetansene.
-
-            </div>
-        </div>
-    </div>
-</div>
-<!--Modal for info om klokkeslett slutt-->
-</body>
+        <!--Modal for info om klokkeslett slutt-->
+    </body>
 </html>
