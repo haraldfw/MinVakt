@@ -72,7 +72,7 @@ body, head {
 #fraDato, #tilDato {
     position: relative;
     left: 5%;
-}
+} /* TODO: make common class*/
 
 .close-color {
     color: #1fa3ae;
