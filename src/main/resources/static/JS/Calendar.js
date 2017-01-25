@@ -57,5 +57,19 @@ $(document).ready(function() {
 
     plotDays(thisDay)
 
+    function newMonth(way) {
+
+
+    }
+
+
+    $(".left").click(function() {
+        newMonth(-1); //fixme fix fix
+    });
+    $(".right").click(function() {
+        newMonth(1);
+
+    });
+
 
 });
