@@ -36,10 +36,22 @@ body, head {
 
 .ion-arrow-left-b:hover, .ion-arrow-right-b:hover {
     cursor: pointer;
+    color: #17777f;
+
+}
+.ion-arrow-left-b, .ion-arrow-right-b {
+    color: #1fa3ae;
+    font-size: 130%;
+}
+
+#monthYear {
+    padding-top: 13px;
 }
 
 .cell {
     text-align: center;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
 
 .inactive-month {
@@ -54,4 +66,14 @@ body, head {
 .hover-adjust {
     background-color: #aed3de;
     cursor: pointer;
+}
+
+.cell-day {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /*TODO: legg inn man, tirs, osv hvis mobil*/
+}
+
+.weekNr {
+    width: 10px;
 }

@@ -35,10 +35,8 @@ $(document).ready(function() {
     var firstDay = new Date(year, month, 1);
 
     function plotDays(startDay) {
-
         $("#monthYear").html(months[month] + " " + year);
         var firstCalendarDay = addDays(firstDay, -(backDays[firstDay.getDay()]));
-
 
         for(var i = 0; i < weeks.length; i++) {
             for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
@@ -57,6 +55,7 @@ $(document).ready(function() {
 
     plotDays(thisDay)
 
+    /* Change month */
     function newMonth(way) {
         $(".cell").removeClass("today inactive-month");
         firstDay.setMonth(firstDay.getMonth() + way);
