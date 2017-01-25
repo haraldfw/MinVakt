@@ -166,9 +166,10 @@ main {
 
 .border-box {
     background: rgba(231, 222, 216, 0.2);
-    border: 1px dashed;
+    border: 1px solid #bbb;
     margin-bottom: 15px;
     border-radius: 5px;
+    box-shadow: 0 0 4px rgba(0,0,0,.3);
 }
 
 .btn-edit {
