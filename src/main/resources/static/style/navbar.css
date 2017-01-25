@@ -11,7 +11,7 @@ body {
     top: 0;
     left: 0;
     height: 70px;
-    z-index: 2000;
+    z-index: 2000; /* This bugs out modals if displayed on a small screen */
 }
 #buger-menu > * {
     float: left;
@@ -50,7 +50,7 @@ body {
     height: 100%;
     overflow: auto;
     box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.6);
-    z-index: 1000;
+    z-index: 1000; /* This bugs out modals if displayed on a small screen */
     transition: transform .5s;
     transform: translateX(-100%);
 }

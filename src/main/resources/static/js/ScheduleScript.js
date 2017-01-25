@@ -305,6 +305,8 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
+    /* Modal buttons */
+
     $("#changeShiftOwnerButton").click(function() {
         $("#availible-workers-panel").toggleClass("non-display-class");
     });
@@ -416,22 +418,17 @@ $(document).ready(function() {
     $("#modalTest").on("shown.bs.modal", function() {
         var funnet = false;
         for (var i = 0; i < shiftIderForIdag.length; i++) {
-            alert("hei " + shiftIderForIdag[i] + ", " + selectedShift);
-            var currentId = shiftIderForIdag[i];
-            alert(currentId);
-            if (currentId === selectedShift) {
+            var currentId = parseInt(shiftIderForIdag[i]);
+            if (currentId === parseInt(selectedShift)) {
                 funnet = true;
-                alert("hei");
-                //break;
+                break;
             }
         }
 
         if (funnet) {
             $("#changeActualStartEndTimesButton").css("display", "block");
-            alert("dato før");
         } else {
             $("#changeActualStartEndTimesButton").css("display", "none");
-            alert("dato etter");
         }
     });
 
