@@ -1,6 +1,9 @@
-body, head {
-    margin: 0;
-    padding: 0;
+head {
+    margin: 0 !important; /* TODO: fiks andre*/
+}
+
+body {
+    padding: 90px 0 20px 0 !important;
 }
 :root {
     --border-color: #7c7c7c;

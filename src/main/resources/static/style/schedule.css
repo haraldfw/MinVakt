@@ -151,6 +151,10 @@
 .normal-shift:hover {
     background-color: #e0b374;
 }
+/* -matching classes is for elements with same id to change hover color */
+.normal-shift-matching {
+    background-color: #e0b374;
+}
 
 .absence-shift {
     background-color: #f05942;
@@ -265,7 +269,7 @@
     text-align: center;
 }
 
-#co-worker-collapse {
+.co-worker-list {
     max-height: 30vh;
     overflow-y: scroll;
 }
@@ -306,6 +310,10 @@
 .shift-center-text { /* TODO: add overflow (text-overflow?) på små shift element */
     position: relative;
     top: 50%;
+}
+
+.non-display-class {
+    display: none;
 }
 
 #buttonNextWeek {

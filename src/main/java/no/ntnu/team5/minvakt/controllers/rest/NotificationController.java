@@ -5,6 +5,7 @@ import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class NotificationController {
             return access.notification.fromUsername(verifier.claims.getSubject());
         });
         List<Notification> adminNotifications = accessor.with(access -> {
-            return access.notification.fromCompetence(access.competence.getFromName("Admin"));
+            return access.notification.fromCompetence(access.competence.getFromName(Constants.ADMIN));
         });
 
         model.addAttribute("userNotifications", userNotifications);
@@ -72,6 +73,29 @@ public class NotificationController {
             String actionUrl = "/api/shift/pass_notification_to_admin?shift_id="+shift_id+"&user_id="+user_id;
 
             access.notification.generateTransferRequestNotification(message, actionUrl, requestedOwner);
+        });
+    }
+
+    @Authorize
+    @PostMapping("/api/notifications/generate_release_from_shift_request_notification")
+    public void generateReleaseFromShiftRequestNotification(Verifier verifier,
+                                                            @RequestParam("shift_id") int shift_id){
+        accessor.with(access -> {
+            User shiftOwner = access.user.fromUsername(verifier.claims.getSubject());
+            Shift shift = access.shift.getShiftFromId(shift_id);
+
+            verifier.ensure(isUser(shift.getUser().getUsername()));
+
+            String message = shiftOwner.getUsername() + " forespør å bli fjernet fra følgende vakt:\n " +
+                    shift.getStartTime() + " til " + shift.getEndTime();
+
+            String actionUrl = "/api/shift/release_user_from_shift?shift_id="+shift_id;
+
+            String redirectUrl = ""; //FIXME: lag lenke som man skal sendes til
+
+            Competence competence = access.competence.getFromName(Constants.ADMIN);
+
+            access.notification.generateReleaseFromShiftRequestNotification(competence, message, actionUrl, redirectUrl);
         });
     }
 }

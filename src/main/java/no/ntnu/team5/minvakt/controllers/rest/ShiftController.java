@@ -146,24 +146,24 @@ public class ShiftController {
                                          @RequestParam("shift_id") int shift_id,
                                          @RequestParam("user_id") int user_id,
                                          HttpServletRequest httpServletRequest) {
-
         verifier.ensure(hasRole(Constants.ADMIN));
         accessor.with(access -> {
 
-            String actionURL = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
-            Notification notification = access.notification.fromActionURL(actionURL);
-            if (notification == null) return;
-
+            String actionUrl = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
+            Notification notification = access.notification.fromActionURL(actionUrl);
+            if (notification == null) {
+                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n" + actionUrl);
+                return;
+            }
             Shift shift = access.shift.getShiftFromId(shift_id);
-
             if (accept) {
                 User newShiftOwner = access.user.fromID(user_id);
                 User oldShiftOwner = shift.getUser();
                 access.shift.transferOwnership(shift, newShiftOwner);
-                String message = "Du har blitt tildelt følgende skift: " +
+                String message = "Du har blitt tildelt følgende vakt: " +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(newShiftOwner, message);
-                message = "Følgende skift har blitt overtatt av " + newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName() + ": \n" +
+                message = "Følgende vakt har blitt overtatt av " + newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName() + ": \n" +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(oldShiftOwner, message);
             } else {
@@ -172,8 +172,7 @@ public class ShiftController {
                     System.out.println("Fant ingen tidligere skifteier.");
                     return;
                 }
-
-                String message = "Din forespørsel om bytte av følgende skift har blitt avslått av admin: " +
+                String message = "Din forespørsel om bytte av følgende vakt har blitt avslått av admin: " +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(originalOwner, message);
             }
@@ -189,13 +188,11 @@ public class ShiftController {
                                     @RequestParam("user_id") int user_id,
                                     @RequestParam("accept") boolean accept,
                                     HttpServletRequest httpServletRequest) {
-
         accessor.with(access -> {
-
-            String actionURL = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
-            Notification notification = access.notification.fromActionURL(actionURL);
+            String actionUrl = httpServletRequest.getRequestURI() + "?shift_id=" + shift_id + "&user_id=" + user_id;
+            Notification notification = access.notification.fromActionURL(actionUrl);
             if (notification == null) {
-                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n" + actionURL);
+                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n" + actionUrl);
                 return;
             }
             verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole(Constants.ADMIN)));
@@ -204,14 +201,14 @@ public class ShiftController {
 
             if (accept) {
                 String message = "Bruker " + access.user.fromID(user_id).getUsername() +
-                        " ønsker å ta over følgende skift fra " + shift.getUser().getUsername() +
+                        " ønsker å ta over følgende vakt fra " + shift.getUser().getUsername() +
                         ": " + shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 String nyActionURL = "/api/shift/transfer?shift_id=" + shift_id + "&user_id=" + user_id;
                 access.notification.generateTransferNotification(access.competence.getFromName("Admin"), message, nyActionURL);
             } else {
                 User originalOwner = shift.getUser();
                 if (originalOwner != null) {
-                    String message = "Din forespørsel om bytte av følgende skift har blitt avslått: " +
+                    String message = "Din forespørsel om bytte av følgende vakt har blitt avslått: " +
                             shift.getStartTime() + " til " + shift.getEndTime() + ".";
                     access.notification.generateMessageNotification(originalOwner, message);
                 }
@@ -250,6 +247,40 @@ public class ShiftController {
         return updated ?
                 ResponseEntity.ok().body("Shift-object updated")
                 : ResponseEntity.ok().body("Shift-object unchanged");
+    }
+
+    @PostMapping("/release_user_from_shift")
+    public void releaseUserFromShift(Verifier verifier,
+                                     @RequestParam("shift_id") int shift_id,
+                                     @RequestParam("accept") boolean accept,
+                                     HttpServletRequest httpServletRequest) {
+        verifier.ensure(hasRole(Constants.ADMIN));
+        accessor.with(access -> {
+            String actionUrl = httpServletRequest.getRequestURI() + "?shift_id" + shift_id;
+            Notification notification = access.notification.fromActionURL(actionUrl);
+            if (notification == null) {
+                System.out.println("Fant ikke notifikasjon med den denne URL-en i databasen:\n" + actionUrl);
+                return;
+            }
+            Shift shift = access.shift.getShiftFromId(shift_id);
+            if (accept) {
+                User user = shift.getUser();
+                access.shift.transferOwnership(shift, null);
+                String message = "Du har blitt frigjort fra følgende vakt:\n " +
+                        shift.getStartTime() + " til " + shift.getEndTime();
+                access.notification.generateMessageNotification(user, message);
+            } else {
+                User user = shift.getUser();
+                if (user == null) {
+                    System.out.println("Fant ingen tidligere skifteier.");
+                    return;
+                }
+                String message = "Din forespørsel om å bli frigjort fra følgende vakt har blitt avslått av admin: " +
+                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                access.notification.generateMessageNotification(user, message);
+            }
+            access.notification.closeNotification(notification);
+        });
     }
 }
 

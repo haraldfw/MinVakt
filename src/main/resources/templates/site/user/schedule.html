@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
 
     <link rel="stylesheet" href="/style/common/navbar.css"/>
     <link rel="stylesheet" href="/style/common/modal.css"/>
@@ -16,13 +16,20 @@
 
     <!-- Ikke endre her no, det virker -->
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--TODO: Remove unused, maybe we dont need datepicker AND datetimepicker?-->
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 
+    <script src="/js/common/jsonSubmit.js"></script>
     <script src="/js/common/navbar.js"></script>
     <script src="/js/common/modal.js"></script>
     <script src="/js/schedule.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/registeravailability.js"></script>
 </head>
 
 <div th:include="fragments :: navbar"></div>
@@ -35,6 +42,8 @@
         <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
         <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
     </div>
+
+    <p style="position: absolute; top: 75px; right: 20px;">Du har jobbet x timer PLACEHOLDER<br />Uke nr, år</p>
 
     <div class="shiftsheet" style="margin-top: 20px;">
 
@@ -182,12 +191,12 @@
                 <br></br>
 
                 <!-- Buttons that is bound to a specific type of shift element -->
-                <div class="panel-group">
+                <div id="other-workers-panel" class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading" data-toggle="collapse" href="#co-worker-collapse">
                             <a data-toggle="collapse" href="#co-worker-collapse">Vis ansatte som jobber samtidig som dette skiftet</a>
                         </div>
-                        <div id="co-worker-collapse" class="panel-collapse collapse">
+                        <div id="co-worker-collapse" class="panel-collapse collapse co-worker-list">
                             <div class="panel-body co-worker-panel-box">John Doe</div>
                             <div class="panel-footer co-worker-panel-box">Jane Doe</div>
                             <div class="panel-body co-worker-panel-box">James Doe</div>
@@ -204,42 +213,61 @@
                     </div>
                 </div>
 
-                <div id="absenceButton" class="buttonRight" style="display: none;">
-                    <button class="btn btn-danger" type="button">Legg inn fravær for dette skiftet</button>
-                    <br></br>
+                <div id="absenceButtonDiv" class="buttonRight" style="display: none;">
+                    <button id="absenceButton" class="btn btn-danger" type="button">Legg inn fravær for dette skiftet</button>
+                    <br></br><br></br>
                 </div>
-                <div id="removeAbsenceButton" class="buttonRight" style="display: none">
-                    <button class="btn btn-success" type="button">Fjern fravær for dette skiftet</button>
-                    <br></br>
+                <div id="removeAbsenceButtonDiv" style="display: none">
+                    <button id="removeAbsenceButton" class="btn btn-success" type="button">Fjern fravær for dette skiftet</button>
+                    <br></br><br></br>
                 </div>
-                <div id="removeAvailibilityButton" class="buttonRight" style="display: none;">
-                    <button class="btn btn-danger" type="button">Fjern tilgjengelighet for denne perioden</button>
-                    <br></br>
+                <div id="removeAvailibilityButtonDiv" class="buttonRight" style="display: none;">
+                    <button id="removeAvailibilityButton" class="btn btn-danger" type="button">Fjern tilgjengelighet for denne perioden</button>
+                    <br></br><br></br>
                 </div>
-                <div id="changeShiftOwnerButton" class="buttonLeft">
-                    <button class="btn btn-danger" type="button">Se om noen andre er ledige til å ta over skiftet</button>
+                <div id="changeShiftOwnerButtonDiv" style="display: none;">
+                    <button id="changeShiftOwnerButton" class="btn btn-primary" type="button">Se om noen andre er ledige til å ta over skiftet</button>
+                    <br></br><br></br>
                 </div>
 
                 <!-- A drop down list with users that is availible to take over a shift -->
-                <div class="panel-group">
+                <div id="availible-workers-panel" class="panel-group non-display-class">
                     <div class="panel panel-default">
                         <div class="panel-heading" data-toggle="collapse" href="#co-worker-availible-collapse">
-                            <a data-toggle="collapse" href="#co-worker-availible-collapse">Vis ansatte som jobber samtidig som dette skiftet</a>
+                            <a data-toggle="collapse" href="#co-worker-availible-collapse">Velg en ansatt du vil spørre om å ta over skiftet //TODO:FIX at man selv er satt opp t.gj.</a>
                         </div>
-                        <div id="co-worker-availible-collapse" class="panel-collapse collapse">
-                            <div class="panel-body co-worker-panel-box">John Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Jane Doe</div>
-                            <div class="panel-body co-worker-panel-box">James Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Johnny Doe</div>
-                            <div class="panel-body co-worker-panel-box">Janie Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Richard Roe</div>
-                            <div class="panel-body co-worker-panel-box">John Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Jane Doe</div>
-                            <div class="panel-body co-worker-panel-box">James Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Johnny Doe</div>
-                            <div class="panel-body co-worker-panel-box">Janie Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Richard Roe</div>
+                        <div id="co-worker-availible-collapse" class="panel-collapse collapse co-worker-list">
+                            <!-- Workers that are availible for taking the shift are displayed here -->
                         </div>
+                    </div>
+                </div>
+
+                <div id="changeActualStartEndTimesButton" style="display: none;">
+                    <button class="btn btn-primary" type="button">Legg inn faktisk start- og sluttidspunkt</button>
+                    <br /><br />
+                    <div>
+                        <form id="startDateShiftTime" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Star tid</label>
+                                <div class="col-xs-5 date">
+                                    <div class="input-group input-append date">
+                                        <input type="text" class="form-control" name="date" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <form id="endDateShiftTime" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Slutt tid</label>
+                                <div class="col-xs-5 date">
+                                    <div class="input-group input-append date">
+                                        <input type="text" class="form-control" name="date" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -517,4 +545,6 @@
         </div>
     </div>
 </div><!-- Slutt modal fravær -->
+
+<th:block th:include="modals/availability :: modal"></th:block>
 </html>
