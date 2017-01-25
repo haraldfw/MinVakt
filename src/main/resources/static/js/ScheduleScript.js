@@ -4,10 +4,9 @@
 
 $(document).ready(function() {
 
-
     var selectedShift = -1;
     var questionAnswer = false;
-    var shiftType = -1; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift, 3 = ??, 4 =
+    var shiftType = -1; //Goes from 0 to 4, 0 = normal-shift, 1 = absence-shift, 2 = availible-shift, 3 = ??, 4 = ??, 5 =
 
     var username = $("#username").html();
 
@@ -33,18 +32,13 @@ $(document).ready(function() {
     var currentDate = weekStartDate; //new Date();
     /* Function for changing what date and month is displayed at the top of each day */
     function changeTopDayNames() {
-        /*alert(weekStartDate.getDate());
-         alert(dayCounter);
-         alert(currentDate.getDate());*/
         dayCounter = 0;
         $(".dayTop").each(function() {
-            //dateCounter = today.getDate();
-            //dateCounter = today.getDate();
             var dateToday = weekStartDate.getDate() + dayCounter;
 
             //$(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
-            if (today.getDate() === dateToday) {
+            if (today.getDate() === currentDate.getDate() && today.getMonth() === currentDate.getMonth() && today.getFullYear() && currentDate.getFullYear()) {
                 $(this).addClass("dayTop-today");
             } else {
                 //alert("har allerede denne klassen");
@@ -182,6 +176,24 @@ $(document).ready(function() {
 
             }
 
+            //For hovering all shift elements with matching id (all elements for same shift) //TODO: endre til alle typer skift
+            $(".shift").hover(function() {
+                var matchId = $(this).attr("id");
+                $(".shift").each(function() {
+                    if ($(this).attr("id") === matchId) {
+                        $(this).toggleClass("normal-shift-matching");
+                    }
+                });
+
+            }), function() {
+                var matchId = $(this).attr("id");
+                $(".shift").each(function() {
+                    if ($(this).attr("id") === matchId) {
+                        $(this).toggleClass("normal-shift-matching");
+                    }
+                });
+            };
+
             //alert("DONE. ok" + data);
         }).fail(function() {
             alert("Det skjedde en feil med innhenting av skift for brukeren.");
@@ -194,6 +206,7 @@ $(document).ready(function() {
             //alert("okidoki1");
         }).done(function(data) {
             //alert("test");
+            $(".a-p-box").remove(); //a-p-box = availible workers that can take a shift
             var jsonArray = data;
             var workerCounter = 1;
             for (var i = 0; i < jsonArray.length; i++) {
@@ -205,7 +218,7 @@ $(document).ready(function() {
                 if (workerCounter % 2 === 0) {
                     workerType = "panel-body ";
                 }
-                $("#co-worker-availible-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box">' + workerName + '</div>')
+                $("#co-worker-availible-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
                 workerCounter++;
             }
         }).fail(function () {
@@ -213,8 +226,25 @@ $(document).ready(function() {
         });
     }
 
+    var sendUrl = "";
+
+    $(".co-worker-list").on("click", ".a-p-box", function(e) {
+        //alert($(this).attr("id") + ", " + selectedShift);
+        var selectedWorkerId = $(this).attr("id");
+        sendUrl = "/api/notifications/generate_transfer_request_notification?shift_id=" + selectedShift + "&user_id=" + selectedWorkerId;
+        var nameForChanger = $(this).html();
+
+        shiftType = 5;
+        $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
+
+        e.preventDefault();//TODO: sjekk
+    });
+
     //Clickevent handler for a shift element
     $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
+
+        $("body").addClass("modal-prevent-jump"); //TODO: legg denne på show og hide modal
 
         $("#modalTest").modal("show");
         //TODO: gjøre ting med iden man får her og hente fra database$(this).attr("id")
@@ -324,6 +354,17 @@ $(document).ready(function() {
             $(".shift#" + selectedShift).remove();
         }//Shift type 3 is missing
 
+        if (shiftType === 5) {
+            //When a user is asked another co-worker about taking the shift
+            $.post(sendUrl, function() {
+
+            }).done(function() {
+                alert("doneyea");
+            }).fail(function() {
+                alert("Kunne ikke sende forespørsel om vaktbytte");
+            });
+        }
+
         if (shiftType === 4) {
             //Add availibility for a single day??
         } else {
@@ -346,6 +387,14 @@ $(document).ready(function() {
     $("#modalUserProfile").on("hidden.bs.modal", function() {
         $("#shift-modal-shadow").css("display", "none");
     });
+
+    /*$("#modalTest").on("shown.bs.modal", function() {
+        $("body").addClass("modal-prevent-jump");
+    });
+
+    $("#modalTest").on("hidden.bs.modal", function() {
+        $("body").removeClass("modal-prevent-jump");
+    });*/ //TODO: fix this
 
     /* For displaying previous and next week */
     $("#buttonPreviousWeek").click(function() {

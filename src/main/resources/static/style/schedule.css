@@ -151,6 +151,10 @@
 .normal-shift:hover {
     background-color: #e0b374;
 }
+/* -matching classes is for elements with same id to change hover color */
+.normal-shift-matching {
+    background-color: #e0b374;
+}
 
 .absence-shift {
     background-color: #f05942;
