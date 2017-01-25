@@ -82,6 +82,38 @@ main {
     width: 100%;
 }
 
+.account-box .table>tbody>tr>th {
+    padding-left: 15px;
+}
+
+.file-btn {
+    height: 33px;
+    width: 90px;
+    position:absolute;
+    z-index:2;
+    top:0;
+    left:0;
+    filter: alpha(opacity=0);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    opacity:0;
+    background-color:transparent;
+    color:transparent;
+}
+
+#upload-file-info {
+    line-height: 33px;
+    height: 33px;
+    background: #fff;
+    display: inline-block;
+    float: left;
+    color: #000;
+    letter-spacing: -0.3px;
+    padding: 0 10px;
+    border-radius: 3px;
+    margin-left: -5px;
+    border: 1px solid #337ab7;
+}
+
 #new-pwd-box {
     display: none;
 }
@@ -139,6 +171,13 @@ main {
     border-radius: 10px;
 }
 
+.btn-edit {
+    padding: 4px 7px;
+}
+
+.row {
+    margin: 0;
+}
 .spacious-column {
     margin-top: 10px;
 }
@@ -170,34 +209,34 @@ meter::-webkit-meter-bar {
 
 /* Webkit based browsers */
 meter[value="1"]::-webkit-meter-optimum-value {
-    background: #ff5c21;
+    background: #ee3f1d;
 }
 
 meter[value="2"]::-webkit-meter-optimum-value {
-    background: #ffa52a;
+    background: #ee9606;
 }
 
 meter[value="3"]::-webkit-meter-optimum-value {
-    background: #e2ff62;
+    background: #d0d000;
 }
 
 meter[value="4"]::-webkit-meter-optimum-value {
-    background: #51de37;
+    background: #28a628;
 }
 
 /* Gecko based browsers */
 meter[value="1"]::-moz-meter-bar {
-    background: #ff5c21;
+    background: #ee3f1d;
 }
 
 meter[value="2"]::-moz-meter-bar {
-    background: #ffa52a;
+    background: #ee9606;
 }
 
 meter[value="3"]::-moz-meter-bar {
-    background: #e2ff62;
+    background: #d0d000;
 }
 
 meter[value="4"]::-moz-meter-bar {
-    background: #51de37;
+    background: #28a628;
 }

@@ -1,8 +1,10 @@
 body {
     transition: padding .5s;
 }
-body.navbar-open {
-    padding-left: 200px;
+@media(min-width: 480px) {
+    body.navbar-open {
+        padding-left: 200px;
+    }
 }
 #burger-menu {
     position: fixed;
