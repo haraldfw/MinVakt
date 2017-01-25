@@ -23,6 +23,7 @@ $(document).ready(function() {
     //var weekStartDate = today.getDate() - tempFix[today.getDay()];
     var weekStartDate = addDays(today, -tempFix[today.getDay()]);
 
+    var shiftIderForIdag = [];
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
@@ -60,6 +61,7 @@ $(document).ready(function() {
     var url = currentWeekUrl;
 
     function getShifts(url) { //TODO: teste og sjekke om denne virker
+        shiftIderForIdag = [];
         $.get(url, function() {// + today.getFullYear() + "/" + today.getMonth() + "/1", function(data) {//TODO: kan kanskje hente brukernavn i backend istenden
             //alert("okidoki" + data);
         }).done(function(data) {
@@ -193,6 +195,10 @@ $(document).ready(function() {
                     }
                 });
             };
+
+            if (shiftEnd < today) {
+                shiftIderForIdag.push(shiftId);
+            }
 
             //alert("DONE. ok" + data);
         }).fail(function() {
@@ -405,6 +411,28 @@ $(document).ready(function() {
 
     $("#modalUserProfile").on("hidden.bs.modal", function() {
         $("#shift-modal-shadow").css("display", "none");
+    });
+
+    $("#modalTest").on("shown.bs.modal", function() {
+        var funnet = false;
+        for (var i = 0; i < shiftIderForIdag.length; i++) {
+            alert("hei " + shiftIderForIdag[i] + ", " + selectedShift);
+            var currentId = shiftIderForIdag[i];
+            alert(currentId);
+            if (currentId === selectedShift) {
+                funnet = true;
+                alert("hei");
+                //break;
+            }
+        }
+
+        if (funnet) {
+            $("#changeActualStartEndTimesButton").css("display", "block");
+            alert("dato før");
+        } else {
+            $("#changeActualStartEndTimesButton").css("display", "none");
+            alert("dato etter");
+        }
     });
 
     /*$("#modalTest").on("shown.bs.modal", function() {

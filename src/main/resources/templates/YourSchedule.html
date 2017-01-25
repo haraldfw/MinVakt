@@ -227,6 +227,35 @@
                     <br></br><br></br>
                 </div>
 
+                <div id="changeActualStartEndTimesButton" style="display: none;">
+                    <button class="btn btn-primary" type="button">Legg inn faktisk start- og sluttidspunkt</button>
+                    <br /><br />
+                    <div>
+                        <form id="startDateShiftTime" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Star tid</label>
+                                <div class="col-xs-5 date">
+                                    <div class="input-group input-append date">
+                                        <input type="text" class="form-control" name="date" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <form id="endDateShiftTime" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Slutt tid</label>
+                                <div class="col-xs-5 date">
+                                    <div class="input-group input-append date">
+                                        <input type="text" class="form-control" name="date" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- A drop down list with users that is availible to take over a shift -->
                 <div id="availible-workers-panel" class="panel-group non-display-class">
                     <div class="panel panel-default">
