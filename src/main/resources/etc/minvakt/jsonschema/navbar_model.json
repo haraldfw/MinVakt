@@ -23,6 +23,9 @@
           },
           "action_url": {
             "type": "string"
+          },
+          "redirect_url": {
+            "type": "string"
           }
         },
         "required": [

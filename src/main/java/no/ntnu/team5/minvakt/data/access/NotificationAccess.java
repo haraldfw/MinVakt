@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.data.access;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.User;
@@ -80,10 +81,21 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         save(notification);
     }
 
+    public void generateReleaseFromShiftRequestNotification(Competence competence, String message, String actionUrl, String redirectUrl){
+        Notification notification = new Notification(message);
+        notification.setCompetence(competence);
+        notification.setActionUrl(actionUrl);
+        notification.setRedirectUrl(redirectUrl);
+        notification.setClosed(false);
+
+        save(notification);
+    }
+
     @Override
     NotificationModel toModel(Notification notification) {
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.setActionUrl(notification.getActionUrl());
+        notificationModel.setRedirectUrl(notification.getRedirectUrl());
         notificationModel.setMessage(notification.getMessage());
         notificationModel.setId(notification.getId());
 
