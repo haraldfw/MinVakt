@@ -5,20 +5,70 @@
 
 $(document).ready(function() {
     $(".cell").hover(function() {
-        $(this).toggleClass("hover-adjust"); //    filter: brightness(85%);//    filter: brightness(85%);"background-color", "#969696"("filter", "brightness(115%)").css("cursor", "pointer");
-        $(this).siblings(".cell").toggleClass("hover-adjust");
+        if($(this).hasClass("inactive-month")) {
+            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }/*
+        if($(this).hasClass("today")) {
+            $(this).toggleClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }*/
+
+        if($($(this).siblings(".cell")).hasClass("inactive-month")) {
+            $(this).siblings(".cell.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
+            $(this).siblings(".cell").not(".inactive-month").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell").toggleClass("hover-adjust");
+        }
+
+        /*if($($(this).siblings(".cell")).hasClass("today")) {
+            $(this).siblings(".cell.today").toggleClass("hover-adjust hover-adjust-today");
+            $(this).siblings(".cell").not(".today").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell").toggleClass("hover-adjust");
+        }*/
 
     }, function() {
-        $(this).toggleClass("hover-adjust");
-        $(this).siblings(".cell").toggleClass("hover-adjust");
-    });
+        if($(this).hasClass("inactive-month")) {
+            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }/*
+        if($(this).hasClass("today")) {
+            $(this).toggleClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }*/
 
-    function dayOfYear(now) { //var now = new Date();
-        var start = new Date(now.getFullYear(), 0, 0);
-        var diff = now - start;
-        var oneDay = 1000 * 60 * 60 * 24;
-        return Math.floor(diff / oneDay); //TODO: test om virker
-    }
+        if($($(this).siblings(".cell")).hasClass("inactive-month")) {
+            $(this).siblings(".cell.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
+            $(this).siblings(".cell").not(".inactive-month").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell").toggleClass("hover-adjust");
+        }
+
+        /*if($($(this).siblings(".cell")).hasClass("today")) {
+            $(this).siblings(".cell.today").toggleClass("hover-adjust hover-adjust-today");
+            $(this).siblings(".cell").not(".today").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell").toggleClass("hover-adjust");
+        }*/
+
+    });//TODO: sjekk om today markeres hvis du er på neste måned og kan se today fra forrige måned
+
+    Date.prototype.getWeek = function () {
+        var target  = new Date(this.valueOf());
+        var dayNr   = (this.getDay() + 6) % 7;
+        target.setDate(target.getDate() - dayNr + 3);
+        var firstThursday = target.valueOf();
+        target.setMonth(0, 1);
+        if (target.getDay() != 4) {
+            target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+        }
+        return 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 * 24 * 3600 * 1000
+    };
 
     var thisDay = new Date();
     var weeks = ["week1", "week2", "week3", "week4", "week5", "week6"];
@@ -39,6 +89,8 @@ $(document).ready(function() {
         var firstCalendarDay = addDays(firstDay, -(backDays[firstDay.getDay()]));
 
         for(var i = 0; i < weeks.length; i++) {
+
+            $("#" + weeks[i] + " .weekNr").html(firstCalendarDay.getWeek());
             for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").html(firstCalendarDay.getDate());
                 if(firstCalendarDay.getDate() === thisDay.getDate() && firstCalendarDay.getMonth() === thisDay.getMonth() && firstCalendarDay.getFullYear() === thisDay.getFullYear()) {
@@ -71,6 +123,5 @@ $(document).ready(function() {
         newMonth(1);
 
     });
-
 
 });
