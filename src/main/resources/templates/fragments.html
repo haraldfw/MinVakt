@@ -17,31 +17,27 @@
                        aria-haspopup="true"
                        aria-expanded="false">
                         <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
-                    <ul class="dropdown-menu">
-                        <li th:each="n: ${navbar.notificationModels}">
-                            <a th:if="${n.actionUrl} != null">
-                                <p th:text="${n.message}">
-                                    <!-- melding havner her -->
-                                </p>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}"
-                                      method="post">
-                                    <button type="submit" class="ion-checkmark-round"></button>
+                    <ul class="dropdown-menu noti-menu">
+                        <li th:each="n: ${navbar.notificationModels}" th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'">
+                            <div th:if="${n.actionUrl} != null">
+                                <p th:text="${n.message}"><!-- melding havner her --></p>
+                                <div class="btn-wrap">
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                                    <button type="submit" class="btn btn-success ion-checkmark-round"></button>
                                 </form>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}"
-                                      method="post">
-                                    <button type="submit" class="ion-close-round"></button>
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                                    <button type="submit" class="btn btn-danger ion-close-round"></button>
                                 </form>
-                            </a>
-                            <a th:if="${n.actionUrl} == null">
-                                <p th:text="${n.message}">
-                                    <!-- melding havner her -->
-                                </p>
-                                <form class="noti-form"
-                                      th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
-                                      method="post">
-                                    <button type="submit" class="ion-close-round"></button>
+                                </div>
+                            </div>
+                            <div th:if="${n.actionUrl} == null">
+                                <div class="dismissable-notification">
+                                <p th:text="${n.message}"><!-- melding havner her --></p>
+                                <form class="noti-form" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
+                                    <button type="submit" class="btn btn-link ion-close-round"></button>
                                 </form>
-                            </a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </li>
