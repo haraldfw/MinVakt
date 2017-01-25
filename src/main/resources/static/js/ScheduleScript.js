@@ -269,36 +269,36 @@ $(document).ready(function() {
             //Modal for shift
             $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Du har et skift fra 00:00 - 12:00 på Onsdag 11. jan. 2017");
-            $("#absenceButton").css("display", "inline-block");
-            $("#removeAbsenceButton").css("display", "none");
-            $("#removeAvailibilityButton").css("display", "none");
+            $("#absenceButtonDiv").css("display", "inline-block");
+            $("#removeAbsenceButtonDiv").css("display", "none");
+            $("#removeAvailibilityButtonDiv").css("display", "none");
             shiftType = 0;
             //alert("vanlig skift");
             $("#other-workers-panel").css("display", "block");
-            $("#changeShiftOwnerButton").css("display", "block");
+            $("#changeShiftOwnerButtonDiv").css("display", "block");
 
         } else if ($(this).hasClass("absence-shift")) {
             //absenceButton
             //alert("fravær");
             $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Det har lagt inn fravær for skiftet ditt kl. 12:00 - 24:00 på Onsdag 11. jan. 2017");
-            $("#absenceButton").css("display", "none");
-            $("#removeAbsenceButton").css("display", "inline-block");
-            $("#removeAvailibilityButton").css("display", "none");
+            $("#absenceButtonDiv").css("display", "none");
+            $("#removeAbsenceButtonDiv").css("display", "inline-block");
+            $("#removeAvailibilityButtonDiv").css("display", "none");
             shiftType = 1;
             $("#other-workers-panel").css("display", "block");
-            $("#changeShiftOwnerButton").css("display", "none");
+            $("#changeShiftOwnerButtonDiv").css("display", "none");
 
         } else if ($(this).hasClass("availible-shift")) {
             //alert("tilgjengelig");
             $("#modal-shift-title").html("Skift Lørdag 14. jan. 2017");
             $("#shift-time").html("Du har satt deg tilgjengelig for dette skiftet, fra 00:00 - 12:00 på Lørdag 14 jan. 2017");
-            $("#absenceButton").css("display", "none");
-            $("#removeAbsenceButton").css("display", "none");
-            $("#removeAvailibilityButton").css("display", "inline-block");
+            $("#absenceButtonDiv").css("display", "none");
+            $("#removeAbsenceButtonDiv").css("display", "none");
+            $("#removeAvailibilityButtonDiv").css("display", "inline-block");
             shiftType = 2;
             $("#other-workers-panel").css("display", "none");
-            $("#changeShiftOwnerButton").css("display", "none");
+            $("#changeShiftOwnerButtonDiv").css("display", "none");
         }
 
         //alert(selectedShift);
