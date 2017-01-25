@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layout :: mainLayout">
+<head th:fragment="header">
+    <script src="/js/common/jsonSubmit.js"></script>
+    <script src="/js/punchInOut.js"></script>
+</head>
+
+<div th:fragment="content">
+    <div class="page-header">
+        <h3>Timebank</h3>
+    </div>
+    <div>
+        <div th:each="shift : ${shifts}"
+             class="panel panel-primary spacious-column col-sm-6 col-md-6 col-lg-6">
+            <!-- Punch in punch out forms -->
+            <p><span th:text="${shift.startTime}"></span> - <span th:text="${shift.endTime}"></span>
+            </p>
+            <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
+                <form action="/api/shift/settime"
+                      onsubmit="return punchIn(this)">
+                    <input type="submit" value="Inn" class="btn btn-success btn-block"/>
+                    <input name="shift_id" hidden="hidden" th:value="${shift.id}"/>
+                    <input name="start_time" id="start_time" hidden="hidden"/>
+                </form>
+            </div>
+            <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
+                <form action="/api/shift/settime"
+                      onsubmit="return punchOut(this)">
+                    <input type="submit" value="Ut" class="btn btn-danger btn-block"/>
+                    <input name="shift_id" hidden="hidden" th:value="${shift.id}"/>
+                    <input name="end_time" id="end_time" hidden="hidden"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

@@ -5,6 +5,7 @@ import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
+import no.ntnu.team5.minvakt.model.PunchInOutModel;
 import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
@@ -20,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -56,37 +57,40 @@ public class ShiftController {
 
     /**
      * Get shifts for the current week for a given user
+     *
      * @return a list of shifts
      */
     //@Authorize("/") //FIXME: will not authorize
-    @RequestMapping("/{user}/week") //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
+    @RequestMapping("/{user}/week")
+    //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
         Calendar cal = Calendar.getInstance();
         Date startWeek = cal.getTime();
 
         return accessor.with(access -> {
-           return access.shift.getAllCurrentWeekForUser(startWeek, username)
-                   .stream()
-                   .map(access.shift::toModel)
-                   .collect(Collectors.toList());
+            return access.shift.getAllCurrentWeekForUser(startWeek, username)
+                    .stream()
+                    .map(access.shift::toModel)
+                    .collect(Collectors.toList());
         });
     }
 
     /**
      * Get shifts for a week with a given start date
+     *
      * @param username the user that we gets shifts for
-     * @param year startYear
-     * @param month startMonth
-     * @param day startDay
+     * @param year     startYear
+     * @param month    startMonth
+     * @param day      startDay
      * @return a list of shifts for a week for a user with a given start date
      */
     //@Authorize("/") //FIXME: will not authorize
     //FIXME: If the user sends a lot of requests in a short period the server will crash.
     @RequestMapping("/{user}/{year}/{month}/{day}/week")
     public List<ShiftModel> getShiftsWeek(@PathVariable("user") String username,
-                                              @PathVariable("year") int year,
-                                              @PathVariable("month") int month,
-                                              @PathVariable("day") int day) {
+                                          @PathVariable("year") int year,
+                                          @PathVariable("month") int month,
+                                          @PathVariable("day") int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day); //TODO: check if is correct with other dates than rigth now
         calendar.set(Calendar.HOUR, 0); //TODO: trenger vi hour, minute, second, millisecond
@@ -99,10 +103,10 @@ public class ShiftController {
         Date toDate = calendar.getTime();
 
         return accessor.with(access -> {
-           return access.shift.getShiftsFromDateToDateForUser(fromDate, toDate, username)
-                   .stream()
-                   .map(access.shift::toModel)
-                   .collect(Collectors.toList());
+            return access.shift.getShiftsFromDateToDateForUser(fromDate, toDate, username)
+                    .stream()
+                    .map(access.shift::toModel)
+                    .collect(Collectors.toList());
         });
     }
 
@@ -126,11 +130,11 @@ public class ShiftController {
     }
 
     @RequestMapping("/get_available_users_for_shift")
-    public List<UserModel> getAvailableUsers(@RequestParam("shift_id") int shift_id){
+    public List<UserModel> getAvailableUsers(@RequestParam("shift_id") int shift_id) {
         return accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shift_id);
             Date fromDate = shift.getStartTime(), toDate = shift.getEndTime();
-            List<User>  users = access.availability.listAvailableUsers(fromDate, toDate);
+            List<User> users = access.availability.listAvailableUsers(fromDate, toDate);
             return access.user.toModel(users);
         });
     }
@@ -214,6 +218,38 @@ public class ShiftController {
             }
             access.notification.closeNotification(notification);
         });
+    }
+
+    @Authorize
+    @PostMapping("/settime")
+    public ResponseEntity setTime(@RequestBody PunchInOutModel punchInOutModel) {
+        if (punchInOutModel == null || punchInOutModel.getShiftId() == null) {
+            return ResponseEntity.badRequest().body("Invalid request body. Missing object or missing field shift_id.");
+        }
+
+        boolean updated = accessor.with(accessContext -> {
+            Shift shift = accessContext.shift.getShiftFromId(punchInOutModel.getShiftId());
+
+            boolean changed = false;
+            Date startTime = punchInOutModel.getStartTime();
+            if (startTime != null && !shift.getStartTime().equals(startTime)) {
+                shift.setStartTime(startTime);
+                changed = true;
+            }
+            Date endTime = punchInOutModel.getEndTime();
+            if (endTime != null && !shift.getEndTime().equals(endTime)) {
+                shift.setEndTime(endTime);
+                changed = true;
+            }
+            if (changed) {
+                accessContext.shift.save(shift);
+            }
+            return changed;
+        });
+
+        return updated ?
+                ResponseEntity.ok().body("Shift-object updated")
+                : ResponseEntity.ok().body("Shift-object unchanged");
     }
 }
 
