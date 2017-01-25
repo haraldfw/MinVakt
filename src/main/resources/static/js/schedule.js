@@ -105,7 +105,7 @@ $(document).ready(function() {
                     fromTime = "0";
                 }
                 fromTime += shiftStart.getHours() + ":";
-                if (shiftStart.getMinutes() % 10 === 0) {
+                if (shiftStart.getMinutes() < 10) {
                     fromTime += "0";
                 }
                 fromTime += shiftStart.getMinutes();
@@ -115,7 +115,7 @@ $(document).ready(function() {
                     toTime = "0";
                 }
                 toTime += shiftEnd.getHours() + ":";
-                if (shiftEnd.getMinutes() % 10 === 0) {
+                if (shiftEnd.getMinutes() < 10) {
                     toTime += "0";
                 }
                 toTime += shiftEnd.getMinutes();
