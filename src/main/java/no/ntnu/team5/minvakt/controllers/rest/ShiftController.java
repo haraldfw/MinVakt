@@ -221,32 +221,46 @@ public class ShiftController {
     @PostMapping("/settime")
     public ResponseEntity setTime(@RequestBody PunchInOutModel punchInOutModel) {
         if (punchInOutModel == null || punchInOutModel.getShiftId() == null) {
-            return ResponseEntity.badRequest().body("Invalid request body. Missing object or missing field shift_id.");
+            return ResponseEntity.badRequest().body("Missing body or missing field shift_id");
         }
 
-        boolean updated = accessor.with(accessContext -> {
+        return accessor.with(accessContext -> {
             Shift shift = accessContext.shift.getShiftFromId(punchInOutModel.getShiftId());
 
-            boolean changed = false;
             Date startTime = punchInOutModel.getStartTime();
-            if (startTime != null && !shift.getStartTime().equals(startTime)) {
-                shift.setStartTime(startTime);
-                changed = true;
-            }
             Date endTime = punchInOutModel.getEndTime();
-            if (endTime != null && !shift.getEndTime().equals(endTime)) {
-                shift.setEndTime(endTime);
-                changed = true;
-            }
-            if (changed) {
-                accessContext.shift.save(shift);
-            }
-            return changed;
-        });
 
-        return updated ?
-                ResponseEntity.ok().body("Shift-object updated")
-                : ResponseEntity.ok().body("Shift-object unchanged");
+            if (startTime != null && endTime != null) {
+                if (startTime.after(endTime)) {
+                    return ResponseEntity.badRequest().body("start_time is after end_time");
+                }
+                shift.setStartTime(startTime);
+                shift.setEndTime(endTime);
+            } else if (startTime != null) {
+                if (startTime.after(shift.getEndTime())) {
+                    return ResponseEntity
+                            .badRequest()
+                            .body("start_time is after shift's endTime");
+                }
+                shift.setStartTime(startTime);
+            } else if (endTime != null) {
+                if (endTime.before(shift.getStartTime())) {
+                    return ResponseEntity
+                            .badRequest()
+                            .body("end_time is before shift's startTime");
+                }
+                shift.setEndTime(endTime);
+            } else {
+                // both time-objects are null or one is invalid
+                return ResponseEntity
+                        .badRequest()
+                        .body("Shift-object unchanged due to both time-objects being null.");
+            }
+            accessContext.shift.save(shift);
+            return ResponseEntity
+                    .ok()
+                    .body("Shift-object updated");
+        });
     }
 
     @PostMapping("/release_user_from_shift")
