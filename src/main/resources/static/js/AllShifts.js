@@ -199,6 +199,20 @@ $(document).ready(function() {
 
     };
 
+    /* Function for adding and subtracting days to a javascript date object */
+    function addDays(date, days) {
+        return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
+    }
 
     plotShifts(today);
+    var count = today;
+/*
+    $("#dayBack").click(function() {
+        count = addDays(count, -1);
+        plotShifts(count);
+    });
+    $("#dayForth").click(function() {
+        count = addDays(count, 1);
+        plotShifts(count);
+    });*/
 });
