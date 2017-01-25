@@ -84,6 +84,7 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
+
     public void makeUnavailable(User user, Date dateFrom, Date dateTo) {
         getDb().transaction(session -> {
             //FIXME: i don't work right

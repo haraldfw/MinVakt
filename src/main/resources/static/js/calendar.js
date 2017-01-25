@@ -123,7 +123,7 @@ $(document).ready(function() {
         newMonth(1);
 
     });
-    
+
     $("tr td:first-child").each(function() {
        //alert($(this).html());
     });
