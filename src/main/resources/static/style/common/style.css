@@ -165,10 +165,10 @@ main {
 }
 
 .border-box {
-    background: #f2f2f2;
+    background: rgba(231, 222, 216, 0.2);
     border: 1px dashed;
     margin-bottom: 15px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .btn-edit {

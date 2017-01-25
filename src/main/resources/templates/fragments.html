@@ -54,21 +54,23 @@
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
+
         <a href="/"><img src="/images/MinVakt_Linje_200.png"/></a>
+
+        <th:block th:if="${isAdmin}">
+            <li class="navbar-item"><a href="/admin/create/shift">Legg til shift</a></li>
+            <li class="navbar-item"><a href="/admin/create/user">Legg til bruker</a></li>
+            <li class="navbar-item"><a href="/admin/create/competence">Legg til kompetanse</a></li>
+            <li class="navbar-item"><a href="/admin/message">Send melding</a></li>
+        </th:block>
+
+        <hr/>
         <li class="navbar-item"><a href="/user/schedule">Egen timeliste</a></li>
         <li class="navbar-item"><a href="/shifts">Alle vakter</a></li>
         <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
         <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
         <li class="navbar-item"><a href="/timebank">Timebank</a></li>
         <li class="navbar-item"><a href="/logout">Logg ut</a></li>
-
-        <th:block th:if="${isAdmin}">
-            <hr/>
-            <li class="navbar-item"><a href="/admin/create/shift">Legg til shift</a></li>
-            <li class="navbar-item"><a href="/admin/create/user">Legg til bruker</a></li>
-            <li class="navbar-item"><a href="/admin/create/competence">Legg til kompetanse</a></li>
-            <li class="navbar-item"><a href="/admin/message">Send melding</a></li>
-        </th:block>
 
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>
