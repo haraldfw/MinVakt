@@ -27,10 +27,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
     <script src="/js/common/jsonSubmit.js"></script>
-<<<<<<< HEAD
-    <script src="/js/registeravailability.js"></script>
-=======
->>>>>>> 9b891c9e47cfc7351dc9d49a700db5ce5d46e193
     <script src="/js/common/navbar.js"></script>
     <script src="/js/common/modal.js"></script>
     <script src="/js/schedule.js"></script>
@@ -43,7 +39,7 @@
 <div th:include="fragments :: navbar"></div>
 <div class="container test" style="margin-top:5%;">
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absenceModal">Legg inn fravær</button>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#availabilityModal">Legg inn tilgjengelighet</button>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn tilgjengelighet</button>
 
     <!-- Knapper for neste og forrige uke -->
     <div>
@@ -553,11 +549,6 @@
         </div>
     </div>
 </div><!-- Slutt modal fravær -->
-<<<<<<< HEAD
 <!-- Modal for tilgjengelighet -->
-<div th:include="modals/availability :: modal"></div>
-=======
-
 <th:block th:include="modals/availability :: modal"></th:block>
->>>>>>> 9b891c9e47cfc7351dc9d49a700db5ce5d46e193
 </html>

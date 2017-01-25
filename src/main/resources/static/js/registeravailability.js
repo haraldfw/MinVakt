@@ -2,21 +2,6 @@
  * Created by Kenan on 1/17/2017.
  */
 $(document).ready(() => {
-<<<<<<< HEAD
-
-    $('#inputFrom').datetimepicker();
-    $('#inputTo').datetimepicker({
-        useCurrent: false
-    });
-    $("#inputFrom").on("dp.change", function (e) {
-        $('#inputTo').data("DateTimePicker").minDate(e.date);
-    });
-    $("#inputTo").on("dp.change", function (e) {
-        $('#inputFrom').data("DateTimePicker").maxDate(e.date);
-    });
-
-});
-=======
     console.log("DP init");
     datepickers($('#inputFrom'), $('#inputTil'));
 
@@ -55,4 +40,3 @@ function dateProcces(json) {
     json.date_to   = moment(json.date_to, fmt).toJSON();
     return json;
 }
->>>>>>> 9b891c9e47cfc7351dc9d49a700db5ce5d46e193
