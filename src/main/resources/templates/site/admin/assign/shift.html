@@ -24,16 +24,17 @@
                 <tr>
                     <th>Navn</th>
                     <th>Mobilnummer</th>
-                    <th>E-post</th>
+                    <th>Stillingsproset</th>
                     <th>Kompetanse</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
+                    <td><button class="userSbmt"></button></td>
                     <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn
                     </td>
                     <td th:text="${user.phonenumber}">tlf</td>
-                    <td th:text="${user.email}">email</td>
+                    <td th:text="${user.employmentPercentage}">Stillingsposent</td>
                     <td><span th:each="comp : ${user.competences}" th:text="${comp + ' '}">comps</span>
                     </td>
                 </tr>

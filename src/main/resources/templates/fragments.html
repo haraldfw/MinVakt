@@ -17,62 +17,61 @@
                        aria-haspopup="true"
                        aria-expanded="false">
                         <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
-                    <ul class="dropdown-menu">
-                        <li th:each="n: ${navbar.notificationModels}">
-                            <a th:if="${n.actionUrl} != null">
-                                <p th:text="${n.message}">
-                                    <!-- melding havner her -->
-                                </p>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}"
-                                      method="post">
-                                    <button type="submit" class="ion-checkmark-round"></button>
+                    <ul class="dropdown-menu noti-menu">
+                        <li th:each="n: ${navbar.notificationModels}" th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'">
+                            <div th:if="${n.actionUrl} != null">
+                                <p th:text="${n.message}"><!-- melding havner her --></p>
+                                <div class="btn-wrap">
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                                    <button type="submit" class="btn btn-success ion-checkmark-round"></button>
                                 </form>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}"
-                                      method="post">
-                                    <button type="submit" class="ion-close-round"></button>
+                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                                    <button type="submit" class="btn btn-danger ion-close-round"></button>
                                 </form>
-                            </a>
-                            <a th:if="${n.actionUrl} == null">
-                                <p th:text="${n.message}">
-                                    <!-- melding havner her -->
-                                </p>
-                                <form class="noti-form"
-                                      th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
-                                      method="post">
-                                    <button type="submit" class="ion-close-round"></button>
+                                </div>
+                            </div>
+                            <div th:if="${n.actionUrl} == null">
+                                <div class="dismissable-notification">
+                                <p th:text="${n.message}"><!-- melding havner her --></p>
+                                <form class="noti-form" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
+                                    <button type="submit" class="btn btn-link ion-close-round"></button>
                                 </form>
-                            </a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </li>
                 <li class="hidden-xs">
                     <a href="/user/profile" th:text="${name}"></a>
                 </li>
-                <li class="profile-picture">
-                    <img th:if="${navbar.profileImageB64 != null}" src=""
+                <li class="profile-picture ">
+                    <img class="img-circle" th:if="${navbar.profileImageB64 != null}" src=""
                          th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
-                    <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>
+                    <img class="img-circle" th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>
                 </li>
             </ul>
         </div>
     </nav>
 
     <ul id="navbar-side" class="navbar-side-ute">
+
         <a href="/"><img src="/images/MinVakt_Linje_200.png"/></a>
-        <li class="navbar-item"><a href="/user/schedule">Egen timeliste</a></li>
-        <li class="navbar-item"><a href="/shifts">Alle vakter</a></li>
-        <li class="navbar-item"><a href="/user/profile" th:text="${name}">Brukernavn her</a></li>
-        <li class="navbar-item"><a href="/user/list">Kontaktinfo</a></li>
-        <li class="navbar-item"><a href="/timebank">Timebank</a></li>
-        <li class="navbar-item"><a href="/logout">Logg ut</a></li>
+        <li class="navbar-item"><a th:class="${activeSchedulePage}" href="/user/schedule"><i class="ion-clock list-icons"></i>Egen timeliste</a></li>
+        <li class="navbar-item"><a th:class="${activeShiftPage}" href="/shifts"><i class="ion-calendar list-icons"></i>Alle vakter</a></li>
+        <li class="navbar-item"><a th:class="${activeListPage}" href="/user/list"><i class="ion-person-stalker list-icons"></i>Kontaktinfo</a></li>
+        <li class="navbar-item"><a th:class="${activeTimebankPage}" href="/timebank"><i class="ion-briefcase list-icons"></i>Timebank</a></li>
+        <li class="navbar-item"><a th:class="${activeProfilePage}" href="/user/profile"><i class="ion-person list-icons"></i>Min profil</a></li>
 
         <th:block th:if="${isAdmin}">
             <hr/>
-            <li class="navbar-item"><a href="/admin/create/shift">Legg til shift</a></li>
-            <li class="navbar-item"><a href="/admin/create/user">Legg til bruker</a></li>
-            <li class="navbar-item"><a href="/admin/create/competence">Legg til kompetanse</a></li>
-            <li class="navbar-item"><a href="/admin/message">Send melding</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminCreateShiftPage}" href="/admin/create/shift">Legg til shift</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminCreateUserPage}" href="/admin/create/user">Legg til bruker</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminCreateCompPage}" href="/admin/create/competence">Legg til kompetanse</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminMessagePage}" href="/admin/message">Send melding</a></li>
         </th:block>
+
+        <hr />
+        <li class="navbar-item"><a href="/logout"><i class="ion-log-out list-icons"></i>Logg ut</a></li>
 
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
     </ul>

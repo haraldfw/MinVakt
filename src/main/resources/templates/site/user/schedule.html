@@ -226,8 +226,8 @@
                     <button id="removeAbsenceButton" class="btn btn-success" type="button">Fjern fravær for dette skiftet</button>
                     <br></br><br></br>
                 </div>
-                <div id="removeAvailibilityButtonDiv" class="buttonRight" style="display: none;">
-                    <button id="removeAvailibilityButton" class="btn btn-danger" type="button">Fjern tilgjengelighet for denne perioden</button>
+                <div id="removeAvailabilityButtonDiv" class="buttonRight" style="display: none;">
+                    <button id="removeAvailabilityButton" class="btn btn-danger" type="button">Fjern tilgjengelighet for denne perioden</button>
                     <br></br><br></br>
                 </div>
                 <div id="changeShiftOwnerButtonDiv" style="display: none;">
@@ -235,14 +235,14 @@
                     <br></br><br></br>
                 </div>
 
-                <!-- A drop down list with users that is availible to take over a shift -->
-                <div id="availible-workers-panel" class="panel-group non-display-class">
+                <!-- A drop down list with users that is available to take over a shift -->
+                <div id="available-workers-panel" class="panel-group non-display-class">
                     <div class="panel panel-default">
-                        <div class="panel-heading" data-toggle="collapse" href="#co-worker-availible-collapse">
-                            <a data-toggle="collapse" href="#co-worker-availible-collapse">Velg en ansatt du vil spørre om å ta over skiftet //TODO:FIX at man selv er satt opp t.gj.</a>
+                        <div class="panel-heading" data-toggle="collapse" href="#co-worker-available-collapse">
+                            <a data-toggle="collapse" href="#co-worker-available-collapse">Velg en ansatt du vil spørre om å ta over skiftet //TODO:FIX at man selv er satt opp t.gj.</a>
                         </div>
-                        <div id="co-worker-availible-collapse" class="panel-collapse collapse co-worker-list">
-                            <!-- Workers that are availible for taking the shift are displayed here -->
+                        <div id="co-worker-available-collapse" class="panel-collapse collapse co-worker-list">
+                            <!-- Workers that are available for taking the shift are displayed here -->
                         </div>
                     </div>
                 </div>
@@ -355,5 +355,6 @@
     </div>
 </div>
 
+<!-- Modal for tilgjengelighet -->
 <th:block th:include="modals/availability :: modal"></th:block>
 </html>

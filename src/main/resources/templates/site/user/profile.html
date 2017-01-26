@@ -18,11 +18,11 @@
             <table class="table">
                 <tr>
                     <td>
-                        <img src=""
+                        <img class="img-rounded" src=""
                              th:if="${navbar.profileImageB64 != null}"
                              th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"
                              height="256" width="256" style="margin: auto 0;"/>
-                        <img th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"
+                        <img class="img-rounded" th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"
                              height="256" width="256" style="margin: auto 0;"/>
                     </td>
                 </tr>
