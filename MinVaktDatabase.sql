@@ -17,28 +17,28 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema g_scrum05
+-- Schema haraldfw
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema g_scrum05
+-- Schema haraldfw
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `g_scrum05` DEFAULT CHARACTER SET utf8mb4 ;
-USE `g_scrum05` ;
+CREATE SCHEMA IF NOT EXISTS `haraldfw` DEFAULT CHARACTER SET utf8mb4 ;
+USE `haraldfw` ;
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`competence`
+-- Table `haraldfw`.`competence`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`competence` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`competence` (
   `name` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`name`))
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`image`
+-- Table `haraldfw`.`image`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`image` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`image` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `content` MEDIUMTEXT NOT NULL,
   `type` VARCHAR(45) NOT NULL,
@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`image` (
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`user`
+-- Table `haraldfw`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`user` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `first_name` VARCHAR(45) NOT NULL,
@@ -70,16 +70,16 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`user` (
   INDEX `fk_user_image1_idx` (`image_id` ASC),
   CONSTRAINT `fk_user_image1`
   FOREIGN KEY (`image_id`)
-  REFERENCES `g_scrum05`.`image` (`id`)
+  REFERENCES `haraldfw`.`image` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`shift`
+-- Table `haraldfw`.`shift`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`shift` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `start_time` DATETIME NOT NULL,
   `end_time` DATETIME NOT NULL,
@@ -91,16 +91,16 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift` (
   INDEX `fk_Shift_User1_idx` (`user_id` ASC),
   CONSTRAINT `fk_Shift_User1`
   FOREIGN KEY (`user_id`)
-  REFERENCES `g_scrum05`.`user` (`id`)
+  REFERENCES `haraldfw`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`availability`
+-- Table `haraldfw`.`availability`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`availability` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`availability` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `start_time` DATETIME NOT NULL,
   `end_time` DATETIME NOT NULL,
@@ -109,16 +109,16 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`availability` (
   INDEX `fk_Availability_User1_idx` (`user_id` ASC),
   CONSTRAINT `fk_Availability_User1`
   FOREIGN KEY (`user_id`)
-  REFERENCES `g_scrum05`.`user` (`id`)
+  REFERENCES `haraldfw`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`user_competence`
+-- Table `haraldfw`.`user_competence`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`user_competence` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`user_competence` (
   `competence_name` VARCHAR(30) NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`competence_name`, `user_id`),
@@ -126,21 +126,21 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`user_competence` (
   INDEX `fk_Competence_has_User_Competence_idx` (`competence_name` ASC),
   CONSTRAINT `fk_Competence_has_User_Competence`
   FOREIGN KEY (`competence_name`)
-  REFERENCES `g_scrum05`.`competence` (`name`)
+  REFERENCES `haraldfw`.`competence` (`name`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Competence_has_User_User1`
   FOREIGN KEY (`user_id`)
-  REFERENCES `g_scrum05`.`user` (`id`)
+  REFERENCES `haraldfw`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`shift_competence`
+-- Table `haraldfw`.`shift_competence`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift_competence` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`shift_competence` (
   `shift_id` INT NOT NULL,
   `competence_name` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`shift_id`, `competence_name`),
@@ -148,21 +148,21 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`shift_competence` (
   INDEX `fk_Shift_has_Competence_Shift1_idx` (`shift_id` ASC),
   CONSTRAINT `fk_Shift_has_Competence_Shift1`
   FOREIGN KEY (`shift_id`)
-  REFERENCES `g_scrum05`.`shift` (`id`)
+  REFERENCES `haraldfw`.`shift` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Shift_has_Competence_Competence1`
   FOREIGN KEY (`competence_name`)
-  REFERENCES `g_scrum05`.`competence` (`name`)
+  REFERENCES `haraldfw`.`competence` (`name`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `g_scrum05`.`notification`
+-- Table `haraldfw`.`notification`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `g_scrum05`.`notification` (
+CREATE TABLE IF NOT EXISTS `haraldfw`.`notification` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `message` VARCHAR(300) NOT NULL,
   `action_url` VARCHAR(256) NULL,
@@ -176,12 +176,12 @@ CREATE TABLE IF NOT EXISTS `g_scrum05`.`notification` (
   INDEX `fk_notification_competence1_idx` (`competence_name` ASC),
   CONSTRAINT `fk_notification_User1`
   FOREIGN KEY (`user_id`)
-  REFERENCES `g_scrum05`.`user` (`id`)
+  REFERENCES `haraldfw`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_notification_competence1`
   FOREIGN KEY (`competence_name`)
-  REFERENCES `g_scrum05`.`competence` (`name`)
+  REFERENCES `haraldfw`.`competence` (`name`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
   ENGINE = InnoDB;

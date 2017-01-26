@@ -13,13 +13,13 @@ spring:
   thymeleaf.cache: false
 
   datasource:
-    url: jdbc:mysql://mysql.stud.iie.ntnu.no:3306/g_scrum05
-    username: g_scrum05
+    url: jdbc:mysql://tihlde.org:3306/haraldfw
+    username: scrum5
     password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
-      max-active: 2
-      connection-properties: useUnicode=true;characterEncoding=utf-8;max_allowed_packet=16000000;
+      max-active: 10
+      connection-properties: useUnicode=true;characterEncoding=utf-8;max_allowed_packet=16000000;autoReconnect=true;logAbandoned="true";
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
