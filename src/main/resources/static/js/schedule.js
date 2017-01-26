@@ -211,27 +211,27 @@ $(document).ready(function() {
         $.get(url, function() {
 
         }).done(function(data) {
-            alert("done: " + data);
             var availabilityArray = data;
-            alert(data[0]);
             for (var i = 0; i < availabilityArray.length; i++) {
-                var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability
-                var cAStart = currentA.start_time;
-                alert(cAStart.getDate());
-                var cAEnd = currentA.end_time;
+                //alert("hei " + availabilityArray[i].start_time);
+                var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability[i]
+                var cAStart = new Date(availabilityArray[i].start_time);
+                //alert("start-tid: " + availabilityArray[i].start_time.getDate());
+                var cAEnd = new Date(availabilityArray[i].end_time);
                 var currentAId = 123; //TODO: legg inn id til available fra databasen
 
                 var elementDistanceTop = cAStart.getHours() * (44.5 / 12); //44.5 is the height of 12 hours //TODO: make constant of this here too
                 var hoursOfWork = Math.abs(cAEnd - cAStart) / 3600000; //3600000 is milliseconds in hour
 
                 var totalElementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours //TODO: does only work with hours yet
-
-                if (shiftStart.getDate() === shiftEnd.getDate() && shiftStart.getMonth() === shiftEnd.getMonth() &&
-                    shiftStart.getFullYear() === shiftEnd.getFullYear()) {
+                alert(elementDistanceTop  + "; " + totalElementHeight);
+                if (cAStart.getDate() === cAEnd.getDate() && cAStart.getMonth() === cAEnd.getMonth() &&
+                    cAStart.getFullYear() === cAEnd.getFullYear()) {
 
                     //If the shift is only on the same day
                     var newElement = '<div id="' + currentAId + '" class="shift available-shift" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
                         shiftCenteredText;
+                    alert(newElement);
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
                 }
             }
@@ -239,7 +239,7 @@ $(document).ready(function() {
             alert("Det skjedde en feil med innhenting av tilgjengelighet for brukeren.");
         });
     }
-    getAvailability(currentWeekAvailability);
+    //getAvailability(currentWeekAvailability);
 
     function getAvailableUsers(url) {
         $.get(url, function() {
