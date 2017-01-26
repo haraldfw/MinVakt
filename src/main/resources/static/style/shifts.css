@@ -75,11 +75,17 @@ html, body {
     color: #1fa3ae;
 }
 
+.ion-arrow-right-a, .ion-arrow-left-a {
+    text-shadow: -1px 0 #6c6b6b, 0 1px #6c6b6b, 1px 0 #6c6b6b, 0 -1px #6c6b6b;
+    color: #1fa3ae;
+    font-size: 230%;
+}
+
 #testingg:hover, #testingg2:hover, #testing:hover, #testing2:hover, .testing:hover {
     cursor: pointer;
 }
 
-.burger-style:hover {
+.burger-style:hover, .ion-arrow-right-a:hover, .ion-arrow-left-a:hover {
     color: #17777f;
     cursor: pointer;
 }

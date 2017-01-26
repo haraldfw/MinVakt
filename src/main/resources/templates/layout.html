@@ -7,9 +7,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-
     <style>
         * {
             box-sizing: border-box;
@@ -25,14 +22,13 @@
         }
     </style>
 
-    <!-- TODO: Ikke legg inn denne på alle filer, den er ikke en felles fil, style.css passer ikke til alle html sider  -->
-    <!--<link rel="stylesheet" href="/style/common/style.css"/>-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
     <link rel="stylesheet" href="/style/common/navbar.css"/>
     <link rel="stylesheet" href="/style/common/notifications.css"/>
     <link rel="stylesheet" href="/style/calendar.css"/>
     <link href="/style/common/modal.css" rel="stylesheet"/>
-
-
+    <link rel="icon" href="/images/favicon.ico"/>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -40,9 +36,6 @@
     <script src="/js/common/modal.js"></script>
     <script src="/js/common/navbar.js"></script>
     <script src="/js/calendar.js"></script>
-
-
-    <link rel="icon" href="/images/favicon.ico"/>
 </head>
 <head th:include="this :: header"></head>
 <body th:class="${navbar != null} ? 'navbar-open' : ''">

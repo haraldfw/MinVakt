@@ -55,13 +55,19 @@ $(document).ready(function() {
                     kompArray = [""];
                     komp = kompArray[0];
                 } else {
-                    kompArray = jArray[i].competences;
-                    kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sorter også i back end
+                    if(jArray[i].competences.length !== 0) {
+                        kompArray = jArray[i].competences;
+                        kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sorter også i back end
 
-                    komp = kompArray[0].name;
-                    for (var j = 1; j < kompArray.length; j++) {
-                        komp += (", " + kompArray[j].name);
+                        komp = kompArray[0].name;
+                        for (var j = 1; j < kompArray.length; j++) {
+                            komp += (", " + kompArray[j].name);
+                        }
+                    } else {
+                        kompArray = [""];
+                        komp = kompArray[0];
                     }
+
                 }
 
 
