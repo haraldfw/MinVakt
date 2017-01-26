@@ -19,13 +19,22 @@ import java.util.List;
 public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Notification n where n.closed = false and n.user.username = :username");
+            Query query = session.createQuery(
+                    "from Notification n where n.closed = false and n.user.username = :username");
             query.setParameter("username", username);
             List<Notification> notifications = (List<Notification>) query.list();
 
-            query = session.createQuery("from Notification n, User u where n.closed = false and u.username = :username and n.competence in elements(u.competences) ");
+            query = session.createQuery("select competences from User where username = :username");
             query.setParameter("username", username);
+            List<Competence> ucomps = (List<Competence>) query.list();
+
+            query = session.createQuery(
+                    "from Notification n " +
+                            "where n.closed = false " +
+                            "and n.competence in :ucomps");
+            query.setParameterList("ucomps", ucomps);
             notifications.addAll((List<Notification>) query.list());
+
             notifications.forEach(notification -> System.out.println(notification.getId()));
             return notifications;
         });
