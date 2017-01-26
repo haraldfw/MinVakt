@@ -80,16 +80,17 @@ public class AdminController {
         })));
 
         accessor.with(access -> {
-            User user = new User(
-                    username,
-                    firstName,
-                    lastName,
-                    password_hash,
-                    salt,
-                    newUser.getEmail(),
-                    newUser.getPhoneNr(),
-                    newUser.getEmploymentPercentage());
-
+            User user = new User();
+            user.setUsername(username);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPasswordHash(password_hash);
+            user.setSalt(salt);
+            user.setEmail(newUser.getEmail());
+            user.setEmploymentPercentage(newUser.getEmploymentPercentage());
+            user.setPhonenumber(newUser.getPhoneNr());
+            user.setAddress(newUser.getAddress());
+            user.setDateOfBirth(newUser.getDateOfBirth());
             user.setCompetences(comps);
             user.setResetKey(resetKey);
             user.setResetKeyExpiry(resetKeyExpiry);
