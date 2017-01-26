@@ -44,7 +44,8 @@
 
 .btn-wrap {
     overflow: auto;
-    padding-top: 3px;
+    padding-top: 5px;
+    padding-bottom: 3px;
 }
 
 .noti-menu li.dismiss {
