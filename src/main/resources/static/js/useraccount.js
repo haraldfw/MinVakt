@@ -28,7 +28,7 @@ $(document).ready(() => {
 
     $("#edit-pwd").click(function () {
         $("#new-pwd-box input").removeAttr("disabled");
-        $("#fake-pwd-input").slideUp(100);
+        $("#fake-password").attr("hidden", true);
         $("#new-pwd-box").slideDown(200);
     });
 
@@ -63,7 +63,7 @@ function disableEnabledInputs() {
 function success() {
     console.log("Passord ble endret!");
     $("#new-pwd-box").slideUp(200);
-    $("#fake-pwd-input").slideDown(100);
+    $("#fake-password").attr("hidden", false);
 }
 
 function failure() {

@@ -58,6 +58,13 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <th>Fødselsdato</th>
+                        <td class="input-cell">
+                            <input type="text" th:value="${user.dateOfBirth}" disabled="disabled"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <th>E-post</th>
                         <td class="input-cell">
                             <input type="email" th:value="${user.email}" disabled="disabled"/>
@@ -67,7 +74,7 @@
                     <tr>
                         <th>Adresse</th>
                         <td class="input-cell">
-                            <input class="sbmts" type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/>
+                            <input class="sbmts" type="text" th:value="${user.address}" disabled="disabled"/>
                         </td>
                         <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
                     </tr>
@@ -80,7 +87,8 @@
                     </tr>
                     <tr>
                         <th>Passord</th>
-                        <td>
+                        <td class="input-cell">
+                            <span id="fake-password">••••••••</span>
                             <div id="new-pwd-box">
                                 <form action="/api/password/change" method="post" class="sbmts"
                                       onsubmit="return jsonSubmitFns(this, success, failure)">
