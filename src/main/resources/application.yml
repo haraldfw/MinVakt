@@ -14,7 +14,7 @@ spring:
 
   datasource:
     url: jdbc:mysql://tihlde.org:3306/haraldfw
-    username: scrum5
+    username: scrum05
     password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
