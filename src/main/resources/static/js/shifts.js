@@ -55,13 +55,19 @@ $(document).ready(function() {
                     kompArray = [""];
                     komp = kompArray[0];
                 } else {
-                    kompArray = jArray[i].competences;
-                    kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sorter også i back end
+                    if(jArray[i].competences.length !== 0) {
+                        kompArray = jArray[i].competences;
+                        kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sorter også i back end
 
-                    komp = kompArray[0].name;
-                    for (var j = 1; j < kompArray.length; j++) {
-                        komp += (", " + kompArray[j].name);
+                        komp = kompArray[0].name;
+                        for (var j = 1; j < kompArray.length; j++) {
+                            komp += (", " + kompArray[j].name);
+                        }
+                    } else {
+                        kompArray = [""];
+                        komp = kompArray[0];
                     }
+
                 }
 
 
@@ -81,14 +87,17 @@ $(document).ready(function() {
 
                 var classKomp;
                 var tidtid = hourFrom + ":" + minFrom + " - " + hourTo + ":" + minTo;
-                if (jArray[i].absent) {
+                if (jArray[i].absent) { //hvis absent
                     classKomp = "no-worker";
+                } else if(jArray[i].user_model == null || jArray[i].user_model === undefined || !(jArray[i].user_model)) { //hvis ingen bruker
+                    classKomp = "no-worker";
+                } else if(jArray[i].user_model.username === $("#username").html()) { //hvis innlogget bruker
+                    classKomp = "self";
                 } else {
-                    //TODO: legg inn innlogget bruker
                     classKomp = "worker";
                 }
                 var un;
-                var navn
+                var navn;
 
                 var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
                     'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
@@ -182,6 +191,14 @@ $(document).ready(function() {
                 $("#modalOther").css("display", "none");
                 $("#modalFree").css("display", "none");
 
+                var text = $(".tidtidtid", this).html();
+                $(".modal-title").html(text);
+                var tid = $(".tidLagring", this).html();
+                $("#tidsviser").html(tid);
+                var navn = $(".navnLagring", this).html();
+                $("#ansatt").html(navn);
+
+
             });
             $(".worker").click(function () {
                 $("#modalShift").modal("show");
@@ -258,7 +275,10 @@ $(document).ready(function() {
 
         $("#superDiv").empty();
         plotShifts(datoo);
+        count = datoo;
         $("#calendarModal").modal("toggle");
+        $(".cell-cal").removeClass("active-day");
+        $(this).addClass("active-day");
 
     }); //TODO: BORDER MARKERING PÅ VALGT DATO
 
