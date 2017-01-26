@@ -239,5 +239,11 @@ $(document).ready(function() {
         }
     });
 
+    $(".cell-cal").click(function() {
+        var datoo = new Date()
+        //plotShifts()
+
+    });
+
     $(".modal-title-title").html("Velg dato");
 });

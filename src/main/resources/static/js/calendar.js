@@ -42,7 +42,7 @@ $(document).ready(function() {
 
             $("#" + weeks[i] + " .weekNr").html(firstCalendarDay.getWeek());
             for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
-                $("#" + weeks[i] + " td:nth-child(" + j + ")").html(firstCalendarDay.getDate());
+                $("#" + weeks[i] + " td:nth-child(" + j + ")").html(firstCalendarDay.getDate() + "<p class='monthYear' style='display: none'>" + firstCalendarDay.getFullYear() + " " + firstCalendarDay.getMonth() + "</p>");
                 if(firstCalendarDay.getDate() === thisDay.getDate() && firstCalendarDay.getMonth() === thisDay.getMonth() && firstCalendarDay.getFullYear() === thisDay.getFullYear()) {
                     $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("today");
                 }
