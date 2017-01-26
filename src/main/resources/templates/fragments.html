@@ -22,6 +22,9 @@
                             th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'">
                             <div th:if="${n.actionUrl} != null">
                                 <p th:text="${n.message}"><!-- melding havner her --></p>
+                                <p class="timestamp" th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
+                                    <!-- timestamp havner her -->
+                                </p>
                                 <div class="btn-wrap">
                                     <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
                                         <button type="submit" class="btn btn-success ion-checkmark-round"></button>
@@ -30,9 +33,6 @@
                                         <button type="submit" class="btn btn-danger ion-close-round"></button>
                                     </form>
                                 </div>
-                                <p th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
-                                    <!-- timestamp havner her -->
-                                </p>
                             </div>
                             <div th:if="${n.actionUrl} == null">
                                 <div class="dismissable-notification">
@@ -40,11 +40,11 @@
                                     <form class="noti-form"
                                           th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
                                           method="post">
+                                        <p class="timestamp" th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
+                                            <!-- timestamp havner her -->
+                                        </p>
                                         <button type="submit" class="btn btn-link ion-close-round"></button>
                                     </form>
-                                    <p th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
-                                        <!-- timestamp havner her -->
-                                    </p>
                                 </div>
                             </div>
                         </li>
