@@ -207,25 +207,27 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         }
     }
 
-    public List<Shift> getAllCurrentWeekForUser(Date dateFrom, String username) {
-        CALENDAR.setTime(dateFrom);
-        CALENDAR.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
+    public List<Shift> getAllCurrentWeekForUser(Date date, String username) {
+        CALENDAR.setTime(date);
+        CALENDAR.set(Calendar.DAY_OF_WEEK, CALENDAR.getFirstDayOfWeek());
+        CALENDAR.set(Calendar.HOUR, 0); //TODO: trenger vi hour, minute, second, millisecond
         CALENDAR.set(Calendar.MINUTE, 0);
-        dateFrom = CALENDAR.getTime();
-        CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
-        Date dateTo = CALENDAR.getTime();
+        CALENDAR.set(Calendar.SECOND, 0);
+        CALENDAR.set(Calendar.MILLISECOND, 0);
+        Date fromDate = CALENDAR.getTime();
 
-        return getShiftsFromDateToDateForUser(dateFrom, dateTo, username);
+        CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
+        Date toDate = CALENDAR.getTime();
+        return getShiftsFromDateToDateForUser(fromDate, toDate, username);
     }
 
     public double getHoursInWeekForUser(Date currentDate, String username) {
         CALENDAR.setTime(currentDate);
-        CALENDAR.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        CALENDAR.set(Calendar.DAY_OF_WEEK, 0);
         CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
         CALENDAR.set(Calendar.MINUTE, 0);
         Date dateFrom = CALENDAR.getTime();
-        CALENDAR.add(CALENDAR.DAY_OF_YEAR, 7);
+        CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
         Date dateTo = CALENDAR.getTime();
 
         return getShiftsFromDateToDateForUser(dateFrom, dateTo, username)

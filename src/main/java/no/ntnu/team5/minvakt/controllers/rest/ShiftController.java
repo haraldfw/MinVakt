@@ -70,11 +70,8 @@ public class ShiftController {
     @RequestMapping("/{user}/week")
     //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
-        Calendar cal = Calendar.getInstance();
-        Date startWeek = cal.getTime();
-
         return accessor.with(access -> {
-            return access.shift.getAllCurrentWeekForUser(startWeek, username)
+            return access.shift.getAllCurrentWeekForUser(new Date(), username)
                     .stream()
                     .map(access.shift::toModel)
                     .collect(Collectors.toList());
