@@ -1,6 +1,7 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
+import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
@@ -48,7 +49,15 @@ public class UserController {
         verifier.ensure(isUser(username));
 
         accessor.with(access -> {
-            access.shift.addAbscence(access.shift.getShiftFromId(shiftId), true);
+            Shift shift = access.shift.getShiftFromId(shiftId);
+
+            if (shift.isLocked()){
+                System.out.println("Skiftet er låst og kan ikke endres. ShiftId: " + shift.getId());
+                return;
+            }
+
+            access.shift.addAbscence(shift, true);
+            access.shift.lockShift(shift);
         });
 
         return true;
