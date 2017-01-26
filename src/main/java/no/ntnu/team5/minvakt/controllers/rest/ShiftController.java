@@ -10,18 +10,29 @@ import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
-import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
+import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.or;
 
 /**
  * Created by alan on 11/01/2017.
@@ -32,6 +43,9 @@ import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.*;
 public class ShiftController {
     @Autowired
     private AccessContextFactory accessor;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel) {
@@ -56,11 +70,8 @@ public class ShiftController {
     @RequestMapping("/{user}/week")
     //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
-        Calendar cal = Calendar.getInstance();
-        Date startWeek = cal.getTime();
-
         return accessor.with(access -> {
-            return access.shift.getAllCurrentWeekForUser(startWeek, username)
+            return access.shift.getAllCurrentWeekForUser(new Date(), username)
                     .stream()
                     .map(access.shift::toModel)
                     .collect(Collectors.toList());
@@ -237,12 +248,29 @@ public class ShiftController {
                 User newShiftOwner = access.user.fromID(user_id);
                 User oldShiftOwner = shift.getUser();
                 access.shift.transferOwnership(shift, newShiftOwner);
+
+                Map<String, String> vars = new HashMap<>();
+                vars.put("date_start", emailService.formatDate(shift.getStartTime()));
+                vars.put("date_end", emailService.formatDate(shift.getEndTime()));
+                vars.put("new_owner_full_name", newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName());
+                vars.put("old_owner_full_name", oldShiftOwner.getFirstName() + " " + oldShiftOwner.getLastName());
+
                 String message = "Du har blitt tildelt følgende vakt: " +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(newShiftOwner, message);
+
+                emailService.sendEmail(newShiftOwner.getEmail(),
+                        "Du har overtatt en vakt",
+                        "email/shift_transfer_new_owner", vars);
+
+
                 message = "Følgende vakt har blitt overtatt av " + newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName() + ": \n" +
                         shift.getStartTime() + " til " + shift.getEndTime() + ".";
                 access.notification.generateMessageNotification(oldShiftOwner, message);
+
+                emailService.sendEmail(oldShiftOwner.getEmail(),
+                        "Vakt er overtatt av " + newShiftOwner.getUsername(),
+                        "email/shift_transfer_old_owner", vars);
             } else {
                 User originalOwner = shift.getUser();
                 if (originalOwner == null) {
