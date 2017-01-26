@@ -6,7 +6,12 @@ import no.ntnu.team5.minvakt.data.generation.UsernameGen;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.model.*;
+import no.ntnu.team5.minvakt.model.MessageModel;
+import no.ntnu.team5.minvakt.model.NewCompetence;
+import no.ntnu.team5.minvakt.model.NewShift;
+import no.ntnu.team5.minvakt.model.NewUser;
+import no.ntnu.team5.minvakt.model.ShiftAssign;
+import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
@@ -18,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -75,16 +79,17 @@ public class AdminController {
         })));
 
         accessor.with(access -> {
-            User user = new User(
-                    username,
-                    firstName,
-                    lastName,
-                    password_hash,
-                    salt,
-                    newUser.getEmail(),
-                    newUser.getPhoneNr(),
-                    newUser.getEmploymentPercentage());
-
+            User user = new User();
+            user.setUsername(username);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPasswordHash(password_hash);
+            user.setSalt(salt);
+            user.setEmail(newUser.getEmail());
+            user.setEmploymentPercentage(newUser.getEmploymentPercentage());
+            user.setPhonenumber(newUser.getPhoneNr());
+            user.setAddress(newUser.getAddress());
+            user.setDateOfBirth(newUser.getDateOfBirth());
             user.setCompetences(comps);
             user.setResetKey(resetKey);
             user.setResetKeyExpiry(resetKeyExpiry);
@@ -120,11 +125,10 @@ public class AdminController {
 
     @Authorize
     @RequestMapping(value = "/create/shift", method = RequestMethod.POST)
-    public void createShift(Verifier verify, @RequestBody NewShift newShift) {
+    public ShiftModel createShift(Verifier verify, @RequestBody NewShift newShift) {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
-        accessor.with(access -> {
-
+        return accessor.with(access -> {
             Set<Competence> comps = new HashSet<>();
             newShift.getCompetences().forEach(s -> comps.add(access.competence.getFromName(s)));
 
@@ -136,6 +140,7 @@ public class AdminController {
             shift.setCompetences(comps);
 
             access.shift.save(shift);
+            return access.shift.toModel(shift);
         });
     }
 
@@ -145,16 +150,12 @@ public class AdminController {
         verify.ensure(Verifier.hasRole(Constants.ADMIN));
 
         accessor.with(access -> {
-
-
             Shift shift = access.shift.getShiftFromId(shiftAssign.getId());
 
             shift.setUser(access.user.fromUsername(shiftAssign.getUsername()));
 
             access.shift.save(shift);
         });
-
-
     }
 
     @Authorize

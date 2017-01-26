@@ -17,9 +17,9 @@
 </head>
 
 <div th:fragment="content">
-    <form action="/api/admin/create/shift" method="post" onsubmit="return jsonSubmitFns(this, (data) => {
-        console.log(data);
-    })">
+    <form action="/api/admin/create/shift" method="post" onsubmit="return jsonSubmitFns(this, data => {
+        window.location = '/admin/assign/shift/' + data.id;
+    }, console.error, dateProcces(['startTime', 'endTime']))">
         <div class="page-header">
             <h3>Legg til skift</h3>
         </div>

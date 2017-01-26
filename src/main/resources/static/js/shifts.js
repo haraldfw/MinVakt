@@ -81,7 +81,7 @@ $(document).ready(function() {
 
                 var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
                     'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
-                if(jArray[i].user_model.username == null || jArray[i].user_model.username === undefined) {
+                if(jArray[i].user_model == null || jArray[i].user_model === undefined || !(jArray[i].user_model)) {
                     un = "";
                     navn = "";
                 } else {
