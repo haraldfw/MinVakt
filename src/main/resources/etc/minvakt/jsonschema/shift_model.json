@@ -29,7 +29,6 @@
     }
   },
   "required": [
-    "user_model",
     "id",
     "start_time",
     "end_time",
