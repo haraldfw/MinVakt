@@ -96,7 +96,7 @@ public class ShiftController {
                                           @PathVariable("day") int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day); //TODO: check if is correct with other dates than rigth now
-        calendar.set(Calendar.HOUR, 0); //TODO: trenger vi hour, minute, second, millisecond
+        calendar.set(Calendar.HOUR_OF_DAY, 0); //TODO: trenger vi hour, minute, second, millisecond
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
