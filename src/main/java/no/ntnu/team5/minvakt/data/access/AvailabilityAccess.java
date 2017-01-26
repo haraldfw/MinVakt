@@ -54,6 +54,8 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         fromDate = calendar.getTime();
 
         calendar.add(Calendar.DAY_OF_YEAR, 7);
