@@ -67,7 +67,14 @@
                     <tr>
                         <th>Adresse</th>
                         <td class="input-cell">
-                            <input class="sbmts" type="text" value="Vanvikan 7125(NIY)" disabled="disabled"/>
+                            <input class="sbmts" type="text" th:value="${user.address}" disabled="disabled"/>
+                        </td>
+                        <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                    </tr>
+                    <tr>
+                        <th>Fødselsdato</th>
+                        <td class="input-cell">
+                            <input class="sbmts" type="text" th:value="${user.dateOfBirth}" disabled="disabled"/>
                         </td>
                         <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
                     </tr>
