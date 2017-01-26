@@ -31,7 +31,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -116,12 +115,6 @@ public class AdminController {
             e.printStackTrace();
         }
     }
-
-    public void temp(){
-        accessor.with(access -> {
-            List<String> users = access.user.getUsernames();
-        });
-     }
 
     @Authorize
     @RequestMapping(value = "/create/shift", method = RequestMethod.POST)

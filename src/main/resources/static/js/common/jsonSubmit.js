@@ -6,19 +6,23 @@ const id = (x) => x;
 
 function jsonSubmitFns(form, success, fail = console.error, process = id) {
     let $form = $(form);
-    let json = process($form.serializeJSON());
-    let method = $form.attr("method") || "post";
+    try {
+        let json = process($form.serializeJSON());
+        let method = $form.attr("method") || "post";
 
-    $.ajax({
-        type: method,
-        url: $form.attr("action"),
-        data: JSON.stringify(json),
-        contentType: "application/json; charset=utf-8",
-        success: success
-    }).fail(fail);
-
-    // prevent form default action
-    return false;
+        $.ajax({
+            type: method,
+            url: $form.attr("action"),
+            data: JSON.stringify(json),
+            contentType: "application/json; charset=utf-8",
+            success: success
+        }).fail(fail);
+    } catch(err) {
+        console.error(err);
+    } finally {
+        // prevent form default action
+        return false;
+    }
 }
 
 function jsonSubmit(form, redirectUrl) {
