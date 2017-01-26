@@ -1,6 +1,5 @@
 package no.ntnu.team5.minvakt.data.access;
 
-import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.User;
@@ -20,9 +19,24 @@ import java.util.List;
 public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Notification noti where (noti.user.username = :username and closed = false)");
+            Query query = session.createQuery(
+                    "from Notification n where n.closed = false and n.user.username = :username");
             query.setParameter("username", username);
-            return (List<Notification>) query.list();
+            List<Notification> notifications = (List<Notification>) query.list();
+
+            query = session.createQuery("select competences from User where username = :username");
+            query.setParameter("username", username);
+            List<Competence> ucomps = (List<Competence>) query.list();
+
+            query = session.createQuery(
+                    "from Notification n " +
+                            "where n.closed = false " +
+                            "and n.competence in :ucomps");
+            query.setParameterList("ucomps", ucomps);
+            notifications.addAll((List<Notification>) query.list());
+
+            notifications.forEach(notification -> System.out.println(notification.getId()));
+            return notifications;
         });
     }
 
@@ -81,7 +95,7 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         save(notification);
     }
 
-    public void generateReleaseFromShiftRequestNotification(Competence competence, String message, String actionUrl, String redirectUrl){
+    public void generateReleaseFromShiftRequestNotification(Competence competence, String message, String actionUrl, String redirectUrl) {
         Notification notification = new Notification(message);
         notification.setCompetence(competence);
         notification.setActionUrl(actionUrl);
