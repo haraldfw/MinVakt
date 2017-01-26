@@ -30,6 +30,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
+                    <td><button class="userSbmt"></button></td>
                     <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn
                     </td>
                     <td th:text="${user.phonenumber}">tlf</td>
