@@ -3,7 +3,6 @@ package no.ntnu.team5.minvakt.controllers.web;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
-import no.ntnu.team5.minvakt.model.ShiftAssign;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +61,7 @@ public class AdminWebController extends NavBarController {
         return "site/admin/message";
     }
     @Authorize("/")
-    @GetMapping("/assign/{shiftid}")
+    @GetMapping("/assign/shift/{shiftid}")
     public String assignUser(Model model, @PathVariable("shiftid") int shiftid) {
         accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shiftid);

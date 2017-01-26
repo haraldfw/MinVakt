@@ -9,17 +9,13 @@ function jsonSubmitFns(form, success, fail = console.error, process = id) {
     let json = process($form.serializeJSON());
     let method = $form.attr("method") || "post";
 
-    console.log(json);
-
     $.ajax({
         type: method,
         url: $form.attr("action"),
         data: JSON.stringify(json),
         contentType: "application/json; charset=utf-8",
         success: success
-    }).fail(function () {
-        $("#error").show();
-    });
+    }).fail(fail);
 
     // prevent form default action
     return false;

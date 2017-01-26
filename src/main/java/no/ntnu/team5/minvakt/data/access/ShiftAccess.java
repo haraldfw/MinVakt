@@ -43,7 +43,6 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
     }
 
 
-
     //Changes start- and endtime for a selected shift
     //FIXME: Make so only systemadmin can use
     public boolean updateShiftTimes(Shift shift, Date start, Date end) {
@@ -83,6 +82,7 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
             return (Date) query.uniqueResult();
         });
     }
+
     public Date getEndDateFromId(int id) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("select endTime from Shift where id = :id");
@@ -170,8 +170,12 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         model.setEndTime(shift.getEndTime());
         model.setStartTime(shift.getStartTime());
         model.setStandardHours((int) shift.getStandardHours());
-        model.setUserModel(getContext().user.toModel(shift.getUser()));
         model.setCompetences(getContext().competence.toModel(shift.getCompetences()));
+
+        User user = shift.getUser();
+        if (user != null) {
+            model.setUserModel(getContext().user.toModel(user));
+        }
 
         return model;
     }
