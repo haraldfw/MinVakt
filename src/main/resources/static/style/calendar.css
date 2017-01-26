@@ -16,7 +16,7 @@ body, head {
     table-layout: fixed;
 }
 
-.cell, .cell-day, .weekNr {
+.cell-cal, .cell-day, .weekNr {
     border-right: 1px solid var(--border-color-calendar);
     border-top: none !important;
     border-bottom: 1px solid var(--border-color-calendar);
@@ -48,7 +48,7 @@ body, head {
     padding-top: 13px;
 }
 
-.cell {
+.cell-cal {
     text-align: center;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
