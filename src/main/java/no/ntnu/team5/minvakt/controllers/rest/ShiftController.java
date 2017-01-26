@@ -52,7 +52,7 @@ public class ShiftController {
         //FIXME: Should authorize as admin?
         int id = accessor.with(access -> {
             User user = access.user.fromID(shiftModel.getUserModel().getId());
-            Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent(), shiftModel.getStandardHours().byteValue(), null);
+            Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent(), shiftModel.getLocked(), shiftModel.getStandardHours().byteValue(), null);
 
             access.shift.save(shift);
             return shift.getId();
@@ -70,11 +70,8 @@ public class ShiftController {
     @RequestMapping("/{user}/week")
     //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
-        Calendar cal = Calendar.getInstance();
-        Date startWeek = cal.getTime();
-
         return accessor.with(access -> {
-            return access.shift.getAllCurrentWeekForUser(startWeek, username)
+            return access.shift.getAllCurrentWeekForUser(new Date(), username)
                     .stream()
                     .map(access.shift::toModel)
                     .collect(Collectors.toList());
