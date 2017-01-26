@@ -30,6 +30,9 @@
     <!-- Knapper for neste og forrige uke -->
     <div>
         <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
+        <button id="choose-week-button" class="btn btn-primary" type="button"></button>
+        <i class="ion-arrow-left-c btn btn-primary"></i>
+        <span>ASDASDASDASD</span>
         <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
     </div>
 
@@ -236,6 +239,28 @@
                     <button class="btn btn-primary" type="button">Legg inn faktisk start- og sluttidspunkt</button>
                     <br /><br />
                     <div>
+                        <!-- Datepicker for previous shift data change -->
+                        <div class="container">
+                            <div class="row">
+                                <div class='col-sm-6'>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker1').datetimepicker();
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!-- end datepicker -->
+
                         <form id="startDateShiftTime" method="post" class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-xs-3 control-label">Star tid</label>

@@ -320,8 +320,8 @@ $(document).ready(function() {
                     }
                 }
             }
-
-            $("#work-time-week").html
+            workTimeUrl = "/api/shift/" + username + "/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/work";
+            getWorktimeAWeeek(workTimeUrl);
 
         }).fail(function(data) { //TODO: sjekk feilmelding?
             alert("Det skjedde en feil med innhenting av tilgjengelighet for brukeren.");
@@ -329,12 +329,14 @@ $(document).ready(function() {
     }
     //getAvailability(currentWeekAvailability);
 
-    var workTimeUrl = "/api/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/work";
+    var workTimeUrl = "";
     function getWorktimeAWeeek(url) {
         $.get(url, function() {
 
         }).done(function(data) {
-
+            $("#work-time-week").html("Timer denne uken: " + data + " <br /> Uke nr: xxx, år: " + weekStartDate.getFullYear());
+        }).fail(function(data) {
+            alert("Det skjedde en feil med innhenting av timer denne uken.");
         });
     }
 

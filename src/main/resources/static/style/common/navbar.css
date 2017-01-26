@@ -138,7 +138,7 @@ body.no-anim,
 }
 
 .close-iconburger:hover {
-    color: #17777f;
+    color: #17777f !important;
     cursor: pointer;
 }
 
