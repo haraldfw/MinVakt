@@ -1,10 +1,10 @@
 head {
     margin: 0 !important; /* TODO: fiks andre*/
 }
-
+/*
 body {
     padding: 90px 0 20px 0 !important;
-}
+}*/
 
 html, body {
     background-color: transparent !important;

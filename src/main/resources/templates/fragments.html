@@ -53,7 +53,7 @@
                 <li class="hidden-xs">
                     <a href="/user/profile" th:text="${name}"></a>
                 </li>
-                <li class="profile-picture ">
+                <li class="profile-picture">
                     <img class="img-circle" th:if="${navbar.profileImageB64 != null}" src=""
                          th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
                     <img class="img-circle" th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>

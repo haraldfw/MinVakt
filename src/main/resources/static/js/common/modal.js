@@ -2,12 +2,12 @@
  * Created by Ingunn on 11.01.2017.
  */
 $(document).ready(function() {
-    $("#inputFra, #inputTil") //fra og til dato
+   /* $("#inputFra, #inputTil") //fra og til dato
         .datepicker({
             format: 'dd/mm/yyyy',
             startDate: '01/01/2010',
             endDate: '30/12/2020'
-        });
+        });*/ //TODO: brukes dette?
     /*.on('changeDate', function(e) {
      //fiks tilbakemelding?
      // Revalidate the date field
