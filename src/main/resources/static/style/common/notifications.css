@@ -15,6 +15,15 @@
     margin-right: 15px;
 }
 
+@media (max-width: 768px) {
+    .navbar-nav .open .dropdown-menu.noti-menu {
+        position: absolute;
+        left: 40px;
+        top: 75px;
+        transform: translateX(-100%);
+    }
+}
+
 .noti-menu li {
     padding: 10px;
     border: 1px solid #ddd;
