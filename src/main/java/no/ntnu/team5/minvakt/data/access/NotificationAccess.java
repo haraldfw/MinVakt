@@ -98,6 +98,7 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         notificationModel.setRedirectUrl(notification.getRedirectUrl());
         notificationModel.setMessage(notification.getMessage());
         notificationModel.setId(notification.getId());
+        notificationModel.setTimestamp(notification.getTimestamp());
 
         return notificationModel;
     }
