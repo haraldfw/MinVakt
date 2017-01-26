@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:include="layout :: mainLayout">
-<head th:fragment="header">
+    <head th:fragment="header">
 
+        <!-- css og js til datepicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/css/bootstrap-datetimepicker.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
 
-    <!-- css og js til datepicker -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/css/bootstrap-datetimepicker.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+        <script src="/js/common/jsonSubmit.js"></script>
+        <script src="/js/registeravailability.js"></script>
+        <!-- slutt css og js til datepicker import -->
 
-    <script src="/js/common/jsonSubmit.js"></script>
-    <script src="/js/registeravailability.js"></script>
-    <!-- slutt css og js til datepicker import -->
-
-    
-    <link rel="stylesheet" href="/style/schedule.css"/>
-    <script src="/js/schedule.js"></script>
-
-</head>
+        <link rel="stylesheet" href="/style/schedule.css"/>
+        <script src="/js/schedule.js"></script>
+    </head>
 
 <div th:fragment="content">
 <div class="container test" style="margin-top:5%;">
@@ -30,9 +27,8 @@
     <!-- Knapper for neste og forrige uke -->
     <div>
         <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
-        <button id="choose-week-button" class="btn btn-primary" type="button"></button>
-        <i class="ion-arrow-left-c btn btn-primary"></i>
-        <span>ASDASDASDASD</span>
+        <button id="choose-week-button" class="btn btn-primary" type="button">Velg uke</button>
+        <span>Dato placeholder</span>
         <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
     </div>
 
