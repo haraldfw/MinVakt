@@ -35,7 +35,6 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
             query.setParameterList("ucomps", ucomps);
             notifications.addAll((List<Notification>) query.list());
 
-            notifications.forEach(notification -> System.out.println(notification.getId()));
             return notifications;
         });
     }
