@@ -8,7 +8,7 @@ $(document).ready(function() {
     var today = new Date();
 
     function plotShifts(date) {
-        $.get("api/shift/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "", function () {
+        $.get("api/shift/" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + "", function () {
 
         }).done(function (data) {
             var jArray = data;
@@ -31,12 +31,12 @@ $(document).ready(function() {
                     diff = hourTo + minToPros - hourFrom + minFromPros; // tiltid - starttid
                     lengde = hourFrom + minFromPros;
 
-                } else if (startTime.getFullYear() === today.getFullYear() && startTime.getMonth() === today.getMonth() && startTime.getDate() === today.getDate()) {
+                } else if (startTime.getFullYear() === date.getFullYear() && startTime.getMonth() === date.getMonth() && startTime.getDate() === date.getDate()) {
                     //hvis vakt starter på valgt dato og går til ny dag
                     diff = 24.0 - hourFrom + minFromPros;
                     lengde = hourFrom + minFromPros;
 
-                } else if (endTime.getFullYear() === today.getFullYear() && endTime.getMonth() === today.getMonth() && endTime.getDate() === today.getDate()) {
+                } else if (endTime.getFullYear() === date.getFullYear() && endTime.getMonth() === date.getMonth() && endTime.getDate() === date.getDate()) {
                     //hvis vakt slutter på valgt dato
                     diff = hourTo + minToPros - 0; //ikke fjern 0
                     //lengde blir lik 0
@@ -76,11 +76,19 @@ $(document).ready(function() {
                     //TODO: legg inn innlogget bruker
                     classKomp = "worker";
                 }
+                var un;
+                var navn
 
-                var tid = 'Start: ' + startTime.getFullYear() + '/' + startTime.getMonth() + 1 + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
-                    'Slutt: ' + endTime.getFullYear() + '/' + endTime.getMonth() + 1 + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
-                var un = jArray[i].user_model.username;
-                var navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
+                var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
+                    'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
+                if(jArray[i].user_model.username == null || jArray[i].user_model.username === undefined) {
+                    un = "";
+                    navn = "";
+                } else {
+                    un = jArray[i].user_model.username;
+                    navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
+                }
+
 
                 var vakt = '<div class="shift-box ' + classKomp + '" style="left: calc(11.11% + ((11.11%/3)*' + lengde + ')); width: calc((11.11%/3)*' + diff + ' - 1px);"><p class="tidtidtid">' + tidtid +
                     '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p></div>';
@@ -131,6 +139,8 @@ $(document).ready(function() {
                 }
 
             }
+
+            $("#datedate").html(date);
 
             /* Andre functions */
             //$(".testing").click(function() {
@@ -199,6 +209,22 @@ $(document).ready(function() {
 
     };
 
+    /* Function for adding and subtracting days to a javascript date object */
+    function addDays(date, days) {
+        return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
+    }
 
     plotShifts(today);
+    var count = today;
+
+    $("#dayBack").click(function() {
+        $("#superDiv").empty();
+        count = addDays(count, -1); //FIXME februar er måned 11?
+        plotShifts(count);
+    });
+    $("#dayForth").click(function() {
+        $("#superDiv").empty();
+        count = addDays(count, 1);
+        plotShifts(count);
+    });
 });
