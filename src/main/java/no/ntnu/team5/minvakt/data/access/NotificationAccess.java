@@ -1,6 +1,5 @@
 package no.ntnu.team5.minvakt.data.access;
 
-import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.db.Competence;
 import no.ntnu.team5.minvakt.db.Notification;
 import no.ntnu.team5.minvakt.db.User;
@@ -9,8 +8,6 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,12 +19,14 @@ import java.util.List;
 public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery(
-                    "from Notification as noti where noti.closed = false and (noti.user.username = :username " +
-                    "or noti.competence in elements(noti.user.competences))");
+            Query query = session.createQuery("from Notification n where n.closed = false and n.user.username = :username");
             query.setParameter("username", username);
             List<Notification> notifications = (List<Notification>) query.list();
-            System.out.println(Arrays.toString(notifications.toArray()));
+
+            query = session.createQuery("from Notification n, User u where n.closed = false and u.username = :username and n.competence in elements(u.competences) ");
+            query.setParameter("username", username);
+            notifications.addAll((List<Notification>) query.list());
+            notifications.forEach(notification -> System.out.println(notification.getId()));
             return notifications;
         });
     }
@@ -87,7 +86,7 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         save(notification);
     }
 
-    public void generateReleaseFromShiftRequestNotification(Competence competence, String message, String actionUrl, String redirectUrl){
+    public void generateReleaseFromShiftRequestNotification(Competence competence, String message, String actionUrl, String redirectUrl) {
         Notification notification = new Notification(message);
         notification.setCompetence(competence);
         notification.setActionUrl(actionUrl);
