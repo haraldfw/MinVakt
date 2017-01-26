@@ -16,7 +16,7 @@ body, head {
     table-layout: fixed;
 }
 
-.cell, .cell-day, .weekNr {
+.cell-cal, .cell-day, .weekNr {
     border-right: 1px solid var(--border-color-calendar);
     border-top: none !important;
     border-bottom: 1px solid var(--border-color-calendar);
@@ -48,7 +48,7 @@ body, head {
     padding-top: 13px;
 }
 
-.cell {
+.cell-cal {
     text-align: center;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
@@ -64,17 +64,17 @@ body, head {
 }
 
 .hover-adjust {
-    background-color: #c1c1c1;
+    background-color: #cbcbcb;
     cursor: pointer;
 }
 
 .hover-adjust-inactive {
     /*background-color: #bbbbbb !important;*/
-    background-color: #5cb85c !important;
+    background-color: #b0b0b0 !important;
 }
 
 .hover-adjust-today {
-    background-color: #453cb8 !important;
+    background-color: #277987 !important;
 }
 
 .cell-day {
