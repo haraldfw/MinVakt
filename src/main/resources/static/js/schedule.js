@@ -118,12 +118,6 @@ $(document).ready(function() {
                 var dateNumber = shiftStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
                 var tempDateNumber = addDays(shiftStart, - (weekStartDate.getDate() + tempFix[currentDate.getDay()]) + 1);
 
-                console.log("\n-------------------");
-                console.log("\nNygreie");
-                console.log('shiftStart.getDate(): ' +  shiftStart.getDate() +
-                    ", currentDate.getDate(): " + currentDate.getDate() +
-                    ", tempFix[currentDate.getDay()]: "+  tempFix[currentDate.getDay()]);
-
                 dateNumber = tempDateNumber.getDate();
                 //dateNumber = Math.floor(shiftStart.getTime() - weekStartDate.getTime());
 
@@ -494,6 +488,7 @@ $(document).ready(function() {
     $(".dayTop").click(function() {
         //alert($(this).html() + ", legge inn fravær"); //TODO: legge inn fravær på en enkelt dag
         shiftType = 4;
+        $("body").addClass("modal-prevent-jump");
         $("#modalYesNo").modal("show");
         $("#yesNo-Question").html("Legge inn tilgjengelighet for " + $(this).html() + "?");
     });
@@ -562,29 +557,16 @@ $(document).ready(function() {
     });
 
     $("#modalTest").on("shown.bs.modal", function() {
-        /*var funnet = false;
-        for (var i = 0; i < shiftIderForIdag.length; i++) {
-            var currentId = parseInt(shiftIderForIdag[i]);
-            if (currentId === parseInt(selectedShift)) {
-                funnet = true;
-                break;
-            }
-        }
 
-        if (funnet) {
-            $("#changeActualStartEndTimesButton").css("display", "block");
-        } else {
-            $("#changeActualStartEndTimesButton").css("display", "none");
-        }*/
-    });
-
-    /*$("#modalTest").on("shown.bs.modal", function() {
-        $("body").addClass("modal-prevent-jump");
     });
 
     $("#modalTest").on("hidden.bs.modal", function() {
-        $("body").removeClass("modal-prevent-jump");
-    });*/ //TODO: fix this
+        $("body").removeClass("modal-prevent-jump");//FIXME
+    }); //TODO: fix this
+
+    $("#modalYesNo").on("hidden.bs.modal", function() {
+        $("body").removeClass("modal-prevent-jump"); //FIXME
+    });
 
     /* For displaying previous and next week */
     $("#buttonPreviousWeek").click(function() {
