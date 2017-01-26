@@ -12,6 +12,8 @@ $(document).ready(function() {
 
         }).done(function (data) {
             var jArray = data;
+            var monthNames = ["Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"];
+
             for (var i = 0; i < jArray.length; i++) {
 
                 var startTime = new Date(jArray[i].start_time);
@@ -46,14 +48,23 @@ $(document).ready(function() {
                     diff = 24;
                     //lengde blir lik 0
                 }
+                var kompArray;
+                var komp;
 
-                var kompArray = jArray[i].competences;
-                kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sorter også i back end
+                if(jArray[i].competences == null || jArray[i].competences === undefined || !(jArray[i].competences)) {
+                    kompArray = [""];
+                    komp = kompArray[0];
+                } else {
+                    kompArray = jArray[i].competences;
+                    kompArray.sort(); //Sorterer kompetanser i alfabetisk rekkefølge TODO: sorter også i back end
 
-                var komp = kompArray[0].name;
-                for (var j = 1; j < kompArray.length; j++) {
-                    komp += (", " + kompArray[j].name);
+                    komp = kompArray[0].name;
+                    for (var j = 1; j < kompArray.length; j++) {
+                        komp += (", " + kompArray[j].name);
+                    }
                 }
+
+
 
                 if (hourFrom < 10) {
                     hourFrom = "0" + hourFrom;
@@ -140,7 +151,7 @@ $(document).ready(function() {
 
             }
 
-            $("#datedate").html(date);
+            $("#datedate").html(date.getDate() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear());
 
             /* Andre functions */
             //$(".testing").click(function() {
@@ -238,6 +249,18 @@ $(document).ready(function() {
             $(this).toggleClass("hover-adjust");
         }
     });
+
+    $(".cell-cal").click(function() {
+        var monthYearArray = $(this).children(".month-year").html().split(" ");
+        var dagIkkeArray = $(this).children(".display-day").html();
+
+        var datoo = new Date(monthYearArray[0], monthYearArray[1] , dagIkkeArray);
+
+        $("#superDiv").empty();
+        plotShifts(datoo);
+        $("#calendarModal").modal("toggle");
+
+    }); //TODO: BORDER MARKERING PÅ VALGT DATO
 
     $(".modal-title-title").html("Velg dato");
 });
