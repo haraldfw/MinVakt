@@ -24,7 +24,7 @@
     </div>
     <div id="login" class="login-box">
         <form action="/api/login" method="post"
-              onsubmit="return jsonSubmitFns(this, () => {window.location = '/'}, () => $('#error').show())">
+              onsubmit="return jsonSubmitFns(this, () => {window.location = '/'}, () => $('#error').slideDown(200))">
             <div class="form-group">
                 <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn" name="username"
                        required="required"/>
