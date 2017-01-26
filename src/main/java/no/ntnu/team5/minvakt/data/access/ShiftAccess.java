@@ -208,6 +208,16 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         }
     }
 
+    public void lockShift(Shift shift){
+        shift.setLocked(true);
+        save(shift);
+    }
+
+    public void unlockShift(Shift shift){
+        shift.setLocked(false);
+        save(shift);
+    }
+
     public List<Shift> getAllCurrentWeekForUser(Date date, String username) {
         CALENDAR.setTime(date);
         CALENDAR.set(Calendar.DAY_OF_WEEK, CALENDAR.getFirstDayOfWeek());

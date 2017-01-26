@@ -65,6 +65,11 @@ public class NotificationController {
             User requestedOwner = access.user.fromID(user_id);
             Shift shift = access.shift.getShiftFromId(shift_id);
 
+            if (shift.isLocked()){
+                System.out.println("Skiftet er låst og kan ikke endres. ShiftId: " + shift.getId());
+                return;
+            }
+
             verifier.ensure(or(isUser(shift.getUser().getUsername()), hasRole(Constants.ADMIN)));
 
             String message = shiftOwner.getFirstName() + " " + shiftOwner.getLastName() + " forespør om du kan ta følgende vakt:\n" +
@@ -73,6 +78,7 @@ public class NotificationController {
             String actionUrl = "/api/shift/pass_notification_to_admin?shift_id="+shift_id+"&user_id="+user_id;
 
             access.notification.generateTransferRequestNotification(message, actionUrl, requestedOwner);
+            access.shift.lockShift(shift);
         });
     }
 
@@ -83,6 +89,11 @@ public class NotificationController {
         accessor.with(access -> {
             User shiftOwner = access.user.fromUsername(verifier.claims.getSubject());
             Shift shift = access.shift.getShiftFromId(shift_id);
+
+            if (shift.isLocked()){
+                System.out.println("Skiftet er låst og kan ikke endres. ShiftId: " + shift.getId());
+                return;
+            }
 
             verifier.ensure(isUser(shift.getUser().getUsername()));
 
@@ -96,6 +107,7 @@ public class NotificationController {
             Competence competence = access.competence.getFromName(Constants.ADMIN);
 
             access.notification.generateReleaseFromShiftRequestNotification(competence, message, actionUrl, redirectUrl);
+            access.shift.lockShift(shift);
         });
     }
 }

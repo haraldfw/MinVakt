@@ -219,6 +219,7 @@ public class ShiftController {
                     String message = "Din forespørsel om bytte av følgende vakt har blitt avslått: " +
                             shift.getStartTime() + " til " + shift.getEndTime() + ".";
                     access.notification.generateMessageNotification(originalOwner, message);
+                    access.shift.unlockShift(shift);
                 }
             }
             access.notification.closeNotification(notification);
@@ -282,6 +283,7 @@ public class ShiftController {
                 access.notification.generateMessageNotification(originalOwner, message);
             }
             access.notification.closeNotification(notification);
+            access.shift.unlockShift(shift);
         });
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -321,6 +323,7 @@ public class ShiftController {
                 access.notification.generateMessageNotification(user, message);
             }
             access.notification.closeNotification(notification);
+            access.shift.unlockShift(shift);
         });
     }
 }
