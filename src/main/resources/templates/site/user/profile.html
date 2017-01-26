@@ -260,7 +260,7 @@
                     <tr>
                         <th>Passord</th>
                         <td class="input-cell">
-                            <span id="fake-password">••••••••</span>
+                            <input id="fake-password" type="password" value="notapassword" disabled="disabled" />
                             <div id="new-pwd-box">
                                 <form action="/api/password/change" method="post" class="sbmts"
                                       onsubmit="return jsonSubmitFns(this, success, failure)">
