@@ -7,6 +7,174 @@
     <script src="/js/common/jsonSubmit.js"></script>
     <script src="/js/useraccount.js"></script>
     <script src="/js/imageUpload.js"></script>
+
+    <style>
+        main {
+            height: 100%;
+        }
+
+        .no-border {
+            border: 0 !important;
+        }
+
+        .account-box {
+            margin-top: 15px;
+        }
+
+        .account-box table {
+            background-color: white;
+        }
+
+        .account-box table tr th,
+        .account-box table tr td {
+            vertical-align: middle;
+        }
+
+        .account-box input {
+            background: inherit;
+            height: 34px;
+            padding: 0 10px;
+            border: 0;
+            width: 100%;
+        }
+
+        .account-box .table>tbody>tr>th {
+            padding-left: 15px;
+        }
+
+        .file-btn {
+            height: 33px;
+            width: 90px;
+            position:absolute;
+            z-index:2;
+            top:0;
+            left:0;
+            filter: alpha(opacity=0);
+            -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            opacity:0;
+            background-color:transparent;
+            color:transparent;
+        }
+
+        #imgUpload {
+            height: 33px;
+        }
+
+        #upload-file-info {
+            max-width: calc(100% - 90px);
+            line-height: 33px;
+            height: 33px;
+            background: #fff;
+            display: inline-block;
+            float: left;
+            color: #000;
+            letter-spacing: -0.3px;
+            padding: 0 10px;
+            border-radius: 0 3px 3px 0;
+            margin-left: -5px;
+            border: 1px solid #337ab7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media(max-width: 768px) {
+            #upload-file-info {
+                font-size: 11px;
+            }
+        }
+
+        #new-pwd-box {
+            display: none;
+        }
+
+        #new-pwd-box input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 3px 0;
+        }
+        #new-pwd-box .btn {
+            margin: 10px 0;
+        }
+
+        #incorrect-pwd {
+            display: none;
+        }
+
+        .border-box {
+            background: rgba(231, 222, 216, 0.2);
+            border: 1px solid #bbb;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 4px rgba(0,0,0,.3);
+        }
+
+        .btn-edit {
+            padding: 4px 7px;
+        }
+
+        .row {
+            margin: 0;
+        }
+        .spacious-column {
+            margin-top: 10px;
+        }
+        @media(max-width: 768px) {
+            .spacious-column {
+                margin-top: 30px;
+
+            }
+        }
+
+        meter {
+            margin: 0 auto 1em;
+            width: 100%;
+            height: 0.5em;
+
+            /* Applicable only to Firefox */
+            background: none;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        meter::-webkit-meter-bar {
+            background: none;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Webkit based browsers */
+        meter[value="1"]::-webkit-meter-optimum-value {
+            background: #ee3f1d;
+        }
+
+        meter[value="2"]::-webkit-meter-optimum-value {
+            background: #ee9606;
+        }
+
+        meter[value="3"]::-webkit-meter-optimum-value {
+            background: #d0d000;
+        }
+
+        meter[value="4"]::-webkit-meter-optimum-value {
+            background: #28a628;
+        }
+
+        /* Gecko based browsers */
+        meter[value="1"]::-moz-meter-bar {
+            background: #ee3f1d;
+        }
+
+        meter[value="2"]::-moz-meter-bar {
+            background: #ee9606;
+        }
+
+        meter[value="3"]::-moz-meter-bar {
+            background: #d0d000;
+        }
+
+        meter[value="4"]::-moz-meter-bar {
+            background: #28a628;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,7 +198,7 @@
                     <td class="no-border">
                         <form onsubmit="return uploadImage(this, '/user/profile', 'imgUpload')"
                               action="/api/images/upload" method="post">
-                            <div style="position:relative;overflow:auto;">
+                            <div style="position:relative;overflow:auto;overflow-y: hidden;">
                                 <a class='btn btn-primary pull-left' href='javascript:;'>
                                     Velg bilde
                                     <input id="imgUpload" type="file" class="file-btn" name="file_source" size="40"/>
@@ -76,14 +244,18 @@
                         <td class="input-cell">
                             <input class="sbmts" type="text" th:value="${user.address}" disabled="disabled"/>
                         </td>
-                        <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                        <td>
+                            <div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div>
+                        </td>
                     </tr>
                     <tr>
                         <th>Mobil</th>
                         <td class="input-cell">
                             <input class="sbmts" type="text" th:value="${user.phonenumber}" disabled="disabled"/>
                         </td>
-                        <td><div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                        <td>
+                            <div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div>
+                        </td>
                     </tr>
                     <tr>
                         <th>Passord</th>
@@ -109,7 +281,10 @@
                                 </form>
                             </div>
                         </td>
-                        <td><div id="edit-pwd" class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div></td>
+                        <td>
+                            <div id="edit-pwd" class="btn btn-default btn-edit"><span
+                                    class="glyphicon glyphicon-edit"></span></div>
+                        </td>
                     </tr>
                 </table>
             </div>
