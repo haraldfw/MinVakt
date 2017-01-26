@@ -23,7 +23,8 @@
         <img src="/images/MinVakt_Linje_200.png" style="margin-bottom: 4em"/>
     </div>
     <div id="login" class="login-box">
-        <form action="/api/login" method="post" onsubmit="return jsonSubmit(this, '/')">
+        <form action="/api/login" method="post"
+              onsubmit="return jsonSubmitFns(this, () => {window.location = '/'}, () => $('#error').show())">
             <div class="form-group">
                 <input type="text" autofocus="autofocus" class="form-control" placeholder="Brukernavn" name="username"
                        required="required"/>
