@@ -30,6 +30,28 @@ $(document).ready(function() {
 
     var shiftIderForIdag = [];
 
+    /* For calendar */
+    $(".cell-cal").hover(function() {
+        if($(this).hasClass("inactive-month")) {
+            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+        } else if($(this).hasClass("today")) {
+            $(this).toggleClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }
+
+        if($($(this).siblings(".cell-cal")).hasClass("inactive-month")) {
+            $(this).siblings(".cell-cal.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
+            $(this).siblings(".cell-cal").not(".inactive-month").toggleClass("hover-adjust");
+        } else if($($(this).siblings(".cell-cal")).hasClass("today")) {
+            $(this).siblings(".cell-cal.today").toggleClass("hover-adjust hover-adjust-today");
+            $(this).siblings(".cell-cal").not(".today").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell-cal").toggleClass("hover-adjust");
+        }
+
+    });
+
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
         return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
