@@ -16,6 +16,12 @@
     "employmentPercentage": {
       "type": "integer"
     },
+    "address": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "string"
+    },
     "competences": {
       "type": "array",
       "items": {
