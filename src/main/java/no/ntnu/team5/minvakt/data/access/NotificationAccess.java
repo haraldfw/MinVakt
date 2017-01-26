@@ -9,6 +9,8 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,9 +22,13 @@ import java.util.List;
 public class NotificationAccess extends Access<Notification, NotificationModel> {
     public List<Notification> fromUsername(String username) {
         return getDb().transaction(session -> {
-            Query query = session.createQuery("from Notification noti where (noti.user.username = :username and closed = false)");
+            Query query = session.createQuery(
+                    "from Notification as noti where noti.closed = false and (noti.user.username = :username " +
+                    "or noti.competence in elements(noti.user.competences))");
             query.setParameter("username", username);
-            return (List<Notification>) query.list();
+            List<Notification> notifications = (List<Notification>) query.list();
+            System.out.println(Arrays.toString(notifications.toArray()));
+            return notifications;
         });
     }
 
