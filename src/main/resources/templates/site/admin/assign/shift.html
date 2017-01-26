@@ -8,6 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
     <script src="/js/common/jsonSubmit.js"></script>
+    <style>
+        .account-box input {
+            width: auto;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,6 +28,7 @@
             <table id="employee-table" class="table table-striped">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Navn</th>
                     <th>Mobilnummer</th>
                     <th>Stillingsproset</th>
@@ -30,16 +37,21 @@
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
-                    <td><button class="userSbmt"></button></td>
-                    <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn
+                    <td>
+                        <div class="radio">
+                            <label><input type="radio" name="username" th:value="${user.username}"/></label>
+                        </div>
                     </td>
-                    <td th:text="${user.phonenumber}">tlf</td>
-                    <td th:text="${user.employmentPercentage}">Stillingsposent</td>
-                    <td><span th:each="comp : ${user.competences}" th:text="${comp + ' '}">comps</span>
+                    <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn</td>
+                    <td th:text="${user.phonenumber}"></td>
+                    <td th:text="${user.employmentPercentage + '%'}"></td>
+                    <td><span th:each="comp : ${user.competences}" th:text="${comp + ' '}"></span>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <input type="text" name="id:number" hidden="hidden" th:value="${shiftid}"/>
+            <button type="submit" class="btn btn-primary pull-right">Lagre</button>
         </form>
     </div>
     <div>

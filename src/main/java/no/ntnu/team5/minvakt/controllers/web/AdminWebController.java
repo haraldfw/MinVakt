@@ -71,6 +71,7 @@ public class AdminWebController extends NavBarController {
         accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shiftid);
             List<User> users = access.availability.listAvailableUsers(access.shift.getFromDateFromId(shiftid), access.shift.getEndDateFromId(shiftid));
+            model.addAttribute("shiftid", shiftid);
             model.addAttribute("users",
                     users
                             .stream()
