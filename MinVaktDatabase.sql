@@ -266,7 +266,7 @@ VALUES ('2017-01-10 00:00:00', '2017-02-10', 1);
 INSERT INTO availability (start_time, end_time, user_id)
 VALUES ('2017-01-10 00:00:00', '2017-02-10', 2);
 INSERT INTO availability (start_time, end_time, user_id)
-VALUES ('2017-01-10 00:00:00', '2017-02-10', 3);
+VALUES ('2017-01-23 00:00:00', '2017-01-23 10:00:00', 3);
 
 -- shift-competence
 INSERT INTO shift_competence (competence_name, shift_id)
