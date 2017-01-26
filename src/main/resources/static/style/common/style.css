@@ -59,7 +59,11 @@ main {
     display: block;
     content: " ";
     height: 35%;
-}    
+}
+
+.no-border {
+    border: 0 !important;
+}
 
 .account-box {
     margin-top: 15px;
@@ -100,7 +104,12 @@ main {
     color:transparent;
 }
 
+#imgUpload {
+    height: 33px;
+}
+
 #upload-file-info {
+    max-width: calc(100% - 90px);
     line-height: 33px;
     height: 33px;
     background: #fff;
@@ -109,9 +118,18 @@ main {
     color: #000;
     letter-spacing: -0.3px;
     padding: 0 10px;
-    border-radius: 3px;
+    border-radius: 0 3px 3px 0;
     margin-left: -5px;
     border: 1px solid #337ab7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media(max-width: 768px) {
+    #upload-file-info {
+        font-size: 11px;
+    }
 }
 
 #new-pwd-box {
