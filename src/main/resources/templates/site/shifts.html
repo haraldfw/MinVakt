@@ -66,6 +66,7 @@
         </div>
 
 
+        <!--TODO: Har vi test om person allerede har skift på tid? -->
     <!--Modal for skift start-->
     <div class="modal fade" id="modalShift" role="dialog">
         <div class="modal-dialog">
@@ -83,7 +84,18 @@
                     <div id="modalOwn">
                         <br/>
                         Ditt skift <br/>
-                        Hvis du vil legge inn fravær gå inn på din egen skiftoversikt
+                        <button class="btn btn-default">Legg ut vakt for salg</button>
+                        <button class="btn btn-default">Velg tilgjengelig person og forespør overtakelse</button>
+                        <label for="shiftSelectedDay">Vakter på valgt dag</label>
+                        <select class="form-control" id="shiftSelectedDay">
+                            <option>Test 1</option>
+                            <option>Test 2</option>
+                            <option>Test 3</option>
+                            <option>Test 4</option>
+                            <option>Test 5</option>
+
+                        </select>
+
                     </div>
 
                     <!--Modal for andres vakt-->
@@ -91,33 +103,7 @@
                         <br/>
                         <p id="ansatt">Ansatt:</p>
                         <br/>
-                        <button id="shiftChange" class="btn btn-default">Be om vaktbytte</button>
-                        <br/>
-                        <div id="shiftSelect" style="display: none;">
-                            Velg dato for vakten du vil bytte den vakten her med:
-                            <form id="date" method="post" class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-xs-3 control-label" id="fraDatoText"></label>
-                                    <div class="col-xs-5 date">
-                                        <div class="input-group input-append date" id="inputFra">
-                                            <input id="dateText" type="text" class="form-control" name="date" />
-                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <div id="selectDay" style="display: none;">
-                                <label for="shiftSelectedDay">Vakter på valgt dag</label>
-                                <select class="form-control" id="shiftSelectedDay">
-                                    <option>Test 1</option>
-                                    <option>Test 2</option>
-                                    <option>Test 3</option>
-                                    <option>Test 4</option>
-                                    <option>Test 5</option>
 
-                                </select>
-                            </div>
-                        </div>
                     </div>
 
                     <!--Modal for ledig vakt-->
