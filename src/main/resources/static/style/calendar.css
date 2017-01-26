@@ -64,17 +64,17 @@ body, head {
 }
 
 .hover-adjust {
-    background-color: #c1c1c1;
+    background-color: #cbcbcb;
     cursor: pointer;
 }
 
 .hover-adjust-inactive {
     /*background-color: #bbbbbb !important;*/
-    background-color: #5cb85c !important;
+    background-color: #b0b0b0 !important;
 }
 
 .hover-adjust-today {
-    background-color: #453cb8 !important;
+    background-color: #277987 !important;
 }
 
 .cell-day {

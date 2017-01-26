@@ -7,54 +7,21 @@ $(document).ready(function() {
     $(".cell").hover(function() {
         if($(this).hasClass("inactive-month")) {
             $(this).toggleClass("hover-adjust hover-adjust-inactive");
-        } else {
-            $(this).toggleClass("hover-adjust");
-        }/*
-        if($(this).hasClass("today")) {
+        } else if($(this).hasClass("today")) {
             $(this).toggleClass("hover-adjust hover-adjust-today");
         } else {
             $(this).toggleClass("hover-adjust");
-        }*/
+        }
 
         if($($(this).siblings(".cell")).hasClass("inactive-month")) {
             $(this).siblings(".cell.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
             $(this).siblings(".cell").not(".inactive-month").toggleClass("hover-adjust");
-        } else {
-            $(this).siblings(".cell").toggleClass("hover-adjust");
-        }
-
-        /*if($($(this).siblings(".cell")).hasClass("today")) {
+        } else if($($(this).siblings(".cell")).hasClass("today")) {
             $(this).siblings(".cell.today").toggleClass("hover-adjust hover-adjust-today");
             $(this).siblings(".cell").not(".today").toggleClass("hover-adjust");
         } else {
             $(this).siblings(".cell").toggleClass("hover-adjust");
-        }*/
-
-    }, function() {
-        if($(this).hasClass("inactive-month")) {
-            $(this).toggleClass("hover-adjust hover-adjust-inactive");
-        } else {
-            $(this).toggleClass("hover-adjust");
-        }/*
-        if($(this).hasClass("today")) {
-            $(this).toggleClass("hover-adjust hover-adjust-today");
-        } else {
-            $(this).toggleClass("hover-adjust");
-        }*/
-
-        if($($(this).siblings(".cell")).hasClass("inactive-month")) {
-            $(this).siblings(".cell.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
-            $(this).siblings(".cell").not(".inactive-month").toggleClass("hover-adjust");
-        } else {
-            $(this).siblings(".cell").toggleClass("hover-adjust");
         }
-
-        /*if($($(this).siblings(".cell")).hasClass("today")) {
-            $(this).siblings(".cell.today").toggleClass("hover-adjust hover-adjust-today");
-            $(this).siblings(".cell").not(".today").toggleClass("hover-adjust");
-        } else {
-            $(this).siblings(".cell").toggleClass("hover-adjust");
-        }*/
 
     });//TODO: sjekk om today markeres hvis du er på neste måned og kan se today fra forrige måned
 
