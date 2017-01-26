@@ -15,12 +15,11 @@
     <div class="page-header">
         <h3>Send ny melding</h3>
     </div>
-    <div class="panel panel-default">
         <form action="/api/admin/message"
               onsubmit="return jsonSubmit(this, '/admin/message')" th:action="@{/api/admin/message}"
               method="post">
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
-                <h4>Kompetanser å sende til</h4>
+                <h4>Nødvendig kompetanse</h4>
                 <select name="comp_recs[]" class="selectpicker" title="Ingen valgt"
                         data-live-search="true" multiple="multiple" data-width="100%">
                     <option th:each="comp : ${competences}"
@@ -35,15 +34,16 @@
                             th:value="${uname}"></option>
                 </select>
             </div>
+            <div class="msg-form-wrap">
             <div class="form-group">
-                <textarea name="message" class="form-control"
+                <textarea id="message-field" name="message" class="form-control"
                           placeholder="Melding her..." rows="5"></textarea>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary form-control" value="Send"/>
+                <input type="submit" class="btn btn-lg btn-primary form-control send-msg" value="Send"/>
+            </div>
             </div>
         </form>
-    </div>
 </div>
 </body>
 </html>
