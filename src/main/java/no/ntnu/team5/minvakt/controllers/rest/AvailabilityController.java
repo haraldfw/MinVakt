@@ -40,10 +40,10 @@ public class AvailabilityController {
     @RequestMapping("/{user}/week")
     public List<AvailabilityModel> getAvailibilityCurrentWeek(@PathParam("user") String username) {
         Calendar calendar = Calendar.getInstance();
-        Date dateStart = calendar.getTime();
+        Date startWeek = calendar.getTime();
 
         return accessor.with(access -> {
-           return access.availability.getAllCurrentWeekForUser(dateStart, username)
+           return access.availability.getAllCurrentWeekForUser(startWeek, username)
                    .stream()
                    .map(access.availability::toModel)
                    .collect(Collectors.toList());
