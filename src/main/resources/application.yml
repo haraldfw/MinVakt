@@ -53,4 +53,4 @@ spring:
 server:
   port: 8080
 
-application.hostname: puffin.tihlde.org
+application.hostname: puffin.tihlde.org:8080
