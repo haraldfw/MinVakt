@@ -21,7 +21,7 @@
               method="post">
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Kompetanser å sende til</h4>
-                <select name="comp_recs[]" class="selectpicker"
+                <select name="comp_recs[]" class="selectpicker" title="Ingen valgt"
                         data-live-search="true" multiple="multiple" data-width="100%">
                     <option th:each="comp : ${competences}"
                             th:text="${comp}" th:value="${comp}"></option>
@@ -29,7 +29,7 @@
             </div>
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Brukere å sende til</h4>
-                <select name="user_recs[]" class="selectpicker"
+                <select name="user_recs[]" class="selectpicker" title="Ingen valgt"
                         data-live-search="true" multiple="multiple" data-width="100%">
                     <option th:each="uname : ${users}" th:text="${uname}"
                             th:value="${uname}"></option>
