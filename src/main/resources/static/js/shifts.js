@@ -219,7 +219,7 @@ $(document).ready(function() {
 
     $("#dayBack").click(function() {
         $("#superDiv").empty();
-        count = addDays(count, -1); //FIXME februar er måned 11?
+        count = addDays(count, -1);
         plotShifts(count);
     });
     $("#dayForth").click(function() {
@@ -227,4 +227,17 @@ $(document).ready(function() {
         count = addDays(count, 1);
         plotShifts(count);
     });
+
+
+    $(".cell-cal").hover(function() {
+        if($(this).hasClass("inactive-month")) {
+            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+        } else if($(this).hasClass("today")) {
+            $(this).toggleClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }
+    });
+
+    $(".modal-title-title").html("Velg dato");
 });

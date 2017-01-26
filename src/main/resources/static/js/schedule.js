@@ -3,6 +3,28 @@
  */
 
 $(document).ready(function() {
+    /* For calendar */
+    $(".cell-cal").hover(function() {
+        if($(this).hasClass("inactive-month")) {
+            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+        } else if($(this).hasClass("today")) {
+            $(this).toggleClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }
+
+        if($($(this).siblings(".cell-cal")).hasClass("inactive-month")) {
+            $(this).siblings(".cell-cal.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
+            $(this).siblings(".cell-cal").not(".inactive-month").toggleClass("hover-adjust");
+        } else if($($(this).siblings(".cell-cal")).hasClass("today")) {
+            $(this).siblings(".cell-cal.today").toggleClass("hover-adjust hover-adjust-today");
+            $(this).siblings(".cell-cal").not(".today").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell-cal").toggleClass("hover-adjust");
+        }
+
+    });
+
     var selectedShift = -1;
     var questionAnswer = false;
 
@@ -239,7 +261,7 @@ $(document).ready(function() {
             alert("Det skjedde en feil med innhenting av tilgjengelighet for brukeren.");
         });
     }
-    getAvailability(currentWeekAvailability);
+    /*getAvailability(currentWeekAvailability);*/
 
     function getAvailableUsers(url) {
         $.get(url, function() {
