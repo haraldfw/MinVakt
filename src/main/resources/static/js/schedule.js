@@ -323,11 +323,23 @@ $(document).ready(function() {
                     }
                 }
             }
+
+            $("#work-time-week").html
+
         }).fail(function(data) { //TODO: sjekk feilmelding?
             alert("Det skjedde en feil med innhenting av tilgjengelighet for brukeren.");
         });
     }
     //getAvailability(currentWeekAvailability);
+
+    var workTimeUrl = "/api/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/work";
+    function getWorktimeAWeeek(url) {
+        $.get(url, function() {
+
+        }).done(function(data) {
+
+        });
+    }
 
     function getAvailableUsers(url) {
         $.get(url, function() {

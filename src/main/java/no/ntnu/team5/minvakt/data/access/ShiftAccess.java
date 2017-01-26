@@ -245,6 +245,9 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
         Date dateTo = CALENDAR.getTime();
 
+        System.out.println(getShiftsFromDateToDateForUser(dateFrom, dateTo, username)
+                .stream().mapToDouble(value -> value.getStandardHours()).sum());
+
         return getShiftsFromDateToDateForUser(dateFrom, dateTo, username)
                 .stream().mapToDouble(value -> value.getStandardHours()).sum();
     }

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -111,6 +112,19 @@ public class ShiftController {
                     .map(access.shift::toModel)
                     .collect(Collectors.toList());
         });
+    }
+
+    //@Authorize
+    @RequestMapping("/{user}/{year}/{month}/{day}/work")
+    public double getWorkHoursWeek(@PathParam("user") String username,
+                                   @PathParam("year") int year,
+                                   @PathParam("month") int month,
+                                   @PathParam("day") int day) {
+        System.out.println("test");
+        return accessor.with(access -> {
+           return access.shift.getHoursInWeekForUser(new Date(year, month, day), username);
+        });
+        //getHoursInWeekForUser
     }
 
     @Authorize
