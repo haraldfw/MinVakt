@@ -60,6 +60,10 @@
     color: white;
 }
 
+.active-day {
+    border: 4px solid #717581 !important;
+}
+
 .hover-adjust {
     background-color: #cbcbcb;
     cursor: pointer;

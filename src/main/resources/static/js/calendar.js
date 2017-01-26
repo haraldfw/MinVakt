@@ -44,8 +44,8 @@ $(document).ready(function() {
             for(var j = 2; j < 9; j++) {//8 children, ikke nr 1
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").html("<p class='display-day'>" + firstCalendarDay.getDate() + "</p>" + "<p class='month-year' style='display: none'>" + firstCalendarDay.getFullYear() + " " + firstCalendarDay.getMonth() + "</p>");
                 if(firstCalendarDay.getDate() === thisDay.getDate() && firstCalendarDay.getMonth() === thisDay.getMonth() && firstCalendarDay.getFullYear() === thisDay.getFullYear()) {
-                    $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("today");
-                }
+                    $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("today active-day");
+                } //TODO: legg inn slik at active day endres når man går fram og tilbake en dag
                 if(firstCalendarDay.getMonth() != startDay.getMonth()) {
                     $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("inactive-month");
                 }
