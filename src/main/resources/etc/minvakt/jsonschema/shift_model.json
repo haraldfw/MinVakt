@@ -18,6 +18,9 @@
     "absent": {
       "type": "boolean"
     },
+    "locked": {
+      "type": "boolean"
+    },
     "standard_hours": {
       "type": "integer"
     },
@@ -33,6 +36,7 @@
     "start_time",
     "end_time",
     "absent",
+    "locked",
     "standardHours",
     "competences"
   ]
