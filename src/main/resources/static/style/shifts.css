@@ -128,24 +128,20 @@ body {
     display: none;
 }
 
-
-/* FIXME: ikke fjern dette
-#shift-1-9test {
-    left: calc(11.11% + (11.11%)/3);
-    width: calc(((11.11%)/3)*8 - 1px);
+#dayBack {
+    float: left;
+    position: relative;
+    display: inline-block;
 }
 
-#shift-9-17test {
-    left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*8);
-    width: calc(((11.11%)/3)*8 - 1px);
+#dayForth {
+    float: left;
+    position: relative;
+    display: inline-block;
 }
 
-#shift-17-24test {
-    left: calc(11.11% + (11.11%)/3 + ((11.11%)/3)*16);
-    width: calc(((11.11%)/3)*8 - (11.11%)/3 - 1px);
+#datedate {
+    float: left;
+    position: relative;
+    display: inline-block;
 }
-
-#shift-7-19test {
-    left: calc(11.11% + ((11.11%)/3)*7);
-    width: calc(((11.11%)/3)*12 - 1px);
-}*/
