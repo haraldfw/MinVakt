@@ -24,6 +24,18 @@
     }
 }
 
+@media (max-width: 480px) {
+    .navbar-nav .open .dropdown-menu.noti-menu {
+        position: fixed;
+        left: 0px;
+        width: 100%;
+        max-width: 100%;
+        top: 84px;
+        transform: translateX(0);
+    }
+}
+
+
 .noti-menu li {
     padding: 10px;
     border: 1px solid #ddd;
