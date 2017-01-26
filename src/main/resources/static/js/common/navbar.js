@@ -36,6 +36,10 @@ $(document).ready(function () {
         let url = $(event.target).attr("action");
         postUrl(url);
     });
+
+    $(".profile-picture").click(function(){
+        window.location.href="/user/profile";
+    });
 });
 
 

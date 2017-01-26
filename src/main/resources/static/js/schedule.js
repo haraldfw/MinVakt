@@ -67,7 +67,7 @@ $(document).ready(function() {
             //$(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             if (today.getDate() === currentDate.getDate() && today.getMonth() === currentDate.getMonth() && today.getFullYear() && currentDate.getFullYear()) {
-                $(this).addClass("dayTop-today");
+                $(this).addClass("dayTop-today"); //TODO; FIX
             } else {
                 if ($(this).hasClass("dayTop-today")) {
                     $(this).removeClass("dayTop-today");
@@ -220,6 +220,7 @@ $(document).ready(function() {
                 //TODO: sjekk dette
             }
 
+            getAvailability(currentWeekAvailability);
             //alert("DONE. ok" + data);
         }).fail(function() {
             alert("Det skjedde en feil med innhenting av skift for brukeren.");
@@ -229,14 +230,14 @@ $(document).ready(function() {
 
     //TODO: fiks andre metoden som ikke trenger å gå til /dato/week, men bare /week
     var currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
-    function getAvailability(url) {
+    function getAvailability(url) { //TODO: skal lage egen metode for å legge inn skift element
         $.get(url, function() {
 
         }).done(function(data) {
             var availabilityArray = data;
             for (var i = 0; i < availabilityArray.length; i++) {
                 //alert("hei " + availabilityArray[i].start_time);
-                var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability[i]
+                //var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability[i]
                 var cAStart = new Date(availabilityArray[i].start_time);
                 //alert("start-tid: " + availabilityArray[i].start_time.getDate());
                 var cAEnd = new Date(availabilityArray[i].end_time);
@@ -246,18 +247,83 @@ $(document).ready(function() {
                 var hoursOfWork = Math.abs(cAEnd - cAStart) / 3600000; //3600000 is milliseconds in hour
 
                 var totalElementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours //TODO: does only work with hours yet
-                alert(elementDistanceTop  + "; " + totalElementHeight);
+                //alert(elementDistanceTop  + "; " + totalElementHeight + "; " + hoursOfWork);
+
+                var fromTime = "";
+                if (cAStart.getHours() < 10) {
+                    fromTime = "0";
+                }
+                fromTime += cAStart.getHours() + ":";
+                if (cAStart.getMinutes() < 10) {
+                    fromTime += "0";
+                }
+                fromTime += cAStart.getMinutes();
+
+                var toTime = "";
+                if (cAEnd.getHours() < 10) {
+                    toTime = "0";
+                }
+                toTime += cAEnd.getHours() + ":";
+                if (cAEnd.getMinutes() < 10) {
+                    toTime += "0";
+                }
+                toTime += cAEnd.getMinutes();
+
+                var shiftCenteredText = '<p class="shift-center-text">' + fromTime + ' - ' + toTime + '</p></div>';
+                var dateRange = '<br />' + cAStart.getDate() + ". " + monthNames[cAStart.getMonth()] + ' - ' + cAEnd.getDate() + ". " + monthNames[cAEnd.getMonth()];
+                var shiftCenteredTextTwoDays = '<p class="shift-center-text">' + fromTime + ' - ' + toTime + dateRange + '</p></div>';
+
+
+                var dateNumber = cAStart.getDate() - (currentDate.getDate() - tempFix[currentDate.getDay()]) + 1;//(today.getDate() - today.getDay());
+                var tempDateNumber = addDays(cAStart, - (weekStartDate.getDate() + tempFix[currentDate.getDay()]) + 1);
+
+                dateNumber = tempDateNumber.getDate();
+
                 if (cAStart.getDate() === cAEnd.getDate() && cAStart.getMonth() === cAEnd.getMonth() &&
                     cAStart.getFullYear() === cAEnd.getFullYear()) {
 
                     //If the shift is only on the same day
-                    var newElement = '<div id="' + currentAId + '" class="shift available-shift" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
+                    var newElement = '<div id="' + currentAId + '" class="shift available-shift" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">'
                         shiftCenteredText;
-                    alert(newElement);
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+                } else {
+                    //If the shift goes from one day to another
+                    //elementHeight = hoursOfWork * (44.5 / 12);
+                    var heightDone = 89 - elementDistanceTop;
+
+                    //elementHeight = heightDone; //89vh is the max size of "dayInnhold" elements
+                    //TODO: elementHeight
+
+                    //Element 1, det som går til enden først
+                    var newElement = '<div id="' + shiftId + '" class="shift available-shift shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">'
+                        shiftCenteredText;
+                    $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
+
+                    //Element next day(s)
+
+                    var extraElementCounter = 0;
+                    var nonRoundedClass = "";
+                    while(totalElementHeight > heightDone) {//TODO: endre til sånn at den går maks 7 ganger
+                        var currentElementHeight = 0;
+                        if ((totalElementHeight - heightDone) > 89) {
+                            //Det er større enn en dag og man vil få element med samme størrelse som en dag
+                            currentElementHeight = 89;
+                            heightDone += 89;
+                            nonRoundedClass = "shift-non-rounded-both";
+                        } else {
+                            currentElementHeight = totalElementHeight - heightDone;
+                            heightDone += currentElementHeight;
+                            nonRoundedClass = "shift-non-rounded-top";
+                        }
+                        extraElementCounter++;
+
+                        var newElementNextDay = '<div id="' + shiftId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">'
+                            shiftCenteredTextTwoDays;x
+                        $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
+                    }
                 }
             }
-        }).fail(function(data) {
+        }).fail(function(data) { //TODO: sjekk feilmelding?
             alert("Det skjedde en feil med innhenting av tilgjengelighet for brukeren.");
         });
     }
@@ -483,6 +549,7 @@ $(document).ready(function() {
         weekStartDate = addDays(weekStartDate, -7);
         changeTopDayNames();
 
+        currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
@@ -497,6 +564,7 @@ $(document).ready(function() {
         weekStartDate = addDays(weekStartDate, 7);
         changeTopDayNames();
 
+        currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);

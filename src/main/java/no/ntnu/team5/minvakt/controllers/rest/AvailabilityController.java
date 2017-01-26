@@ -38,15 +38,12 @@ public class AvailabilityController {
     }
 
     @RequestMapping("/{user}/week")
-    public List<AvailabilityModel> getAvailibilityCurrentWeek(@PathParam("user") String username) {
-        Calendar calendar = Calendar.getInstance();
-        Date startWeek = calendar.getTime();
-
+    public List<AvailabilityModel> getAvailibilityCurrentWeek(@PathVariable("user") String username) {
         return accessor.with(access -> {
-           return access.availability.getAllCurrentWeekForUser(startWeek, username)
-                   .stream()
-                   .map(access.availability::toModel)
-                   .collect(Collectors.toList());
+            return access.availability.getAllCurrentWeekForUser(new Date(), username)
+                    .stream()
+                    .map(access.availability::toModel)
+                    .collect(Collectors.toList());
         });
     }
 
@@ -68,7 +65,7 @@ public class AvailabilityController {
                                                        @PathVariable("day") int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day); //TODO: check samme som ShiftController: getShiftsWeek
-        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
