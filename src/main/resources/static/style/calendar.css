@@ -55,7 +55,7 @@ body, head {
 }
 
 .inactive-month {
-    background-color: lightgray;
+    background-color: #e3e3e3;
 }
 
 .today {
@@ -64,8 +64,17 @@ body, head {
 }
 
 .hover-adjust {
-    background-color: #aed3de;
+    background-color: #c1c1c1;
     cursor: pointer;
+}
+
+.hover-adjust-inactive {
+    /*background-color: #bbbbbb !important;*/
+    background-color: #5cb85c !important;
+}
+
+.hover-adjust-today {
+    background-color: #453cb8 !important;
 }
 
 .cell-day {
@@ -76,4 +85,10 @@ body, head {
 
 .weekNr {
     width: 10px;
+}
+
+.cell-day, .weekNr {
+    font-weight: bold;
+    text-align: center;
+    background-color: #9ebbcb;
 }
