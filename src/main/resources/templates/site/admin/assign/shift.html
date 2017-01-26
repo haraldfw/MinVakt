@@ -9,9 +9,24 @@
 
     <script src="/js/common/jsonSubmit.js"></script>
     <style>
-        .account-box input {
-            width: auto;
-            height: auto;
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-wrap .glyphicon.glyphicon-search {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            font-size: 1.15em;
+            color: #666;
+        }
+
+        .search-query {
+            padding: 0px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 40px;
         }
     </style>
 </head>
@@ -22,6 +37,7 @@
         <input type="text" class="search-query" placeholder="Søk etter navn"/>
         <span class="glyphicon glyphicon-search"></span>
     </div>
+
     <div class="account-box">
         <h3 id="account-title">Ansatte</h3>
         <form action="/api/admin/assign/shift" method="post" onsubmit="return jsonSubmit(this, '#')">
@@ -29,7 +45,7 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Navn</th>
+                    <th>Nabbbbvn</th>
                     <th>Mobilnummer</th>
                     <th>Stillingsproset</th>
                     <th>Kompetanse</th>
