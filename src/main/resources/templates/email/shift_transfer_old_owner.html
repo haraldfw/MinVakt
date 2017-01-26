@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p>
+    Hei, <span th:text="${old_owner_full_name}"></span>.<br/>
+    Vaktbytte er godkjent for vakt som er fra <span th:text="${date_start}"></span> til
+    <span th:text="${date_end}"></span>. Du er ikke lenger innehaveren.<br/>
+    <br/>
+    Dette er en automatisk generert epost. Svar vil ikke bli lest.
+</p>
+</body>
+</html>

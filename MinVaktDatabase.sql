@@ -206,7 +206,7 @@ INSERT INTO competence (name) VALUES ('Helsefagarbeider');
 
 -- User
 INSERT INTO user (username, first_name, last_name, email, phonenumber, address, date_of_birth, employment_percentage, password_hash, salt)
-VALUES ('erlentob', 'Erlend', 'Tobiassen', 'erlentob@gmail.com', '95835420', 'address', 'd_o_b', 50,
+VALUES ('erlentob', 'Erlend', 'Tobiassen', 'erlentob@stud.ntnu.no', '95835420', 'address', 'd_o_b', 50,
         'ea880dec00850f06209e5f99553778aa79dfb933797b7edf80990230ea6666acdfc8ff6ce5f7ed0a1799a7f56dfb2665f9dcd5cccf6dfe4f2c1453b58ce59c71',
         'det');
 
@@ -216,7 +216,7 @@ VALUES ('haraldfw', 'Harald', 'Floor Wilhelmsen', 'haraldfw@gmail.com', '4556663
         'det1');
 
 INSERT INTO user (username, first_name, last_name, email, phonenumber, address, date_of_birth, employment_percentage, password_hash, salt)
-VALUES ('gardste', 'Gard', 'Steinsvik', 'gardste@gmail.com', '666', 'address', 'd_o_b', 120,
+VALUES ('gardste', 'Gard', 'Steinsvik', 'gardsteinsvik@gmail.com', '666', 'address', 'd_o_b', 120,
         'ff6c1b38456ebee57b17314aa43d56eb2e2aee1c4bbb1d0b4a7b53b20dab767f772675ae5a9ba6c879ecba2799b8781df114909c019b05dc9abdc2a47a671694',
         'det2');
 

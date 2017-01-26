@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -25,6 +27,9 @@ public class EmailService {
     MailContentBuilder mailContentBuilder;
 
     private final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
+    private final SimpleDateFormat dateFormat =
+            new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
 
     /**
      * Sends an email to the specified recipient with the specified info
@@ -61,5 +66,9 @@ public class EmailService {
             messageHelper.setText(text, true);
         };
         mailSender.send(messagePreparator);
+    }
+
+    public String formatDate(Date date) {
+        return dateFormat.format(date);
     }
 }
