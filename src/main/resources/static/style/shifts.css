@@ -128,20 +128,3 @@ body {
     display: none;
 }
 
-#dayBack {
-    float: left;
-    position: relative;
-    display: inline-block;
-}
-
-#dayForth {
-    float: left;
-    position: relative;
-    display: inline-block;
-}
-
-#datedate {
-    float: left;
-    position: relative;
-    display: inline-block;
-}

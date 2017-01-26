@@ -18,24 +18,33 @@
                        aria-expanded="false">
                         <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
                     <ul class="dropdown-menu noti-menu">
-                        <li th:each="n: ${navbar.notificationModels}" th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'">
+                        <li th:each="n: ${navbar.notificationModels}"
+                            th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'">
                             <div th:if="${n.actionUrl} != null">
                                 <p th:text="${n.message}"><!-- melding havner her --></p>
+                                <p class="timestamp" th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
+                                    <!-- timestamp havner her -->
+                                </p>
                                 <div class="btn-wrap">
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
-                                    <button type="submit" class="btn btn-success ion-checkmark-round"></button>
-                                </form>
-                                <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
-                                    <button type="submit" class="btn btn-danger ion-close-round"></button>
-                                </form>
+                                    <form class="noti-form" th:action="@{${n.actionUrl}(accept=true)}" method="post">
+                                        <button type="submit" class="btn btn-success ion-checkmark-round"></button>
+                                    </form>
+                                    <form class="noti-form" th:action="@{${n.actionUrl}(accept=false)}" method="post">
+                                        <button type="submit" class="btn btn-danger ion-close-round"></button>
+                                    </form>
                                 </div>
                             </div>
                             <div th:if="${n.actionUrl} == null">
                                 <div class="dismissable-notification">
-                                <p th:text="${n.message}"><!-- melding havner her --></p>
-                                <form class="noti-form" th:action="@{/api/notifications/close_notification(notification_id=${n.id})}" method="post">
-                                    <button type="submit" class="btn btn-link ion-close-round"></button>
-                                </form>
+                                    <p th:text="${n.message}"><!-- melding havner her --></p>
+                                    <form class="noti-form"
+                                          th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"
+                                          method="post">
+                                        <p class="timestamp" th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
+                                            <!-- timestamp havner her -->
+                                        </p>
+                                        <button type="submit" class="btn btn-link ion-close-round"></button>
+                                    </form>
                                 </div>
                             </div>
                         </li>
@@ -56,21 +65,29 @@
     <ul id="navbar-side" class="navbar-side-ute">
 
         <a href="/"><img src="/images/MinVakt_Linje_200.png"/></a>
-        <li class="navbar-item"><a th:class="${activeSchedulePage}" href="/user/schedule"><i class="ion-clock list-icons"></i>Egen timeliste</a></li>
-        <li class="navbar-item"><a th:class="${activeShiftPage}" href="/shifts"><i class="ion-calendar list-icons"></i>Alle vakter</a></li>
-        <li class="navbar-item"><a th:class="${activeListPage}" href="/user/list"><i class="ion-person-stalker list-icons"></i>Kontaktinfo</a></li>
-        <li class="navbar-item"><a th:class="${activeTimebankPage}" href="/timebank"><i class="ion-briefcase list-icons"></i>Timebank</a></li>
-        <li class="navbar-item"><a th:class="${activeProfilePage}" href="/user/profile"><i class="ion-person list-icons"></i>Min profil</a></li>
+        <li class="navbar-item"><a th:class="${activeSchedulePage}" href="/user/schedule"><i
+                class="ion-clock list-icons"></i>Egen timeliste</a></li>
+        <li class="navbar-item"><a th:class="${activeShiftPage}" href="/shifts"><i class="ion-calendar list-icons"></i>Alle
+            vakter</a></li>
+        <li class="navbar-item"><a th:class="${activeListPage}" href="/user/list"><i
+                class="ion-person-stalker list-icons"></i>Kontaktinfo</a></li>
+        <li class="navbar-item"><a th:class="${activeTimebankPage}" href="/timebank"><i
+                class="ion-briefcase list-icons"></i>Timebank</a></li>
+        <li class="navbar-item"><a th:class="${activeProfilePage}" href="/user/profile"><i
+                class="ion-person list-icons"></i>Min profil</a></li>
 
         <th:block th:if="${isAdmin}">
             <hr/>
-            <li class="navbar-item"><a th:class="${activeAdminCreateShiftPage}" href="/admin/create/shift">Legg til shift</a></li>
-            <li class="navbar-item"><a th:class="${activeAdminCreateUserPage}" href="/admin/create/user">Legg til bruker</a></li>
-            <li class="navbar-item"><a th:class="${activeAdminCreateCompPage}" href="/admin/create/competence">Legg til kompetanse</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminCreateShiftPage}" href="/admin/create/shift">Legg til
+                shift</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminCreateUserPage}" href="/admin/create/user">Legg til
+                bruker</a></li>
+            <li class="navbar-item"><a th:class="${activeAdminCreateCompPage}" href="/admin/create/competence">Legg til
+                kompetanse</a></li>
             <li class="navbar-item"><a th:class="${activeAdminMessagePage}" href="/admin/message">Send melding</a></li>
         </th:block>
 
-        <hr />
+        <hr/>
         <li class="navbar-item"><a href="/logout"><i class="ion-log-out list-icons"></i>Logg ut</a></li>
 
         <i id="test123" class="ion-navicon-round close-close hidden-xs"></i>
@@ -84,7 +101,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <i class="ion-close close-color" data-dismiss="modal"></i>
-                    <h4 class="modal-title">Velg uke</h4> <!--TODO: legg inn i JS endring for velg dato i alle skift-->
+                    <h4 class="modal-title-title">Velg uke</h4> <!--TODO: legg inn i JS endring for velg dato i alle skift-->
                 </div>
                 <div class="modal-body">
                     <table class="table tabletable">

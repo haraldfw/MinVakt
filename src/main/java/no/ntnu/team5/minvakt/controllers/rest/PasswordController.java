@@ -74,7 +74,7 @@ public class PasswordController {
                     System.out.println(Constants.HOSTNAME);
                     String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
                             user.getUsername() + "&resetkey=" + encodedKey;
-                    String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+                    String expiry = emailService.formatDate(resetKeyExpiry);
 
                     Map<String, String> vars = new HashMap<>();
                     vars.put("link", link);

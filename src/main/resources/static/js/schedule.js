@@ -22,7 +22,6 @@ $(document).ready(function() {
     /* For displaying the weeknames and current month*/
     var dayCounter = 0; // [0-6, man-søn]
     var today = new Date();
-    //var dateCounter = 1; // [0-31]
     var dayNames = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
     //I javascript er 0=søndag, 1= mandag osv.
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
@@ -30,6 +29,28 @@ $(document).ready(function() {
     var weekStartDate = addDays(today, -tempFix[today.getDay()]);
 
     var shiftIderForIdag = [];
+
+    /* For calendar */
+    $(".cell-cal").hover(function() {
+        if($(this).hasClass("inactive-month")) {
+            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+        } else if($(this).hasClass("today")) {
+            $(this).toggleClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).toggleClass("hover-adjust");
+        }
+
+        if($($(this).siblings(".cell-cal")).hasClass("inactive-month")) {
+            $(this).siblings(".cell-cal.inactive-month").toggleClass("hover-adjust hover-adjust-inactive");
+            $(this).siblings(".cell-cal").not(".inactive-month").toggleClass("hover-adjust");
+        } else if($($(this).siblings(".cell-cal")).hasClass("today")) {
+            $(this).siblings(".cell-cal.today").toggleClass("hover-adjust hover-adjust-today");
+            $(this).siblings(".cell-cal").not(".today").toggleClass("hover-adjust");
+        } else {
+            $(this).siblings(".cell-cal").toggleClass("hover-adjust");
+        }
+
+    });
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
@@ -48,13 +69,11 @@ $(document).ready(function() {
             if (today.getDate() === currentDate.getDate() && today.getMonth() === currentDate.getMonth() && today.getFullYear() && currentDate.getFullYear()) {
                 $(this).addClass("dayTop-today");
             } else {
-                //alert("har allerede denne klassen");
                 if ($(this).hasClass("dayTop-today")) {
                     $(this).removeClass("dayTop-today");
                 }
             }
             dayCounter++;
-            //dateCounter++;
 
             currentDate = addDays(currentDate, 1);
         });
@@ -197,6 +216,10 @@ $(document).ready(function() {
                 shiftIderForIdag.push(shiftId);
             }
 
+            if (shiftEnd < (today + 2)) {
+                //TODO: sjekk dette
+            }
+
             //alert("DONE. ok" + data);
         }).fail(function() {
             alert("Det skjedde en feil med innhenting av skift for brukeren.");
@@ -204,30 +227,33 @@ $(document).ready(function() {
     }
     getShifts(currentWeekUrl);
 
-    var currentWeekAvailability = "/api/available/" + username +"/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "/week";
+    //TODO: fiks andre metoden som ikke trenger å gå til /dato/week, men bare /week
+    var currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
     function getAvailability(url) {
         $.get(url, function() {
 
         }).done(function(data) {
             var availabilityArray = data;
             for (var i = 0; i < availabilityArray.length; i++) {
-                var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability
-                var cAStart = currentA.start_time;
-                alert(cAStart.getDate());
-                var cAEnd = currentA.end_time;
+                //alert("hei " + availabilityArray[i].start_time);
+                var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability[i]
+                var cAStart = new Date(availabilityArray[i].start_time);
+                //alert("start-tid: " + availabilityArray[i].start_time.getDate());
+                var cAEnd = new Date(availabilityArray[i].end_time);
                 var currentAId = 123; //TODO: legg inn id til available fra databasen
 
                 var elementDistanceTop = cAStart.getHours() * (44.5 / 12); //44.5 is the height of 12 hours //TODO: make constant of this here too
                 var hoursOfWork = Math.abs(cAEnd - cAStart) / 3600000; //3600000 is milliseconds in hour
 
                 var totalElementHeight = hoursOfWork * (44.5 / 12); //44.5 is the height of 12 hours //TODO: does only work with hours yet
-
-                if (shiftStart.getDate() === shiftEnd.getDate() && shiftStart.getMonth() === shiftEnd.getMonth() &&
-                    shiftStart.getFullYear() === shiftEnd.getFullYear()) {
+                alert(elementDistanceTop  + "; " + totalElementHeight);
+                if (cAStart.getDate() === cAEnd.getDate() && cAStart.getMonth() === cAEnd.getMonth() &&
+                    cAStart.getFullYear() === cAEnd.getFullYear()) {
 
                     //If the shift is only on the same day
                     var newElement = '<div id="' + currentAId + '" class="shift available-shift" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
                         shiftCenteredText;
+                    alert(newElement);
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
                 }
             }
@@ -245,8 +271,6 @@ $(document).ready(function() {
             var jsonArray = data;
             var workerCounter = 1;
             for (var i = 0; i < jsonArray.length; i++) {
-                //alert(jsonArray[i].username);
-                //alert(jsonArray[i].first_name + " " + jsonArray[i].last_name);
                 var workerId = jsonArray[i].id;
                 var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
                 var workerType = "panel-footer ";
@@ -277,7 +301,7 @@ $(document).ready(function() {
         $("#modalYesNo").modal("show");
         $("#yesNo-Question").html("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
 
-        e.preventDefault();//TODO: sjekk
+        e.preventDefault();
     });
 
     //Clickevent handler for a shift element
@@ -286,28 +310,24 @@ $(document).ready(function() {
         $("body").addClass("modal-prevent-jump"); //TODO: legg denne på show og hide modal
 
         $("#modalTest").modal("show");
-        //TODO: gjøre ting med iden man får her og hente fra database$(this).attr("id")
         selectedShift = $(this).attr("id");
 
         //Get available users for changing worker of a shift
         var availabilityUrl = "/api/shift/get_available_users_for_shift?shift_id=" + selectedShift;
         getAvailableUsers(availabilityUrl);
 
+        //Starter modal for hvert type skift man trykker på, men endrer innholdet.
         if ($(this).hasClass("normal-shift")) {
-            //Modal for shift
             $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Du har et skift fra 00:00 - 12:00 på Onsdag 11. jan. 2017");
             $("#absenceButtonDiv").css("display", "inline-block");
             $("#removeAbsenceButtonDiv").css("display", "none");
             $("#removeAvailabilityButtonDiv").css("display", "none");
             shiftType = 0;
-            //alert("vanlig skift");
             $("#other-workers-panel").css("display", "block");
             $("#changeShiftOwnerButtonDiv").css("display", "block");
 
         } else if ($(this).hasClass("absence-shift")) {
-            //absenceButton
-            //alert("fravær");
             $("#modal-shift-title").html("Skift Onsdag 11. jan. 2017");
             $("#shift-time").html("Det har lagt inn fravær for skiftet ditt kl. 12:00 - 24:00 på Onsdag 11. jan. 2017");
             $("#absenceButtonDiv").css("display", "none");
@@ -318,7 +338,6 @@ $(document).ready(function() {
             $("#changeShiftOwnerButtonDiv").css("display", "none");
 
         } else if ($(this).hasClass("available-shift")) {
-            //alert("tilgjengelig");
             $("#modal-shift-title").html("Skift Lørdag 14. jan. 2017");
             $("#shift-time").html("Du har satt deg tilgjengelig for dette skiftet, fra 00:00 - 12:00 på Lørdag 14 jan. 2017");
             $("#absenceButtonDiv").css("display", "none");
@@ -340,7 +359,6 @@ $(document).ready(function() {
     });
 
     $("#absenceButton").click(function() {
-        //alert(selectedShift);
         $("#modalYesNo").modal("show");
         $("#yesNo-Question").html("Vil du melde om fravær for dette skiftet?");
     });

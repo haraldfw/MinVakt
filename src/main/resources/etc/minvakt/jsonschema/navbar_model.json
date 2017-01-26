@@ -26,6 +26,9 @@
           },
           "redirect_url": {
             "type": "string"
+          },
+          "timestamp": {
+            "type": "date-time"
           }
         },
         "required": [
