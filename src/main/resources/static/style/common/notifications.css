@@ -7,12 +7,14 @@ loblo.navbar-inverse .navbar-nav>.open>a,
 .noti-menu {
     border-radius: 0;
     box-shadow: 0 0 5px rgba(0,0,0, 0.4) !important;
-    min-width: 300px;
+    min-width: 350px;
     max-width: 400px;
+    max-height: 600px;
     padding: 10px;
     background: white !important;
     margin-top: -15px !important;
     margin-right: 15px;
+    overflow: scroll;
 }
 
 @media (max-width: 768px) {
