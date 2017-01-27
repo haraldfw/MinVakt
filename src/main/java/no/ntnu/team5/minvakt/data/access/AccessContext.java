@@ -48,6 +48,10 @@ public class AccessContext {
         image.setContext(this);
     }
 
+    public DbAccess getDb() {
+        return db;
+    }
+
     public void close() {
         db.close();
     }

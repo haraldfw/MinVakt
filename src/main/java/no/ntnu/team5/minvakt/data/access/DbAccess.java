@@ -25,11 +25,16 @@ public class DbAccess {
 
     private Session sess;
 
-    public <T> T transaction(Function<Session, T> consumer){
+    public Session getSession(){
         if (sess == null) {
             sess = sessionFactory.openSession();
         }
 
+        return sess;
+    }
+
+    public <T> T transaction(Function<Session, T> consumer){
+        Session sess = getSession();
         Transaction tx = sess.beginTransaction();
         T t = consumer.apply(sess);
         tx.commit();
@@ -37,10 +42,7 @@ public class DbAccess {
     }
 
     public void transaction(Consumer<Session> consumer){
-        if (sess == null) {
-            sess = sessionFactory.openSession();
-        }
-
+        Session sess = getSession();
         Transaction tx = sess.beginTransaction();
         consumer.accept(sess);
         tx.commit();

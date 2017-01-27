@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "error_msg": {
+      "type": "string"
+    },
+    "user_model": {
+      "$ref": "user_model.json"
+    }
+  },
+  "required": [
+    "error_msg"
+  ]
+}

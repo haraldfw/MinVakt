@@ -8,10 +8,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
     <script src="/js/common/jsonSubmit.js"></script>
+    <script src="/js/create_user.js"></script>
 </head>
 
 <div th:fragment="content">
-    <form action="/api/admin/create/user" method="post" onsubmit="return jsonSubmit(this, '#')">
+    <form action="/api/admin/create/user" method="post" onsubmit="return jsonSubmitFns(this, submitted, failed)">
         <div class="page-header">
             <h3>Legg til ny bruker</h3>
         </div>
@@ -41,10 +42,14 @@
                 <div class="form-group">
                     <input type="text" class="input-box form-control" name="phoneNr" placeholder="Mobil" required="required"/>
                 </div>
+                <div id="mld" hidden="hidden" class="alert alert-success fade in">
+                    Bruker med brukernavn <strong id="show-username"></strong> lagt til.
+                </div>
+                <div id="error" hidden="hidden" class="alert alert-danger fade in"></div>
             </div>
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Kompetanse</h4>
-                <select name="competences[]" class="selectpicker" data-live-search="true" multiple="multiple" title="Ingen valgt">
+                <select name="competences[]" class="selectpicker" data-live-search="true" multiple="multiple" title="Ingen valgt" required="required">
                     <th:block th:each="comp : ${competences}">
                         <div class="form-group">
                             <option th:text="${comp}" th:value="${comp}"></option>
@@ -54,6 +59,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary btn-lg">Opprett</button>
+
     </form>
 </div>
 </html>
