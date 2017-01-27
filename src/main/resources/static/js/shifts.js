@@ -35,7 +35,7 @@ $(document).ready(function() {
 
                 } else if (startTime.getFullYear() === date.getFullYear() && startTime.getMonth() === date.getMonth() && startTime.getDate() === date.getDate()) {
                     //hvis vakt starter på valgt dato og går til ny dag
-                    diff = 24.0 - hourFrom + minFromPros;
+                    diff = 24.0 - (hourFrom + minFromPros);
                     lengde = hourFrom + minFromPros;
 
                 } else if (endTime.getFullYear() === date.getFullYear() && endTime.getMonth() === date.getMonth() && endTime.getDate() === date.getDate()) {
@@ -272,7 +272,6 @@ $(document).ready(function() {
         return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
-    function borderActiveWeek() {} //Må være tom function
 
     plotShifts(today);
     var count = today;
@@ -281,11 +280,26 @@ $(document).ready(function() {
         $("#superDiv").empty();
         count = addDays(count, -1);
         plotShifts(count);
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
+
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count);
     });
+
     $("#dayForth").click(function() {
         $("#superDiv").empty();
         count = addDays(count, 1);
         plotShifts(count);
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
+
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count);
+
+
     });
 
 
@@ -307,12 +321,19 @@ $(document).ready(function() {
 
         $("#superDiv").empty();
         plotShifts(datoo);
-        count = datoo;
-        $("#calendarModal").modal("toggle");
-        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
-        $(this).addClass("active-day");
 
-    }); //TODO: BORDER MARKERING PÅ VALGT DATO
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
+        //(this).addClass("active-day");
+
+        count = datoo;
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count); //TODO når trykkes på inaktiv-day, skal måned skiftes ol., blir feil
+
+        $("#calendarModal").modal("toggle");
+
+    });
 
     $(".modal-title-title").html("Velg dato");
 

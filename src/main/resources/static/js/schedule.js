@@ -67,11 +67,11 @@ $(document).ready(function() {
         $("#calendarModal").modal("toggle");
         $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
 
-        $(this).parent("td:nth-child(2)").addClass("active-week-left active-week-middle");
+        $(this).parent().children("td:nth-of-type(2)").addClass("active-week-left active-week-middle");
         for(var k = 3; k < 8; k++) { //fiks på bedre måte
-            $(this).parent("td:nth-child(" + k + ")").addClass("active-week-middle");
+            $(this).parent().children("td:nth-of-type(" + k + ")").addClass("active-week-middle");
         }
-        $(this).parent("td:nth-child(8)").addClass("active-week-right active-week-middle");
+        $(this).parent().children("td:nth-of-type(8)").addClass("active-week-right active-week-middle");
 
         currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
