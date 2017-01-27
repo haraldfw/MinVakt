@@ -1,7 +1,6 @@
 package no.ntnu.team5.minvakt.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import no.ntnu.team5.minvakt.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,8 +9,11 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -68,5 +70,20 @@ public class EmailService {
 
     public String formatDate(Date date) {
         return dateFormat.format(date);
+    }
+
+    public void userCreated(String username, String email, String resetKey, Date resetKeyExpiry) throws UnsupportedEncodingException {
+        String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
+        String subject = "User has been created for you in MinVakt";
+        String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
+                username + "&resetkey=" + encodedKey;
+        String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
+
+        Map<String, String> vars = new HashMap<>();
+        vars.put("link", link);
+        vars.put("expiry", expiry);
+        vars.put("username", username);
+
+        sendEmail(email, subject, "email/user_created", vars);
     }
 }
