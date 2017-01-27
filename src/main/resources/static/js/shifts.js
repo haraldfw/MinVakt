@@ -242,6 +242,8 @@ $(document).ready(function() {
         return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
+    function borderActiveWeek() {} //Må være tom function
+
     plotShifts(today);
     var count = today;
 

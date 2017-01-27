@@ -315,3 +315,24 @@
 .non-display-class {
     display: none;
 }
+
+.active-day {
+    border: none !important;
+}
+
+.active-week-left {
+    border-bottom: 4px solid #717581 !important;
+    border-left: 4px solid #717581 !important;
+    border-top: 4px solid #717581 !important;
+}
+
+.active-week-middle {
+    border-bottom: 4px solid #717581 !important;
+    border-top: 4px solid #717581 !important;
+}
+
+.active-week-right {
+    border-bottom: 4px solid #717581 !important;
+    border-right: 4px solid #717581 !important;
+    border-top: 4px solid #717581 !important;
+}
