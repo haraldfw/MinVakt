@@ -36,7 +36,7 @@ function plotDays(startDay) {
                 }
                 $("#" + weeks[i] + " td:nth-child(8)").addClass("active-week-right active-week-middle");
             }
-            //TODO: legg inn slik at active day endres når man går fram og tilbake en dag
+
             if (firstCalendarDay.getMonth() != startDay.getMonth()) {
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("inactive-month");
             }

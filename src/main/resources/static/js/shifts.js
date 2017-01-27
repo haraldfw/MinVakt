@@ -280,7 +280,7 @@ $(document).ready(function() {
         $("#superDiv").empty();
         count = addDays(count, -1);
         plotShifts(count);
-        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month hover-adjust hover-adjust-inactive hover-adjust-today");
 
         month = count.getMonth();
         year = count.getFullYear();
@@ -292,7 +292,7 @@ $(document).ready(function() {
         $("#superDiv").empty();
         count = addDays(count, 1);
         plotShifts(count);
-        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month hover-adjust hover-adjust-inactive hover-adjust-today");
 
         month = count.getMonth();
         year = count.getFullYear();
@@ -313,39 +313,59 @@ $(document).ready(function() {
         }
     });
 
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+                break;
+            }
+        }
+    }
+
     $(".cell-cal").click(function() {
-        var monthYearArray = $(this).children(".month-year").html().split(" ");
-        var dagIkkeArray = $(this).children(".display-day").html();
+        var way = 0;
 
-        var datoo = new Date(monthYearArray[0], monthYearArray[1] , dagIkkeArray);
-
-        $("#superDiv").empty();
-        plotShifts(datoo);
-
-        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
-        count = datoo;
-        month = count.getMonth();
-        year = count.getFullYear();
-        firstDay = new Date(year, month, 1);
-
-        if($(this).hasClass(".inactive-day")) {
-            var way = 0;
-
+        $(".cell-cal").removeClass("today active-day active-week-left active-week-middle active-week-right hover-adjust hover-adjust-inactive hover-adjust-today");
+        if($(this).hasClass(".inactive-month")) {
+            $(".cell-cal").removeClass("inactive-month");
             if((this).html() > 20) {
                 way = -1;
             } else {
                 way = 1;
             }
-            firstDay.setMonth(firstDay.getMonth() + way);
+        } else {
+            $(".cell-cal").removeClass("inactive-month");
         }
-        plotDays(count);
+        sleep(650); //TODO: fiks dette, tar for lang tid
 
+        var monthYearArray = $(this).children(".month-year").html().split(" ");
+        var dagIkkeArray = $(this).children(".display-day").html();
+        var datoo = new Date(monthYearArray[0], monthYearArray[1] , dagIkkeArray);
+
+        $("#superDiv").empty();
+        plotShifts(datoo);
+
+        count = datoo;
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        firstDay.setMonth(firstDay.getMonth() + way);
+
+        plotDays(count);
 
         $("#calendarModal").modal("toggle");
 
     });
 
     $(".modal-title-title").html("Velg dato");
+
+
+    $("#datedate").click(function() {
+        $(".cell-cal").removeClass("today inactive-month active-day active-week-left active-week-middle active-week-right hover-adjust hover-adjust-inactive hover-adjust-today");
+    });
+
+
+
 
     var sendUrl = "";
     var shiftType = -1;
