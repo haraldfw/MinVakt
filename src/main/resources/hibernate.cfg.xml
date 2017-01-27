@@ -6,8 +6,8 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://mysql.stud.iie.ntnu.no:3306/g_scrum05</property>
-        <property name="connection.username">g_scrum05</property>
+        <property name="connection.url">jdbc:mysql://tihlde.org:3306/haraldfw</property>
+        <property name="connection.username">scrum05</property>
         <property name="connection.password">${scrum5_dbpw}</property>
 
         <!-- JDBC connection pool (use the built-in) -->

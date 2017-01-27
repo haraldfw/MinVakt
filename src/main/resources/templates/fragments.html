@@ -53,7 +53,7 @@
                 <li class="hidden-xs">
                     <a href="/user/profile" th:text="${name}"></a>
                 </li>
-                <li class="profile-picture ">
+                <li class="profile-picture">
                     <img class="img-circle" th:if="${navbar.profileImageB64 != null}" src=""
                          th:src="${'data:' + navbar.profileImageType + ';base64,' + navbar.profileImageB64}"/>
                     <img class="img-circle" th:if="${navbar.profileImageB64 == null}" src="/images/profile.png"/>
@@ -79,7 +79,7 @@
         <th:block th:if="${isAdmin}">
             <hr/>
             <li class="navbar-item"><a th:class="${activeAdminCreateShiftPage}" href="/admin/create/shift">Legg til
-                shift</a></li>
+                skift</a></li>
             <li class="navbar-item"><a th:class="${activeAdminCreateUserPage}" href="/admin/create/user">Legg til
                 bruker</a></li>
             <li class="navbar-item"><a th:class="${activeAdminCreateCompPage}" href="/admin/create/competence">Legg til

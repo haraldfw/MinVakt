@@ -6,7 +6,7 @@ let rpt_pwd, new_pwd, meter;
 
 $(document).ready(() => {
     $(".btn-edit:not(#edit-pwd)").click(function () {
-        $("#new-pwd-box").slideUp(200);
+        $("#new-pwd-box").slideUp(200, () =>  $("#fake-password").show());
         disableEnabledInputs();
         let targetInput = $(this).parent().siblings(".input-cell").find("input");
 
@@ -27,9 +27,14 @@ $(document).ready(() => {
     });
 
     $("#edit-pwd").click(function () {
-        $("#new-pwd-box input").removeAttr("disabled");
-        $("#fake-password").attr("hidden", true);
-        $("#new-pwd-box").slideDown(200);
+        if($("#fake-password").is(":visible")) {
+            $("#new-pwd-box input").removeAttr("disabled");
+            $("#fake-password").hide();
+            $("#new-pwd-box").slideDown(200);
+        } else {
+            $("#new-pwd-box input").attr("disabled", true);
+            $("#new-pwd-box").slideUp(200, () => $("#fake-password").show());
+        }
     });
 
     $(".pwd-input").on("focus", function () {
@@ -62,8 +67,7 @@ function disableEnabledInputs() {
 
 function success() {
     console.log("Passord ble endret!");
-    $("#new-pwd-box").slideUp(200);
-    $("#fake-password").attr("hidden", false);
+    $("#new-pwd-box").slideUp(200, () => $("#fake-password").show());
 }
 
 function failure() {

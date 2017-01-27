@@ -1,12 +1,18 @@
 head {
     margin: 0 !important; /* TODO: fiks andre*/
 }
-
+/*
 body {
     padding: 90px 0 20px 0 !important;
+}*/
+
+html, body {
+    background-color: transparent !important;
 }
+
 :root {
     --border-color: #7c7c7c;
+    --arrow-border: #177E87;
 }
 
 .rad {
@@ -70,11 +76,17 @@ body {
     color: #1fa3ae;
 }
 
+.ion-arrow-right-a, .ion-arrow-left-a {
+    text-shadow: -1px 0 var(--arrow-border), 0 1px var(--arrow-border), 1px 0 var(--arrow-border), 0 -1px var(--arrow-border);
+    color: #1fa3ae;
+    font-size: 230%;
+}
+
 #testingg:hover, #testingg2:hover, #testing:hover, #testing2:hover, .testing:hover {
     cursor: pointer;
 }
 
-.burger-style:hover {
+.burger-style:hover, .ion-arrow-right-a:hover, .ion-arrow-left-a:hover {
     color: #17777f;
     cursor: pointer;
 }
@@ -127,4 +139,5 @@ body {
 #modalOther, #modalOwn, #modalFree {
     display: none;
 }
+
 

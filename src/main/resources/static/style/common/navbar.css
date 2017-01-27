@@ -138,7 +138,7 @@ body.no-anim,
 }
 
 .close-iconburger:hover {
-    color: #17777f;
+    color: #17777f !important;
     cursor: pointer;
 }
 
@@ -168,4 +168,53 @@ This class is added to the body when a modal is shown and removed when hidden */
 .list-icons {
     padding-right: 10px;
     font-size: 120%;
+}
+
+.img-circle:hover {
+    cursor: pointer;
+    filter: brightness(80%);
+}
+
+.date-input {
+    height: 52px;
+    font-size: 17px;
+}
+
+.bs-placeholder {
+    margin-top: 0;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 100% !important;
+}
+
+.input-box {
+    padding: 0 15px;
+    font-size: 16px;
+    height: 46px;
+}
+
+#message-field {
+    padding: 10px;
+    font-size: medium;
+}
+
+.msg-form-wrap {
+    margin: 15px;
+}
+
+.send-msg {
+    height: auto;
+}
+
+.komp-navn {
+    border: 1px solid #ddd;
+    margin: 15px;
+}
+
+.timebank-btn {
+    margin: 12px 0;
+}
+
+.timebank-panel {
+    border: 1px solid #bbb;
 }

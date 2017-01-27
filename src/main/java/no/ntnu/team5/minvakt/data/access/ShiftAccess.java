@@ -220,15 +220,19 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
 
     public List<Shift> getAllCurrentWeekForUser(Date date, String username) {
         CALENDAR.setTime(date);
+
+        CALENDAR.setFirstDayOfWeek(Calendar.MONDAY);//TODO: sjekk om kan fjernes
         CALENDAR.set(Calendar.DAY_OF_WEEK, CALENDAR.getFirstDayOfWeek());
-        CALENDAR.set(Calendar.HOUR, 0); //TODO: trenger vi hour, minute, second, millisecond
+        CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
         CALENDAR.set(Calendar.MINUTE, 0);
         CALENDAR.set(Calendar.SECOND, 0);
         CALENDAR.set(Calendar.MILLISECOND, 0);
         Date fromDate = CALENDAR.getTime();
+        //System.out.println(fromDate.toString());
 
         CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
         Date toDate = CALENDAR.getTime();
+        //System.out.println(toDate.toString());
         return getShiftsFromDateToDateForUser(fromDate, toDate, username);
     }
 

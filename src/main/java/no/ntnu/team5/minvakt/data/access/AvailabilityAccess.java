@@ -49,14 +49,16 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
-    public List<Availability> getAllCurrentWeekForUser(Date fromDate, String username) {
-        calendar.setTime(fromDate);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    public List<Availability> getAllCurrentWeekForUser(Date date, String username) {
+        calendar.setTime(date);
+
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);//TODO: sjekk om kan fjernes
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        fromDate = calendar.getTime();
+        Date fromDate = calendar.getTime();
 
         calendar.add(Calendar.DAY_OF_YEAR, 7);
         Date toDate = calendar.getTime();

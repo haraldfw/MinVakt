@@ -51,7 +51,7 @@ public class AdminController {
     private UsernameGen usernameGen;
 
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
 
     @Authorize
     @RequestMapping(value = "/create/user", method = RequestMethod.POST)
@@ -99,7 +99,7 @@ public class AdminController {
         try {
             String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
             String subject = "User has been created for you in MinVakt";
-            String link = "http://localhost:8080/password/reset?username=" +
+            String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
                     username + "&resetkey=" + encodedKey;
             String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
 

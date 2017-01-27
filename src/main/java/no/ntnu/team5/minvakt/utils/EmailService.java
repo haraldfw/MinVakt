@@ -26,8 +26,6 @@ public class EmailService {
     @Autowired
     MailContentBuilder mailContentBuilder;
 
-    private final Logger logger = LoggerFactory.getLogger(EmailService.class);
-
     private final SimpleDateFormat dateFormat =
             new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
 

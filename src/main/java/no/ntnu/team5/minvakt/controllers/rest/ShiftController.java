@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -96,7 +97,7 @@ public class ShiftController {
                                           @PathVariable("day") int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day); //TODO: check if is correct with other dates than rigth now
-        calendar.set(Calendar.HOUR, 0); //TODO: trenger vi hour, minute, second, millisecond
+        calendar.set(Calendar.HOUR_OF_DAY, 0); //TODO: trenger vi hour, minute, second, millisecond
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -111,6 +112,22 @@ public class ShiftController {
                     .map(access.shift::toModel)
                     .collect(Collectors.toList());
         });
+    }
+
+    //@Authorize
+    @RequestMapping("/{user}/{year}/{month}/{day}/work")
+    public double getWorkHoursWeek(@PathVariable("user") String username,
+                                   @PathVariable("year") int year,
+                                   @PathVariable("month") int month,
+                                   @PathVariable("day") int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        Date startDate = calendar.getTime();
+
+        return accessor.with(access -> {
+           return access.shift.getHoursInWeekForUser(startDate, username);
+        });
+        //getHoursInWeekForUser
     }
 
     @Authorize
@@ -181,7 +198,7 @@ public class ShiftController {
     @Authorize
     @RequestMapping("/get_available_users_for_shift")
     public List<UserModel> getAvailableUsers(@RequestParam("shift_id") int shift_id) {
-        return accessor.with(access -> {
+        return accessor.with(access -> {//TODO: kan krasje med id som ikke eksisterer, fiks
             Shift shift = access.shift.getShiftFromId(shift_id);
             Date fromDate = shift.getStartTime(), toDate = shift.getEndTime();
             List<User> users = access.availability.listAvailableUsers(fromDate, toDate);
