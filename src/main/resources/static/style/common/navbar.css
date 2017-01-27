@@ -219,4 +219,8 @@ This class is added to the body when a modal is shown and removed when hidden */
     border: 1px solid #bbb;
 }
 
+.badge-color {
+    background-color: #1fa3ae;
+}
+
 

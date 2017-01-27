@@ -7,6 +7,9 @@
     "profile_image_b64": {
       "type": "string"
     },
+    "notificationAmount": {
+      "type": "int"
+    },
     "profile_image_type": {
       "type": "string"
     },
