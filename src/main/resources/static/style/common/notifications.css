@@ -1,4 +1,4 @@
-.navbar-inverse .navbar-nav>.open>a,
+loblo.navbar-inverse .navbar-nav>.open>a,
 .navbar-inverse .navbar-nav>.open>a:focus,
 .navbar-inverse .navbar-nav>.open>a:hover {
     background: #222;
@@ -105,7 +105,12 @@
 }
 
 .admin-label {
-    color: rgba(131, 131, 131, 0.96);
+    color: black;
     font-size: small;
     margin-top: 2px;
+    padding: 2px 7px;
+    display: inline-block;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    background-color: white;
 }
