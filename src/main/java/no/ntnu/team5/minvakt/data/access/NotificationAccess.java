@@ -112,6 +112,7 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         notificationModel.setMessage(notification.getMessage());
         notificationModel.setId(notification.getId());
         notificationModel.setTimestamp(notification.getTimestamp());
+        notificationModel.setCompetenceName(notification.getCompetence().getName());
 
         return notificationModel;
     }
