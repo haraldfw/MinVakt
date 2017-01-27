@@ -323,13 +323,23 @@ $(document).ready(function() {
         plotShifts(datoo);
 
         $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
-        //(this).addClass("active-day");
-
         count = datoo;
         month = count.getMonth();
         year = count.getFullYear();
         firstDay = new Date(year, month, 1);
-        plotDays(count); //TODO når trykkes på inaktiv-day, skal måned skiftes ol., blir feil
+
+        if($(this).hasClass(".inactive-day")) {
+            var way = 0;
+
+            if((this).html() > 20) {
+                way = -1;
+            } else {
+                way = 1;
+            }
+            firstDay.setMonth(firstDay.getMonth() + way);
+        }
+        plotDays(count);
+
 
         $("#calendarModal").modal("toggle");
 
