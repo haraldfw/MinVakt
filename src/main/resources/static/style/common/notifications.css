@@ -103,3 +103,9 @@
     background-color: rgba(38, 144, 65, 0.09);
     //background-color: rgba(77, 199, 157, 0.08);
 }
+
+.admin-label {
+    color: rgba(131, 131, 131, 0.96);
+    font-size: small;
+    margin-top: 2px;
+}
