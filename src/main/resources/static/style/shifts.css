@@ -158,3 +158,30 @@ html, body {
     border-right: 1px solid var(--border-color-calendar);
     border-bottom: 1px solid var(--border-color-calendar);
 }
+
+/* Til folk som er på fakt //TODO: felles for schedule og shifts */
+.non-display-class {
+    display: none;
+}
+
+.co-worker-list {
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+.panel-footer {
+    border-top: 1px solid #ddd !important;
+}
+
+.panel-heading {
+    border-bottom: 1px solid #B1B1B1 !important;
+}
+
+.panel-heading:hover a {
+    text-decoration: underline;
+}
+
+.co-worker-panel-box:hover {
+    background-color: #cbcbcb;
+    cursor: pointer;
+}

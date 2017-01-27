@@ -35,7 +35,7 @@ $(document).ready(function() {
 
                 } else if (startTime.getFullYear() === date.getFullYear() && startTime.getMonth() === date.getMonth() && startTime.getDate() === date.getDate()) {
                     //hvis vakt starter på valgt dato og går til ny dag
-                    diff = 24.0 - hourFrom + minFromPros;
+                    diff = 24.0 - (hourFrom + minFromPros);
                     lengde = hourFrom + minFromPros;
 
                 } else if (endTime.getFullYear() === date.getFullYear() && endTime.getMonth() === date.getMonth() && endTime.getDate() === date.getDate()) {
@@ -185,6 +185,32 @@ $(document).ready(function() {
                 $("#tidsviser").html(tid);
             });
 
+            function getAvailableUsers(url) {
+                $.get(url, function() {
+                    //alert("okidoki1");
+                }).done(function(data) {
+                    $(".a-p-box").remove(); //a-p-box = available workers that can take a shift
+                    var jsonArray = data;
+                    var workerCounter = 1;
+                    for (var i = 0; i < jsonArray.length; i++) {
+                        var workerId = jsonArray[i].id;
+                        var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                        var workerType = "panel-footer ";
+                        if (workerCounter % 2 === 0) {
+                            workerType = "panel-body ";
+                        }
+                        if (username === jsonArray[i].username) {
+                            //TODO: fix
+                        } else {
+                            $("#co-worker-available-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
+                            workerCounter++;
+                        }
+                    }
+                }).fail(function () {
+                    alert("Det skjedde en feil med innhenting av data for skift.");
+                });
+            }
+
             $(".self").click(function () {
                 $("#modalShift").modal("show");
                 $("#modalOwn").css("display", "inline");
@@ -198,6 +224,10 @@ $(document).ready(function() {
                 var navn = $(".navnLagring", this).html();
                 $("#ansatt").html(navn);
 
+                selectedShiftId = $(this).parent().children(".position-id").html();
+
+                var availabilityUrl = "/api/shift/get_available_users_for_shift?shift_id=" + selectedShiftId;
+                getAvailableUsers(availabilityUrl);
 
             });
             $(".worker").click(function () {
@@ -242,7 +272,6 @@ $(document).ready(function() {
         return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
-    function borderActiveWeek() {} //Må være tom function
 
     plotShifts(today);
     var count = today;
@@ -251,11 +280,26 @@ $(document).ready(function() {
         $("#superDiv").empty();
         count = addDays(count, -1);
         plotShifts(count);
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
+
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count);
     });
+
     $("#dayForth").click(function() {
         $("#superDiv").empty();
         count = addDays(count, 1);
         plotShifts(count);
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
+
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count);
+
+
     });
 
 
@@ -277,12 +321,48 @@ $(document).ready(function() {
 
         $("#superDiv").empty();
         plotShifts(datoo);
-        count = datoo;
-        $("#calendarModal").modal("toggle");
-        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
-        $(this).addClass("active-day");
 
-    }); //TODO: BORDER MARKERING PÅ VALGT DATO
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
+        //(this).addClass("active-day");
+
+        count = datoo;
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count); //TODO når trykkes på inaktiv-day, skal måned skiftes ol., blir feil
+
+        $("#calendarModal").modal("toggle");
+
+    });
 
     $(".modal-title-title").html("Velg dato");
+
+    var sendUrl = "";
+    var shiftType = -1;
+    var selectedShiftId = -1;
+    $(".co-worker-list").on("click", ".a-p-box", function(e) {
+        var selectedWorkerId = $(this).attr("id");
+        sendUrl = "/api/notifications/generate_transfer_request_notification?shift_id=" + selectedShiftId + "&user_id=" + selectedWorkerId;
+        var nameForChanger = $(this).html();
+
+        shiftType = 5;
+        $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
+
+        e.preventDefault();
+    });
+
+    $("#yesButton").click(function() {
+        $("#modalYesNo").modal("toggle");
+        if (shiftType === 5) {
+            //When a user is asked another co-worker about taking the shift
+            $.post(sendUrl, function() {
+
+            }).done(function() {
+                alert("Du har sendt forespørsel om å bytte dette skiftet.");//TODO: fix a better "alert" or modal
+            }).fail(function() {
+                alert("Kunne ikke sende forespørsel om vaktbytte");
+            });
+        }
+    });
 });
