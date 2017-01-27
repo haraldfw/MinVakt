@@ -19,7 +19,7 @@
               onsubmit="return jsonSubmit(this, '/admin/message')" th:action="@{/api/admin/message}"
               method="post">
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
-                <h4>Nødvendig kompetanse</h4>
+                <h4>Til kompetanse</h4>
                 <select name="comp_recs[]" class="selectpicker" title="Ingen valgt"
                         data-live-search="true" multiple="multiple" data-width="100%">
                     <option th:each="comp : ${competences}"
