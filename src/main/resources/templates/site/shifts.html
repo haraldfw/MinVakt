@@ -86,15 +86,19 @@
                         Ditt skift <br/>
                         <button class="btn btn-default">Legg ut vakt for salg</button>
                         <button class="btn btn-default">Velg tilgjengelig person og forespør overtakelse</button>
-                        <label for="shiftSelectedDay">Vakter på valgt dag</label>
-                        <select class="form-control" id="shiftSelectedDay">
-                            <option>Test 1</option>
-                            <option>Test 2</option>
-                            <option>Test 3</option>
-                            <option>Test 4</option>
-                            <option>Test 5</option>
 
-                        </select>
+                        <p>Hei</p>
+                        <!-- A drop down list with users that is available to take over a shift -->
+                        <div id="available-workers-panel" class="panel-group non-display-class" style="display: block;">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="collapse" href="#co-worker-available-collapse">
+                                    <a data-toggle="collapse" href="#co-worker-available-collapse">Velg en ansatt du vil spørre om å ta over skiftet</a>
+                                </div>
+                                <div id="co-worker-available-collapse" class="panel-collapse collapse co-worker-list">
+                                    <!-- Workers that are available for taking the shift are displayed here -->
+                                </div>
+                            </div>
+                        </div>
 
 
 
@@ -149,6 +153,25 @@
         </div>
     </div>
     <!--Modal for info om klokkeslett slutt-->
+
+        <!-- Modal for basic yes/no pop-up -->
+        <div id="modalYesNo" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-sm" id="modal-dialogYesNo">
+                <div class="modal-content">
+                    <!-- header og lukk kryss -->
+                    <div class="modal-header">
+                        <i class="close ion-close" data-dismiss="modal"></i>
+                        <h4 class="modal-title" id="yesNo-Question">Skift informasjon</h4>
+                    </div>
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <button id="noButton" class="btn btn-danger" type="button" data-dismiss="modal">Nei</button>
+                        <button id="yesButton" class="btn btn-success" type="button">Ja</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Slutt modal for basic yes/no pop-up -->
     </div>
 </div>
 </html>

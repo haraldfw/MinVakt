@@ -185,6 +185,33 @@ $(document).ready(function() {
                 $("#tidsviser").html(tid);
             });
 
+            function getAvailableUsers(url) {
+                $.get(url, function() {
+                    //alert("okidoki1");
+                }).done(function(data) {
+                    $(".a-p-box").remove(); //a-p-box = available workers that can take a shift
+                    var jsonArray = data;
+                    var workerCounter = 1;
+                    for (var i = 0; i < jsonArray.length; i++) {
+                        var workerId = jsonArray[i].id;
+                        var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                        var workerType = "panel-footer ";
+                        if (workerCounter % 2 === 0) {
+                            workerType = "panel-body ";
+                        }
+                        if (username === jsonArray[i].username) {
+                            //TODO: fix
+                        } else {
+                            $("#co-worker-available-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
+                            workerCounter++;
+                        }
+                    }
+                }).fail(function () {
+                    alert("Det skjedde en feil med innhenting av data for skift.");
+                });
+            }
+
+            var selectedShiftId = -1;
             $(".self").click(function () {
                 $("#modalShift").modal("show");
                 $("#modalOwn").css("display", "inline");
@@ -198,6 +225,10 @@ $(document).ready(function() {
                 var navn = $(".navnLagring", this).html();
                 $("#ansatt").html(navn);
 
+                var selectedShiftId = $(this).parent().children(".position-id").html();
+
+                var availabilityUrl = "/api/shift/get_available_users_for_shift?shift_id=" + selectedShiftId;
+                getAvailableUsers(availabilityUrl);
 
             });
             $(".worker").click(function () {
@@ -285,4 +316,31 @@ $(document).ready(function() {
     }); //TODO: BORDER MARKERING PÅ VALGT DATO
 
     $(".modal-title-title").html("Velg dato");
+
+    var sendUrl = "";
+    $(".co-worker-list").on("click", ".a-p-box", function(e) {
+        var selectedWorkerId = $(this).attr("id");
+        sendUrl = "/api/notifications/generate_transfer_request_notification?shift_id=" + selectedShiftId + "&user_id=" + selectedWorkerId;
+        var nameForChanger = $(this).html();
+
+        shiftType = 5;
+        $("#modalYesNo").modal("show");
+        $("#yesNo-Question").html("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
+
+        e.preventDefault();
+    });
+
+    $("#yesButton").click(function() {
+        $("#modalYesNo").modal("toggle");
+        if (shiftType === 5) {
+            //When a user is asked another co-worker about taking the shift
+            $.post(sendUrl, function() {
+
+            }).done(function() {
+                alert("Du har sendt forespørsel om å bytte dette skiftet.");//TODO: fix a better "alert" or modal
+            }).fail(function() {
+                alert("Kunne ikke sende forespørsel om vaktbytte");
+            });
+        }
+    });
 });
