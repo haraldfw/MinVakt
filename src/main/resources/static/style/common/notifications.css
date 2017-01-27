@@ -14,7 +14,8 @@ loblo.navbar-inverse .navbar-nav>.open>a,
     background: white !important;
     margin-top: -15px !important;
     margin-right: 15px;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 @media (max-width: 768px) {
