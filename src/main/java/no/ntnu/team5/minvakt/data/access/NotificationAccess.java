@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -35,6 +36,8 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
             query.setParameterList("ucomps", ucomps);
             notifications.addAll((List<Notification>) query.list());
 
+            notifications.sort(Comparator.comparing(Notification::getTimestamp).reversed());
+            
             return notifications;
         });
     }
@@ -112,9 +115,9 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         notificationModel.setMessage(notification.getMessage());
         notificationModel.setId(notification.getId());
         notificationModel.setTimestamp(notification.getTimestamp());
-        if (notification.getCompetence() != null){
+        if (notification.getCompetence() != null) {
             notificationModel.setCompetenceName(notification.getCompetence().getName());
-        }else{
+        } else {
             notificationModel.setCompetenceName(null);
         }
         return notificationModel;

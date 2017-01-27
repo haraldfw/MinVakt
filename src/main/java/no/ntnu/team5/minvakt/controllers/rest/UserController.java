@@ -120,6 +120,7 @@ public class UserController {
 
             access.shift.lockShift(shift);
             return ResponseEntity.ok().body(true);
+            
         });
     }
 }

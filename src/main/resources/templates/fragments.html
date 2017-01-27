@@ -21,6 +21,7 @@
                         <li th:each="n: ${navbar.notificationModels}"
                             th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'" th:classappend="${n.competenceName} != null ? 'admin' : ''">
                             <div th:if="${n.actionUrl} != null">
+                                <p class="admin-label" th:if="${n.competenceName} != null">Admin</p>
                                 <p th:text="${n.message}"><!-- melding havner her --></p>
                                 <p class="timestamp" th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
                                     <!-- timestamp havner her -->
@@ -36,6 +37,7 @@
                             </div>
                             <div th:if="${n.actionUrl} == null">
                                 <div class="dismissable-notification">
+                                    <p class="admin-label" th:if="${n.competenceName} != null">Admin notif:</p>
                                     <p th:text="${n.message}"><!-- melding havner her --></p>
                                     <form class="noti-form"
                                           th:action="@{/api/notifications/close_notification(notification_id=${n.id})}"

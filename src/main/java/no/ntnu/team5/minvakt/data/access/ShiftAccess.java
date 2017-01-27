@@ -247,9 +247,13 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
 
     public double getHoursInWeekForUser(Date currentDate, String username) {
         CALENDAR.setTime(currentDate);
-        CALENDAR.set(Calendar.DAY_OF_WEEK, 0);
+
+        CALENDAR.setFirstDayOfWeek(Calendar.MONDAY);//TODO: sjekk om kan fjernes
+        CALENDAR.set(Calendar.DAY_OF_WEEK, CALENDAR.getFirstDayOfWeek());
         CALENDAR.set(Calendar.HOUR_OF_DAY, 0);
         CALENDAR.set(Calendar.MINUTE, 0);
+        CALENDAR.set(Calendar.SECOND, 0);
+        CALENDAR.set(Calendar.MILLISECOND, 0);
         Date dateFrom = CALENDAR.getTime();
         CALENDAR.add(Calendar.DAY_OF_YEAR, 7);
         Date dateTo = CALENDAR.getTime();
