@@ -315,3 +315,12 @@
 .non-display-class {
     display: none;
 }
+
+/* Datepicker styling */
+.label-fixed-margin {
+    margin-top: 4px;
+}
+
+.datepicker-fixed-padding {
+    padding-right: 50px; /* TODO: Sjekk om dette passer for alle skjermstørrelser*/
+}

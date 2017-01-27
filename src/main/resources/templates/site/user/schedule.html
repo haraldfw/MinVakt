@@ -231,54 +231,54 @@
                     </div>
                 </div>
 
-                <div id="changeActualStartEndTimesButton" style="display: none;">
-                    <button class="btn btn-primary" type="button">Legg inn faktisk start- og sluttidspunkt</button>
+                <div id="changeActualStartEndTimesButtonDiv" style="display: none;">
+                    <button id="changeActualStartEndTimesButton" class="btn btn-primary" type="button">Legg inn faktisk start- og sluttidspunkt</button>
                     <br /><br />
-                    <div>
-                        <!-- Datepicker for previous shift data change -->
+                    <div id="changeActualShiftTimesDatePDivs" style="display: none;">
+                        <!-- Datepickers for previous shift data change -->
                         <div class="container">
                             <div class="row">
-                                <div class='col-sm-6'>
+                                <div class="col-xs-6">
                                     <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
+                                        <label class="col-xs-2 control-label label-fixed-margin">Start tid</label>
+                                        <div class="input-group date datepicker-fixed-padding" id="datetimepicker6">
+                                            <input type="text" class="form-control" />
                                             <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
                                         </div>
                                     </div>
                                 </div>
-                                <script type="text/javascript">
-                                    $(function () {
-                                        $('#datetimepicker1').datetimepicker();
-                                    });
-                                </script>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label label-fixed-margin">Slutt tid</label>
+                                    <div class="input-group date datepicker-fixed-padding" id="datetimepicker7">
+                                        <input type="text" class="form-control" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- end datepicker -->
+                        <script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker6').datetimepicker();
+                                $('#datetimepicker7').datetimepicker({
+                                    useCurrent: false //Important! See issue #1075
+                                });
+                                $("#datetimepicker6").on("dp.change", function (e) {
+                                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                                });
+                                $("#datetimepicker7").on("dp.change", function (e) {
+                                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                                });
+                            });
+                        </script>
+                        <!-- newStartDateShiftTime and newEndDateShiftTime -->
+                        <!-- end linked datepickers -->
 
-                        <form id="startDateShiftTime" method="post" class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-xs-3 control-label">Star tid</label>
-                                <div class="col-xs-5 date">
-                                    <div class="input-group input-append date">
-                                        <input type="text" class="form-control" name="date" />
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <form id="endDateShiftTime" method="post" class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-xs-3 control-label">Slutt tid</label>
-                                <div class="col-xs-5 date">
-                                    <div class="input-group input-append date">
-                                        <input type="text" class="form-control" name="date" />
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
 

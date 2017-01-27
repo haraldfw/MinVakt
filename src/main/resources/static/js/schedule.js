@@ -315,7 +315,7 @@ $(document).ready(function() {
                         extraElementCounter++;
 
                         var newElementNextDay = '<div id="' + shiftId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">'
-                            shiftCenteredTextTwoDays;x
+                            shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
                 }
@@ -396,17 +396,16 @@ $(document).ready(function() {
             }
         }
 
-        if (funnet) {
-            $("#changeActualStartEndTimesButton").css("display", "block");
+        if (funnet) { //dersom man trykker på et skift som er før i tid
+            $("#changeActualStartEndTimesButtonDiv").css("display", "block");
             //Fjerne tilgjengelige personer til vakt også
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
         } else {
-            $("#changeActualStartEndTimesButton").css("display", "none");
+            $("#changeActualStartEndTimesButtonDiv").css("display", "none");
         }
 
         $("#modalTest").modal("show");
-
 
         if ($(this).hasClass("normal-shift")) { //TODO: det er vel bare vanlige skift som skal ha denne?
             //Get available users for changing worker of a shift
@@ -599,5 +598,13 @@ $(document).ready(function() {
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
+    });
+
+    $("#changeActualStartEndTimesButton").click(function() {
+        if ($("#changeActualShiftTimesDatePDivs").css("display") == "none") {
+            $("#changeActualShiftTimesDatePDivs").css("display", "block");
+        } else {
+            $("#changeActualShiftTimesDatePDivs").css("display", "none");
+        }
     });
 });
