@@ -30,7 +30,7 @@ $(document).ready(function() {
 
                 //if same date    TODO:endre dags dato til annet senere
                 if (startTime.getFullYear() === endTime.getFullYear() && startTime.getMonth() === endTime.getMonth() && startTime.getDate() === endTime.getDate()) {
-                    diff = hourTo + minToPros - hourFrom + minFromPros; // tiltid - starttid
+                    diff = (hourTo + minToPros) - (hourFrom + minFromPros); // tiltid - starttid
                     lengde = hourFrom + minFromPros;
 
                 } else if (startTime.getFullYear() === date.getFullYear() && startTime.getMonth() === date.getMonth() && startTime.getDate() === date.getDate()) {
@@ -183,6 +183,11 @@ $(document).ready(function() {
                 }
             });
 
+
+
+
+
+
             $(".no-worker").click(function () {
                 $("#modalShift").modal("show");
                 $("#modalFree").css("display", "inline");
@@ -193,32 +198,6 @@ $(document).ready(function() {
                 var tid = $(".tidLagring", this).html();
                 $("#tidsviser").html(tid);
             });
-
-            function getAvailableUsers(url) {
-                $.get(url, function() {
-                    //alert("okidoki1");
-                }).done(function(data) {
-                    $(".a-p-box").remove(); //a-p-box = available workers that can take a shift
-                    var jsonArray = data;
-                    var workerCounter = 1;
-                    for (var i = 0; i < jsonArray.length; i++) {
-                        var workerId = jsonArray[i].id;
-                        var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
-                        var workerType = "panel-footer ";
-                        if (workerCounter % 2 === 0) {
-                            workerType = "panel-body ";
-                        }
-                        if (username === jsonArray[i].username) {
-                            //TODO: fix
-                        } else {
-                            $("#co-worker-available-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
-                            workerCounter++;
-                        }
-                    }
-                }).fail(function () {
-                    alert("Det skjedde en feil med innhenting av data for skift.");
-                });
-            }
 
             $(".self").click(function () {
                 $("#modalShift").modal("show");
@@ -237,8 +216,8 @@ $(document).ready(function() {
 
                 var availabilityUrl = "/api/shift/get_available_users_for_shift?shift_id=" + selectedShiftId;
                 getAvailableUsers(availabilityUrl);
-
             });
+
             $(".worker").click(function () {
                 $("#modalShift").modal("show");
                 $("#modalOther").css("display", "inline");
@@ -263,28 +242,44 @@ $(document).ready(function() {
                 $("#worker-email-address").attr("href", "mailto:" + email);
 
             });
-
-            $("#shiftChange").click(function () {
-                if ($("#shiftSelect").css("display") === "none") {
-                    $("#shiftSelect").css("display", "inline");
-                } else {
-                    $("#shiftSelect").css("display", "none");
-                }
-            });
-
-            $(".timedisplay").click(function () {
-                $("#infoTime").modal("show");
-                var text = $(this).html();
-                $("#titleTime").html(text);
-            });
-
-            $("#date").on("changeDate", function () {
-                $("#selectDay").css("display", "none");
-                $("#selectDay").css("display", "inline");
-            });
         });
 
-    };
+    }
+
+    /* End of plotShifts */
+
+    /* Get available users for a shift */
+    function getAvailableUsers(url) {
+        $.get(url, function() {
+            //alert("okidoki1");
+        }).done(function(data) {
+            $(".a-p-box").remove(); //a-p-box = available workers that can take a shift
+            var jsonArray = data;
+            var workerCounter = 1;
+            for (var i = 0; i < jsonArray.length; i++) {
+                var workerId = jsonArray[i].id;
+                var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                var workerType = "panel-footer ";
+                if (workerCounter % 2 === 0) {
+                    workerType = "panel-body ";
+                }
+                if (username === jsonArray[i].username) {
+                    //TODO: fix
+                } else {
+                    $("#co-worker-available-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
+                    workerCounter++;
+                }
+            }
+        }).fail(function () {
+            alert("Det skjedde en feil med innhenting av data for skift.");
+        });
+    }
+
+    $(".timedisplay").click(function () {
+        $("#infoTime").modal("show");
+        var text = $(this).html();
+        $("#titleTime").html(text);
+    });
 
     /* Function for adding and subtracting days to a javascript date object */
     function addDays(date, days) {
@@ -324,11 +319,19 @@ $(document).ready(function() {
 
     $(".cell-cal").hover(function() {
         if($(this).hasClass("inactive-month")) {
-            $(this).toggleClass("hover-adjust hover-adjust-inactive");
+            $(this).addClass("hover-adjust hover-adjust-inactive");
         } else if($(this).hasClass("today")) {
-            $(this).toggleClass("hover-adjust hover-adjust-today");
+            $(this).addClass("hover-adjust hover-adjust-today");
         } else {
-            $(this).toggleClass("hover-adjust");
+            $(this).addClass("hover-adjust");
+        }
+    }, function () {
+        if($(this).hasClass("inactive-month")) {
+            $(this).removeClass("hover-adjust hover-adjust-inactive");
+        } else if($(this).hasClass("today")) {
+            $(this).removeClass("hover-adjust hover-adjust-today");
+        } else {
+            $(this).removeClass("hover-adjust");
         }
     });
 
@@ -355,7 +358,7 @@ $(document).ready(function() {
         } else {
             $(".cell-cal").removeClass("inactive-month");
         }
-        sleep(650); //TODO: fiks dette, tar for lang tid
+        //sleep(650); //TODO: fiks dette, tar for lang tid
 
         var monthYearArray = $(this).children(".month-year").html().split(" ");
         var dagIkkeArray = $(this).children(".display-day").html();

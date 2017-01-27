@@ -72,6 +72,11 @@ $(document).ready(function() {
         firstDay.setMonth(firstDay.getMonth() + way);
         month = firstDay.getMonth();
         year = firstDay.getFullYear();
+
+        $(".cell-cal").removeClass("active-day");
+        if(html) {shit
+            
+        }
         plotDays(firstDay);
     }
 
