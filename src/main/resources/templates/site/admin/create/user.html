@@ -44,7 +44,7 @@
             </div>
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <h4>Kompetanse</h4>
-                <select name="competences[]" class="selectpicker" data-live-search="true" multiple="multiple">
+                <select name="competences[]" class="selectpicker" data-live-search="true" multiple="multiple" title="Ingen valgt">
                     <th:block th:each="comp : ${competences}">
                         <div class="form-group">
                             <option th:text="${comp}" th:value="${comp}"></option>

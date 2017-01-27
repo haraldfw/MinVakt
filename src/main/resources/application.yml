@@ -18,7 +18,7 @@ spring:
     password: ENC(q41c+P9rkQ1S8nxLO3mM5HzaA1LJ0bdu)
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
-      max-active: 10
+      max-active: 4
       connection-properties: useUnicode=true;characterEncoding=utf-8;max_allowed_packet=16000000;autoReconnect=true;logAbandoned="true";
 
   jpa:
@@ -54,3 +54,8 @@ server:
   port: 8080
 
 application.hostname: puffin.tihlde.org:8080
+
+spring:
+  datasource:
+    tomcat:
+      max-active: 10

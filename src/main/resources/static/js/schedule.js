@@ -50,8 +50,38 @@ $(document).ready(function() {
         } else {
             $(this).siblings(".cell-cal").toggleClass("hover-adjust");
         }
+    });
+
+    $(".cell-cal").click(function() {
+        var monthYearArray = $(this).children(".month-year").html().split(" ");
+        var dagIkkeArray = $(this).children(".display-day").html();
+
+        var datoo = new Date(monthYearArray[0], monthYearArray[1] , dagIkkeArray);
+
+        $(".shift").remove();
+
+        weekStartDate = addDays(datoo, -tempFix[datoo.getDay()]);
+        currentDate = weekStartDate;
+        changeTopDayNames();
+
+        $("#calendarModal").modal("toggle");
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
+
+        $(this).parent("td:nth-child(2)").addClass("active-week-left active-week-middle");
+        for(var k = 3; k < 8; k++) { //fiks på bedre måte
+            $(this).parent("td:nth-child(" + k + ")").addClass("active-week-middle");
+        }
+        $(this).parent("td:nth-child(8)").addClass("active-week-right active-week-middle");
+
+        currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
+        url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
+
+        getShifts(url);
 
     });
+
+
+    /* End for calendar */
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {
@@ -315,7 +345,7 @@ $(document).ready(function() {
                         extraElementCounter++;
 
                         var newElementNextDay = '<div id="' + shiftId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">'
-                            shiftCenteredTextTwoDays;x
+                            shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
                 }
@@ -396,17 +426,16 @@ $(document).ready(function() {
             }
         }
 
-        if (funnet) {
-            $("#changeActualStartEndTimesButton").css("display", "block");
+        if (funnet) { //dersom man trykker på et skift som er før i tid
+            $("#changeActualStartEndTimesButtonDiv").css("display", "block");
             //Fjerne tilgjengelige personer til vakt også
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
         } else {
-            $("#changeActualStartEndTimesButton").css("display", "none");
+            $("#changeActualStartEndTimesButtonDiv").css("display", "none");
         }
 
         $("#modalTest").modal("show");
-
 
         if ($(this).hasClass("normal-shift")) { //TODO: det er vel bare vanlige skift som skal ha denne?
             //Get available users for changing worker of a shift
@@ -599,5 +628,13 @@ $(document).ready(function() {
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
+    });
+
+    $("#changeActualStartEndTimesButton").click(function() {
+        if ($("#changeActualShiftTimesDatePDivs").css("display") == "none") {
+            $("#changeActualShiftTimesDatePDivs").css("display", "block");
+        } else {
+            $("#changeActualShiftTimesDatePDivs").css("display", "none");
+        }
     });
 });
