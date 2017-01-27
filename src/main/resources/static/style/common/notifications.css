@@ -99,3 +99,7 @@
     margin-bottom: 3px;
 }
 
+.admin {
+    background-color: rgba(38, 144, 65, 0.09);
+    //background-color: rgba(77, 199, 157, 0.08);
+}
