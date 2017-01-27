@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -223,18 +225,20 @@ public class ShiftController {
             verifier.ensure(or(isUser(notification.getUser().getUsername()), hasRole(Constants.ADMIN)));
 
             Shift shift = access.shift.getShiftFromId(shift_id);
+            String startTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getStartTime());
+            String endTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getEndTime());
 
             if (accept) {
                 String message = "Bruker " + access.user.fromID(user_id).getUsername() +
                         " ønsker å ta over følgende vakt fra " + shift.getUser().getUsername() +
-                        ": " + shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                        ": " + startTime + " til " + endTime + ".";
                 String nyActionURL = "/api/shift/transfer?shift_id=" + shift_id + "&user_id=" + user_id;
                 access.notification.generateTransferNotification(access.competence.getFromName("Admin"), message, nyActionURL);
             } else {
                 User originalOwner = shift.getUser();
                 if (originalOwner != null) {
                     String message = "Din forespørsel om bytte av følgende vakt har blitt avslått: " +
-                            shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                            startTime + " til " + endTime + ".";
                     access.notification.generateMessageNotification(originalOwner, message);
                     access.shift.unlockShift(shift);
                 }
@@ -262,9 +266,11 @@ public class ShiftController {
                 return;
             }
             Shift shift = access.shift.getShiftFromId(shift_id);
+            String startTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getStartTime());
+            String endTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getEndTime());
+            User newShiftOwner = access.user.fromID(user_id);
+            User oldShiftOwner = shift.getUser();
             if (accept) {
-                User newShiftOwner = access.user.fromID(user_id);
-                User oldShiftOwner = shift.getUser();
                 access.shift.transferOwnership(shift, newShiftOwner);
 
                 Map<String, String> vars = new HashMap<>();
@@ -274,7 +280,7 @@ public class ShiftController {
                 vars.put("old_owner_full_name", oldShiftOwner.getFirstName() + " " + oldShiftOwner.getLastName());
 
                 String message = "Du har blitt tildelt følgende vakt: " +
-                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                        startTime + " til " + endTime + ".";
                 access.notification.generateMessageNotification(newShiftOwner, message);
 
                 emailService.sendEmail(newShiftOwner.getEmail(),
@@ -283,21 +289,23 @@ public class ShiftController {
 
 
                 message = "Følgende vakt har blitt overtatt av " + newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName() + ": \n" +
-                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                        startTime + " til " + endTime + ".";
                 access.notification.generateMessageNotification(oldShiftOwner, message);
 
                 emailService.sendEmail(oldShiftOwner.getEmail(),
                         "Vakt er overtatt av " + newShiftOwner.getUsername(),
                         "email/shift_transfer_old_owner", vars);
             } else {
-                User originalOwner = shift.getUser();
-                if (originalOwner == null) {
+                if (oldShiftOwner == null) {
                     System.out.println("Fant ingen tidligere skifteier.");
                     return;
                 }
                 String message = "Din forespørsel om bytte av følgende vakt har blitt avslått av admin: " +
-                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
-                access.notification.generateMessageNotification(originalOwner, message);
+                        startTime + " til " + endTime + ".";
+                access.notification.generateMessageNotification(oldShiftOwner, message);
+                message = "Din forespørsel om å ta over følgende vakt har blitt avslått av admin: " +
+                        startTime + " til " + endTime + ".";
+                access.notification.generateMessageNotification(newShiftOwner, message);
             }
             access.notification.closeNotification(notification);
             access.shift.unlockShift(shift);
@@ -323,11 +331,13 @@ public class ShiftController {
                 return;
             }
             Shift shift = access.shift.getShiftFromId(shift_id);
+            String startTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getStartTime());
+            String endTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getEndTime());
             if (accept) {
                 User user = shift.getUser();
                 access.shift.transferOwnership(shift, null);
                 String message = "Du har blitt frigjort fra følgende vakt:\n " +
-                        shift.getStartTime() + " til " + shift.getEndTime();
+                        startTime + " til " + endTime;
                 access.notification.generateMessageNotification(user, message);
             } else {
                 User user = shift.getUser();
@@ -336,7 +346,7 @@ public class ShiftController {
                     return;
                 }
                 String message = "Din forespørsel om å bli frigjort fra følgende vakt har blitt avslått av admin: " +
-                        shift.getStartTime() + " til " + shift.getEndTime() + ".";
+                        startTime + " til " + endTime + ".";
                 access.notification.generateMessageNotification(user, message);
             }
             access.notification.closeNotification(notification);
