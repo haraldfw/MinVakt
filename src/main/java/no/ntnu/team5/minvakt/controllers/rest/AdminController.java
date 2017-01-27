@@ -12,11 +12,17 @@ import no.ntnu.team5.minvakt.model.NewShift;
 import no.ntnu.team5.minvakt.model.NewUser;
 import no.ntnu.team5.minvakt.model.ShiftAssign;
 import no.ntnu.team5.minvakt.model.ShiftModel;
+import no.ntnu.team5.minvakt.model.UserCreateResponse;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
 import no.ntnu.team5.minvakt.utils.EmailService;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +30,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
@@ -55,7 +57,7 @@ public class AdminController {
 
     @Authorize
     @RequestMapping(value = "/create/user", method = RequestMethod.POST)
-    public void createUser(Verifier verifier, @RequestBody NewUser newUser) {
+    public ResponseEntity<UserCreateResponse> createUser(Verifier verifier, @RequestBody NewUser newUser) {
 
         verifier.ensure(hasRole(Constants.ADMIN));
 
@@ -72,12 +74,8 @@ public class AdminController {
         c.add(Calendar.DATE, 1);
         Date resetKeyExpiry = c.getTime();
 
-        Set<Competence> comps = new HashSet<>();
-        newUser.getCompetences().forEach(s -> comps.add(accessor.with(accessContext -> {
-            return accessContext.competence.getFromName(s);
-        })));
-
-        accessor.with(access -> {
+        UserCreateResponse response = new UserCreateResponse();
+        ResponseEntity.BodyBuilder builder = accessor.with(access -> {
             User user = new User();
             user.setUsername(username);
             user.setFirstName(firstName);
@@ -89,31 +87,41 @@ public class AdminController {
             user.setPhonenumber(newUser.getPhoneNr());
             user.setAddress(newUser.getAddress());
             user.setDateOfBirth(newUser.getDateOfBirth());
-            user.setCompetences(comps);
             user.setResetKey(resetKey);
             user.setResetKeyExpiry(resetKeyExpiry);
 
-            access.user.save(user);
+            Set<Competence> comps = new HashSet<>();
+            newUser.getCompetences().forEach(s -> comps.add(access.competence.getFromName(s)));
+            user.setCompetences(comps);
+
+            Session session = access.getDb().getSession();
+            Transaction tx = session.beginTransaction();
+
+            try {
+                session.save(user);
+
+                emailService.userCreated(username, newUser.getEmail(), resetKey, resetKeyExpiry);
+                response.setUserModel(access.user.toModel(user));
+                tx.commit();
+
+                return ResponseEntity.ok();
+            } catch (ConstraintViolationException e) {
+                tx.rollback();
+                response.setErrorMsg("Epost er allerede i bruk.");
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY);
+            } catch (UnsupportedEncodingException e) {
+                tx.rollback();
+                response.setErrorMsg("Tegnsett ikke støttet.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            } catch (Exception e) {
+                tx.rollback();
+                e.printStackTrace();
+                response.setErrorMsg("Ukjent feil ved innlegging.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         });
 
-        try {
-            String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
-            String subject = "User has been created for you in MinVakt";
-            String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
-                    username + "&resetkey=" + encodedKey;
-            String expiry = new SimpleDateFormat("yyyy-M-d kk:mm").format(resetKeyExpiry);
-
-            Map<String, String> vars = new HashMap<>();
-            vars.put("link", link);
-            vars.put("expiry", expiry);
-            vars.put("username", username);
-
-            emailService.sendEmail(
-                    newUser.getEmail(), subject, "email/user_created", vars);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        return builder.body(response);
     }
 
     @Authorize
