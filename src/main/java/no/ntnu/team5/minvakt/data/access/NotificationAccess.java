@@ -117,8 +117,6 @@ public class NotificationAccess extends Access<Notification, NotificationModel> 
         }else{
             notificationModel.setCompetenceName(null);
         }
-
-
         return notificationModel;
     }
 }

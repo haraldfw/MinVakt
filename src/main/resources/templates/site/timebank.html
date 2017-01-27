@@ -23,7 +23,7 @@
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <form action="/api/shift/settime"
                       onsubmit="return punchIn(this)" method="post">
-                    <input type="submit" value="Inn" class="btn btn-success btn-block timebank-btn"/>
+                    <input type="submit" value="Sjekk inn" class="btn btn-success btn-block timebank-btn"/>
                     <input name="shift_id" hidden="hidden" th:value="${shift.id}"/>
                     <input name="start_time" hidden="hidden"/>
                 </form>
@@ -31,7 +31,7 @@
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
                 <form action="/api/shift/settime"
                       onsubmit="return punchOut(this)" method="post">
-                    <input type="submit" value="Ut" class="btn btn-danger btn-block timebank-btn"/>
+                    <input type="submit" value="Sjekk ut" class="btn btn-danger btn-block timebank-btn"/>
                     <input name="shift_id" hidden="hidden" th:value="${shift.id}"/>
                     <input name="end_time" hidden="hidden"/>
                 </form>

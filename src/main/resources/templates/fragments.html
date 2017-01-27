@@ -16,10 +16,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true"
                        aria-expanded="false">
-                        <i style="font-size: 126%;" class="ion-ios-bell"></i></a>
+                        <i style="font-size: 126%;" class="ion-ios-bell"></i><span class="badge badge-pill badge-color" th:text="${navbar.notificationAmount}"></span></a>
                     <ul class="dropdown-menu noti-menu">
                         <li th:each="n: ${navbar.notificationModels}"
-                            th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'">
+                            th:class="${n.actionUrl} != null ? 'yes-no' : 'dismiss'" th:classappend="${n.competenceName} != null ? 'admin' : ''">
                             <div th:if="${n.actionUrl} != null">
                                 <p th:text="${n.message}"><!-- melding havner her --></p>
                                 <p class="timestamp" th:text="${#dates.format(n.timestamp, 'EEE, d MMM yyyy HH:mm:ss')}">
