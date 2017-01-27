@@ -50,6 +50,7 @@ public class NavBarController {
                 model.setProfileImageB64(image.getContent());
                 model.setProfileImageType(image.getType());
             }
+            model.setNotificationAmount(model.getNotificationModels().size());
         });
 
         return model;
