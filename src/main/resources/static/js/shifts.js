@@ -242,6 +242,7 @@ $(document).ready(function() {
                 var navn = $(".navnLagring", this).html();
                 $("#tidsviser").html(tid);
                 $("#ansatt").html(navn);
+                
 
             });
 
@@ -343,5 +344,9 @@ $(document).ready(function() {
                 alert("Kunne ikke sende forespørsel om vaktbytte");
             });
         }
+    });
+
+    $(".worker").click(function() {
+
     });
 });
