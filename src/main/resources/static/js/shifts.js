@@ -98,6 +98,9 @@ $(document).ready(function() {
                 }
                 var un;
                 var navn;
+                var telefon = "";
+                var address = "";
+                var email = "";
 
                 var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
                     'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
@@ -107,11 +110,17 @@ $(document).ready(function() {
                 } else {
                     un = jArray[i].user_model.username;
                     navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
+                    telefon = jArray[i].user_model.phonenumber;
+                    email = jArray[i].user_model.email;
+                    address = "TO BE ADDED.."//jArray[i].user_model.add //TODO: FIX
                 }
 
 
                 var vakt = '<div class="shift-box ' + classKomp + '" style="left: calc(11.11% + ((11.11%/3)*' + lengde + ')); width: calc((11.11%/3)*' + diff + ' - 1px);"><p class="tidtidtid">' + tidtid +
-                    '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p></div>';
+                    '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p>' +
+                    '<p class="telefonLagring" style="display: none;">' + telefon + '</p>' +
+                    '<p class="adresseLagring" style="display: none;">' + address +'</p>' +
+                    '<p class="emailLagring" style="display: none;">' + email + '</p></div>';
 
                 var vaktRad = '<div class="rad">' +
                     '<div class="common-cell position-id">' + jArray[i].id + '</div>' +
@@ -240,9 +249,18 @@ $(document).ready(function() {
 
                 var tid = $(".tidLagring", this).html();
                 var navn = $(".navnLagring", this).html();
+                var telefon = $(".telefonLagring", this).html();
+                var adresse = $(".adresseLagring", this).html();
+                var email = $(".emailLagring", this).html();
+
                 $("#tidsviser").html(tid);
                 $("#ansatt").html(navn);
-                
+                $("#worker-name-in-modal").html(navn);
+                $("#worker-phone-number").html(telefon);
+                $("#worker-phone-number").attr("href", "tel:" + telefon);
+                $("#worker-address").html(adresse);
+                $("#worker-email-address").html(email);
+                $("#worker-email-address").attr("href", "mailto:" + email);
 
             });
 
@@ -344,9 +362,5 @@ $(document).ready(function() {
                 alert("Kunne ikke sende forespørsel om vaktbytte");
             });
         }
-    });
-
-    $(".worker").click(function() {
-
     });
 });
