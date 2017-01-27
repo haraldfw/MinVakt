@@ -27,6 +27,9 @@
           "redirect_url": {
             "type": "string"
           },
+          "competence_name": {
+            "type": "string"
+          },
           "timestamp": {
             "type": "date-time"
           }

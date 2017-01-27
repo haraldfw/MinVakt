@@ -145,15 +145,18 @@ html, body {
 }
 
 .active-week-left {
-    border: none !important;
+    border-right: 1px solid var(--border-color-calendar);
+    border-bottom: 1px solid var(--border-color-calendar);
 }
 
 .active-week-middle {
-    border: none !important;
+    border-right: 1px solid var(--border-color-calendar);
+    border-bottom: 1px solid var(--border-color-calendar);
 }
 
 .active-week-right {
-    border: none !important;
+    border-right: 1px solid var(--border-color-calendar);
+    border-bottom: 1px solid var(--border-color-calendar);
 }
 
 /* Til folk som er på fakt //TODO: felles for schedule og shifts */

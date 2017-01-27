@@ -52,6 +52,34 @@ $(document).ready(function() {
         }
     });
 
+    $(".cell-cal").click(function() {
+        var monthYearArray = $(this).children(".month-year").html().split(" ");
+        var dagIkkeArray = $(this).children(".display-day").html();
+
+        var datoo = new Date(monthYearArray[0], monthYearArray[1] , dagIkkeArray);
+
+        $(".shift").remove();
+
+        weekStartDate = addDays(datoo, -tempFix[datoo.getDay()]);
+        currentDate = weekStartDate;
+        changeTopDayNames();
+
+        $("#calendarModal").modal("toggle");
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
+
+        $(this).parent("td:nth-child(2)").addClass("active-week-left active-week-middle");
+        for(var k = 3; k < 8; k++) { //fiks på bedre måte
+            $(this).parent("td:nth-child(" + k + ")").addClass("active-week-middle");
+        }
+        $(this).parent("td:nth-child(8)").addClass("active-week-right active-week-middle");
+
+        currentWeekAvailability = "/api/available/" + username +"/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/week";
+        url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
+
+        getShifts(url);
+
+    });
+
 
     /* End for calendar */
 
