@@ -59,12 +59,18 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
             return false;
         }
     }
-    public boolean setAbscence(Shift shift, boolean abscense) {
+
+    public boolean addAbscence(Shift shift, boolean abscense) {
         if (shift.getStartTime().getTime() >= (System.currentTimeMillis() + Constants.HOURS_2)) {
             shift.setAbsent(abscense);
             return save(shift);
         }
         return false;
+    }
+
+    public boolean removeAbscence(Shift shift, boolean abscense) {
+        shift.setAbsent(abscense);
+        return save(shift);
     }
 
     public List<Shift> getShiftsOnDate(Date date) {
@@ -211,12 +217,12 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
         }
     }
 
-    public void lockShift(Shift shift){
+    public void lockShift(Shift shift) {
         shift.setLocked(true);
         save(shift);
     }
 
-    public void unlockShift(Shift shift){
+    public void unlockShift(Shift shift) {
         shift.setLocked(false);
         save(shift);
     }
