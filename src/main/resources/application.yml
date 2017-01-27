@@ -49,13 +49,12 @@ jasypt:
 ---
 spring:
   profiles: prod
+  datasource:
+      tomcat:
+        max-active: 10
 
 server:
   port: 8080
 
 application.hostname: puffin.tihlde.org:8080
 
-spring:
-  datasource:
-    tomcat:
-      max-active: 10
