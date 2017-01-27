@@ -279,7 +279,7 @@ $(document).ready(function() {
         plotShifts(datoo);
         count = datoo;
         $("#calendarModal").modal("toggle");
-        $(".cell-cal").removeClass("active-day");
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
         $(this).addClass("active-day");
 
     }); //TODO: BORDER MARKERING PÅ VALGT DATO

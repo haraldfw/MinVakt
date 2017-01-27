@@ -50,7 +50,7 @@
                 <div class="spacious-column col-md-4 col-sm-12">
                     <h4>Kompetanse</h4>
                     <select name="competences[]" class="selectpicker" data-live-search="true" multiple="multiple"
-                            required="required">
+                            required="required" title="Ingen valgt">
                         <th:block th:each="comp : ${competences}">
                             <div class="form-group">
                                 <option th:text="${comp}" th:value="${comp}"></option>

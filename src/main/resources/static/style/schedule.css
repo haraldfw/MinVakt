@@ -19,6 +19,9 @@
 
     border: 1px solid lightgray;
 }
+html, body {
+    background-color: transparent !important;
+}
 
 .dayTop {
     /*width: 14.286971837%;*/
@@ -326,13 +329,13 @@
 }
 
 .active-day {
-    border: none !important;
+    border-right: 1px solid var(--border-color-calendar);
+    border-top: none !important;
+    border-bottom: 1px solid var(--border-color-calendar);
 }
 
 .active-week-left {
-    border-bottom: 4px solid #717581 !important;
     border-left: 4px solid #717581 !important;
-    border-top: 4px solid #717581 !important;
 }
 
 .active-week-middle {
@@ -341,7 +344,5 @@
 }
 
 .active-week-right {
-    border-bottom: 4px solid #717581 !important;
     border-right: 4px solid #717581 !important;
-    border-top: 4px solid #717581 !important;
 }
