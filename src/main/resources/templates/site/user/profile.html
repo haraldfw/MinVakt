@@ -19,10 +19,16 @@
 
         .account-box {
             margin-top: 15px;
+            border: 1px solid #ddd;
         }
 
         .account-box table {
             background-color: white;
+            margin-bottom: 0;
+        }
+
+        .account-box table tr:first-of-type > * {
+            border-top: 0;
         }
 
         .account-box table tr th,
@@ -102,11 +108,11 @@
         }
 
         .border-box {
-            background: rgba(231, 222, 216, 0.2);
+            background: #fff;
             border: 1px solid #bbb;
             margin-bottom: 15px;
             border-radius: 5px;
-            box-shadow: 0 0 4px rgba(0,0,0,.3);
+            padding-bottom: 20px;
         }
 
         .btn-edit {
@@ -260,7 +266,7 @@
                     <tr>
                         <th>Passord</th>
                         <td class="input-cell">
-                            <span id="fake-password">••••••••</span>
+                            <input id="fake-password" type="password" value="notapassword" disabled="disabled" />
                             <div id="new-pwd-box">
                                 <form action="/api/password/change" method="post" class="sbmts"
                                       onsubmit="return jsonSubmitFns(this, success, failure)">

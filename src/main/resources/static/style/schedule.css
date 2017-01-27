@@ -19,6 +19,9 @@
 
     border: 1px solid lightgray;
 }
+html, body {
+    background-color: transparent !important;
+}
 
 .dayTop {
     /*width: 14.286971837%;*/
@@ -316,6 +319,30 @@
     display: none;
 }
 
-#buttonNextWeek {
+/* Datepicker styling */
+.label-fixed-margin {
+    margin-top: 4px;
+}
 
+.datepicker-fixed-padding {
+    padding-right: 50px; /* TODO: Sjekk om dette passer for alle skjermstørrelser*/
+}
+
+.active-day {
+    border-right: 1px solid var(--border-color-calendar);
+    border-top: none !important;
+    border-bottom: 1px solid var(--border-color-calendar);
+}
+
+.active-week-left {
+    border-left: 4px solid #717581 !important;
+}
+
+.active-week-middle {
+    border-bottom: 4px solid #717581 !important;
+    border-top: 4px solid #717581 !important;
+}
+
+.active-week-right {
+    border-right: 4px solid #717581 !important;
 }
