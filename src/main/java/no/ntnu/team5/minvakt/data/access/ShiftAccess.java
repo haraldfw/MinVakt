@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.data.access;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.db.User;
 import no.ntnu.team5.minvakt.model.ShiftModel;
@@ -58,10 +59,12 @@ public class ShiftAccess extends Access<Shift, ShiftModel> {
             return false;
         }
     }
-
-    public boolean addAbscence(Shift shift, boolean abscense) {
-        shift.setAbsent(abscense);
-        return save(shift);
+    public boolean setAbscence(Shift shift, boolean abscense) {
+        if (shift.getStartTime().getTime() >= (System.currentTimeMillis() + Constants.HOURS_2)) {
+            shift.setAbsent(abscense);
+            return save(shift);
+        }
+        return false;
     }
 
     public List<Shift> getShiftsOnDate(Date date) {

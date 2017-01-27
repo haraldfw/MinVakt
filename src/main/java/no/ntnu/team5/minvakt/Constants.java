@@ -4,12 +4,16 @@ import no.ntnu.team5.minvakt.security.auth.JWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 /**
  * Created by Harald Floor Wilhelmsen on 17.01.2017.
  */
 @Component
 public class Constants {
 
+    public static final long HOURS_2 = MILLISECONDS.convert(2, HOURS);
     public static String ADMIN;
     public static String SECURE_KEY = "1235";
     public static String HOSTNAME;
