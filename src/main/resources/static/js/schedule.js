@@ -50,8 +50,10 @@ $(document).ready(function() {
         } else {
             $(this).siblings(".cell-cal").toggleClass("hover-adjust");
         }
-
     });
+
+
+    /* End for calendar */
 
     /* Function for adding days to a javascript date object */
     function addDays(date, days) {

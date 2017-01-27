@@ -27,7 +27,8 @@
     <!-- Knapper for neste og forrige uke -->
     <div>
         <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
-        <button id="choose-week-button" class="btn btn-primary" type="button">Velg uke</button>
+        <button id="choose-week-button" class="btn btn-primary" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
+        <div th:include="fragments :: calendar"></div>
         <span>Dato placeholder</span>
         <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
     </div>
