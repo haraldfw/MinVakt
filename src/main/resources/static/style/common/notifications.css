@@ -119,7 +119,7 @@ loblo.navbar-inverse .navbar-nav>.open>a,
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
 }
 
 /* Track */
@@ -130,15 +130,8 @@ loblo.navbar-inverse .navbar-nav>.open>a,
 /* Handle */
 ::-webkit-scrollbar-thumb {
     width: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    /*background-color: rgba(207, 188, 80, 0.36);*/
-    /*background: rgba(93, 93, 93, 0.48);*/
-    background-image: -webkit-gradient(linear,
-    left bottom,
-    left top,
-            color-stop(0.44, rgba(93, 93, 93, 0.83)),
-            color-stop(0.72, rgba(70, 70, 70, 0.83)),
-            color-stop(0.86, rgba(57, 57, 57, 0.83)));
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+    background: rgba(93, 93, 93, 0.48);
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
