@@ -1,4 +1,4 @@
-.navbar-inverse .navbar-nav>.open>a,
+loblo.navbar-inverse .navbar-nav>.open>a,
 .navbar-inverse .navbar-nav>.open>a:focus,
 .navbar-inverse .navbar-nav>.open>a:hover {
     background: #222;
@@ -7,12 +7,15 @@
 .noti-menu {
     border-radius: 0;
     box-shadow: 0 0 5px rgba(0,0,0, 0.4) !important;
-    min-width: 300px;
+    min-width: 350px;
     max-width: 400px;
+    max-height: 600px;
     padding: 10px;
     background: white !important;
     margin-top: -15px !important;
     margin-right: 15px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 @media (max-width: 768px) {
@@ -105,7 +108,12 @@
 }
 
 .admin-label {
-    color: rgba(131, 131, 131, 0.96);
+    color: black;
     font-size: small;
     margin-top: 2px;
+    padding: 2px 7px;
+    display: inline-block;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    background-color: white;
 }

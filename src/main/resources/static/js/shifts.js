@@ -35,7 +35,7 @@ $(document).ready(function() {
 
                 } else if (startTime.getFullYear() === date.getFullYear() && startTime.getMonth() === date.getMonth() && startTime.getDate() === date.getDate()) {
                     //hvis vakt starter på valgt dato og går til ny dag
-                    diff = 24.0 - hourFrom + minFromPros;
+                    diff = 24.0 - (hourFrom + minFromPros);
                     lengde = hourFrom + minFromPros;
 
                 } else if (endTime.getFullYear() === date.getFullYear() && endTime.getMonth() === date.getMonth() && endTime.getDate() === date.getDate()) {
@@ -291,7 +291,6 @@ $(document).ready(function() {
         return new Date(date.getTime() + days*24*60*60*1000); //24*60*60*60*1000 is milliseconds in a day
     }
 
-    function borderActiveWeek() {} //Må være tom function
 
     plotShifts(today);
     var count = today;
@@ -300,11 +299,26 @@ $(document).ready(function() {
         $("#superDiv").empty();
         count = addDays(count, -1);
         plotShifts(count);
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month hover-adjust hover-adjust-inactive hover-adjust-today");
+
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count);
     });
+
     $("#dayForth").click(function() {
         $("#superDiv").empty();
         count = addDays(count, 1);
         plotShifts(count);
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month hover-adjust hover-adjust-inactive hover-adjust-today");
+
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(count);
+
+
     });
 
 
@@ -318,22 +332,59 @@ $(document).ready(function() {
         }
     });
 
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+                break;
+            }
+        }
+    }
+
     $(".cell-cal").click(function() {
+        var way = 0;
+
+        $(".cell-cal").removeClass("today active-day active-week-left active-week-middle active-week-right hover-adjust hover-adjust-inactive hover-adjust-today");
+        if($(this).hasClass(".inactive-month")) {
+            $(".cell-cal").removeClass("inactive-month");
+            if((this).html() > 20) {
+                way = -1;
+            } else {
+                way = 1;
+            }
+        } else {
+            $(".cell-cal").removeClass("inactive-month");
+        }
+        sleep(650); //TODO: fiks dette, tar for lang tid
+
         var monthYearArray = $(this).children(".month-year").html().split(" ");
         var dagIkkeArray = $(this).children(".display-day").html();
-
         var datoo = new Date(monthYearArray[0], monthYearArray[1] , dagIkkeArray);
 
         $("#superDiv").empty();
         plotShifts(datoo);
-        count = datoo;
-        $("#calendarModal").modal("toggle");
-        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right");
-        $(this).addClass("active-day");
 
-    }); //TODO: BORDER MARKERING PÅ VALGT DATO
+        count = datoo;
+        month = count.getMonth();
+        year = count.getFullYear();
+        firstDay = new Date(year, month, 1);
+        firstDay.setMonth(firstDay.getMonth() + way);
+
+        plotDays(count);
+
+        $("#calendarModal").modal("toggle");
+
+    });
 
     $(".modal-title-title").html("Velg dato");
+
+
+    $("#datedate").click(function() {
+        $(".cell-cal").removeClass("today inactive-month active-day active-week-left active-week-middle active-week-right hover-adjust hover-adjust-inactive hover-adjust-today");
+    });
+
+
+
 
     var sendUrl = "";
     var shiftType = -1;
