@@ -28,9 +28,6 @@ public class EmailService {
     @Autowired
     MailContentBuilder mailContentBuilder;
 
-    private final SimpleDateFormat dateFormat =
-            new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
-
     /**
      * Sends an email to the specified recipient with the specified info
      *
@@ -66,10 +63,6 @@ public class EmailService {
             messageHelper.setText(text, true);
         };
         mailSender.send(messagePreparator);
-    }
-
-    public String formatDate(Date date) {
-        return dateFormat.format(date);
     }
 
     public void userCreated(String username, String email, String resetKey, Date resetKeyExpiry) throws UnsupportedEncodingException {

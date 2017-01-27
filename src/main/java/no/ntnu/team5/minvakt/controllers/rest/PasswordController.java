@@ -10,6 +10,7 @@ import no.ntnu.team5.minvakt.model.PasswordResetInfo;
 import no.ntnu.team5.minvakt.security.PasswordUtil;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.DateFormatting;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +75,7 @@ public class PasswordController {
                     System.out.println(Constants.HOSTNAME);
                     String link = "http://" + Constants.HOSTNAME + "/password/reset?username=" +
                             user.getUsername() + "&resetkey=" + encodedKey;
-                    String expiry = emailService.formatDate(resetKeyExpiry);
+                    String expiry = DateFormatting.format(resetKeyExpiry);
 
                     Map<String, String> vars = new HashMap<>();
                     vars.put("link", link);

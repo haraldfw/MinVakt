@@ -10,6 +10,7 @@ import no.ntnu.team5.minvakt.model.ShiftModel;
 import no.ntnu.team5.minvakt.model.UserModel;
 import no.ntnu.team5.minvakt.security.auth.intercept.Authorize;
 import no.ntnu.team5.minvakt.security.auth.verify.Verifier;
+import no.ntnu.team5.minvakt.utils.DateFormatting;
 import no.ntnu.team5.minvakt.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -274,8 +275,8 @@ public class ShiftController {
                 access.shift.transferOwnership(shift, newShiftOwner);
 
                 Map<String, String> vars = new HashMap<>();
-                vars.put("date_start", emailService.formatDate(shift.getStartTime()));
-                vars.put("date_end", emailService.formatDate(shift.getEndTime()));
+                vars.put("date_start", DateFormatting.format(shift.getStartTime()));
+                vars.put("date_end", DateFormatting.format(shift.getEndTime()));
                 vars.put("new_owner_full_name", newShiftOwner.getFirstName() + " " + newShiftOwner.getLastName());
                 vars.put("old_owner_full_name", oldShiftOwner.getFirstName() + " " + oldShiftOwner.getLastName());
 
