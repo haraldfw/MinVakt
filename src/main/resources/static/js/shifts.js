@@ -211,7 +211,6 @@ $(document).ready(function() {
                 });
             }
 
-            var selectedShiftId = -1;
             $(".self").click(function () {
                 $("#modalShift").modal("show");
                 $("#modalOwn").css("display", "inline");
@@ -225,7 +224,7 @@ $(document).ready(function() {
                 var navn = $(".navnLagring", this).html();
                 $("#ansatt").html(navn);
 
-                var selectedShiftId = $(this).parent().children(".position-id").html();
+                selectedShiftId = $(this).parent().children(".position-id").html();
 
                 var availabilityUrl = "/api/shift/get_available_users_for_shift?shift_id=" + selectedShiftId;
                 getAvailableUsers(availabilityUrl);
@@ -318,6 +317,8 @@ $(document).ready(function() {
     $(".modal-title-title").html("Velg dato");
 
     var sendUrl = "";
+    var shiftType = -1;
+    var selectedShiftId = -1;
     $(".co-worker-list").on("click", ".a-p-box", function(e) {
         var selectedWorkerId = $(this).attr("id");
         sendUrl = "/api/notifications/generate_transfer_request_notification?shift_id=" + selectedShiftId + "&user_id=" + selectedWorkerId;
