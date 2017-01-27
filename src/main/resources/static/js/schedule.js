@@ -545,7 +545,11 @@ $(document).ready(function() {
                             $(this).removeClass("normal-shift").addClass("absence-shift");
                         }
                     });
-                }//TODO: legg inn error/fail
+                },
+                error: function(res) {
+                    //TODO: håndtere hvilken type feilmelding
+                    alert("Kunne ikke sette fravær for skiftet.");
+                }
             });
 
         } else if (shiftType === 1) {
