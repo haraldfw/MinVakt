@@ -16,6 +16,12 @@
     "email": {
       "type": "string"
     },
+    "address": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "string"
+    },
     "phonenumber": {
       "type": "string"
     },

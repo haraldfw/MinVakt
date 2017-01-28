@@ -76,6 +76,8 @@ public class UserAccess extends Access<User, UserModel> {
         model.setFirstName(user.getFirstName());
         model.setLastName(user.getLastName());
         model.setEmail(user.getEmail());
+        model.setAddress(user.getAddress());
+        model.setDateOfBirth(user.getDateOfBirth());
         model.setPhonenumber(user.getPhonenumber());
         model.setEmploymentPercentage(user.getEmploymentPercentage());
         model.setCompetences(

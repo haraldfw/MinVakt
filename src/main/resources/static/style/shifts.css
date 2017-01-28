@@ -10,6 +10,10 @@ html, body {
     background-color: transparent !important;
 }
 
+#fix-width {
+    width: 95%;
+}
+
 :root {
     --border-color: #7c7c7c;
     --arrow-border: #177E87;

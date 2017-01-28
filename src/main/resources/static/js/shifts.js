@@ -101,6 +101,7 @@ $(document).ready(function() {
                 var telefon = "";
                 var address = "";
                 var email = "";
+                var dateOfBirth = "";
 
                 var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
                     'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
@@ -112,7 +113,8 @@ $(document).ready(function() {
                     navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
                     telefon = jArray[i].user_model.phonenumber;
                     email = jArray[i].user_model.email;
-                    address = "TO BE ADDED.."//jArray[i].user_model.add //TODO: FIX
+                    address = jArray[i].user_model.address; //TODO: FIX
+                    dateOfBirth = jArray[i].user_model.date_of_birth;
                 }
 
 
@@ -120,7 +122,8 @@ $(document).ready(function() {
                     '</p><p class="tidLagring" style="display: none;">' + tid + '</p><p class="unLagring" style="display: none;">' + un + '</p><p class="navnLagring" style="display: none;">' + navn + '</p>' +
                     '<p class="telefonLagring" style="display: none;">' + telefon + '</p>' +
                     '<p class="adresseLagring" style="display: none;">' + address +'</p>' +
-                    '<p class="emailLagring" style="display: none;">' + email + '</p></div>';
+                    '<p class="emailLagring" style="display: none;">' + email + '</p>' +
+                    '<p class="dateofbirthLagring" style="display: none;">' + dateOfBirth + '</p></div>';
 
                 var vaktRad = '<div class="rad">' +
                     '<div class="common-cell position-id">' + jArray[i].id + '</div>' +
@@ -231,16 +234,17 @@ $(document).ready(function() {
                 var telefon = $(".telefonLagring", this).html();
                 var adresse = $(".adresseLagring", this).html();
                 var email = $(".emailLagring", this).html();
+                var doBirth = $(".dateofbirthLagring", this).html();
 
                 $("#tidsviser").html(tid);
                 $("#ansatt").html(navn);
                 $("#worker-name-in-modal").html(navn);
                 $("#worker-phone-number").html(telefon);
                 $("#worker-phone-number").attr("href", "tel:" + telefon);
-                $("#worker-address").html(adresse);
+                $("#worker-address").text(adresse);
                 $("#worker-email-address").html(email);
                 $("#worker-email-address").attr("href", "mailto:" + email);
-
+                $("#worker-birth-date").text(doBirth);
             });
         });
 
