@@ -16,7 +16,8 @@ var month = thisDay.getMonth();
 var year = thisDay.getFullYear();
 var firstDay = new Date(year, month, 1);
 
-function plotDays(startDay, startday2) {
+/* Function for plotting days in calendar. startDay: for å finne måned som skal plottes. startDay2: for å sette aktiv dag/uke når måned skiftes i calendar */
+function plotDays(startDay, startDay2) {
     $("#monthYear").html(months[month] + " " + year);
     var firstCalendarDay = addDays(firstDay, -(backDays[firstDay.getDay()]));
 
@@ -28,7 +29,7 @@ function plotDays(startDay, startday2) {
             if (firstCalendarDay.getDate() === thisDay.getDate() && firstCalendarDay.getMonth() === thisDay.getMonth() && firstCalendarDay.getFullYear() === thisDay.getFullYear()) {
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("today");
             }
-            if (firstCalendarDay.getDate() === startday2.getDate() && firstCalendarDay.getMonth() === startday2.getMonth() && firstCalendarDay.getFullYear() === startday2.getFullYear()) {
+            if (firstCalendarDay.getDate() === startDay2.getDate() && firstCalendarDay.getMonth() === startDay2.getMonth() && firstCalendarDay.getFullYear() === startDay2.getFullYear()) {
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("active-day");
                 $("#" + weeks[i] + " td:nth-child(2)").addClass("active-week-left active-week-middle");
                 for (var k = 3; k < 8; k++) { //fiks på bedre måte
@@ -41,14 +42,14 @@ function plotDays(startDay, startday2) {
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("inactive-month");
             }
             firstCalendarDay = addDays(firstCalendarDay, 1);
-
         }
     }
 }
 
+/* Function for å få ukenummer*/
 Date.prototype.getWeek = function () {
-    var target  = new Date(this.valueOf());
-    var dayNr   = (this.getDay() + 6) % 7;
+    var target = new Date(this.valueOf());
+    var dayNr = (this.getDay() + 6) % 7;
     target.setDate(target.getDate() - dayNr + 3);
     var firstThursday = target.valueOf();
     target.setMonth(0, 1);
@@ -57,11 +58,11 @@ Date.prototype.getWeek = function () {
     }
     return 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 * 24 * 3600 * 1000
 };
-var theActive;
+
+var theActive; //aktiv dag/uke
 
 $(document).ready(function() {
-
-    plotDays(thisDay, thisDay);
+    plotDays(thisDay, thisDay); //dager blir satt for nåværende måned
 
     /* Change month */
     function newMonth(way) {
@@ -71,20 +72,10 @@ $(document).ready(function() {
             var dagIkkeArray = $(".active-day").children(".display-day").html();
             var year1 = monthYearArray[0];
             var month1 = monthYearArray[1];
-            //alert(dagIkkeArray + ", " + year1 + ", " + month1);
 
             theActive = new Date(year1, month1, dagIkkeArray);
-
-            /*if($(".active-day").hasClass("inactive-month")) {
-                if(year1 > 20) {
-                    theActive.setMonth(firstDay.getMonth() + -1);
-                } else {
-                    theActive.setMonth(firstDay.getMonth() + 1);
-                }
-            }*/
         }
 
-        //alert(theActive);
         $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
         firstDay.setMonth(firstDay.getMonth() + way);
         month = firstDay.getMonth();
@@ -92,11 +83,6 @@ $(document).ready(function() {
 
         plotDays(firstDay, theActive);
 
-        //if() {
-
-
-            //dato: som er cell-cal
-            //$("dato").addClass("active-day");
 
             /* For schedule //TODO: ikke remove
              $(this).parent().children("td:nth-of-type(2)").addClass("active-week-left active-week-middle");
@@ -112,9 +98,7 @@ $(document).ready(function() {
             }
             $("#" + weeks[i] + " td:nth-child(8)").addClass("active-week-right active-week-middle");
              */
-
         //}
-
     }
 
     $(".left").click(function() {
@@ -122,7 +106,5 @@ $(document).ready(function() {
     });
     $(".right").click(function() {
         newMonth(1);
-
     });
-
 });

@@ -1,5 +1,5 @@
 head {
-    margin: 0 !important; /* TODO: fiks andre*/
+    margin: 0 !important;
 }
 /*
 body {
@@ -15,7 +15,7 @@ html, body {
 }
 
 :root {
-    --border-color: #7c7c7c;
+    --border-color: lightgray;
     --arrow-border: #177E87;
 }
 
@@ -29,7 +29,9 @@ html, body {
 }
 
 .timedisplay, .timedisplay-komp {
-    background-color: rgba(18, 103, 132, 0.45);
+    /*background-color: rgba(18, 103, 132, 0.45);*/
+    /*background-color: rgb(158, 192, 194);*/ /*rgb(164, 204, 207);*/
+    background-color: rgba(102, 183, 190, 0.8); /*rgb(164, 204, 207);*/
     min-height: 10%;
     height: 10%;
     border-top: 1px solid var(--border-color);
@@ -119,8 +121,8 @@ html, body {
 }
 
 .no-worker, .no-worker-color {
-    background-color: rgba(147, 208, 230, 0.75);
-    border: 1px solid #4f6f7c;
+    background-color: rgba(158, 153, 180, 0.75);
+    border: 1px solid #a96aba;
 }
 
 .worker, .worker-color {
@@ -129,8 +131,8 @@ html, body {
 }
 
 .self, .self-color {
-    background-color: rgba(158, 153, 180, 0.75);
-    border: 1px solid #a96aba;
+    background-color: rgba(147, 208, 230, 0.75);
+    border: 1px solid #4f6f7c;
 }
 
 .warning-1 {
