@@ -23,16 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.hasRole;
 import static no.ntnu.team5.minvakt.security.auth.verify.Verifier.isUser;
@@ -51,9 +49,11 @@ public class ShiftController {
     @Autowired
     private EmailService emailService;
 
+    @Authorize
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Integer> register(@RequestBody ShiftModel shiftModel) {
-        //FIXME: Should authorize as admin?
+    public ResponseEntity<Integer> register(Verifier verifier, @RequestBody ShiftModel shiftModel) {
+        verifier.ensure(hasRole(Constants.ADMIN));
+        
         int id = accessor.with(access -> {
             User user = access.user.fromID(shiftModel.getUserModel().getId());
             Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent(), shiftModel.getLocked(), shiftModel.getStandardHours().byteValue(), null);

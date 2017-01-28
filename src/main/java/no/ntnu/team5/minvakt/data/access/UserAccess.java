@@ -46,6 +46,7 @@ public class UserAccess extends Access<User, UserModel> {
             return session.createQuery("select firstName from User").list();
         });
     }
+
     public List<String> getLastNames() {
         return getDb().transaction(session -> {
             return session.createQuery("select lastName from User").list();
