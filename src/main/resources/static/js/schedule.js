@@ -380,7 +380,7 @@ $(document).ready(function() {
             var workerCounter = 1;
             for (var i = 0; i < jsonArray.length; i++) {
                 var workerId = jsonArray[i].id;
-                var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                var workerName = escapeHtml(jsonArray[i].first_name) + " " + escapeHtml(jsonArray[i].last_name);
                 var workerType = "panel-footer ";
                 if (workerCounter % 2 === 0) {
                     workerType = "panel-body ";
@@ -491,7 +491,7 @@ $(document).ready(function() {
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
         }
-        $("#shift-time").text(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
+        $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
         $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + "2017");//TODO: fiks 2017 til faktisk dag
 
         e.preventDefault();
