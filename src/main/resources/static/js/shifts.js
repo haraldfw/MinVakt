@@ -298,7 +298,7 @@ $(document).ready(function() {
         month = count.getMonth();
         year = count.getFullYear();
         firstDay = new Date(year, month, 1);
-        plotDays(count);
+        plotDays(count, count);
     });
 
     $("#dayForth").click(function() {
@@ -310,7 +310,7 @@ $(document).ready(function() {
         month = count.getMonth();
         year = count.getFullYear();
         firstDay = new Date(year, month, 1);
-        plotDays(count);
+        plotDays(count, count);
 
 
     });
@@ -372,7 +372,7 @@ $(document).ready(function() {
         firstDay = new Date(year, month, 1);
         firstDay.setMonth(firstDay.getMonth() + way);
 
-        plotDays(count);
+        plotDays(count, count);
 
         $("#calendarModal").modal("toggle");
 
@@ -382,7 +382,7 @@ $(document).ready(function() {
 
 
     $("#datedate").click(function() {
-        $(".cell-cal").removeClass("today inactive-month active-day active-week-left active-week-middle active-week-right hover-adjust hover-adjust-inactive hover-adjust-today");
+        $("#calendarModal").modal("toggle");
     });
 
 

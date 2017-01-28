@@ -365,7 +365,7 @@ $(document).ready(function() {
         $.get(url, function() {
 
         }).done(function(data) {
-            $("#work-time-week").text("Timer denne uken: " + data + " <br /> Uke nr: xxx, år: " + weekStartDate.getFullYear());
+            $("#work-time-week").text("Timer denne uken: " + data + " <br /> Uke nr: " + weekStartDate.getWeek() + ", år: " + weekStartDate.getFullYear());
         }).fail(function(data) {
             alert("Det skjedde en feil med innhenting av timer denne uken.");
         });

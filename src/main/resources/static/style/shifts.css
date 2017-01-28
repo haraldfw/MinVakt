@@ -41,8 +41,9 @@ html, body {
 
 }
 
-.timedisplay:hover {
+.timedisplay:hover, #datedate:hover {
     cursor: pointer;
+    color: #a0a0a0;
 }
 
 #rammediv {
@@ -117,17 +118,17 @@ html, body {
     filter: brightness(85%);
 }
 
-.no-worker {
+.no-worker, .no-worker-color {
     background-color: rgba(147, 208, 230, 0.75);
     border: 1px solid #4f6f7c;
 }
 
-.worker {
+.worker, .worker-color {
     background-color: rgba(158, 229, 123, 0.75);
     border: 1px solid rgba(64, 185, 56, 0.75);
 }
 
-.self {
+.self, .self-color {
     background-color: rgba(158, 153, 180, 0.75);
     border: 1px solid #a96aba;
 }
@@ -202,7 +203,7 @@ html, body {
 }
 
 .color-margin {
-    margin-bottom: 1%;
+    margin-bottom: 2%;
 }
 
 .chooseD {
