@@ -26,7 +26,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Autowired
-    MailContentBuilder mailContentBuilder;
+    ContentBuilder contentBuilder;
 
     /**
      * Sends an email to the specified recipient with the specified info
@@ -55,7 +55,7 @@ public class EmailService {
      */
     @Async
     public void sendEmail(String to, String subject, String templateName, Map<String, String> values) {
-        String text = mailContentBuilder.build(templateName, values);
+        String text = contentBuilder.build(templateName, values);
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(to);
@@ -65,6 +65,15 @@ public class EmailService {
         mailSender.send(messagePreparator);
     }
 
+    /**
+     * Send an email with the user_created template to the given email
+     *
+     * @param username       Username of created user
+     * @param email          Address of created user
+     * @param resetKey       ResetKey of created user
+     * @param resetKeyExpiry ResetKeyExpiry of created User
+     * @throws UnsupportedEncodingException If 'UTF-8' is not a supported encoding
+     */
     public void userCreated(String username, String email, String resetKey, Date resetKeyExpiry) throws UnsupportedEncodingException {
         String encodedKey = URLEncoder.encode(resetKey, "UTF-8");
         String subject = "User has been created for you in MinVakt";
