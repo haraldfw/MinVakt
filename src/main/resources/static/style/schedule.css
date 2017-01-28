@@ -369,3 +369,7 @@ html, body {
     cursor: pointer;
     color: #a0a0a0;
 }
+
+body.modal-open {
+    overflow: visible;
+}

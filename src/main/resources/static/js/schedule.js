@@ -416,7 +416,7 @@ $(document).ready(function() {
     //Clickevent handler for a shift element
     $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
 
-        $("body").addClass("modal-prevent-jump"); //TODO: legg denne på show og hide modal
+        //$("body").addClass("modal-prevent-jump"); //TODO: legg denne på show og hide modal
 
         selectedShift = $(this).attr("id");
         var funnet = false;
