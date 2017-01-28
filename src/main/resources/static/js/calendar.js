@@ -16,7 +16,7 @@ var month = thisDay.getMonth();
 var year = thisDay.getFullYear();
 var firstDay = new Date(year, month, 1);
 
-function plotDays(startDay) {
+function plotDays(startDay, startday2) {
     $("#monthYear").html(months[month] + " " + year);
     var firstCalendarDay = addDays(firstDay, -(backDays[firstDay.getDay()]));
 
@@ -28,7 +28,7 @@ function plotDays(startDay) {
             if (firstCalendarDay.getDate() === thisDay.getDate() && firstCalendarDay.getMonth() === thisDay.getMonth() && firstCalendarDay.getFullYear() === thisDay.getFullYear()) {
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("today");
             }
-            if (firstCalendarDay.getDate() === startDay.getDate() && firstCalendarDay.getMonth() === startDay.getMonth() && firstCalendarDay.getFullYear() === startDay.getFullYear()) {
+            if (firstCalendarDay.getDate() === startday2.getDate() && firstCalendarDay.getMonth() === startday2.getMonth() && firstCalendarDay.getFullYear() === startday2.getFullYear()) {
                 $("#" + weeks[i] + " td:nth-child(" + j + ")").addClass("active-day");
                 $("#" + weeks[i] + " td:nth-child(2)").addClass("active-week-left active-week-middle");
                 for (var k = 3; k < 8; k++) { //fiks på bedre måte
@@ -46,35 +46,51 @@ function plotDays(startDay) {
     }
 }
 
+Date.prototype.getWeek = function () {
+    var target  = new Date(this.valueOf());
+    var dayNr   = (this.getDay() + 6) % 7;
+    target.setDate(target.getDate() - dayNr + 3);
+    var firstThursday = target.valueOf();
+    target.setMonth(0, 1);
+    if (target.getDay() != 4) {
+        target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+    }
+    return 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 * 24 * 3600 * 1000
+};
+var theActive;
+
 $(document).ready(function() {
 
-    //TODO: sjekk om today markeres hvis du er på neste måned og kan se today fra forrige måned
-
-
-    Date.prototype.getWeek = function () {
-        var target  = new Date(this.valueOf());
-        var dayNr   = (this.getDay() + 6) % 7;
-        target.setDate(target.getDate() - dayNr + 3);
-        var firstThursday = target.valueOf();
-        target.setMonth(0, 1);
-        if (target.getDay() != 4) {
-            target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
-        }
-        return 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 * 24 * 3600 * 1000
-    };
-
-
-    plotDays(thisDay);
+    plotDays(thisDay, thisDay);
 
     /* Change month */
     function newMonth(way) {
+
+        if($(".cell-cal").hasClass("active-day")) {
+            var monthYearArray = $(".active-day").children(".month-year").html().split(" ");
+            var dagIkkeArray = $(".active-day").children(".display-day").html();
+            var year1 = monthYearArray[0];
+            var month1 = monthYearArray[1];
+            //alert(dagIkkeArray + ", " + year1 + ", " + month1);
+
+            theActive = new Date(year1, month1, dagIkkeArray);
+
+            /*if($(".active-day").hasClass("inactive-month")) {
+                if(year1 > 20) {
+                    theActive.setMonth(firstDay.getMonth() + -1);
+                } else {
+                    theActive.setMonth(firstDay.getMonth() + 1);
+                }
+            }*/
+        }
+
+        //alert(theActive);
         $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
         firstDay.setMonth(firstDay.getMonth() + way);
         month = firstDay.getMonth();
         year = firstDay.getFullYear();
 
-        plotDays(firstDay);
-        $(".cell-cal").removeClass("active-day");
+        plotDays(firstDay, theActive);
 
         //if() {
 
@@ -82,7 +98,7 @@ $(document).ready(function() {
             //dato: som er cell-cal
             //$("dato").addClass("active-day");
 
-            /* For schedule
+            /* For schedule //TODO: ikke remove
              $(this).parent().children("td:nth-of-type(2)").addClass("active-week-left active-week-middle");
              for(var k = 3; k < 8; k++) { //fiks på bedre måte
              $(this).parent().children("td:nth-of-type(" + k + ")").addClass("active-week-middle");

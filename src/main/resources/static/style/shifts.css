@@ -10,6 +10,10 @@ html, body {
     background-color: transparent !important;
 }
 
+#fix-width {
+    width: 95%;
+}
+
 :root {
     --border-color: #7c7c7c;
     --arrow-border: #177E87;
@@ -37,8 +41,9 @@ html, body {
 
 }
 
-.timedisplay:hover {
+.timedisplay:hover, #datedate:hover {
     cursor: pointer;
+    color: #a0a0a0;
 }
 
 #rammediv {
@@ -113,17 +118,17 @@ html, body {
     filter: brightness(85%);
 }
 
-.no-worker {
+.no-worker, .no-worker-color {
     background-color: rgba(147, 208, 230, 0.75);
     border: 1px solid #4f6f7c;
 }
 
-.worker {
+.worker, .worker-color {
     background-color: rgba(158, 229, 123, 0.75);
     border: 1px solid rgba(64, 185, 56, 0.75);
 }
 
-.self {
+.self, .self-color {
     background-color: rgba(158, 153, 180, 0.75);
     border: 1px solid #a96aba;
 }
@@ -184,4 +189,24 @@ html, body {
 .co-worker-panel-box:hover {
     background-color: #cbcbcb;
     cursor: pointer;
+}
+
+.color-box {
+    height: 20px;
+    width: 20px;
+    float: right;
+    border-radius: 3px;
+}
+
+.colors {
+    float: right;
+}
+
+.color-margin {
+    margin-bottom: 2%;
+}
+
+.chooseD {
+    float: left;
+    margin-top: 2%;
 }
