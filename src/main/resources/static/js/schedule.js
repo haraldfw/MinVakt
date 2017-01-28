@@ -465,9 +465,10 @@ $(document).ready(function() {
                 $("#changeShiftOwnerButtonDiv").css("display", "none");
                 bodyModalText = "Du hadde et skift fra ";
             } else {
-                $("#available-workers-panel").css("display", "block");
+                //$("#available-workers-panel").css("display", "block");
                 $("#absenceButtonDiv").css("display", "block");
                 $("#changeShiftOwnerButtonDiv").css("display", "block");
+
                 bodyModalText = "Du har et skift fra ";
             }
 
@@ -502,7 +503,9 @@ $(document).ready(function() {
     *  goes under here */
 
     $("#changeShiftOwnerButton").click(function() {
-        $("#available-workers-panel").toggleClass("non-display-class");
+       //$("#available-workers-panel").toggleClass("non-display-class");
+        $("#available-workers-panel").css("display", "block");
+        $(this).parent().css("display", "none");
     });
 
     $("#absenceButton").click(function() {
@@ -660,5 +663,27 @@ $(document).ready(function() {
 
     $("#currentDate").click(function() {
        $("#calendarModal").modal("show");
+    });
+
+    var changeShiftTimesUrl = "/api/shift/settime";
+    $("#change-shift-times-button").click(function() {
+        var jsonObject = {
+            shift_id: selectedShift,
+            start_time: "",
+            end_time: "",
+        };
+
+        $.ajax({
+            url: changeShiftTimesUrl,
+            type: 'POST',
+            data: jsonObject,
+            success: function(res) {
+
+            },
+            error: function(res) {
+                alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
+            }
+        });
+
     });
 });
