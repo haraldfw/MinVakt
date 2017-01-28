@@ -20,17 +20,20 @@
 
 <div th:fragment="content">
 <div class="container test">
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn
-        tilgjengelighet
-    </button>
+
+    <div id="buttons-top">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Legg inn
+            tilgjengelighet
+        </button>
+        <button id="choose-week-button" class="btn btn-default" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
+    </div>
 
     <!-- Knapper for neste og forrige uke -->
     <div style="text-align: center;">
         <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
-        <button id="choose-week-button" class="btn btn-primary" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
         <div th:include="fragments :: calendar"></div>
-        <span id="currentDate">Dato placeholder</span>
         <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
+        <span id="currentDate">Dato placeholder</span>
     </div>
 
     <p id="work-time-week" style="position: absolute; top: 75px; right: 20px;">Du har jobbet x timer PLACEHOLDER<br />Uke nr, år</p>

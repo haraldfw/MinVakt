@@ -26,6 +26,7 @@ $(document).ready(function() {
     //I javascript er 0=søndag, 1= mandag osv.
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
+    var monthLongNames = ["Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"];
     var weekStartDate = addDays(today, -tempFix[today.getDay()]);
 
     var shiftIderForIdag = [];
@@ -93,7 +94,7 @@ $(document).ready(function() {
     function changeTopDayNames() {
         dayCounter = 0;
         currentYears = [];
-        $("#currentDate").text(monthNames[weekStartDate.getMonth()]);
+        $("#currentDate").text(weekStartDate.getDate() + ". " + monthLongNames[weekStartDate.getMonth()] + " " + weekStartDate.getFullYear());
         $(".dayTop").each(function() {
             var dateToday = weekStartDate.getDate() + dayCounter;
 
@@ -365,7 +366,7 @@ $(document).ready(function() {
         $.get(url, function() {
 
         }).done(function(data) {
-            $("#work-time-week").text("Timer denne uken: " + data + " <br /> Uke nr: xxx, år: " + weekStartDate.getFullYear());
+            $("#work-time-week").html("Timer denne uken: " + data + " <br /> Uke nr: xxx, år: " + weekStartDate.getFullYear());
         }).fail(function(data) {
             alert("Det skjedde en feil med innhenting av timer denne uken.");
         });
@@ -655,5 +656,9 @@ $(document).ready(function() {
     $("#newEndShiftDatePicker").datetimepicker({
         format: "YYYY-MM-DD HH:mm" /*,
         useCurrent: false*/
+    });
+
+    $("#currentDate").click(function() {
+       $("#calendarModal").modal("show");
     });
 });
