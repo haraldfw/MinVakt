@@ -3,6 +3,7 @@
 
 
 .test {
+    width: 95%;
     height: 95vh;
 }
 
@@ -345,4 +346,8 @@ html, body {
 
 .active-week-right {
     border-right: 4px solid #717581 !important;
+}
+
+#currentDate {
+    font-size: 165%;
 }
