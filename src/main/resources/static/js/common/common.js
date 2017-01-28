@@ -20,6 +20,7 @@ const entityMap = {
 };
 
 function escapeHtml(string) {
+    //https://stackoverflow.com/a/12034334
     return String(string).replace(/[&<>"'`=\/]/g, function (s) {
         return entityMap[s];
     });
