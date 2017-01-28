@@ -667,13 +667,13 @@ $(document).ready(function() {
 
     var changeShiftTimesUrl = "/api/shift/settime";
     $("#change-shift-times-button").click(function() {
-        var jsonObject = {
+        /*var jsonObject = {
             shift_id: selectedShift,
             start_time: "",
             end_time: "",
-        };
+        };*/
 
-        $.ajax({
+        /*$.ajax({
             url: changeShiftTimesUrl,
             type: 'POST',
             data: jsonObject,
@@ -683,7 +683,10 @@ $(document).ready(function() {
             error: function(res) {
                 alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
             }
-        });
+        });*/
+        alert("test");//FIXME: ASAP
+        alert($('#datetimepicker6').data("DateTimePicker").date());
+        alert($("#datetimepicker6").find("input").val());
 
     });
 });
