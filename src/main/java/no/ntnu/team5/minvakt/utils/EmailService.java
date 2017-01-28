@@ -26,7 +26,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Autowired
-    MailContentBuilder mailContentBuilder;
+    ContentBuilder contentBuilder;
 
     /**
      * Sends an email to the specified recipient with the specified info
@@ -55,7 +55,7 @@ public class EmailService {
      */
     @Async
     public void sendEmail(String to, String subject, String templateName, Map<String, String> values) {
-        String text = mailContentBuilder.build(templateName, values);
+        String text = contentBuilder.build(templateName, values);
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(to);
