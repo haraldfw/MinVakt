@@ -93,12 +93,12 @@ $(document).ready(function() {
     function changeTopDayNames() {
         dayCounter = 0;
         currentYears = [];
-        $("#currentDate").html(monthNames[weekStartDate.getMonth()]);
+        $("#currentDate").text(monthNames[weekStartDate.getMonth()]);
         $(".dayTop").each(function() {
             var dateToday = weekStartDate.getDate() + dayCounter;
 
             //$(this).html(dayNames[dayCounter] + " " + currentDate.getDate() /*dateToday*/ + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
-            $(this).html(dayNames[dayCounter] + " " + currentDate.getDate() + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
+            $(this).text(dayNames[dayCounter] + " " + currentDate.getDate() + ". " + monthNames[currentDate.getMonth()/*today.getMonth()*/]);
             if (today.getDate() === currentDate.getDate() && today.getMonth() === currentDate.getMonth() && today.getFullYear() && currentDate.getFullYear()) {
                 $(this).addClass("dayTop-today"); //TODO; FIX
             } else {
@@ -365,7 +365,7 @@ $(document).ready(function() {
         $.get(url, function() {
 
         }).done(function(data) {
-            $("#work-time-week").html("Timer denne uken: " + data + " <br /> Uke nr: xxx, år: " + weekStartDate.getFullYear());
+            $("#work-time-week").text("Timer denne uken: " + data + " <br /> Uke nr: xxx, år: " + weekStartDate.getFullYear());
         }).fail(function(data) {
             alert("Det skjedde en feil med innhenting av timer denne uken.");
         });
@@ -407,7 +407,7 @@ $(document).ready(function() {
 
         shiftType = 5;
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
+        $("#yesNo-Question").text("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
 
         e.preventDefault();
     });
@@ -491,8 +491,8 @@ $(document).ready(function() {
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
         }
-        $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
-        $("#modal-shift-title").html(modalTitle + shiftTopBarText + " " + "2017");//TODO: fiks 2017 til faktisk dag
+        $("#shift-time").text(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
+        $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + "2017");//TODO: fiks 2017 til faktisk dag
 
         e.preventDefault();
     });
@@ -506,17 +506,17 @@ $(document).ready(function() {
 
     $("#absenceButton").click(function() {
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Vil du melde om fravær for dette skiftet?");
+        $("#yesNo-Question").text("Vil du melde om fravær for dette skiftet?");
     });
 
     $("#removeAbsenceButton").click(function() {
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Vil du fjerne fravær for dette skiftet?");
+        $("#yesNo-Question").text("Vil du fjerne fravær for dette skiftet?");
     });
 
     $("#removeAvailabilityButton").click(function() {
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Vil du fjerne tilgjengelighet for dette skiftet?");
+        $("#yesNo-Question").text("Vil du fjerne tilgjengelighet for dette skiftet?");
 
         if (questionAnswer) {
             //$(".shift#" + selectedShift).remove();
@@ -530,7 +530,7 @@ $(document).ready(function() {
         shiftType = 4;
         $("body").addClass("modal-prevent-jump");
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Legge inn tilgjengelighet for " + $(this).html() + "?");
+        $("#yesNo-Question").text("Legge inn tilgjengelighet for " + $(this).html() + "?");
     });
 
     $("#noButton").click(function() {

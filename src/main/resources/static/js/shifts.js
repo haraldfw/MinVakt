@@ -108,11 +108,11 @@ $(document).ready(function() {
                     un = "";
                     navn = "";
                 } else {
-                    un = jArray[i].user_model.username;
-                    navn = jArray[i].user_model.first_name + " " + jArray[i].user_model.last_name;
-                    telefon = jArray[i].user_model.phonenumber;
-                    email = jArray[i].user_model.email;
-                    address = "TO BE ADDED.."//jArray[i].user_model.add //TODO: FIX
+                    un = escapeHtml(jArray[i].user_model.username);
+                    navn = escapeHtml(jArray[i].user_model.first_name) + " " + escapeHtml(jArray[i].user_model.last_name);
+                    telefon = escapeHtml(jArray[i].user_model.phonenumber);
+                    email = escapeHtml(jArray[i].user_model.email);
+                    address = "TO BE ADDED.."//escapeHtml(jArray[i].user_model.add) //TODO: FIX
                 }
 
 
@@ -142,11 +142,11 @@ $(document).ready(function() {
                     '</div>' +
 
                     '<div class="kompetanse-cell testing">' +
-                    komp +
+                     komp +
                     '</div>' +
                     '</div>' +
                     '<div class="drop">' +
-                    vaktRad +
+                     vaktRad +
                     '</div>' +
                     '</div>';
 
@@ -169,7 +169,7 @@ $(document).ready(function() {
 
             }
 
-            $("#datedate").html(date.getDate() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear());
+            $("#datedate").text(date.getDate() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear());
 
             /* Andre functions */
             //$(".testing").click(function() {
@@ -183,20 +183,15 @@ $(document).ready(function() {
                 }
             });
 
-
-
-
-
-
             $(".no-worker").click(function () {
                 $("#modalShift").modal("show");
                 $("#modalFree").css("display", "inline");
                 $("#modalOther").css("display", "none");
                 $("#modalOwn").css("display", "none");
                 var text = $(".tidtidtid", this).html();
-                $(".modal-title").html(text);
+                $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
-                $("#tidsviser").html(tid);
+                $("#tidsviser").text(tid);
             });
 
             $(".self").click(function () {
@@ -206,11 +201,11 @@ $(document).ready(function() {
                 $("#modalFree").css("display", "none");
 
                 var text = $(".tidtidtid", this).html();
-                $(".modal-title").html(text);
+                $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
-                $("#tidsviser").html(tid);
+                $("#tidsviser").text(tid);
                 var navn = $(".navnLagring", this).html();
-                $("#ansatt").html(navn);
+                $("#ansatt").text(navn);
 
                 selectedShiftId = $(this).parent().children(".position-id").html();
 
@@ -224,7 +219,7 @@ $(document).ready(function() {
                 $("#modalOwn").css("display", "none");
                 $("#modalFree").css("display", "none");
                 var text = $(".tidtidtid", this).html();
-                $(".modal-title").html(text);
+                $(".modal-title").text(text);
 
                 var tid = $(".tidLagring", this).html();
                 var navn = $(".navnLagring", this).html();
@@ -232,13 +227,13 @@ $(document).ready(function() {
                 var adresse = $(".adresseLagring", this).html();
                 var email = $(".emailLagring", this).html();
 
-                $("#tidsviser").html(tid);
-                $("#ansatt").html(navn);
-                $("#worker-name-in-modal").html(navn);
-                $("#worker-phone-number").html(telefon);
+                $("#tidsviser").text(tid);
+                $("#ansatt").text(navn);
+                $("#worker-name-in-modal").text(navn);
+                $("#worker-phone-number").text(telefon);
                 $("#worker-phone-number").attr("href", "tel:" + telefon);
-                $("#worker-address").html(adresse);
-                $("#worker-email-address").html(email);
+                $("#worker-address").text(adresse);
+                $("#worker-email-address").text(email);
                 $("#worker-email-address").attr("href", "mailto:" + email);
 
             });
@@ -258,7 +253,7 @@ $(document).ready(function() {
             var workerCounter = 1;
             for (var i = 0; i < jsonArray.length; i++) {
                 var workerId = jsonArray[i].id;
-                var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                var workerName = escapeHtml(jsonArray[i].first_name) + " " + escapeHtml(jsonArray[i].last_name);
                 var workerType = "panel-footer ";
                 if (workerCounter % 2 === 0) {
                     workerType = "panel-body ";
@@ -278,7 +273,7 @@ $(document).ready(function() {
     $(".timedisplay").click(function () {
         $("#infoTime").modal("show");
         var text = $(this).html();
-        $("#titleTime").html(text);
+        $("#titleTime").text(text);
     });
 
     /* Function for adding and subtracting days to a javascript date object */
@@ -379,7 +374,7 @@ $(document).ready(function() {
 
     });
 
-    $(".modal-title-title").html("Velg dato");
+    $(".modal-title-title").text("Velg dato");
 
 
     $("#datedate").click(function() {
@@ -399,7 +394,7 @@ $(document).ready(function() {
 
         shiftType = 5;
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").html("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
+        $("#yesNo-Question").text("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
 
         e.preventDefault();
     });
@@ -418,3 +413,4 @@ $(document).ready(function() {
         }
     });
 });
+
