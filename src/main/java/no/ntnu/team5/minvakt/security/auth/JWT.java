@@ -66,7 +66,7 @@ public class JWT {
     }
 
     /**
-     * Tries to verify a JWT token with out secret, if verification failes the error is logged and an empty {@see java.util.Optional} is returned
+     * Tries to verify a JWT token with our secret, if verification failes the error is logged and an empty {@see java.util.Optional} is returned
      * @param token The string to verify
      * @return {@see java.util.Optional} with the claims made by the now verified token; if token is not verified the {@see java.util.Optional} is empty
      */
