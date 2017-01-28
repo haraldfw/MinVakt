@@ -9,10 +9,14 @@ import java.lang.annotation.Target;
  * Created by alan on 14/01/2017.
  */
 
+/**
+ * An annotation that may me put on methods in a {@see Controller} if this annotation
+ * is present {@see Interceptor} calls {@see AuthorizeHandler#handle}
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Authorize {
-    static final String NONE = "\uD83D\uDE02CA7175AE015253A49FF4432C81D8FD04D711505E99470B5692320DB08F3F5A6A9F809BE012DEB6AFC32229A3F887C9FE39479BB995A96A5892D1A51C005F1857\uD83D\uDE02";
+    String NONE = "\uD83D\uDE02CA7175AE015253A49FF4432C81D8FD04D711505E99470B5692320DB08F3F5A6A9F809BE012DEB6AFC32229A3F887C9FE39479BB995A96A5892D1A51C005F1857\uD83D\uDE02";
 
     String value() default NONE;
 }

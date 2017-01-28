@@ -46,6 +46,7 @@ public class Verifier {
     public static Verification and(Verification... verifications) {
         return claims -> Stream.of(verifications).allMatch(ver -> ver.predicate(claims));
     }
+
     /**
      * A logical OR operation for {@code Verifications}.
      * @param verifications The list of {@code Verification}.

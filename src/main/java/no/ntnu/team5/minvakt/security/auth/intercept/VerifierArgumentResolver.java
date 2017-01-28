@@ -20,6 +20,17 @@ public final class VerifierArgumentResolver implements HandlerMethodArgumentReso
         return methodParameter.getParameterType().equals(Verifier.class);
     }
 
+    /**
+     * If an method has an {@see Verifier} parameter read the {@code auth.verifier}
+     * attribute from request and set the parameter to it.
+     *
+     * @param parameter            the parameter
+     * @param mv                   The view container
+     * @param request              The request
+     * @param webDataBinderFactory The date binder factory
+     * @return the {@code auth.verifier} attribute
+     * @throws Exception
+     */
     @Override
     public Object resolveArgument(MethodParameter parameter,
                                   ModelAndViewContainer mv,
