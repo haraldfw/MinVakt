@@ -26,6 +26,7 @@ $(document).ready(function() {
     //I javascript er 0=søndag, 1= mandag osv.
     var tempFix = [6, 0, 1, 2, 3, 4, 5];
     var monthNames = ["jan.", "feb.", "mar.", "apr.", "mai.", "jun.", "jul.", "aug.", "sep.", "okt", "nov.", "des."];
+    var monthLongNames = ["Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"];
     var weekStartDate = addDays(today, -tempFix[today.getDay()]);
 
     var shiftIderForIdag = [];
@@ -93,7 +94,7 @@ $(document).ready(function() {
     function changeTopDayNames() {
         dayCounter = 0;
         currentYears = [];
-        $("#currentDate").text(monthNames[weekStartDate.getMonth()]);
+        $("#currentDate").text(weekStartDate.getDate() + ". " + monthLongNames[weekStartDate.getMonth()] + " " + weekStartDate.getFullYear());
         $(".dayTop").each(function() {
             var dateToday = weekStartDate.getDate() + dayCounter;
 
@@ -365,7 +366,7 @@ $(document).ready(function() {
         $.get(url, function() {
 
         }).done(function(data) {
-            $("#work-time-week").text("Timer denne uken: " + data + " <br /> Uke nr: " + weekStartDate.getWeek() + ", år: " + weekStartDate.getFullYear());
+            $("#work-time-week").html("Timer denne uken: " + data + " <br /> Uke nr: " + weekStartDate.getWeek() + ", år: " + weekStartDate.getFullYear());
         }).fail(function(data) {
             alert("Det skjedde en feil med innhenting av timer denne uken.");
         });
@@ -380,7 +381,7 @@ $(document).ready(function() {
             var workerCounter = 1;
             for (var i = 0; i < jsonArray.length; i++) {
                 var workerId = jsonArray[i].id;
-                var workerName = jsonArray[i].first_name + " " + jsonArray[i].last_name;
+                var workerName = escapeHtml(jsonArray[i].first_name) + " " + escapeHtml(jsonArray[i].last_name);
                 var workerType = "panel-footer ";
                 if (workerCounter % 2 === 0) {
                     workerType = "panel-body ";
@@ -415,7 +416,7 @@ $(document).ready(function() {
     //Clickevent handler for a shift element
     $(".dayInnhold").on("click", ".shift", function(e) {//".dayInnhold").on("click", ".shift",
 
-        $("body").addClass("modal-prevent-jump"); //TODO: legg denne på show og hide modal
+        //$("body").addClass("modal-prevent-jump"); //TODO: legg denne på show og hide modal
 
         selectedShift = $(this).attr("id");
         var funnet = false;
@@ -491,7 +492,7 @@ $(document).ready(function() {
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
         }
-        $("#shift-time").text(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
+        $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
         $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + "2017");//TODO: fiks 2017 til faktisk dag
 
         e.preventDefault();
@@ -655,5 +656,9 @@ $(document).ready(function() {
     $("#newEndShiftDatePicker").datetimepicker({
         format: "YYYY-MM-DD HH:mm" /*,
         useCurrent: false*/
+    });
+
+    $("#currentDate").click(function() {
+       $("#calendarModal").modal("show");
     });
 });
