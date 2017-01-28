@@ -221,6 +221,14 @@ $(document).ready(function() {
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
                 }
+
+                if (shiftEnd < today) {
+                    shiftIderForIdag.push(shiftId);
+                }
+
+                if (shiftEnd < (today + 2)) {
+                    //TODO: sjekk dette
+                }
             }
 
             //For hovering all shift elements with matching id (all elements for same shift) //TODO: endre til alle typer skift
@@ -240,14 +248,6 @@ $(document).ready(function() {
                     }
                 });
             };
-
-            if (shiftEnd < today) {
-                shiftIderForIdag.push(shiftId);
-            }
-
-            if (shiftEnd < (today + 2)) {
-                //TODO: sjekk dette
-            }
 
             getAvailability(currentWeekAvailability);
             //alert("DONE. ok" + data);
@@ -667,26 +667,52 @@ $(document).ready(function() {
 
     var changeShiftTimesUrl = "/api/shift/settime";
     $("#change-shift-times-button").click(function() {
-        /*var jsonObject = {
-            shift_id: selectedShift,
-            start_time: "",
-            end_time: "",
-        };*/
 
-        /*$.ajax({
+
+
+        var newStartTime = $('#newStartShiftDatePicker').data("DateTimePicker").date();
+        var newEndTime = $('#newEndShiftDatePicker').data("DateTimePicker").date();
+
+        var jsonObject = {
+            shift_id: selectedShift,
+            start_time: newStartTime,
+            end_time: newEndTime
+        };
+
+        alert("start?");
+        $.ajax({
             url: changeShiftTimesUrl,
             type: 'POST',
-            data: jsonObject,
+            data: JSON.stringify(jsonObject),
+            contentType: 'application/json',
+            dataType: "json",
             success: function(res) {
-
+                alert("okidokischmoki");
+                alert(res);
             },
             error: function(res) {
                 alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
+                alert(res);
             }
+        });
+        //alert("test");//FIXME: ASAP
+        //alert($('#newStartShiftDatePicker').data("DateTimePicker").date());
+
+        /*$.ajax({
+            url: changeShiftTimesUrl,
+            type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (res) {
+                //$('#target').html(data.msg);
+                if (res === "Shift-object updated") {
+                    alert("Skiftet er oppdatert med nye tider");
+                }
+                alert("hei");
+            },
+            data: JSON.stringify(jsonObject)
         });*/
-        alert("test");//FIXME: ASAP
-        alert($('#datetimepicker6').data("DateTimePicker").date());
-        alert($("#datetimepicker6").find("input").val());
+        alert("done?");
 
     });
 });
