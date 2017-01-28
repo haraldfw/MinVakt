@@ -55,6 +55,13 @@ public class AdminController {
     @Autowired
     private EmailService emailService;
 
+    /**
+     * Creates a user in the database.
+     *
+     * @param verifier Spring automatics
+     * @param newUser  User object to create from
+     * @return Response-entity with status and message
+     */
     @Authorize
     @RequestMapping(value = "/create/user", method = RequestMethod.POST)
     public ResponseEntity<UserCreateResponse> createUser(Verifier verifier, @RequestBody NewUser newUser) {
@@ -124,6 +131,13 @@ public class AdminController {
         return builder.body(response);
     }
 
+    /**
+     * Creates a shift in the database
+     *
+     * @param verify   Spring automagics
+     * @param newShift Object to create shift from
+     * @return ShiftModel representing the object just created
+     */
     @Authorize
     @RequestMapping(value = "/create/shift", method = RequestMethod.POST)
     public ShiftModel createShift(Verifier verify, @RequestBody NewShift newShift) {
@@ -145,6 +159,12 @@ public class AdminController {
         });
     }
 
+    /**
+     * Assigns a new user for a shift
+     *
+     * @param verify      Spring automagics
+     * @param shiftAssign ShiftAssign-object with it of shift and username of user to assign.
+     */
     @Authorize
     @RequestMapping(value = "/assign/shift")
     public void addUserToShift(Verifier verify, @RequestBody ShiftAssign shiftAssign) {
@@ -159,6 +179,11 @@ public class AdminController {
         });
     }
 
+    /**
+     * Sends a message with the given model.
+     *
+     * @param msg MessageModel to generate message(s) from.
+     */
     @Authorize
     @PostMapping("/message")
     public void sendMessage(@RequestBody MessageModel msg) {
@@ -181,6 +206,12 @@ public class AdminController {
         });
     }
 
+    /**
+     * Creates a Competence in the database with the given model.
+     *
+     * @param verify        Springmagics
+     * @param newCompetence Model to create from.
+     */
     @Authorize
     @RequestMapping("/create/competence")
     public void createCompetence(Verifier verify, @RequestBody NewCompetence newCompetence) {

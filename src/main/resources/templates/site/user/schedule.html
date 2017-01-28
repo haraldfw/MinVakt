@@ -19,18 +19,21 @@
     </head>
 
 <div th:fragment="content">
-<div class="container test" style="margin-top:5%;">
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Legg inn
-        tilgjengelighet
-    </button>
+<div class="container test">
+
+    <div id="buttons-top">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Legg inn
+            tilgjengelighet
+        </button>
+        <button id="choose-week-button" class="btn btn-default" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
+    </div>
 
     <!-- Knapper for neste og forrige uke -->
-    <div>
+    <div style="text-align: center;">
         <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
-        <button id="choose-week-button" class="btn btn-primary" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
         <div th:include="fragments :: calendar"></div>
-        <span>Dato placeholder</span>
         <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
+        <span id="currentDate">Dato placeholder</span>
     </div>
 
     <p id="work-time-week" style="position: absolute; top: 75px; right: 20px;">Du har jobbet x timer PLACEHOLDER<br />Uke nr, år</p>
@@ -181,28 +184,6 @@
                 <br></br>
 
                 <!-- Buttons that is bound to a specific type of shift element -->
-                <div id="other-workers-panel" class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" data-toggle="collapse" href="#co-worker-collapse">
-                            <a data-toggle="collapse" href="#co-worker-collapse">Vis ansatte som jobber samtidig som dette skiftet</a>
-                        </div>
-                        <div id="co-worker-collapse" class="panel-collapse collapse co-worker-list">
-                            <div class="panel-body co-worker-panel-box">John Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Jane Doe</div>
-                            <div class="panel-body co-worker-panel-box">James Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Johnny Doe</div>
-                            <div class="panel-body co-worker-panel-box">Janie Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Richard Roe</div>
-                            <div class="panel-body co-worker-panel-box">John Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Jane Doe</div>
-                            <div class="panel-body co-worker-panel-box">James Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Johnny Doe</div>
-                            <div class="panel-body co-worker-panel-box">Janie Doe</div>
-                            <div class="panel-footer co-worker-panel-box">Richard Roe</div>
-                        </div>
-                    </div>
-                </div>
-
                 <div id="absenceButtonDiv" class="buttonRight" style="display: none;">
                     <button id="absenceButton" class="btn btn-danger" type="button">Legg inn fravær for dette skiftet</button>
                     <br></br><br></br>
@@ -242,7 +223,7 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label class="col-xs-2 control-label label-fixed-margin">Start tid</label>
-                                        <div class="input-group date datepicker-fixed-padding" id="datetimepicker6">
+                                        <div class="input-group date datepicker-fixed-padding" id="newStartShiftDatePicker">
                                             <input type="text" class="form-control" />
                                             <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
@@ -254,7 +235,7 @@
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label label-fixed-margin">Slutt tid</label>
-                                    <div class="input-group date datepicker-fixed-padding" id="datetimepicker7">
+                                    <div class="input-group date datepicker-fixed-padding" id="newEndShiftDatePicker">
                                         <input type="text" class="form-control" />
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
@@ -325,38 +306,8 @@
             </div>
             <!-- modal body -->
             <div class="modal-body">
-                <button id="noButton" class="btn btn-danger" type="button" data-dismiss="modal">Nei</button>
                 <button id="yesButton" class="btn btn-success" type="button">Ja</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for view profile information about other co-workers -->
-<div id="modalUserProfile" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- header og lukk kryss -->
-            <div class="modal-header">
-                <i class="close ion-close" data-dismiss="modal"></i>
-                <h4 class="modal-title co-worker-name">John Doe Placeholder</h4>
-            </div>
-            <!-- modal body -->
-            <div class="modal-body">
-                <label>Navn:&nbsp;&nbsp;</label><p class="co-worker-name" style="display: inline-block;">Ola Nordmann</p>
-                <br></br>
-
-                <!-- Endre farge på knappene? -->
-                <!-- callto eller tel? -->
-                <label>Telefon:&nbsp;&nbsp;</label><a href="tel:123456789">123456789</a>
-                <button class="btn btn-primary" type="button"><i class="ion-ios-telephone"></i> Ring</button>
-                <br></br>
-
-                <label>Addresse: </label><p style="display: inline-block;">&nbsp;&nbsp;Kongens gate 1, Trondheim</p>
-                <br></br>
-
-                <label>Epost addresse:&nbsp;&nbsp;</label><a href="mailto:text@minvakt.no">text@minvakt.no</a>
-                <button class="btn btn-primary" type="button"><i class="ion-email"></i> Send epost</button>
+                <button id="noButton" class="btn btn-danger" type="button" data-dismiss="modal">Nei</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 package no.ntnu.team5.minvakt.data.access;
 
+import org.hibernate.HibernateException;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +16,12 @@ public abstract class Access<T, M> {
 
     abstract M toModel(T t);
 
+    /**
+     * Converts a list of Objects to their model equivalent using the object's toModel method.
+     *
+     * @param list List to convert
+     * @return A list to the database-object's equivalent model object.
+     */
     public List<M> toModel(Collection<T> list) {
         return list.stream().map(this::toModel).collect(Collectors.toList());
     }
@@ -38,22 +46,44 @@ public abstract class Access<T, M> {
         throw new IllegalStateException("You need to use this object through a AccessContext, you can get one from AccessContextFactory. See UserController for an example.");
     }
 
+    /**
+     * Saves the object to the database
+     *
+     * @param t object to save
+     * @return True if success
+     */
     public boolean save(T t) {
-        getDb().transaction(session -> {
-            session.save(t);
-            session.flush();
-        });
+        try {
+            getDb().transaction(session -> {
+                session.save(t);
+                session.flush();
+            });
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        return true; //FIXME(erl)
+        return true;
     }
 
+    /**
+     * Deletes an object from the database
+     *
+     * @param t object to delete
+     * @return True if success
+     */
     public boolean delete(T t) {
-        getDb().transaction(session -> {
-            session.delete(t);
-            session.flush();
-        });
+        try {
+            getDb().transaction(session -> {
+                session.delete(t);
+                session.flush();
+            });
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        return true; //FIXME(erl)
+        return true;
     }
 
     void setDb(DbAccess db) {

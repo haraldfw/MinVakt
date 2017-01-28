@@ -3,7 +3,9 @@
 
 
 .test {
+    width: 95%;
     height: 95vh;
+    margin-top: -20px;
 }
 
 .content {
@@ -345,4 +347,29 @@ html, body {
 
 .active-week-right {
     border-right: 4px solid #717581 !important;
+}
+
+#currentDate {
+    font-size: 165%;
+}
+
+#buttonPreviousWeek {
+    float: left;
+}
+
+#buttonNextWeek {
+    float: right;
+}
+
+#buttons-top {
+    margin-bottom: 30px;
+}
+
+#currentDate:hover {
+    cursor: pointer;
+    color: #a0a0a0;
+}
+
+body.modal-open {
+    overflow: visible;
 }

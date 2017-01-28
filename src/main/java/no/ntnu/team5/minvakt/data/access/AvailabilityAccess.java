@@ -27,6 +27,14 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
     }
 
+    /**
+     * Creates an availability on the specified date interval for the given user
+     *
+     * @param user User to create availability for
+     * @param from Date and time to start availability
+     * @param to   Date and time to end availability
+     * @return True if success
+     */
     public boolean makeAvailable(User user, Date from, Date to) {
         Availability av = new Availability();
         av.setUser(user);
@@ -36,6 +44,11 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         return save(av);
     }
 
+    /**
+     * Gets a list of all availabilities from now and one week into the future.
+     *
+     * @return The list of availability-objects
+     */
     public List<Availability> listAvailable() {
         return getDb().transaction(session -> {
             Date dateFrom = Calendar.getInstance().getTime();
@@ -49,6 +62,13 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
+    /**
+     * Gets a list of all availabilities for the given week and user.
+     *
+     * @param date     Date in the week to get availabilities from
+     * @param username Username of the user to get availabilities for.
+     * @return The list of availability-objects for the given user.
+     */
     public List<Availability> getAllCurrentWeekForUser(Date date, String username) {
         calendar.setTime(date);
 
@@ -66,10 +86,18 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         return getAvailabilityFromDateToDateForUser(fromDate, toDate, username);
     }
 
+    /**
+     * Gets availabilities for the given datetime interval and username
+     *
+     * @param fromDate Start of date interval
+     * @param toDate   End of date interval
+     * @param username User to get availabilities for
+     * @return The list of availability objects for the given user in the given interval
+     */
     public List<Availability> getAvailabilityFromDateToDateForUser(Date fromDate, Date toDate, String username) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("from Availability where :fromDate <= startTime and :toDate >= endTime " +
-                                                 "and user.username = :username order by startTime asc");
+                    "and user.username = :username order by startTime asc");
             query.setParameter("fromDate", fromDate);
             query.setParameter("toDate", toDate);
             query.setParameter("username", username);
@@ -77,6 +105,13 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
+    /**
+     * Gets a list of users that are available in the given date interval
+     *
+     * @param dateFrom Start of datetime interval
+     * @param dateTo   End of datetime interval
+     * @return List of user avaliable in the given datetime interval
+     */
     public List<User> listAvailableUsers(Date dateFrom, Date dateTo) {
         return getDb().transaction(session -> {
             Query query = session.createQuery("select distinct user from Availability as a where (:dateFrom between a.startTime and a.endTime) " +
@@ -89,6 +124,14 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
     }
 
 
+    /**
+     * Removes availability in the given datetime interval for the given user. Splits availability
+     * objects if necessary.
+     *
+     * @param user     User to make unavailable
+     * @param dateFrom Start of datetime interval
+     * @param dateTo   End of datetime interval
+     */
     public void makeUnavailable(User user, Date dateFrom, Date dateTo) {
         getDb().transaction(session -> {
             //FIXME: i don't work right
@@ -123,6 +166,12 @@ public class AvailabilityAccess extends Access<Availability, AvailabilityModel> 
         });
     }
 
+    /**
+     * Converts the given availability-object into it's model equivalent.
+     *
+     * @param availability Availability-object to convert.
+     * @return An AvailabilityModel-object representing the given object.
+     */
     public AvailabilityModel toModel(Availability availability) {
         AvailabilityModel model = new AvailabilityModel();
         model.setUserId(availability.getUser().getId());

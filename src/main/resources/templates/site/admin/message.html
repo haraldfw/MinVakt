@@ -15,11 +15,10 @@
     <div class="page-header">
         <h3>Send ny melding</h3>
     </div>
-        <form action="/api/admin/message"
-              onsubmit="return jsonSubmit(this, '/admin/message')" th:action="@{/api/admin/message}"
+        <form id="send-message-form" action="/api/admin/message" th:action="@{/api/admin/message}"
               method="post">
             <div class="spacious-column col-sm-6 col-md-6 col-lg-6">
-                <h4>Nødvendig kompetanse</h4>
+                <h4>Til kompetanse</h4>
                 <select name="comp_recs[]" class="selectpicker" title="Ingen valgt"
                         data-live-search="true" multiple="multiple" data-width="100%">
                     <option th:each="comp : ${competences}"
@@ -44,6 +43,26 @@
             </div>
             </div>
         </form>
+    <!-- Small modal -->
+    <div id="message-sent-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content small-modal-content">
+                <h2 class="text-center">Melding sendt!</h2>
+                <button type="button" class="btn btn-primary">Sweet</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#send-message-form").submit((e) => {
+            e.preventDefault();
+            return jsonSubmitFns(e.target, () => { // alternative way of writing function() with slight difference to 'this'
+                $('#message-sent-modal').modal("show");
+            });
+        });
+        $("#message-sent-modal .btn").click(() => {
+            $('#message-sent-modal').modal("hide");
+        });
+    </script>
 </div>
 </body>
 </html>

@@ -17,8 +17,8 @@
             border: 0 !important;
         }
 
-        .account-box {
-            margin-top: 15px;
+        .account-box.profile-account-box {
+            margin-top: 7px;
             border: 1px solid #ddd;
         }
 
@@ -44,22 +44,35 @@
             width: 100%;
         }
 
-        .account-box .table>tbody>tr>th {
+        .account-box .table > tbody > tr > th {
             padding-left: 15px;
         }
 
         .file-btn {
             height: 33px;
             width: 90px;
-            position:absolute;
-            z-index:2;
-            top:0;
-            left:0;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
             filter: alpha(opacity=0);
-            -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-            opacity:0;
-            background-color:transparent;
-            color:transparent;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            opacity: 0;
+            background-color: transparent;
+            color: transparent;
+        }
+
+        .span-bish {
+            padding-left: 16px !important;
+        }
+
+        @media(max-width: 480px) {
+            .account-box.profile-account-box {
+                border: 0;
+            }
+            .account-box table {
+                table-layout: fixed;
+            }
         }
 
         #imgUpload {
@@ -84,7 +97,7 @@
             text-overflow: ellipsis;
         }
 
-        @media(max-width: 768px) {
+        @media (max-width: 768px) {
             #upload-file-info {
                 font-size: 11px;
             }
@@ -99,6 +112,7 @@
             border-radius: 5px;
             margin: 3px 0;
         }
+
         #new-pwd-box .btn {
             margin: 10px 0;
         }
@@ -122,10 +136,12 @@
         .row {
             margin: 0;
         }
+
         .spacious-column {
             margin-top: 10px;
         }
-        @media(max-width: 768px) {
+
+        @media (max-width: 768px) {
             .spacious-column {
                 margin-top: 30px;
 
@@ -188,6 +204,82 @@
 <div th:fragment="content">
     <h3 id="account-title">Profil</h3>
     <div class="border-box row">
+
+        <div class="spacious-column col-md-7 col-lg-7">
+            <div class="account-box profile-account-box">
+                <table class="table">
+                    <tr>
+                        <th>Navn</th>
+                        <td class="span-bish">
+                            <span type="text" th:text="${user.firstName + ' ' + user.lastName}"
+                                  disabled="disabled"> </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Fødselsdato</th>
+                        <td class="span-bish">
+                            <span type="text" th:text="${user.dateOfBirth}" disabled="disabled"> </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>E-post</th>
+                        <td class="span-bish">
+                            <span type="email" th:text="${user.email}" disabled="disabled"> </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Adresse</th>
+                        <td class="input-cell">
+                            <input class="sbmts" type="text" th:value="${user.address}" disabled="disabled"/>
+                        </td>
+                        <td>
+                            <div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Mobil</th>
+                        <td class="input-cell">
+                            <input class="sbmts" type="text" th:value="${user.phonenumber}" disabled="disabled"/>
+                        </td>
+                        <td>
+                            <div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Passord</th>
+                        <td class="input-cell">
+                            <input id="fake-password" type="password" value="notapassword" disabled="disabled"/>
+                            <div id="new-pwd-box">
+                                <form action="/api/password/change" method="post" class="sbmts"
+                                      onsubmit="return jsonSubmitFns(this, success, failure)">
+                                    <input class="pwd-input" type="password" name="old_password"
+                                           placeholder="Nåværende passord"/>
+                                    <input id="new-pwd" class="pwd-input" type="password" pattern=".{8,}"
+                                           name="new_password"
+                                           placeholder="Nytt passord"/>
+                                    <meter max="4" id="password-strength-meter" value="0"></meter>
+                                    <input id="rpt-pwd" class="pwd-input" type="password" pattern=".{8,}"
+                                           placeholder="Gjenta nytt passord"/>
+                                    <div id="incorrect-pwd" class="alert alert-danger">
+                                        <p><strong>Passordene er ikke like</strong></p>
+                                    </div>
+                                    <button type="submit" id="save-pwd-btn"
+                                            class="btn btn-primary pull-right">Lagre
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="edit-pwd" class="btn btn-default btn-edit"><span
+                                    class="glyphicon glyphicon-edit"></span></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div class="spacious-column col-md-5 col-lg-5">
             <table class="table">
                 <tr>
@@ -219,81 +311,6 @@
                     </td>
                 </tr>
             </table>
-        </div>
-        <div class="spacious-column col-md-7 col-lg-7">
-            <div class="account-box">
-                <table class="table">
-                    <tr>
-                        <th>Navn</th>
-                        <td class="input-cell">
-                            <input type="text" th:value="${user.firstName + ' ' + user.lastName}"
-                                   disabled="disabled"/>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Fødselsdato</th>
-                        <td class="input-cell">
-                            <input type="text" th:value="${user.dateOfBirth}" disabled="disabled"/>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>E-post</th>
-                        <td class="input-cell">
-                            <input type="email" th:value="${user.email}" disabled="disabled"/>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Adresse</th>
-                        <td class="input-cell">
-                            <input class="sbmts" type="text" th:value="${user.address}" disabled="disabled"/>
-                        </td>
-                        <td>
-                            <div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Mobil</th>
-                        <td class="input-cell">
-                            <input class="sbmts" type="text" th:value="${user.phonenumber}" disabled="disabled"/>
-                        </td>
-                        <td>
-                            <div class="btn btn-default btn-edit"><span class="glyphicon glyphicon-edit"></span></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Passord</th>
-                        <td class="input-cell">
-                            <input id="fake-password" type="password" value="notapassword" disabled="disabled" />
-                            <div id="new-pwd-box">
-                                <form action="/api/password/change" method="post" class="sbmts"
-                                      onsubmit="return jsonSubmitFns(this, success, failure)">
-                                    <input class="pwd-input" type="password" name="old_password"
-                                           placeholder="Nåværende passord"/>
-                                    <input id="new-pwd" class="pwd-input" type="password" pattern=".{8,}"
-                                           name="new_password"
-                                           placeholder="Nytt passord"/>
-                                    <meter max="4" id="password-strength-meter" value="0"></meter>
-                                    <input id="rpt-pwd" class="pwd-input" type="password" pattern=".{8,}"
-                                           placeholder="Gjenta nytt passord"/>
-                                    <div id="incorrect-pwd" class="alert alert-danger">
-                                        <p><strong>Passordene er ikke like</strong></p>
-                                    </div>
-                                    <button type="submit" id="save-pwd-btn"
-                                            class="btn btn-primary pull-right">Lagre
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                        <td>
-                            <div id="edit-pwd" class="btn btn-default btn-edit"><span
-                                    class="glyphicon glyphicon-edit"></span></div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </div>
     </div>
 </div>

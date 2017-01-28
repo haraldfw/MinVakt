@@ -16,17 +16,27 @@ public class UsernameGen {
     @Autowired
     private AccessContextFactory accessor;
 
+    /**
+     * Generates a username from the given first and last name
+     *
+     * @param firstName First name of user
+     * @param lastName  Last name of user
+     * @return The generated username
+     */
     public String generateUsername(String firstName, String lastName) {
         List<String> usernames = accessor.with(access -> {
             return access.user.getUsernames();
         });
+
+        firstName = sanitize(firstName.toLowerCase());
+        lastName = sanitize(lastName.toLowerCase());
 
         String username;
         int firstnameIter = 0;
         int lastnameIter = 0;
         boolean changeFirstname = false;
         do {
-            username = expandingGeneration(firstName, lastName, firstnameIter, lastnameIter, changeFirstname);
+            username = expandingGeneration(firstName, lastName, firstnameIter, lastnameIter);
 
             if (changeFirstname) {
                 firstnameIter++;
@@ -38,9 +48,17 @@ public class UsernameGen {
         return username;
     }
 
-    private String expandingGeneration(String firstName, String lastName, int firstnameAdd, int lastnameAdd, boolean changeFirstname) {
-        firstName = sanitize(firstName.toLowerCase());
-        lastName = sanitize(lastName.toLowerCase());
+    /**
+     * Generates a username from the given name and specifications of chars to add.
+     *
+     * @param firstName    First name of user
+     * @param lastName     Last name of user
+     * @param firstnameAdd Numbers of chars to add to standard amount of chars from first name
+     * @param lastnameAdd  Numbers of chars to add to standard amount of chars from last name
+     * @return The generated username
+     */
+    private String expandingGeneration(String firstName, String lastName, int firstnameAdd,
+                                       int lastnameAdd) {
 
         final int fnInitialChars = 2;
         final int lnInitialChars = 2;
@@ -60,6 +78,11 @@ public class UsernameGen {
         return firstName.substring(0, firstNameChars).concat(lastName.substring(0, lastNameChars));
     }
 
+    /**
+     * Removes special chars from norwegian language and dash and apostrophe
+     * @param string String to sanitize
+     * @return The sanitized string
+     */
     private String sanitize(String string) {
         string = string.replace("æ", "a").replace("ø", "o").replace("å", "a");
         string = string.replaceAll("[ -']", "");

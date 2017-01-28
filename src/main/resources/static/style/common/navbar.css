@@ -180,7 +180,7 @@ This class is added to the body when a modal is shown and removed when hidden */
     font-size: 17px;
 }
 
-.bs-placeholder {
+.btn.dropdown-toggle {
     margin-top: 0;
 }
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
@@ -221,6 +221,15 @@ This class is added to the body when a modal is shown and removed when hidden */
 
 .badge-color {
     background-color: #1fa3ae;
+    margin-top: 15px;
 }
 
+.small-modal-content {
+    padding: 15px;
+}
+
+.small-modal-content .btn {
+    margin-top: 20px;
+    width: 100%;
+}
 
