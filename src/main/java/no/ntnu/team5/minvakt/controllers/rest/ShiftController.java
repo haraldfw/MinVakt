@@ -53,7 +53,7 @@ public class ShiftController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> register(Verifier verifier, @RequestBody ShiftModel shiftModel) {
         verifier.ensure(hasRole(Constants.ADMIN));
-        
+
         int id = accessor.with(access -> {
             User user = access.user.fromID(shiftModel.getUserModel().getId());
             Shift shift = new Shift(user, shiftModel.getStartTime(), shiftModel.getEndTime(), shiftModel.getAbsent(), shiftModel.getLocked(), shiftModel.getStandardHours().byteValue(), null);
@@ -70,7 +70,7 @@ public class ShiftController {
      *
      * @return a list of shifts
      */
-    //@Authorize("/") //FIXME: will not authorize
+    @Authorize("/")
     @RequestMapping("/{user}/week")
     //TODO: gjør sånn at man går til "/week" og henter for bestemt bruker
     public List<ShiftModel> getShiftsCurrentWeek(@PathVariable("user") String username) {
@@ -91,15 +91,14 @@ public class ShiftController {
      * @param day      startDay
      * @return a list of shifts for a week for a user with a given start date
      */
-    //@Authorize("/") //FIXME: will not authorize
-    //FIXME: If the user sends a lot of requests in a short period the server will crash.
+    @Authorize("/")
     @RequestMapping("/{user}/{year}/{month}/{day}/week")
     public List<ShiftModel> getShiftsWeek(@PathVariable("user") String username,
                                           @PathVariable("year") int year,
                                           @PathVariable("month") int month,
                                           @PathVariable("day") int day) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day); //TODO: check if is correct with other dates than rigth now
+        calendar.set(year, month, day); //TODO: check if is correct with other dates than right now
         calendar.set(Calendar.HOUR_OF_DAY, 0); //TODO: trenger vi hour, minute, second, millisecond
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -117,7 +116,7 @@ public class ShiftController {
         });
     }
 
-    //@Authorize
+    @Authorize
     @RequestMapping("/{user}/{year}/{month}/{day}/work")
     public double getWorkHoursWeek(@PathVariable("user") String username,
                                    @PathVariable("year") int year,
