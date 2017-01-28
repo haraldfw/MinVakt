@@ -189,3 +189,23 @@ html, body {
     background-color: #cbcbcb;
     cursor: pointer;
 }
+
+.color-box {
+    height: 20px;
+    width: 20px;
+    float: right;
+    border-radius: 3px;
+}
+
+.colors {
+    float: right;
+}
+
+.color-margin {
+    margin-bottom: 1%;
+}
+
+.chooseD {
+    float: left;
+    margin-top: 2%;
+}
