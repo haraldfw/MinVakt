@@ -242,7 +242,7 @@ VALUES (1, '2017-02-03 10:00:00', '2017-02-03 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-25 12:00:00', '2017-01-25 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (2, '2017-01-26 12:00:00', '2017-01-26 20:00:00', 8, 0);
+VALUES (2, '2017-01-26 12:00:00', '2017-01-26 20:00:00', 8, 1);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-27 12:00:00', '2017-01-27 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
@@ -252,7 +252,7 @@ VALUES (2, '2017-01-29 12:00:00', '2017-01-29 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-30 12:00:00', '2017-01-30 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (2, '2017-01-21 20:00:00', '2017-01-22 07:00:00', 14, 0);
+VALUES (2, '2017-01-21 20:00:00', '2017-01-22 07:00:00', 11, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (3, '2017-01-25 20:00:00', '2017-01-26 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
@@ -284,11 +284,15 @@ VALUES (4, '2017-02-07 08:00:00', '2017-02-07 18:00:00', 10, 0);
 
 -- availability
 INSERT INTO availability (start_time, end_time, user_id)
-VALUES ('2017-01-10 00:00:00', '2017-02-10', 1);
+VALUES ('2017-01-22 00:00:00', '2017-01-26 00:00:00', 1);
 INSERT INTO availability (start_time, end_time, user_id)
-VALUES ('2017-01-10 00:00:00', '2017-02-10', 2);
+VALUES ('2017-02-04 06:00:00', '2017-02-04 19:00:00', 1);
+INSERT INTO availability (start_time, end_time, user_id)
+VALUES ('2017-02-01 00:00:00', '2017-02-01 16:00:00', 2);
 INSERT INTO availability (start_time, end_time, user_id)
 VALUES ('2017-01-23 00:00:00', '2017-01-23 10:00:00', 3);
+INSERT INTO availability (start_time, end_time, user_id)
+VALUES ('2017-02-02 10:30:00', '2017-02-05 10:30:00', 3);
 INSERT INTO availability (start_time, end_time, user_id)
 VALUES ('2017-02-03 06:00:00', '2017-02-03 18:00:00', 4);
 

@@ -145,23 +145,7 @@
                         </div>
                     </div>
 
-                    <!--Modal for ledig vakt-->
-                    <div id="modalFree">
-                        <br/>
-                        <br/>
-                        <label for="available">Tilgjengelige ansatte som kan ta vakten</label>
-                        <select class="form-control" id="available">
-                            <option>Test 1</option>
-                            <option>Test 2</option>
-                            <option>Test 3</option>
-                            <option>Test 4</option>
-                            <option>Test 5</option>
-                        </select>
-                        be om ansatt tar skift, fiks for admin, fiks design<br/>
-                        <br/>
-                        <button class="btn btn-default">Send forespørsel om å ta skift</button>
-
-                    </div>
+                    <button th:if="${isAdmin}" id="assign-shift" class="btn btn-primary">Endre vakteier</button>
                 </div>
             </div>
         </div>

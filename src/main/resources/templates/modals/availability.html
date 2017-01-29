@@ -18,26 +18,14 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="availability" th:action="${'/api/user/' + username + '/available'}" method="post"
-                          onsubmit="return jsonSubmitFns(this, () => {
-                                console.log('Close modal.');
-                            }, (e) => {
-                                console.log('Error: ', e);
-                            }, dateProcces(['date_to', 'date_from']))">
+                    <form id="availability" th:action="${'/api/user/' + username + '/available'}" method="post">
                         <div class="form-group">
-                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Something"><i class="ion-help help-icon"></i></a>
-
-                            <script>
-                                $(document).ready(function(){
-                                    $('[data-toggle="tooltip"]').tooltip();
-                                });
-                            </script>
                             <div>
                                 <p style="float: left; padding-left: 24%;">Start:</p>
                                 <div class='col-md-5' style="float: left;">
                                     <div class="form-group">
                                         <div class='input-group date' id='avFrom'>
-                                            <input name="date_from" type='text' class="form-control"/>
+                                            <input required="required" name="date_from" type='text' class="form-control"/>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -53,7 +41,7 @@
                                 <div class='col-md-5' style="float: left;">
                                     <div class="form-group">
                                         <div class='input-group date' id='avTo'>
-                                            <input name="date_to" type='text' class="form-control"/>
+                                            <input required="required" name="date_to" type='text' class="form-control"/>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -65,12 +53,20 @@
                         <script>
                             $(document).ready(() => {
                                 datepickers($("#avFrom"), $("#avTo"));
+
+                                var testing = false;
+
+                                /*$("#add-availability-button").click(function() {
+                                    //alert("heisann");
+                                    //$("#myModal").modal("hide");
+                                    //alert(testing);
+                                });*/
                             });
                         </script>
                         <br/>
                             <div class="form-group">
                                 <div class="col-xs-5 col-xs-offset-2" style="padding-left: 33%; margin-left: 0; padding-top: 3%;">
-                                    <button type="submit" class="btn btn-default">Legg inn tilgjengelighet</button>
+                                    <button id="add-availability-button" type="submit" class="btn btn-default">Legg inn tilgjengelighet</button>
                                 </div>
                             </div>
 

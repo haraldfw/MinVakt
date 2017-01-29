@@ -101,8 +101,8 @@ $(document).ready(function() {
                 var email = "";
                 var dateOfBirth = "";
 
-                var tid = 'Start: ' + startTime.getFullYear() + '/' + (startTime.getMonth() + 1) + '/' + startTime.getDate() + ' ' + hourFrom + ':' + minFrom + '<br/>' +
-                    'Slutt: ' + endTime.getFullYear() + '/' + (endTime.getMonth() + 1) + '/' + endTime.getDate() + ' ' + hourTo + ':' + minTo;
+                var tid = 'Start: ' + hourFrom + ':' + minFrom + ' - ' + startTime.getDate() + '. ' + monthNames[startTime.getMonth()] + ' ' + startTime.getFullYear() + '<br/>' +
+                    'Slutt: ' + hourTo + ':' + minTo + ' - ' + endTime.getDate() + '. ' + monthNames[endTime.getMonth()] + ' ' + endTime.getFullYear();
                 if(jArray[i].user_model == null || jArray[i].user_model === undefined || !(jArray[i].user_model)) {
                     un = "";
                     navn = "";
@@ -193,6 +193,8 @@ $(document).ready(function() {
                 $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
                 $("#tidsviser").html(tid);
+
+                selectedShiftId = $(this).parent().children(".position-id").html();
             });
 
             $(".self").click(function () {
@@ -202,7 +204,7 @@ $(document).ready(function() {
                 $("#modalFree").css("display", "none");
 
                 var text = $(".tidtidtid", this).html();
-                $(".modal-title").text(text);
+                $(".modal-title").text("Din vakt: " + text);
                 var tid = $(".tidLagring", this).html();
                 $("#tidsviser").html(tid);
                 var navn = $(".navnLagring", this).html();
@@ -236,6 +238,8 @@ $(document).ready(function() {
                 $("#worker-email-address").text(email);
                 $("#worker-email-address").attr("href", "mailto:" + email);
                 $("#worker-birth-date").text(doBirth);
+
+                selectedShiftId = $(this).parent().children(".position-id").html();
             });
 
             $("#release-from-shift").click(function() {
@@ -430,6 +434,11 @@ $(document).ready(function() {
                 $("#response-modal").modal("show");
             });
         }
+    });
+
+    $("#assign-shift").click(function () {
+        var assignUrl = "/admin/assign/shift/" + selectedShiftId;
+        window.location = assignUrl;
     });
 });
 
