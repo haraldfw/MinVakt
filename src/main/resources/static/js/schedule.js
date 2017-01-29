@@ -14,6 +14,7 @@ $(document).ready(function() {
     * 2 = available-shift
     * ...
     * 5 = when a user is asked another co-worker about taking a shift
+    * 6 = when a user wants to remove availability from the schedule
     * */
     var shiftType = -1;
 
@@ -549,13 +550,9 @@ $(document).ready(function() {
     });
 
     $("#removeAvailabilityButton").click(function() {
+        //shiftType = 6;
         $("#modalYesNo").modal("show");
         $("#yesNo-Question").text("Vil du fjerne tilgjengelighet for denne vakten?");
-
-        if (questionAnswer) {
-            //$(".shift#" + selectedShift).remove();
-            //$("#modalTest").modal("toggle");
-        }
     });
 
     var clickedAvailabilityTop = -1;//TODO: legg inn -->
@@ -618,6 +615,10 @@ $(document).ready(function() {
                 $("#response-modal-body").text("Kunne ikke sende forespørsel om vaktbytte");
                 $("#response-modal").modal("show");
             });
+        }
+
+        if (shiftType === 6) {
+
         }
 
         if (shiftType === 4) {
@@ -760,9 +761,5 @@ $(document).ready(function() {
             //$("#response-model-body").text("Vakttider er oppdatert");
         });
         //alert("test");//FIXME: ASAP
-    });
-
-    $("#test").click(function() {
-        $("#response-modal").modal("show");
     });
 });
