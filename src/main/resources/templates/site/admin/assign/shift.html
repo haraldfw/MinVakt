@@ -13,6 +13,10 @@
             vertical-align: middle;
         }
 
+        #assign-shift-form2 table > tbody > tr > td {
+            vertical-align: middle;
+        }
+
         .search-wrap {
             position: relative;
         }
@@ -32,18 +36,37 @@
             width: 100%;
             height: 40px;
         }
+
+        .search-query2 {
+            padding: 0px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 40px;
+        }
     </style>
 </head>
 
 <body>
 <div th:fragment="content">
+    <h3 id="shift-title" th:text="${'Vakt-id: ' + shiftid}">Ugyldig vakt-id</h3>
+    <h4 th:if="${shift} != null" th:text="${#dates.format(shift.startTime, 'EEE, d MMM yyyy HH:mm') + ' til '
+    + #dates.format(shift.startTime, 'EEE, d MMM yyyy HH:mm')}"></h4>
+    <h4 th:if="${shift} != null">
+        Kompetansekrav:
+        <span th:each="comp : ${shift.competences}" th:text="${comp.name + ' '}"></span>
+    </h4>
+    <br/>
+    <p>For å fjerne ansatt fra vakten, trykk på 'Tildel vakt' uten å velge ansatt.</p>
+    <p>Alle ansatte under fyller kompetansekravet.</p>
+
+    <h3 id="account-title">Tilgjengelige ansatte</h3>
     <div class="search-wrap">
         <input type="text" class="search-query" placeholder="Søk etter navn"/>
         <span class="glyphicon glyphicon-search"></span>
     </div>
 
     <div class="account-box">
-        <h3 id="account-title">Ansatte</h3>
         <form id="assign-shift-form" action="/api/admin/assign/shift" method="post">
             <table id="employee-table" class="table table-striped">
                 <thead>
@@ -51,7 +74,7 @@
                     <th></th>
                     <th>Navn</th>
                     <th>Mobilnummer</th>
-                    <th>Stillingsproset</th>
+                    <th>Stillingsprosent</th>
                     <th>Kompetanse</th>
                 </tr>
                 </thead>
@@ -71,15 +94,53 @@
                 </tbody>
             </table>
             <input type="text" name="id:number" hidden="hidden" th:value="${shiftid}"/>
-            <button type="submit" class="btn btn-primary pull-right">Lagre</button>
+            <button type="submit" class="btn btn-primary pull-right">Tildel vakt</button>
+        </form>
+    </div>
+
+    <br/>
+    <h3 id="account-title2">Alle ansatte</h3>
+    <div class="search-wrap">
+        <input type="text" class="search-query2" placeholder="Søk etter navn"/>
+        <span class="glyphicon glyphicon-search"></span>
+    </div>
+    <div class="account-box">
+        <form id="assign-shift-form2" action="/api/admin/assign/shift" method="post">
+            <table id="employee-table2" class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Navn</th>
+                    <th>Mobilnummer</th>
+                    <th>Stillingsprosent</th>
+                    <th>Kompetanse</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${allUsers}">
+                    <td>
+                        <div class="radio">
+                            <label><input type="radio" name="username" th:value="${user.username}"/></label>
+                        </div>
+                    </td>
+                    <td class="employee-name" th:text="${user.firstName + ' ' + user.lastName}">Navn</td>
+                    <td th:text="${user.phonenumber}"></td>
+                    <td th:text="${user.employmentPercentage + '%'}"></td>
+                    <td><span th:each="comp : ${user.competences}" th:text="${comp + ' '}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="text" name="id:number" hidden="hidden" th:value="${shiftid}"/>
+            <button type="submit" class="btn btn-primary pull-right">Tildel vakt</button>
         </form>
         <!-- Small modal -->
         <div id="shift-created-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
              aria-labelledby="mySmallModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content small-modal-content">
-                    <h2 class="text-center">Skift tildelt!</h2>
-                    <button type="button" class="btn btn-primary">Sweet</button>
+                    <h2 class="text-center">Vakt tildelt!</h2>
+                    <button type="button" class="btn btn-primary">Den er grei</button>
                 </div>
             </div>
         </div>
@@ -91,9 +152,18 @@
                 $('#shift-created-modal').modal("show");
             });
         });
+
+        $("#assign-shift-form2").submit((e) => {
+            e.preventDefault();
+            return jsonSubmitFns(e.target, () => { // alternative way of writing function() with slight difference to 'this'
+                $('#shift-created-modal').modal("show");
+            });
+        });
+
         $("#shift-created-modal .btn").click(() => {
             window.location = "/admin/create/shift"
         });
+
         $(".search-query").on("input", function () {
             var search = $(this).val().toLowerCase();
             var tableRows = $("#employee-table tbody tr");
@@ -104,6 +174,17 @@
             });
             matches.show();
         });
+        $(".search-query2").on("input", function () {
+            var search = $(this).val().toLowerCase();
+            var tableRows = $("#employee-table2 tbody tr");
+            tableRows.hide();
+            var matches = tableRows.filter(function () {
+                var name = $(this).find(".employee-name").text().toLowerCase();
+                return name.indexOf(search) > -1;
+            });
+            matches.show();
+        });
+
     </script>
 </div>
 </body>

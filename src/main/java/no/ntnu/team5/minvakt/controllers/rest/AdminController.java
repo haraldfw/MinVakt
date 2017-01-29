@@ -184,8 +184,12 @@ public class AdminController {
 
             access.shift.save(shift);
 
-            String message = "Du har blitt tildelt følgende vakt:\n " + startTime + " til " + endTime;
-            access.notification.generateMessageNotification(user, message);
+            String message;
+
+            if (user != null) {
+                message = "Du har blitt tildelt følgende vakt:\n " + startTime + " til " + endTime;
+                access.notification.generateMessageNotification(user, message);
+            }
 
             if (oldShiftOwner != null){
                 message = "Du har blitt fjernet fra følgende vakt:\n " + startTime + " til " + endTime;
