@@ -15,7 +15,7 @@ html, body {
 }
 
 :root {
-    --border-color: lightgray;
+    --border-color: #c9c9c9;
     --arrow-border: #177E87;
 }
 
@@ -71,7 +71,7 @@ html, body {
 }
 
 .dropdown-cell, .kompetanse-cell {
-    background-color: #ededed;
+    background-color: #e6e6e6;/*#ededed;*/
 }
 
 .kompetanse-cell {
