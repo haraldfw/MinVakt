@@ -667,9 +667,6 @@ $(document).ready(function() {
 
     var changeShiftTimesUrl = "/api/shift/settime";
     $("#change-shift-times-button").click(function() {
-
-
-
         var newStartTime = $('#newStartShiftDatePicker').data("DateTimePicker").date();
         var newEndTime = $('#newEndShiftDatePicker').data("DateTimePicker").date();
 
@@ -693,26 +690,16 @@ $(document).ready(function() {
             error: function(res) {
                 alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
                 alert(res);
-            }
+            },
+            /*always: function(res) {
+                alert("hei");
+                getShifts(url);
+            }*/
+        }).always(function (data, textStatus, jqXHR) {
+            $(".shift").remove();
+            getShifts(url);
+            $("#modalTest").modal("hide");
         });
         //alert("test");//FIXME: ASAP
-        //alert($('#newStartShiftDatePicker').data("DateTimePicker").date());
-
-        /*$.ajax({
-            url: changeShiftTimesUrl,
-            type: 'post',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (res) {
-                //$('#target').html(data.msg);
-                if (res === "Shift-object updated") {
-                    alert("Skiftet er oppdatert med nye tider");
-                }
-                alert("hei");
-            },
-            data: JSON.stringify(jsonObject)
-        });*/
-        alert("done?");
-
     });
 });
