@@ -278,7 +278,6 @@ $(document).ready(function() {
             }
 
             if (jsonArray.length === 0) {
-                alert("tom array");
                 $("#co-worker-available-collapse").append('<div class="panel-footer co-worker-panel-box empty-a-p-box">Ingen ledige folk å spørre</div>');
             }
         }).fail(function () {
