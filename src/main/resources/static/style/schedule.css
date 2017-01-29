@@ -1,6 +1,8 @@
 
 /* Style for Schedule for own user */
-
+:root {
+    --arrow-border: #177E87;
+}
 
 .test {
     width: 95%;
@@ -150,7 +152,7 @@ html, body {
 }
 
 
-.normal-shift {
+.normal-shift, .shift-shift {
     background-color: #f0ad4e;
     border: 1px solid #dd9c3f;
 }
@@ -163,7 +165,7 @@ html, body {
     background-color: #e0b374;
 }
 
-.absence-shift {
+.absence-shift, .absence-absence {
     background-color: #f05942;
     border: 1px solid #961d1d;
 }
@@ -172,7 +174,7 @@ html, body {
     background-color: #f0433a;
 }
 
-.available-shift {
+.available-shift, .available-available {
     background-color: #5cb85c;
     border: 1px solid #378c37;
 }
@@ -362,6 +364,15 @@ html, body {
 #buttonNextWeek {
     float: right;
 }
+#buttonNextWeek, #buttonPreviousWeek {
+    font-size: 230%;
+    text-shadow: -1px 0 var(--arrow-border), 0 1px var(--arrow-border), 1px 0 var(--arrow-border), 0 -1px var(--arrow-border);
+    color: #1fa3ae;
+}
+
+#buttonNextWeek:hover, #buttonPreviousWeek:hover {
+    cursor: pointer;
+}
 
 #buttons-top {
     margin-bottom: 30px;
@@ -374,4 +385,27 @@ html, body {
 
 body.modal-open {
     overflow: visible;
+}
+
+.color-box {
+    height: 20px;
+    width: 20px;
+    float: right;
+    border-radius: 3px;
+}
+.colors {
+    float: right;
+}
+
+.color-margin {
+    margin-bottom: 2%;
+}
+
+.chooseWe {
+    float: left;
+    margin-top: 2%;
+}
+
+#choose-week-button {
+    background-color: #e6e6e6;
 }

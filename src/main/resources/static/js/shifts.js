@@ -362,6 +362,7 @@ $(document).ready(function() {
         $("#superDiv").empty();
         plotShifts(datoo);
 
+        theActive = datoo;
         count = datoo;
         month = count.getMonth();
         year = count.getFullYear();

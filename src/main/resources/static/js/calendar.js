@@ -93,22 +93,6 @@ $(document).ready(function() {
 
         plotDays(firstDay, theActive);
 
-
-            /* For schedule //TODO: ikke remove
-             $(this).parent().children("td:nth-of-type(2)").addClass("active-week-left active-week-middle");
-             for(var k = 3; k < 8; k++) { //fiks på bedre måte
-             $(this).parent().children("td:nth-of-type(" + k + ")").addClass("active-week-middle");
-             }
-             $(this).parent().children("td:nth-of-type(8)").addClass("active-week-right active-week-middle");
-
-
-            $("#" + weeks[i] + " td:nth-child(2)").addClass("active-week-left active-week-middle");
-            for (var k = 3; k < 8; k++) { //fiks på bedre måte
-                $("#" + weeks[i] + " td:nth-child(" + k + ")").addClass("active-week-middle");
-            }
-            $("#" + weeks[i] + " td:nth-child(8)").addClass("active-week-right active-week-middle");
-             */
-        //}
     }
 
     $(".left").click(function() {
