@@ -19,6 +19,13 @@ public class AccessContextFactory {
     @Autowired
     private AutowireCapableBeanFactory beanFactory;
 
+    /**
+     * Creates a new {@see AccessContext} instance, the object must be closed after use.
+     * <p>
+     * Handles the initialization of the context.
+     *
+     * @return The {@see AccessContext} instance
+     */
     public AccessContext newContext() {
         AccessContext ac = new AccessContext();
         beanFactory.autowireBean(ac);
@@ -26,12 +33,31 @@ public class AccessContextFactory {
         return ac;
     }
 
+    /**
+     * A helper method to get an {@see AccessContext} instance.
+     * <p>
+     * Handles the initialization AND closing of the context.
+     *
+     * @param consumer The function within which the context is open.
+     *                 Takes one parameter: {@see AccessContext}
+     */
     public void with(Consumer<AccessContext> consumer) {
         AccessContext ac = newContext();
         consumer.accept(ac);
         ac.close();
     }
 
+    /**
+     * A helper method to get an {@see AccessContext} instance.
+     * <p>
+     * Handles the initialization AND closing of the context.
+     *
+     * @param consumer The function within which the context is open.
+     *                 Takes one parameter: {@see AccessContext} and returns {@code <R>}
+     * @param <R>      The return type of {@code consumer}, the return value is passed through.
+     *                 Take care not to leak any context sensitive objects(like {@see User}).
+     * @return The object returned by {@code consumer}.
+     */
     public <R> R with(Function<AccessContext, R> consumer) {
         AccessContext ac = newContext();
         R r = consumer.apply(ac);

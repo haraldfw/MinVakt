@@ -8,6 +8,12 @@ import org.springframework.stereotype.Component;
  * Created by alan on 15/01/2017.
  */
 
+/**
+ * A context where one can use all access sub-classes, the sub-classes
+ * are initialized with the same {@see DbAccess} object.
+ * <p>
+ * Instances of this class can be retrieved from {@see AccessContextFactory}.
+ */
 @Component
 @Scope("prototype")
 public class AccessContext {
@@ -32,7 +38,7 @@ public class AccessContext {
     @Autowired
     public AvailabilityAccess availability;
 
-    public void init() {
+    void init() {
         user.setDb(db);
         shift.setDb(db);
         competence.setDb(db);
@@ -48,10 +54,18 @@ public class AccessContext {
         image.setContext(this);
     }
 
+    /**
+     * Direct access to the underlying {@see DbAccess} object.
+     *
+     * @return The {@see DbAccess} object
+     */
     public DbAccess getDb() {
         return db;
     }
 
+    /**
+     * Close the underlying {@see DbAccess} object, must be called when done with the context.
+     */
     public void close() {
         db.close();
     }

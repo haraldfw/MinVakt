@@ -25,14 +25,32 @@ public class DateInterval {
         this.to = LocalDateTime.ofInstant(to.toInstant(), ZoneId.systemDefault());
     }
 
+    /**
+     * Test whether or not this dateinterval includes some time.
+     *
+     * @param time The time to check.
+     * @return {@code true} if the time is included, {@code false} otherwise.
+     */
     public boolean includes(LocalDateTime time) {
         return time.isAfter(from) && time.isBefore(to);
     }
 
+    /**
+     * Test whether two {@see DateInterval} intersects.
+     *
+     * @param other The other {@see DateInterval}.
+     * @return {@code true} if they intersect, {@code false} otherwise.
+     */
     public boolean intersects(DateInterval other) {
         return includes(other.from) || includes(other.to);
     }
 
+    /**
+     * Subtracts another {@see DateInterval} from this {@see DateInterval}.
+     *
+     * @param other The other {@see DateInterval}.
+     * @return A tuple with 0-2 intervals, if a interval is mission it's {@see Optional#empty}.
+     */
     public Tuple2<Optional<DateInterval>, Optional<DateInterval>> sub(DateInterval other) {
         if (other.from.isBefore(from)) {
             if (other.to.isAfter(to)) {

@@ -10,6 +10,12 @@ import java.util.stream.Stream;
  */
 public class Cookies {
 
+    /**
+     * A helper method that gets some cookie form an {@see HttpServletRequest}.
+     * @param request The {@see HttpServletRequest} to look for the cookie in.
+     * @param name The name of the cookie.
+     * @return {@see Optional<Cookie>} if the cookie exist, otherwise {@see Optional#empty}
+     */
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) return Optional.empty();

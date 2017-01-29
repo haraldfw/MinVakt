@@ -25,7 +25,12 @@ public class DbAccess {
 
     private Session sess;
 
-    public Session getSession(){
+    /**
+     * Get the underlying {@see Session} object.
+     *
+     * @return The {@see Session} object.
+     */
+    public Session getSession() {
         if (sess == null) {
             sess = sessionFactory.openSession();
         }
@@ -33,7 +38,14 @@ public class DbAccess {
         return sess;
     }
 
-    public <T> T transaction(Function<Session, T> consumer){
+    /**
+     * A helper method that creates an transaction and calls {@code consumer} with the session.
+     *
+     * @param consumer The function to run within the transaction.
+     * @param <T>      The return type of {@code consumer}.
+     * @return The value returned by {@code consumer}.
+     */
+    public <T> T transaction(Function<Session, T> consumer) {
         Session sess = getSession();
         Transaction tx = sess.beginTransaction();
         T t = consumer.apply(sess);
@@ -41,13 +53,21 @@ public class DbAccess {
         return t;
     }
 
-    public void transaction(Consumer<Session> consumer){
+    /**
+     * A helper method that creates an transaction and calls {@code cunsumer} with the session.
+     *
+     * @param consumer The function to run within the transaction.
+     */
+    public void transaction(Consumer<Session> consumer) {
         Session sess = getSession();
         Transaction tx = sess.beginTransaction();
         consumer.accept(sess);
         tx.commit();
     }
 
+    /**
+     * Closes the session used by the DbAccess context.
+     */
     public void close() {
         if (sess != null) {
             sess.close();
