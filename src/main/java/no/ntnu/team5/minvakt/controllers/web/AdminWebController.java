@@ -71,9 +71,17 @@ public class AdminWebController extends NavBarController {
         accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shiftid);
             List<User> users = access.availability.listAvailableUsers(access.shift.getFromDateFromId(shiftid), access.shift.getEndDateFromId(shiftid));
+            List<User> allUsers = access.user.getAllContactInfo();
             model.addAttribute("shiftid", shiftid);
+            model.addAttribute("shift", shift);
             model.addAttribute("users",
                     users
+                            .stream()
+                            .filter(user -> shift.getCompetences().stream().allMatch(user.getCompetences()::contains))
+                            .map(access.user::toModel)
+                            .collect(Collectors.toList()));
+            model.addAttribute("allUsers",
+                    allUsers
                             .stream()
                             .filter(user -> shift.getCompetences().stream().allMatch(user.getCompetences()::contains))
                             .map(access.user::toModel)
