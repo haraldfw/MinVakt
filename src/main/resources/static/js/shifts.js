@@ -205,7 +205,6 @@ $(document).ready(function() {
                 var tid = $(".tidLagring", this).html();
                 $("#tidsviser").text(tid);
                 var navn = $(".navnLagring", this).html();
-                $("#ansatt").text(navn);
 
                 selectedShiftId = $(this).parent().children(".position-id").html();
 
@@ -229,7 +228,6 @@ $(document).ready(function() {
                 var doBirth = $(".dateofbirthLagring", this).html();
 
                 $("#tidsviser").text(tid);
-                $("#ansatt").text(navn);
                 $("#worker-name-in-modal").text(navn);
                 $("#worker-phone-number").text(telefon);
                 $("#worker-phone-number").attr("href", "tel:" + telefon);

@@ -312,7 +312,7 @@ $(document).ready(function() {
                     cAStart.getFullYear() === cAEnd.getFullYear()) {
 
                     //If the shift is only on the same day
-                    var newElement = '<div id="' + currentAId + '" class="shift available-shift" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">'
+                    var newElement = '<div id="' + currentAId + '" class="shift available-shift" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
                         shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
                 } else {
@@ -324,7 +324,7 @@ $(document).ready(function() {
                     //TODO: elementHeight
 
                     //Element 1, det som går til enden først
-                    var newElement = '<div id="' + shiftId + '" class="shift available-shift shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">'
+                    var newElement = '<div id="' + shiftId + '" class="shift available-shift shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">' +
                         shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
 
@@ -346,12 +346,14 @@ $(document).ready(function() {
                         }
                         extraElementCounter++;
 
-                        var newElementNextDay = '<div id="' + shiftId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">'
+                        var newElementNextDay = '<div id="' + shiftId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">' +
                             shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
                 }
             }
+
+
             workTimeUrl = "/api/shift/" + username + "/" + weekStartDate.getFullYear() + "/" + weekStartDate.getMonth() + "/" + weekStartDate.getDate() + "/work";
             getWorktimeAWeeek(workTimeUrl);
 
