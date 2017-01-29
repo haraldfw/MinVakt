@@ -627,6 +627,13 @@ $(document).ready(function() {
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
+
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month hover-adjust hover-adjust-inactive hover-adjust-today");
+
+        month = weekStartDate.getMonth();
+        year = weekStartDate.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(weekStartDate, weekStartDate);
     });
 
     //TODO: change the topDisplay to display new current days
@@ -642,6 +649,13 @@ $(document).ready(function() {
         url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
 
         getShifts(url);
+
+        $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month hover-adjust hover-adjust-inactive hover-adjust-today");
+
+        month = weekStartDate.getMonth();
+        year = weekStartDate.getFullYear();
+        firstDay = new Date(year, month, 1);
+        plotDays(weekStartDate, weekStartDate);
     });
 
     $("#changeActualStartEndTimesButton").click(function() {

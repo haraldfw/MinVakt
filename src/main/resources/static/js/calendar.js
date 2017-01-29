@@ -76,6 +76,16 @@ $(document).ready(function() {
             theActive = new Date(year1, month1, dagIkkeArray);
         }
 
+        if($(".cell-cal").hasClass("active-week-left")) {
+            var monthYearArray = $(".active-week-left").children(".month-year").html().split(" ");
+            var dagIkkeArray = $(".active-week-left").children(".display-day").html();
+            var year1 = monthYearArray[0];
+            var month1 = monthYearArray[1];
+
+            theActive = new Date(year1, month1, dagIkkeArray);
+
+        }
+
         $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
         firstDay.setMonth(firstDay.getMonth() + way);
         month = firstDay.getMonth();

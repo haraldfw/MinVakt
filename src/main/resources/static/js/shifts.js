@@ -67,10 +67,7 @@ $(document).ready(function() {
                         kompArray = [""];
                         komp = kompArray[0];
                     }
-
                 }
-
-
 
                 if (hourFrom < 10) {
                     hourFrom = "0" + hourFrom;
