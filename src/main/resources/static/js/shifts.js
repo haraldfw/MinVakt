@@ -237,6 +237,12 @@ $(document).ready(function() {
                 $("#worker-email-address").attr("href", "mailto:" + email);
                 $("#worker-birth-date").text(doBirth);
             });
+
+            $("#release-from-shift").click(function() {
+                shiftType = 6;
+                $("#yesNo-Question").text("Sikker på at du vil spørre om du kan fjerne deg fra denne vakten?");
+                $("#modalYesNo").modal("show");
+            });
         });
 
     }
@@ -410,6 +416,18 @@ $(document).ready(function() {
                 alert("Du har sendt forespørsel om å bytte dette skiftet.");//TODO: fix a better "alert" or modal
             }).fail(function() {
                 alert("Kunne ikke sende forespørsel om vaktbytte");
+            });
+        } else if(shiftType === 6) {
+
+            var releaseFromShiftUrl = "/api/notifications/generate_release_from_shift_request_notification?shift_id=" + selectedShiftId;
+            $.post(releaseFromShiftUrl, function() {
+
+            }).done(function() {
+                $("#response-model-body").text("Du har sendt en forespørsel om du kan få gi fra deg vakten");
+                $("#response-modal").modal("show");
+            }).fail(function() {
+                $("#response-model-body").text("Det skjedde en feil med å sende forespørsel");
+                $("#response-modal").modal("show");
             });
         }
     });

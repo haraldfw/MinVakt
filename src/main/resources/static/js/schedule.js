@@ -14,6 +14,7 @@ $(document).ready(function() {
     * 2 = available-shift
     * ...
     * 5 = when a user is asked another co-worker about taking a shift
+    * 6 = when a user wants to remove availability from the schedule
     * */
     var shiftType = -1;
 
@@ -141,11 +142,15 @@ $(document).ready(function() {
 
                 var absence = "";
                 if (obj.absent) {
-                    absence = " absence-shift";
-                } else if (obj.locked) {
-                    absence += " locked-shift";
+                    absence += " absence-shift";
+                //} else if (obj.locked) {
+                    //absence += " locked-shift";
                 } else {
-                    absence += " normal-shift"
+                    absence += " normal-shift";
+                }
+
+                if (obj.locked) {
+                    absence += " locked-shift";
                 }
 
                 //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
@@ -508,8 +513,15 @@ $(document).ready(function() {
         }
         $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + " " + currentShiftYear);
         if ($(this).hasClass("locked-shift")) {
+            //Ingen knapper eller andre elementer skal vises her
+            $("#absenceButtonDiv").css("display", "none");
+            $("#removeAbsenceButtonDiv").css("display", "none");
+            $("#removeAvailabilityButtonDiv").css("display", "none");
+            $("#changeShiftOwnerButtonDiv").css("display", "none");
+            $("#available-workers-panel").css("display", "none");
+
             $("#modal-shift-title").text(modalTitle);
-            $("#shift-time").html(bodyModalText + "<br>Dato: " + $(this).children("p").html() + shiftTopBarText + currentShiftYear);
+            $("#shift-time").html(bodyModalText + "<br>Dato: " + $(this).children("p").html() + " " + shiftTopBarText + " " + currentShiftYear);
         } else {
             $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + " " + currentShiftYear);
             $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + weekStartDate.getFullYear());
@@ -538,13 +550,9 @@ $(document).ready(function() {
     });
 
     $("#removeAvailabilityButton").click(function() {
+        //shiftType = 6;
         $("#modalYesNo").modal("show");
         $("#yesNo-Question").text("Vil du fjerne tilgjengelighet for denne vakten?");
-
-        if (questionAnswer) {
-            //$(".shift#" + selectedShift).remove();
-            //$("#modalTest").modal("toggle");
-        }
     });
 
     var clickedAvailabilityTop = -1;//TODO: legg inn -->
@@ -607,6 +615,10 @@ $(document).ready(function() {
                 $("#response-modal-body").text("Kunne ikke sende forespørsel om vaktbytte");
                 $("#response-modal").modal("show");
             });
+        }
+
+        if (shiftType === 6) {
+
         }
 
         if (shiftType === 4) {
@@ -749,9 +761,5 @@ $(document).ready(function() {
             //$("#response-model-body").text("Vakttider er oppdatert");
         });
         //alert("test");//FIXME: ASAP
-    });
-
-    $("#test").click(function() {
-        $("#response-modal").modal("show");
     });
 });
