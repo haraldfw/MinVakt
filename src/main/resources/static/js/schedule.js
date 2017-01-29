@@ -390,6 +390,7 @@ $(document).ready(function() {
         $.get(url, function() {
             //alert("okidoki1");
         }).done(function(data) {
+            $(".empty-a-p-box").remove();
             $(".a-p-box").remove(); //a-p-box = available workers that can take a shift
             var jsonArray = data;
             var workerCounter = 1;
@@ -406,6 +407,11 @@ $(document).ready(function() {
                     $("#co-worker-available-collapse").append('<div id="' + workerId + '" class="' + workerType + 'co-worker-panel-box a-p-box">' + workerName + '</div>');
                     workerCounter++;
                 }
+            }
+
+            if (jsonArray.length === 0) {
+                alert("tom array");
+                $("#co-worker-available-collapse").append('<div class="panel-footer co-worker-panel-box empty-a-p-box">Ingen ledige folk å spørre</div>');
             }
         }).fail(function () {
             alert("Det skjedde en feil med innhenting av data for vakten.");
