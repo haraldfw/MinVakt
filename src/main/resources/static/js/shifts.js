@@ -193,6 +193,8 @@ $(document).ready(function() {
                 $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
                 $("#tidsviser").html(tid);
+
+                selectedShiftId = $(this).parent().children(".position-id").html();
             });
 
             $(".self").click(function () {
@@ -236,6 +238,8 @@ $(document).ready(function() {
                 $("#worker-email-address").text(email);
                 $("#worker-email-address").attr("href", "mailto:" + email);
                 $("#worker-birth-date").text(doBirth);
+
+                selectedShiftId = $(this).parent().children(".position-id").html();
             });
 
             $("#release-from-shift").click(function() {
@@ -430,6 +434,11 @@ $(document).ready(function() {
                 $("#response-modal").modal("show");
             });
         }
+    });
+
+    $("#assign-shift").click(function () {
+        var assignUrl = "/admin/assign/shift/" + selectedShiftId;
+        window.location = assignUrl;
     });
 });
 

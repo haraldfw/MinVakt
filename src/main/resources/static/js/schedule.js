@@ -442,8 +442,10 @@ $(document).ready(function() {
             }
         }
 
+        $("#change-shift-times-div").css("display", "none");
+        $("#changeActualStartEndTimesButtonDiv").css("display", "none");
         if (funnet) { //dersom man trykker på et skift som er før i tid
-            $("#changeActualStartEndTimesButtonDiv").css("display", "block");
+            //$("#changeActualStartEndTimesButtonDiv").css("display", "block");
             //Fjerne tilgjengelige personer til vakt også
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
@@ -477,6 +479,9 @@ $(document).ready(function() {
                 $("#available-workers-panel").css("display", "none");
                 $("#absenceButtonDiv").css("display", "none");
                 $("#changeShiftOwnerButtonDiv").css("display", "none");
+                $("#removeAvailabilityButtonDiv").css("none");
+                $("#changeActualStartEndTimesButtonDiv").css("display", "block");
+                $("#change-shift-times-div").css("display", "block");
                 bodyModalText = "Du hadde en vakt fra ";
             } else {
                 //$("#available-workers-panel").css("display", "block");
@@ -491,10 +496,14 @@ $(document).ready(function() {
             bodyModalText = "Du lagt inn fravær for vakten din ";
             shiftType = 1;
             $("#absenceButtonDiv").css("display", "none");
-            $("#removeAbsenceButtonDiv").css("display", "inline-block");
+            if (funnet) {
+            } else {
+                $("#removeAbsenceButtonDiv").css("display", "inline-block");
+            }
             $("#removeAvailabilityButtonDiv").css("display", "none");
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
+            $("#changeActualStartEndTimesButtonDiv").css("display", "none");
 
         } else if ($(this).hasClass("available-shift")) {
             modalTitle = "Tilgjengelighet ";
@@ -503,9 +512,14 @@ $(document).ready(function() {
 
             $("#absenceButtonDiv").css("display", "none");
             $("#removeAbsenceButtonDiv").css("display", "none");
-            $("#removeAvailabilityButtonDiv").css("display", "inline-block");
+            if (funnet) {
+            } else {
+                $("#removeAvailabilityButtonDiv").css("display", "inline-block");
+            }
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
+            $("#changeActualStartEndTimesButtonDiv").css("display", "none");
+
         } else if ($(this).hasClass("locked-shift")) {
             modalTitle = "Låst vakt";
             bodyModalText = "Denne vakten er under behandling og er foreløpig låst. " +
