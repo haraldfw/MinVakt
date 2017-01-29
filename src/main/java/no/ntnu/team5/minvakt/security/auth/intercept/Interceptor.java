@@ -12,6 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Interceptor extends HandlerInterceptorAdapter {
 
+    /**
+     * An interceptor that looks for methods annotated with {@see Authorize} and sends them to {@see AuthorizeHandler#handle}
+     *
+     * @param request  The request
+     * @param response The response
+     * @param handler  The method to look for annotations on.
+     * @return {@code false}
+     * @throws Exception In case we raise ForbiddenException
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {

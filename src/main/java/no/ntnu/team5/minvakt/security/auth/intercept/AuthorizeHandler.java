@@ -24,6 +24,19 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 public class AuthorizeHandler {
     private static final long MINUTES_10 = MILLISECONDS.convert(10, MINUTES);
 
+    /**
+     * Handles a request made on a method annotated with @Authorize, if the authorization is successful
+     * adds the claims made by the {@code access_token} as an attribute on the request. In addition if the token expires in less than
+     * 10 minutes we refresh the token and add it to the response.
+     * <p>
+     * If authorization fails redirects to {@see Authorize#value} if set, otherwise redirects to {@code /error} with status code 500
+     *
+     * @param request    The request made by an client
+     * @param response   The response
+     * @param hm         The method called
+     * @param annotation The annotation on the method
+     * @return {@code true}
+     */
     public static boolean handle(HttpServletRequest request, HttpServletResponse response, HandlerMethod hm, Authorize annotation) {
         Optional<Cookie> token = Cookies.getCookie(request, "access_token");
 
@@ -50,6 +63,13 @@ public class AuthorizeHandler {
         return true;
     }
 
+    /**
+     * Handles the failing of an request if it was not authorized.
+     *
+     * @param redirect The url to redirect to; may be the default {@see Authorize#NONE}
+     * @param response The respone
+     * @return {@code false}
+     */
     public static boolean fail(String redirect, HttpServletResponse response) {
         if (redirect.equals(Authorize.NONE)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

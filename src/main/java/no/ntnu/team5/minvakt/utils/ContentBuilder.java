@@ -11,15 +11,22 @@ import java.util.Map;
  * Created by Harald Floor Wilhelmsen on 17.01.2017.
  */
 @Service
-public class MailContentBuilder {
+public class ContentBuilder {
 
     private TemplateEngine templateEngine;
 
     @Autowired
-    public MailContentBuilder(TemplateEngine templateEngine) {
+    public ContentBuilder(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
+    /**
+     * Takes the given template and injects the given variables
+     *
+     * @param templateName Name (path) of template
+     * @param variables    A map containing the variables to be used in the template
+     * @return The completed content
+     */
     public String build(String templateName, Map<String, String> variables) {
         Context context = new Context();
         variables.forEach(context::setVariable);

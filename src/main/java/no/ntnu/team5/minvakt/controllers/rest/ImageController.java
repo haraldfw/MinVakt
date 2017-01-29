@@ -48,5 +48,4 @@ public class ImageController {
 
         return "redirect:/user/profile";
     }
-
 }
