@@ -133,7 +133,7 @@ html, body {
 
 .self, .self-color {
     background-color: rgba(147, 208, 230, 0.75);
-    border: 1px solid #4f6f7c;
+    border: 1px solid rgb(93, 131, 145);
 }
 
 .warning-1 {

@@ -153,43 +153,54 @@ html, body {
 
 
 .normal-shift, .shift-shift {
-    background-color: #f0ad4e;
-    border: 1px solid #dd9c3f;
+    /*background-color: #f0ad4e;
+    border: 1px solid #dd9c3f;*/
+
+    background-color: rgba(147, 208, 230, 0.75);
+    border: 1px solid rgb(93, 131, 145);
 }
 
 .normal-shift:hover {
-    background-color: #e0b374;
+   /* background-color: #e0b374;*/
+    filter: brightness(85%);
 }
 /* -matching classes is for elements with same id to change hover color */
 .normal-shift-matching {
-    background-color: #e0b374;
+    /*background-color: #e0b374;*/
+    filter: brightness(85%);
 }
 
 .absence-shift, .absence-absence {
-    background-color: #f05942;
-    border: 1px solid #961d1d;
+    background-color: rgba(233, 116, 116, 0.75);
+    border: 1px solid rgb(146, 73, 73);
+    /*background-color: #f05942;
+    border: 1px solid #961d1d;*/
 }
 
 .absence-shift:hover {
-    background-color: #f0433a;
+    filter: brightness(85%);
+    /*background-color: #f0433a;*/
 }
 
 .available-shift, .available-available {
-    background-color: #5cb85c;
-    border: 1px solid #378c37;
+    background-color: rgba(158, 229, 123, 0.75);/* #5cb85c;*/
+    border: 1px solid rgb(98, 145, 74);/* #378c37;*/
 }
 
 .available-shift:hover {
-    background-color: #72d772;
+    /*background-color: #72d772;*/
+    filter: brightness(85%);
 }
 
 .locked-shift, .locked-locked {
-    background-color: #898989;
-    border: 1px solid #545454;
+    background-color: rgba(137, 137, 137, 0.75);
+    border: 1px solid #575757;
 }
 
 .locked-shift:hover {
-    background-color: #a3a3a3;
+    filter: brightness(85%);
+    /*
+    background-color: #a3a3a3;*/
 }
 
 .locked-sign-top {
