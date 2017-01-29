@@ -166,12 +166,12 @@ html, body {
 }
 
 .absence-shift, .absence-absence {
-    background-color: #f05942;
-    border: 1px solid #961d1d;
+    background-color: #f05942 !important;
+    border: 1px solid #961d1d !important;
 }
 
 .absence-shift:hover {
-    background-color: #f0433a;
+    background-color: #f0433a !important;
 }
 
 .available-shift, .available-available {

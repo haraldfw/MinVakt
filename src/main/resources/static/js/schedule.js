@@ -141,11 +141,15 @@ $(document).ready(function() {
 
                 var absence = "";
                 if (obj.absent) {
-                    absence = " absence-shift";
-                } else if (obj.locked) {
-                    absence += " locked-shift";
+                    absence += " absence-shift";
+                //} else if (obj.locked) {
+                    //absence += " locked-shift";
                 } else {
-                    absence += " normal-shift"
+                    absence += " normal-shift";
+                }
+
+                if (obj.locked) {
+                    absence += " locked-shift";
                 }
 
                 //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
@@ -508,8 +512,15 @@ $(document).ready(function() {
         }
         $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + " " + currentShiftYear);
         if ($(this).hasClass("locked-shift")) {
+            //Ingen knapper eller andre elementer skal vises her
+            $("#absenceButtonDiv").css("display", "none");
+            $("#removeAbsenceButtonDiv").css("display", "none");
+            $("#removeAvailabilityButtonDiv").css("display", "none");
+            $("#changeShiftOwnerButtonDiv").css("display", "none");
+            $("#available-workers-panel").css("display", "none");
+
             $("#modal-shift-title").text(modalTitle);
-            $("#shift-time").html(bodyModalText + "<br>Dato: " + $(this).children("p").html() + shiftTopBarText + currentShiftYear);
+            $("#shift-time").html(bodyModalText + "<br>Dato: " + $(this).children("p").html() + " " + shiftTopBarText + " " + currentShiftYear);
         } else {
             $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + " " + currentShiftYear);
             $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + weekStartDate.getFullYear());
