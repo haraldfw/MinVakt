@@ -270,11 +270,12 @@ $(document).ready(function() {
         });
     }
 
+    /* Ikke fjern
     $(".timedisplay").click(function () {
         $("#infoTime").modal("show");
         var text = $(this).html();
         $("#titleTime").text(text);
-    });
+    });*/
 
     /* Function for adding and subtracting days to a javascript date object */
     function addDays(date, days) {

@@ -183,7 +183,7 @@ html, body {
     background-color: #72d772;
 }
 
-.locked-shift {
+.locked-shift, .locked-locked {
     background-color: #898989;
     border: 1px solid #545454;
 }
@@ -408,12 +408,18 @@ body.modal-open {
     float: right;
     border-radius: 3px;
 }
-.colors {
+.colors1 {
     float: right;
+    margin-bottom: 3px !important;
+}
+.colors2 {
+    float: right;
+    margin-bottom: 3px !important;
+
 }
 
 .color-margin {
-    margin-bottom: 2%;
+    margin-bottom: 3px !important;
 }
 
 .chooseWe {
@@ -423,4 +429,9 @@ body.modal-open {
 
 #choose-week-button {
     background-color: #e6e6e6;
+}
+
+#overskrift2 {
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 5px;
 }

@@ -74,7 +74,13 @@
     filter: alpha(opacity=20);
 }
 
-.close-color:hover {
+.help-icon {
+    color: #1fa3ae;
+    float: right;
+    font-size: 21px;
+}
+
+.close-color:hover, .help-icon:hover {
     color: #17777f;
     cursor: pointer;
 }

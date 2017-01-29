@@ -116,7 +116,7 @@ html, body {
     text-overflow: ellipsis;
 }
 
-.shift-box:hover, .timedisplay:hover {
+.shift-box:hover /*.timedisplay:hover*/ {
     cursor: pointer;
     filter: brightness(85%);
 }
