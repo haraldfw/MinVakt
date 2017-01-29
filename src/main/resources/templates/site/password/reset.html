@@ -86,10 +86,10 @@
                     <span id="check-mark" class="glyphicon glyphicon-ok"></span>
                 </div>
             </div>
-            <div id="incorrect-pwd" class="alert alert-danger">
+            <div hidden="hidden" id="incorrect-pwd" class="alert alert-danger">
                 <p><strong>Passordene er ikke like</strong></p>
             </div>
-            <div class="alert alert-warning">
+            <div hidden="hidden" class="alert alert-warning">
                 <strong>Obs!</strong> Passordet må være minst 8 tegn.
             </div>
             <input hidden="hidden" name="reset_key" th:value="${passwordResetInfo.resetKey}"/>
