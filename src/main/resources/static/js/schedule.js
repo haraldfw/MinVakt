@@ -142,8 +142,10 @@ $(document).ready(function() {
                 var absence = "";
                 if (obj.absent) {
                     absence = " absence-shift";
+                } else if (obj.locked) {
+                    absence += " locked-shift";
                 } else {
-                    absence = " normal-shift"
+                    absence += " normal-shift"
                 }
 
                 //var dateNumber = shiftStart.getDate() - weekStartDate + 1;//(today.getDate() - today.getDay());
@@ -177,12 +179,17 @@ $(document).ready(function() {
                 var dateRange = '<br />' + shiftStart.getDate() + ". " + monthNames[shiftStart.getMonth()] + ' - ' + shiftEnd.getDate() + ". " + monthNames[shiftEnd.getMonth()];
                 var shiftCenteredTextTwoDays = '<p class="shift-center-text">' + fromTime + ' - ' + toTime + dateRange + '</p></div>';
 
+                var lockedSign = "";
+                if (obj.locked) {
+                    lockedSign = '<i class="ion-locked locked-sign-top"></i>';
+                }
+
                 //For checking if the shift start at a date and goes to the next date
                 if (shiftStart.getDate() === shiftEnd.getDate() && shiftStart.getMonth() === shiftEnd.getMonth() &&
                                                                 shiftStart.getFullYear() === shiftEnd.getFullYear()) {
                     //If the shift is only on the same day
                     var newElement = '<div id="' + shiftId + '" class="shift' + absence + '" style="top: ' + elementDistanceTop + 'vh; height: ' + totalElementHeight + 'vh">' +
-                        shiftCenteredText;
+                        lockedSign + shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
                     //alert(dateNumber + "; "); //TODO: CHECK
                 } else {
@@ -195,7 +202,7 @@ $(document).ready(function() {
 
                     //Element 1, det som går til enden først
                     var newElement = '<div id="' + shiftId + '" class="shift' + absence + ' shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">' +
-                        shiftCenteredText;
+                        lockedSign + shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
 
                     //Element next day(s)
@@ -217,7 +224,7 @@ $(document).ready(function() {
                         extraElementCounter++;
 
                         var newElementNextDay = '<div id="' + shiftId + '" class="shift' + absence + ' ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">' +
-                            shiftCenteredTextTwoDays;
+                            lockedSign + shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
                 }
@@ -252,7 +259,7 @@ $(document).ready(function() {
             getAvailability(currentWeekAvailability);
             //alert("DONE. ok" + data);
         }).fail(function() {
-            alert("Det skjedde en feil med innhenting av skift for brukeren.");
+            alert("Det skjedde en feil med innhenting av vakter for brukeren.");
         });
     }
     getShifts(currentWeekUrl);
@@ -396,7 +403,7 @@ $(document).ready(function() {
                 }
             }
         }).fail(function () {
-            alert("Det skjedde en feil med innhenting av data for skift.");
+            alert("Det skjedde en feil med innhenting av data for vakten.");
         });
     }
 
@@ -410,7 +417,7 @@ $(document).ready(function() {
 
         shiftType = 5;
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").text("Vil du spørre " + nameForChanger + " om å ta over skiftet ditt?");
+        $("#yesNo-Question").text("Vil du spørre " + nameForChanger + " om å ta over vakten din?");
 
         e.preventDefault();
     });
@@ -455,7 +462,7 @@ $(document).ready(function() {
 
         //Starter modal for hvert type skift man trykker på, men endrer innholdet.
         if ($(this).hasClass("normal-shift")) {
-            modalTitle = "Skift ";
+            modalTitle = "Vakt ";
             shiftType = 0;
             $("#absenceButtonDiv").css("display", "inline-block");
             $("#removeAbsenceButtonDiv").css("display", "none");
@@ -465,18 +472,18 @@ $(document).ready(function() {
                 $("#available-workers-panel").css("display", "none");
                 $("#absenceButtonDiv").css("display", "none");
                 $("#changeShiftOwnerButtonDiv").css("display", "none");
-                bodyModalText = "Du hadde et skift fra ";
+                bodyModalText = "Du hadde en vakt fra ";
             } else {
                 //$("#available-workers-panel").css("display", "block");
                 $("#absenceButtonDiv").css("display", "block");
                 $("#changeShiftOwnerButtonDiv").css("display", "block");
 
-                bodyModalText = "Du har et skift fra ";
+                bodyModalText = "Du har en vakt fra ";
             }
 
         } else if ($(this).hasClass("absence-shift")) {
             modalTitle = "Fravær ";
-            bodyModalText = "Du lagt inn fravær for skiftet ditt ";
+            bodyModalText = "Du lagt inn fravær for vakten din ";
             shiftType = 1;
             $("#absenceButtonDiv").css("display", "none");
             $("#removeAbsenceButtonDiv").css("display", "inline-block");
@@ -494,9 +501,19 @@ $(document).ready(function() {
             $("#removeAvailabilityButtonDiv").css("display", "inline-block");
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
+        } else if ($(this).hasClass("locked-shift")) {
+            modalTitle = "Låst vakt";
+            bodyModalText = "Denne vakten er under behandling og er foreløpig låst. " +
+                "Kontakt administrasjonen dersom dette er en feil.";
         }
-        $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + currentShiftYear);
-        $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + "2017");//TODO: fiks 2017 til faktisk dag
+        $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + " " + currentShiftYear);
+        if ($(this).hasClass("locked-shift")) {
+            $("#modal-shift-title").text(modalTitle);
+            $("#shift-time").html(bodyModalText + "<br>Dato: " + $(this).children("p").html() + shiftTopBarText + currentShiftYear);
+        } else {
+            $("#shift-time").html(bodyModalText + $(this).children("p").html() + " på " + shiftTopBarText + " " + currentShiftYear);
+            $("#modal-shift-title").text(modalTitle + shiftTopBarText + " " + weekStartDate.getFullYear());
+        }
 
         e.preventDefault();
     });
@@ -512,17 +529,17 @@ $(document).ready(function() {
 
     $("#absenceButton").click(function() {
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").text("Vil du melde om fravær for dette skiftet?");
+        $("#yesNo-Question").text("Vil du melde om fravær for denne vakten?");
     });
 
     $("#removeAbsenceButton").click(function() {
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").text("Vil du fjerne fravær for dette skiftet?");
+        $("#yesNo-Question").text("Vil du fjerne fravær for denne vakten?");
     });
 
     $("#removeAvailabilityButton").click(function() {
         $("#modalYesNo").modal("show");
-        $("#yesNo-Question").text("Vil du fjerne tilgjengelighet for dette skiftet?");
+        $("#yesNo-Question").text("Vil du fjerne tilgjengelighet for denne vakten?");
 
         if (questionAnswer) {
             //$(".shift#" + selectedShift).remove();
@@ -560,10 +577,13 @@ $(document).ready(function() {
                             $(this).removeClass("normal-shift").addClass("absence-shift");
                         }
                     });
+                    $("#response-model-body").text("Du har lagt inn fravær for denne vakten.");
+                    $("#response-modal").modal("show");
                 },
                 error: function(res) {
                     //TODO: håndtere hvilken type feilmelding
-                    alert("Kunne ikke sette fravær for skiftet.");
+                    $("#response-model-body").text("Kunne ikke sette fravær for denn vakten.");
+                    $("#response-modal").modal("show");
                 }
             });
 
@@ -581,9 +601,11 @@ $(document).ready(function() {
             $.post(sendUrl, function() {
 
             }).done(function() {
-                alert("Du har sendt forespørsel om å bytte dette skiftet.");
+                $("#response-modal-body").text("Du har sendt forespørsel om å bytte denne vakten");
+                $("#response-modal").modal("show");
             }).fail(function() {
-                alert("Kunne ikke sende forespørsel om vaktbytte");
+                $("#response-modal-body").text("Kunne ikke sende forespørsel om vaktbytte");
+                $("#response-modal").modal("show");
             });
         }
 
@@ -692,7 +714,7 @@ $(document).ready(function() {
             end_time: newEndTime
         };
 
-        alert("start?");
+        //alert("start?");
         $.ajax({
             url: changeShiftTimesUrl,
             type: 'POST',
@@ -700,12 +722,12 @@ $(document).ready(function() {
             contentType: 'application/json',
             dataType: "json",
             success: function(res) {
-                alert("okidokischmoki");
-                alert(res);
+                //alert("okidokischmoki");
+                //alert(res);
             },
             error: function(res) {
-                alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
-                alert(res);
+                //alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
+                //alert(res);
             },
             /*always: function(res) {
                 alert("hei");
@@ -713,9 +735,23 @@ $(document).ready(function() {
             }*/
         }).always(function (data, textStatus, jqXHR) {
             $(".shift").remove();
+            if (jqXHR.responseJSON) {
+                //alert("asdsa");
+            } else {
+                //alert("html res");
+                //alert(data);
+                //alert(textStatus);
+            }
             getShifts(url);
             $("#modalTest").modal("hide");
+
+            //$("#response-modal").modal("show");
+            //$("#response-model-body").text("Vakttider er oppdatert");
         });
         //alert("test");//FIXME: ASAP
+    });
+
+    $("#test").click(function() {
+        $("#response-modal").modal("show");
     });
 });

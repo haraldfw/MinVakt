@@ -183,6 +183,21 @@ html, body {
     background-color: #72d772;
 }
 
+.locked-shift {
+    background-color: #898989;
+    border: 1px solid #545454;
+}
+
+.locked-shift:hover {
+    background-color: #a3a3a3;
+}
+
+.locked-sign-top {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 .buttonLeft {
     position: relative;
     float: left;

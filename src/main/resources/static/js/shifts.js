@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 
     var today = new Date();
+    var username = $("#username").html();
 
     function plotShifts(date) {
         $.get("api/shift/" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + "", function () {
@@ -88,7 +89,7 @@ $(document).ready(function() {
                     classKomp = "no-worker";
                 } else if(jArray[i].user_model == null || jArray[i].user_model === undefined || !(jArray[i].user_model)) { //hvis ingen bruker
                     classKomp = "no-worker";
-                } else if(jArray[i].user_model.username === $("#username").html()) { //hvis innlogget bruker
+                } else if(jArray[i].user_model.username === username) { //hvis innlogget bruker
                     classKomp = "self";
                 } else {
                     classKomp = "worker";
@@ -191,7 +192,7 @@ $(document).ready(function() {
                 var text = $(".tidtidtid", this).html();
                 $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
-                $("#tidsviser").text(tid);
+                $("#tidsviser").html(tid);
             });
 
             $(".self").click(function () {
@@ -203,7 +204,7 @@ $(document).ready(function() {
                 var text = $(".tidtidtid", this).html();
                 $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
-                $("#tidsviser").text(tid);
+                $("#tidsviser").html(tid);
                 var navn = $(".navnLagring", this).html();
 
                 selectedShiftId = $(this).parent().children(".position-id").html();
@@ -227,7 +228,7 @@ $(document).ready(function() {
                 var email = $(".emailLagring", this).html();
                 var doBirth = $(".dateofbirthLagring", this).html();
 
-                $("#tidsviser").text(tid);
+                $("#tidsviser").html(tid);
                 $("#worker-name-in-modal").text(navn);
                 $("#worker-phone-number").text(telefon);
                 $("#worker-phone-number").attr("href", "tel:" + telefon);
