@@ -43,7 +43,8 @@ html, body {
 
 }
 
-.timedisplay:hover, #datedate:hover {
+
+#datedate:hover {
     cursor: pointer;
     color: #a0a0a0;
 }
@@ -122,7 +123,7 @@ html, body {
 
 .no-worker, .no-worker-color {
     background-color: rgba(158, 153, 180, 0.75);
-    border: 1px solid #a96aba;
+    border: 1px solid rgba(124, 120, 142, 0.75);
 }
 
 .worker, .worker-color {
@@ -211,4 +212,10 @@ html, body {
 .chooseDa {
     float: left;
     margin-top: 2%;
+}
+
+#overskrift {
+    border-bottom: 1px solid #eaeaea;
+    margin-top: 0;
+    padding-bottom: 5px;
 }
