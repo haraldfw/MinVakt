@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 
 /**
- * A exception that when cast inside a {@see org.springframework.web.servlet.mvc.Controller} method sets the HttpStatus to {@see org.springframework.http.HttpStatus#UNAUTHORIZED}
+ * A exception that when cast inside a {@see org.springframework.web.servlet.mvc.Controller} method sets the
+ * HttpStatus to {@see org.springframework.http.HttpStatus#UNAUTHORIZED}
  */
 @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 public class ForbiddenException extends RuntimeException {

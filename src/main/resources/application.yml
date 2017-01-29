@@ -60,5 +60,7 @@ spring:
 server:
   port: 8080
 
-application.hostname: puffin.tihlde.org:8080
+application:
+  hostname: puffin.tihlde.org:8080
+  secret_key: ENC(F+Cb9ekepdrCoLDuqDyf0ey5NyOzEysZtNeHuzuWnpCtFKxLgMapBypMmu9Prgq5WM0aH+5+eLp6PdoaHjmOtMP0d4npLwbzY6NQNVNiuQ6C5PGKnQ8c74x8Xc85oqjhT75rBO2sdU0bnQFm03ZmdWauWUVeRcODqH1cRnTkOhwrIPG+/zy4sIURxAIZNn0JJZGOWUJUaxE/YprcOxhVE/Hmc+uQry74H1Tz9OXKWEFImv66TSW51jAppat4NeAWLj9oWbr2Bp2s0ROxZLDTpKWLgjvUOU1wFWAGvRD2mrASqk5JXBuojDKHtgQMtrS/TeIRb6qcg/nfYupdcjteSRr1SI1kR44Vb3SKzPOt9Wc=)
 

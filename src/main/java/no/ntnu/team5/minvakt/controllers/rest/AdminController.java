@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
@@ -173,9 +174,23 @@ public class AdminController {
         accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shiftAssign.getId());
 
-            shift.setUser(access.user.fromUsername(shiftAssign.getUsername()));
+            User oldShiftOwner = shift.getUser();
+
+            String startTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getStartTime());
+            String endTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(shift.getEndTime());
+            User user = access.user.fromUsername(shiftAssign.getUsername());
+
+            shift.setUser(user);
 
             access.shift.save(shift);
+
+            String message = "Du har blitt tildelt følgende vakt:\n " + startTime + " til " + endTime;
+            access.notification.generateMessageNotification(user, message);
+
+            if (oldShiftOwner != null){
+                message = "Du har blitt fjernet fra følgende vakt:\n " + startTime + " til " + endTime;
+                access.notification.generateMessageNotification(oldShiftOwner, message);
+            }
         });
     }
 

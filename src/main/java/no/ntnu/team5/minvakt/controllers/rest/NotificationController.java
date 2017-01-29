@@ -93,7 +93,7 @@ public class NotificationController {
 
             String actionUrl = "/api/shift/release_user_from_shift?shift_id=" + shift_id;
 
-            String redirectUrl = ""; //FIXME: lag lenke som man skal sendes til
+            String redirectUrl = "/admin/assign/shift/"+shift_id;
 
             Competence competence = access.competence.getFromName(Constants.ADMIN);
 

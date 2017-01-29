@@ -1,5 +1,6 @@
 package no.ntnu.team5.minvakt.controllers.rest;
 
+import no.ntnu.team5.minvakt.Constants;
 import no.ntnu.team5.minvakt.data.access.AccessContextFactory;
 import no.ntnu.team5.minvakt.db.Shift;
 import no.ntnu.team5.minvakt.model.MakeAvailableModel;
@@ -33,7 +34,7 @@ public class UserController {
     @Authorize
     @RequestMapping(value = "/{username}")
     public UserModel show(Verifier verifier, @PathVariable("username") String username) {
-        verifier.ensure(or(isUser(username), hasRole("admin")));
+        verifier.ensure(or(isUser(username), hasRole(Constants.ADMIN)));
 
         return accessor.with(access -> {
             return access.user.toModel(access.user.fromUsername(username));
@@ -47,7 +48,7 @@ public class UserController {
             @PathVariable("username") String username,
             @PathVariable("shift") int shiftId) {
 
-        verifier.ensure(isUser(username));
+        verifier.ensure(isUser(username)); //TODO: make sure the shift belongs to the user
 
         return accessor.with(access -> {
             Shift shift = access.shift.getShiftFromId(shiftId);

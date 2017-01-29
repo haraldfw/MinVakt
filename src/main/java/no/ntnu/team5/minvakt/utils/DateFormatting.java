@@ -15,6 +15,11 @@ public final class DateFormatting {
 
     }
 
+    /**
+     * A common format to format dates.
+     * @param input The {@see Date} to format.
+     * @return The formatted string.
+     */
     public static String format(Date input) {
         return DATE_FORMAT.format(input);
     }
