@@ -1,6 +1,8 @@
 
 /* Style for Schedule for own user */
-
+:root {
+    --arrow-border: #177E87;
+}
 
 .test {
     width: 95%;
@@ -150,35 +152,61 @@ html, body {
 }
 
 
-.normal-shift {
-    background-color: #f0ad4e;
-    border: 1px solid #dd9c3f;
+.normal-shift, .shift-shift {
+    /*background-color: #f0ad4e;
+    border: 1px solid #dd9c3f;*/
+
+    background-color: rgba(147, 208, 230, 0.75);
+    border: 1px solid rgb(93, 131, 145);
 }
 
 .normal-shift:hover {
-    background-color: #e0b374;
+   /* background-color: #e0b374;*/
+    filter: brightness(85%);
 }
 /* -matching classes is for elements with same id to change hover color */
 .normal-shift-matching {
-    background-color: #e0b374;
+    /*background-color: #e0b374;*/
+    filter: brightness(85%);
 }
 
-.absence-shift {
-    background-color: #f05942;
-    border: 1px solid #961d1d;
+.absence-shift, .absence-absence {
+    background-color: rgba(233, 116, 116, 0.75) !important;
+    border: 1px solid rgb(146, 73, 73) !important;
+    /*background-color: #f05942;
+    border: 1px solid #961d1d;*/
 }
 
 .absence-shift:hover {
-    background-color: #f0433a;
+    filter: brightness(85%) !important;
+    /*background-color: #f0433a;*/
 }
 
-.available-shift {
-    background-color: #5cb85c;
-    border: 1px solid #378c37;
+.available-shift, .available-available {
+    background-color: rgba(158, 229, 123, 0.75);/* #5cb85c;*/
+    border: 1px solid rgb(98, 145, 74);/* #378c37;*/
 }
 
 .available-shift:hover {
-    background-color: #72d772;
+    /*background-color: #72d772;*/
+    filter: brightness(85%);
+}
+
+.locked-shift, .locked-locked {
+    background-color: rgba(137, 137, 137, 0.75);
+    border: 1px solid #575757;
+}
+
+.locked-shift:hover {
+    filter: brightness(85%);
+    /*
+    background-color: #a3a3a3;*/
+}
+
+.locked-sign-top {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 .buttonLeft {
@@ -362,6 +390,15 @@ html, body {
 #buttonNextWeek {
     float: right;
 }
+#buttonNextWeek, #buttonPreviousWeek {
+    font-size: 230%;
+    text-shadow: -1px 0 var(--arrow-border), 0 1px var(--arrow-border), 1px 0 var(--arrow-border), 0 -1px var(--arrow-border);
+    color: #1fa3ae;
+}
+
+#buttonNextWeek:hover, #buttonPreviousWeek:hover {
+    cursor: pointer;
+}
 
 #buttons-top {
     margin-bottom: 30px;
@@ -374,4 +411,38 @@ html, body {
 
 body.modal-open {
     overflow: visible;
+}
+
+.color-box {
+    height: 20px;
+    width: 20px;
+    float: right;
+    border-radius: 3px;
+}
+.colors1 {
+    float: right;
+    margin-bottom: 3px !important;
+}
+.colors2 {
+    float: right;
+    margin-bottom: 3px !important;
+
+}
+
+.color-margin {
+    margin-bottom: 3px !important;
+}
+
+.chooseWe {
+    float: left;
+    margin-top: 2%;
+}
+
+#choose-week-button {
+    background-color: #e6e6e6;
+}
+
+#overskrift2 {
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 5px;
 }

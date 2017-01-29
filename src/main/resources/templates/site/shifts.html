@@ -10,9 +10,10 @@
 <div th:fragment="content">
     <div id="fix-width" class="container">
 
-        <div style="height: 30px">
-            <div class="chooseD">
-                <button class="btn btn-default" data-toggle="modal" data-target="#calendarModal" style="float: left;">Velg dato</button>
+        <div style="height: 70px">
+            <h3 id="overskrift">Alle vakter</h3>
+            <div class="chooseDa">
+                <button class="btn btn-default" data-toggle="modal" data-target="#calendarModal" style="float: left; background-color: #e6e6e6;">Velg dato</button>
             </div>
             <div class="colors">
                 <div class="color-margin"><div class="self-color color-box"></div>Din vakt&nbsp;</div>
@@ -32,7 +33,7 @@
 
             <div class="rad">
                 <div class="common-cell timedisplay-komp">
-                    ID
+                    Vakt ID
                 </div>
                 <div class="common-cell timedisplay">
                     00:00 - 03:00
@@ -95,15 +96,15 @@
                     <!--Modal for egen vakt-->
                     <div id="modalOwn">
                         <br/>
-                        Ditt skift <br/>
-                        <button class="btn btn-default">Legg ut vakt for salg</button>
-                        <button class="btn btn-default">Velg tilgjengelig person og forespør overtakelse</button>
+                        Din vakt <br/>
+                        <button id="release-from-shift" class="btn btn-default">Fjern deg selv fra vakten</button>
+                        <br /><br />
 
                         <!-- A drop down list with users that is available to take over a shift -->
                         <div id="available-workers-panel" class="panel-group non-display-class" style="display: block;">
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="collapse" href="#co-worker-available-collapse">
-                                    <a data-toggle="collapse" href="#co-worker-available-collapse">Velg en ansatt du vil spørre om å ta over skiftet</a>
+                                    <a data-toggle="collapse" href="#co-worker-available-collapse">Velg en ansatt du vil spørre om å ta over vakten</a>
                                 </div>
                                 <div id="co-worker-available-collapse" class="panel-collapse collapse co-worker-list">
                                     <!-- Workers that are available for taking the shift are displayed here -->
@@ -118,8 +119,6 @@
                     <!--Modal for andres vakt-->
                     <div id="modalOther">
                         <br/>
-                        <p id="ansatt">Ansatt:</p>
-                        <br/>
 
                         <div>
                             <label>Navn:&nbsp;&nbsp;</label>
@@ -130,7 +129,7 @@
                             <!-- callto eller tel? -->
                             <label>Telefon:&nbsp;&nbsp;</label>
                             <a id="worker-phone-number" href="tel:123456789">123456789</a>
-                            <button class="btn btn-primary" type="button"><i class="ion-ios-telephone"></i> Ring</button>
+                            <a href="tel:123456789" class="btn btn-primary" type="button"><i class="ion-ios-telephone"></i> Ring</a>
                             <br/>
 
                             <label>Adresse: </label>
@@ -139,7 +138,7 @@
 
                             <label>Epost adresse:&nbsp;&nbsp;</label>
                             <a id="worker-email-address" href="mailto:text@minvakt.no">text@minvakt.no</a>
-                            <button class="btn btn-primary" type="button"><i class="ion-email"></i> Send epost</button>
+                            <a href="mailto:text@minvakt.no" class="btn btn-primary" type="button"><i class="ion-email"></i> Send epost</a>
                             <br />
                             <label>Fødselsdato:&nbsp;&nbsp;</label>
                             <p id="worker-birth-date" style="display: inline-block;"></p>
@@ -150,7 +149,7 @@
                     <div id="modalFree">
                         <br/>
                         <br/>
-                        <label for="available">Tilgjengelige ansatte som kan ta skiftet</label>
+                        <label for="available">Tilgjengelige ansatte som kan ta vakten</label>
                         <select class="form-control" id="available">
                             <option>Test 1</option>
                             <option>Test 2</option>
@@ -206,6 +205,16 @@
             </div>
         </div>
         <!-- Slutt modal for basic yes/no pop-up -->
+
+        <!-- Small modal -->
+        <div id="response-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content small-modal-content">
+                    <h3 id="response-model-body" class="text-center">Melding sendt!</h3>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </html>

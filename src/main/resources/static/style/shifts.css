@@ -15,7 +15,7 @@ html, body {
 }
 
 :root {
-    --border-color: lightgray;
+    --border-color: #c9c9c9;
     --arrow-border: #177E87;
 }
 
@@ -43,7 +43,8 @@ html, body {
 
 }
 
-.timedisplay:hover, #datedate:hover {
+
+#datedate:hover {
     cursor: pointer;
     color: #a0a0a0;
 }
@@ -71,7 +72,7 @@ html, body {
 }
 
 .dropdown-cell, .kompetanse-cell {
-    background-color: #ededed;
+    background-color: #e6e6e6;/*#ededed;*/
 }
 
 .kompetanse-cell {
@@ -115,14 +116,14 @@ html, body {
     text-overflow: ellipsis;
 }
 
-.shift-box:hover, .timedisplay:hover {
+.shift-box:hover /*.timedisplay:hover*/ {
     cursor: pointer;
     filter: brightness(85%);
 }
 
 .no-worker, .no-worker-color {
     background-color: rgba(158, 153, 180, 0.75);
-    border: 1px solid #a96aba;
+    border: 1px solid rgba(124, 120, 142, 0.75);
 }
 
 .worker, .worker-color {
@@ -132,7 +133,7 @@ html, body {
 
 .self, .self-color {
     background-color: rgba(147, 208, 230, 0.75);
-    border: 1px solid #4f6f7c;
+    border: 1px solid rgb(93, 131, 145);
 }
 
 .warning-1 {
@@ -208,7 +209,13 @@ html, body {
     margin-bottom: 2%;
 }
 
-.chooseD {
+.chooseDa {
     float: left;
     margin-top: 2%;
+}
+
+#overskrift {
+    border-bottom: 1px solid #eaeaea;
+    margin-top: 0;
+    padding-bottom: 5px;
 }

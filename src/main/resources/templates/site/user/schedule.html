@@ -21,22 +21,42 @@
 <div th:fragment="content">
 <div class="container test">
 
-    <div id="buttons-top">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Legg inn
-            tilgjengelighet
-        </button>
-        <button id="choose-week-button" class="btn btn-default" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
+    <div style="height: 30px">
+
+        <div>
+            <div><h3 id="overskrift2">Egen vaktoversikt</h3></div>
+            <p id="work-time-week" style="position: absolute; top: 75px; right: 20px;">Du har jobbet x timer PLACEHOLDER<br />Uke nr, år</p>
+        </div>
+        <div>
+            <div id="buttons-top" style="float: left;">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" style="background-color: #e6e6e6;">Legg inn
+                    tilgjengelighet
+                </button>
+                <button id="choose-week-button" class="btn btn-default" type="button" data-toggle="modal" data-target="#calendarModal">Velg uke</button>
+            </div>
+            <div class="colors1">
+                <div class="color-margin"><div class="available-available color-box"></div>&nbsp;Tilgjengelighet&nbsp;</div>
+                <div class="color-margin"><div class="absence-absence color-box"></div>&nbsp;Fravær&nbsp;</div>
+            </div>
+
+            <div class="colors2">
+                <div class="color-margin"><div class="shift-shift color-box"></div>&nbsp;Vakt&nbsp;</div>
+                <div class="color-margin"><div class="locked-locked color-box"></div>&nbsp;Låst vakt&nbsp;</div>
+            </div>
+        </div>
     </div>
+    <br/>
+    <br/>
+
 
     <!-- Knapper for neste og forrige uke -->
-    <div style="text-align: center;">
-        <button id="buttonPreviousWeek" class="btn btn-primary" type="button"><i class="ion-arrow-left-c"></i> Vis forrige uke</button>
+    <div style="text-align: center; margin-top: 40px">
+        <i id="buttonPreviousWeek" class="ion-arrow-left-a"></i>
         <div th:include="fragments :: calendar"></div>
-        <button id="buttonNextWeek" class="btn btn-primary" type="button">Vis neste uke<i class="ion-arrow-right-c"></i></button>
+        <i id="buttonNextWeek" class="ion-arrow-right-a"></i>
         <span id="currentDate">Dato placeholder</span>
     </div>
 
-    <p id="work-time-week" style="position: absolute; top: 75px; right: 20px;">Du har jobbet x timer PLACEHOLDER<br />Uke nr, år</p>
 
     <div class="shiftsheet" style="margin-top: 20px;">
 
@@ -181,20 +201,20 @@
             <div class="modal-body">
                 <p id="shift-time">Informasjon om skiftet</p>
 
-                <br></br>
+                <br/>
 
                 <!-- Buttons that is bound to a specific type of shift element -->
                 <div id="removeAbsenceButtonDiv" style="display: none">
                     <button id="removeAbsenceButton" class="btn btn-success" type="button">Fjern fravær for dette skiftet</button>
-                    <br></br><br></br>
+                    <br/><br/>
                 </div>
                 <div id="removeAvailabilityButtonDiv" class="buttonRight" style="display: none;">
                     <button id="removeAvailabilityButton" class="btn btn-danger" type="button">Fjern tilgjengelighet for denne perioden</button>
-                    <br></br><br></br>
+                    <br/><br/>
                 </div>
                 <div id="changeShiftOwnerButtonDiv" style="display: none;">
                     <button id="changeShiftOwnerButton" class="btn btn-primary" type="button">Se om noen andre er ledige til å ta over skiftet</button>
-                    <br></br><br></br>
+                    <br/><br/>
                 </div>
 
                 <!-- A drop down list with users that is available to take over a shift -->
@@ -212,7 +232,7 @@
 
                 <div id="absenceButtonDiv" class="buttonRight" style="display: none;">
                     <button id="absenceButton" class="btn btn-danger" type="button">Legg inn fravær for dette skiftet</button>
-                    <br></br><br></br>
+                    <br/><br/>
                 </div>
 
                 <div id="changeActualStartEndTimesButtonDiv" style="display: none;">
@@ -268,8 +288,7 @@
 
                 <!-- End specific shift buttons -->
 
-                <br></br>
-                <br></br>
+                <br/><br/>
 
 
                 <label style="display:none;" for="shift-type" class="control-label">Skift type:</label>
@@ -314,6 +333,17 @@
         </div>
     </div>
 </div>
+
+
+    <!-- Small modal -->
+    <div id="response-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content small-modal-content">
+                <h3 id="response-model-body" class="text-center">Melding sendt!</h3>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
 
 <!-- Modal for tilgjengelighet -->
 <th:block th:include="modals/availability :: modal"></th:block>

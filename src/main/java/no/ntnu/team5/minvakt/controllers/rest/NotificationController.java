@@ -71,7 +71,7 @@ public class NotificationController {
     }
 
     @Authorize
-    @PostMapping("/api/notifications/generate_release_from_shift_request_notification")
+    @PostMapping("/generate_release_from_shift_request_notification")
     public void generateReleaseFromShiftRequestNotification(Verifier verifier,
                                                             @RequestParam("shift_id") int shift_id) {
         accessor.with(access -> {

@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 
     var today = new Date();
+    var username = $("#username").html();
 
     function plotShifts(date) {
         $.get("api/shift/" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + "", function () {
@@ -67,10 +68,7 @@ $(document).ready(function() {
                         kompArray = [""];
                         komp = kompArray[0];
                     }
-
                 }
-
-
 
                 if (hourFrom < 10) {
                     hourFrom = "0" + hourFrom;
@@ -91,7 +89,7 @@ $(document).ready(function() {
                     classKomp = "no-worker";
                 } else if(jArray[i].user_model == null || jArray[i].user_model === undefined || !(jArray[i].user_model)) { //hvis ingen bruker
                     classKomp = "no-worker";
-                } else if(jArray[i].user_model.username === $("#username").html()) { //hvis innlogget bruker
+                } else if(jArray[i].user_model.username === username) { //hvis innlogget bruker
                     classKomp = "self";
                 } else {
                     classKomp = "worker";
@@ -194,7 +192,7 @@ $(document).ready(function() {
                 var text = $(".tidtidtid", this).html();
                 $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
-                $("#tidsviser").text(tid);
+                $("#tidsviser").html(tid);
             });
 
             $(".self").click(function () {
@@ -206,9 +204,8 @@ $(document).ready(function() {
                 var text = $(".tidtidtid", this).html();
                 $(".modal-title").text(text);
                 var tid = $(".tidLagring", this).html();
-                $("#tidsviser").text(tid);
+                $("#tidsviser").html(tid);
                 var navn = $(".navnLagring", this).html();
-                $("#ansatt").text(navn);
 
                 selectedShiftId = $(this).parent().children(".position-id").html();
 
@@ -231,8 +228,7 @@ $(document).ready(function() {
                 var email = $(".emailLagring", this).html();
                 var doBirth = $(".dateofbirthLagring", this).html();
 
-                $("#tidsviser").text(tid);
-                $("#ansatt").text(navn);
+                $("#tidsviser").html(tid);
                 $("#worker-name-in-modal").text(navn);
                 $("#worker-phone-number").text(telefon);
                 $("#worker-phone-number").attr("href", "tel:" + telefon);
@@ -240,6 +236,12 @@ $(document).ready(function() {
                 $("#worker-email-address").text(email);
                 $("#worker-email-address").attr("href", "mailto:" + email);
                 $("#worker-birth-date").text(doBirth);
+            });
+
+            $("#release-from-shift").click(function() {
+                shiftType = 6;
+                $("#yesNo-Question").text("Sikker på at du vil spørre om du kan fjerne deg fra denne vakten?");
+                $("#modalYesNo").modal("show");
             });
         });
 
@@ -274,11 +276,12 @@ $(document).ready(function() {
         });
     }
 
+    /* Ikke fjern
     $(".timedisplay").click(function () {
         $("#infoTime").modal("show");
         var text = $(this).html();
         $("#titleTime").text(text);
-    });
+    });*/
 
     /* Function for adding and subtracting days to a javascript date object */
     function addDays(date, days) {
@@ -365,6 +368,7 @@ $(document).ready(function() {
         $("#superDiv").empty();
         plotShifts(datoo);
 
+        theActive = datoo;
         count = datoo;
         month = count.getMonth();
         year = count.getFullYear();
@@ -412,6 +416,18 @@ $(document).ready(function() {
                 alert("Du har sendt forespørsel om å bytte dette skiftet.");//TODO: fix a better "alert" or modal
             }).fail(function() {
                 alert("Kunne ikke sende forespørsel om vaktbytte");
+            });
+        } else if(shiftType === 6) {
+
+            var releaseFromShiftUrl = "/api/notifications/generate_release_from_shift_request_notification?shift_id=" + selectedShiftId;
+            $.post(releaseFromShiftUrl, function() {
+
+            }).done(function() {
+                $("#response-model-body").text("Du har sendt en forespørsel om du kan få gi fra deg vakten");
+                $("#response-modal").modal("show");
+            }).fail(function() {
+                $("#response-model-body").text("Det skjedde en feil med å sende forespørsel");
+                $("#response-modal").modal("show");
             });
         }
     });

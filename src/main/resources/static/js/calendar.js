@@ -76,6 +76,16 @@ $(document).ready(function() {
             theActive = new Date(year1, month1, dagIkkeArray);
         }
 
+        if($(".cell-cal").hasClass("active-week-left")) {
+            var monthYearArray = $(".active-week-left").children(".month-year").html().split(" ");
+            var dagIkkeArray = $(".active-week-left").children(".display-day").html();
+            var year1 = monthYearArray[0];
+            var month1 = monthYearArray[1];
+
+            theActive = new Date(year1, month1, dagIkkeArray);
+
+        }
+
         $(".cell-cal").removeClass("active-day active-week-left active-week-middle active-week-right today inactive-month");
         firstDay.setMonth(firstDay.getMonth() + way);
         month = firstDay.getMonth();
@@ -83,22 +93,6 @@ $(document).ready(function() {
 
         plotDays(firstDay, theActive);
 
-
-            /* For schedule //TODO: ikke remove
-             $(this).parent().children("td:nth-of-type(2)").addClass("active-week-left active-week-middle");
-             for(var k = 3; k < 8; k++) { //fiks på bedre måte
-             $(this).parent().children("td:nth-of-type(" + k + ")").addClass("active-week-middle");
-             }
-             $(this).parent().children("td:nth-of-type(8)").addClass("active-week-right active-week-middle");
-
-
-            $("#" + weeks[i] + " td:nth-child(2)").addClass("active-week-left active-week-middle");
-            for (var k = 3; k < 8; k++) { //fiks på bedre måte
-                $("#" + weeks[i] + " td:nth-child(" + k + ")").addClass("active-week-middle");
-            }
-            $("#" + weeks[i] + " td:nth-child(8)").addClass("active-week-right active-week-middle");
-             */
-        //}
     }
 
     $(".left").click(function() {
