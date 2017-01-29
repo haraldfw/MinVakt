@@ -15,10 +15,12 @@ function datepickers(from, to){
     from.datetimepicker({
         // locale: 'no',
         format: fmt,
+        sideBySide: true,
     });
     to.datetimepicker({
         // locale: 'no',
         format: fmt,
+        sideBySide: true,
         useCurrent: false,
     });
 

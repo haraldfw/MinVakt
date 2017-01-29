@@ -715,12 +715,22 @@ $(document).ready(function() {
     });
 
     $("#newStartShiftDatePicker").datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
+        format: "YYYY-MM-DD HH:mm",
+        sideBySide: true
     });
 
     $("#newEndShiftDatePicker").datetimepicker({
-        format: "YYYY-MM-DD HH:mm" /*,
-        useCurrent: false*/
+        format: "YYYY-MM-DD HH:mm",
+        useCurrent: false,
+        sideBySide: true
+    });
+
+    $("#newStartShiftDatePicker").on("dp.change", function (e) {
+        $('#newEndShiftDatePicker').data("DateTimePicker").minDate(e.date);
+    });
+
+    $("#newEndShiftDatePicker").on("dp.change", function (e) {
+        $('#newStartShiftDatePicker').data("DateTimePicker").maxDate(e.date);
     });
 
     $("#currentDate").click(function() {
