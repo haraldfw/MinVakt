@@ -221,6 +221,14 @@ $(document).ready(function() {
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
                 }
+
+                if (shiftEnd < today) {
+                    shiftIderForIdag.push(shiftId);
+                }
+
+                if (shiftEnd < (today + 2)) {
+                    //TODO: sjekk dette
+                }
             }
 
             //For hovering all shift elements with matching id (all elements for same shift) //TODO: endre til alle typer skift
@@ -240,14 +248,6 @@ $(document).ready(function() {
                     }
                 });
             };
-
-            if (shiftEnd < today) {
-                shiftIderForIdag.push(shiftId);
-            }
-
-            if (shiftEnd < (today + 2)) {
-                //TODO: sjekk dette
-            }
 
             getAvailability(currentWeekAvailability);
             //alert("DONE. ok" + data);
@@ -465,9 +465,10 @@ $(document).ready(function() {
                 $("#changeShiftOwnerButtonDiv").css("display", "none");
                 bodyModalText = "Du hadde et skift fra ";
             } else {
-                $("#available-workers-panel").css("display", "block");
+                //$("#available-workers-panel").css("display", "block");
                 $("#absenceButtonDiv").css("display", "block");
                 $("#changeShiftOwnerButtonDiv").css("display", "block");
+
                 bodyModalText = "Du har et skift fra ";
             }
 
@@ -502,7 +503,9 @@ $(document).ready(function() {
     *  goes under here */
 
     $("#changeShiftOwnerButton").click(function() {
-        $("#available-workers-panel").toggleClass("non-display-class");
+       //$("#available-workers-panel").toggleClass("non-display-class");
+        $("#available-workers-panel").css("display", "block");
+        $(this).parent().css("display", "none");
     });
 
     $("#absenceButton").click(function() {
@@ -660,5 +663,43 @@ $(document).ready(function() {
 
     $("#currentDate").click(function() {
        $("#calendarModal").modal("show");
+    });
+
+    var changeShiftTimesUrl = "/api/shift/settime";
+    $("#change-shift-times-button").click(function() {
+        var newStartTime = $('#newStartShiftDatePicker').data("DateTimePicker").date();
+        var newEndTime = $('#newEndShiftDatePicker').data("DateTimePicker").date();
+
+        var jsonObject = {
+            shift_id: selectedShift,
+            start_time: newStartTime,
+            end_time: newEndTime
+        };
+
+        alert("start?");
+        $.ajax({
+            url: changeShiftTimesUrl,
+            type: 'POST',
+            data: JSON.stringify(jsonObject),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function(res) {
+                alert("okidokischmoki");
+                alert(res);
+            },
+            error: function(res) {
+                alert("Det skjedde en feil med å sette ny start og slutt tidspunkt.");
+                alert(res);
+            },
+            /*always: function(res) {
+                alert("hei");
+                getShifts(url);
+            }*/
+        }).always(function (data, textStatus, jqXHR) {
+            $(".shift").remove();
+            getShifts(url);
+            $("#modalTest").modal("hide");
+        });
+        //alert("test");//FIXME: ASAP
     });
 });
