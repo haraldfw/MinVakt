@@ -277,7 +277,6 @@ $(document).ready(function() {
         }).done(function(data) {
             var availabilityArray = data;
             for (var i = 0; i < availabilityArray.length; i++) {
-                //alert("hei " + availabilityArray[i].start_time);
                 //var currentA = availabilityArray[i]; //currentA is shortcut for currentAvailability[i]
                 var cAStart = new Date(availabilityArray[i].start_time);
                 //alert("start-tid: " + availabilityArray[i].start_time.getDate());
@@ -336,7 +335,7 @@ $(document).ready(function() {
                     //TODO: elementHeight
 
                     //Element 1, det som går til enden først
-                    var newElement = '<div id="' + shiftId + '" class="shift available-shift shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">' +
+                    var newElement = '<div id="' + currentAId + '" class="shift available-shift shift-non-rounded-bottom" style="top: ' + elementDistanceTop + 'vh; height: ' + heightDone + 'vh">' +
                         shiftCenteredText;
                     $(".shiftsheet .dayDisplay:nth-child(" + dateNumber + ") .dayInnhold").append(newElement);
 
@@ -358,7 +357,7 @@ $(document).ready(function() {
                         }
                         extraElementCounter++;
 
-                        var newElementNextDay = '<div id="' + shiftId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">' +
+                        var newElementNextDay = '<div id="' + currentAId + '" class="shift available-shift ' + nonRoundedClass +'" style="top: 0; height: ' + currentElementHeight + 'vh">' +
                             shiftCenteredTextTwoDays;
                         $(".shiftsheet .dayDisplay:nth-child(" + (dateNumber+extraElementCounter) + ") .dayInnhold").append(newElementNextDay);
                     }
@@ -410,7 +409,6 @@ $(document).ready(function() {
             }
 
             if (jsonArray.length === 0) {
-                alert("tom array");
                 $("#co-worker-available-collapse").append('<div class="panel-footer co-worker-panel-box empty-a-p-box">Ingen ledige folk å spørre</div>');
             }
         }).fail(function () {
