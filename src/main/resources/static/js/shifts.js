@@ -28,7 +28,7 @@ $(document).ready(function() {
                 var diff = 0; //skiftlengde
                 var lengde = 0; //start pkt
 
-                //if same date    TODO:endre dags dato til annet senere
+                //if same date
                 if (startTime.getFullYear() === endTime.getFullYear() && startTime.getMonth() === endTime.getMonth() && startTime.getDate() === endTime.getDate()) {
                     diff = (hourTo + minToPros) - (hourFrom + minFromPros); // tiltid - starttid
                     lengde = hourFrom + minFromPros;
@@ -357,7 +357,6 @@ $(document).ready(function() {
         } else {
             $(".cell-cal").removeClass("inactive-month");
         }
-        //sleep(650); //TODO: fiks dette, tar for lang tid
 
         var monthYearArray = $(this).children(".month-year").html().split(" ");
         var dagIkkeArray = $(this).children(".display-day").html();
