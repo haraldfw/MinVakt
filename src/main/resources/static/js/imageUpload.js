@@ -3,8 +3,10 @@
  */
 
 function uploadImage(form, redirectUrl, fileId) {
-    console.log("sup");
     let file = document.getElementById(fileId).files[0];
+    if (!file) {
+        return false;
+    }
 
     form.elements["content_type"].value = file.type;
 
