@@ -9,6 +9,18 @@
     <script src="/js/setpassword.js"></script>
 
     <style>
+
+        .check-wrap {
+            position: relative;
+        }
+
+        #check-mark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #007c00;
+        }
+
         meter {
             margin: 0 auto 1em;
             width: 100%;
@@ -83,7 +95,7 @@
                     <input type="password" id="rpt-pwd" class="form-control"
                            placeholder="Gjenta passord" th:required="required" pattern=".{8,}"
                            name="password_repeat"/>
-                    <span id="check-mark" class="glyphicon glyphicon-ok"></span>
+                    <span style="display:none;" id="check-mark" class="glyphicon glyphicon-ok"></span>
                 </div>
             </div>
             <div hidden="hidden" id="incorrect-pwd" class="alert alert-danger">
