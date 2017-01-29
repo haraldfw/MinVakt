@@ -444,6 +444,7 @@ $(document).ready(function() {
 
         $("#change-shift-times-div").css("display", "none");
         $("#changeActualStartEndTimesButtonDiv").css("display", "none");
+        $("#removeAvailabilityButtonDiv").css("display", "none");
         if (funnet) { //dersom man trykker på et skift som er før i tid
             //$("#changeActualStartEndTimesButtonDiv").css("display", "block");
             //Fjerne tilgjengelige personer til vakt også
@@ -479,7 +480,6 @@ $(document).ready(function() {
                 $("#available-workers-panel").css("display", "none");
                 $("#absenceButtonDiv").css("display", "none");
                 $("#changeShiftOwnerButtonDiv").css("display", "none");
-                $("#removeAvailabilityButtonDiv").css("none");
                 $("#changeActualStartEndTimesButtonDiv").css("display", "block");
                 $("#change-shift-times-div").css("display", "block");
                 bodyModalText = "Du hadde en vakt fra ";
@@ -500,7 +500,6 @@ $(document).ready(function() {
             } else {
                 $("#removeAbsenceButtonDiv").css("display", "inline-block");
             }
-            $("#removeAvailabilityButtonDiv").css("display", "none");
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
             $("#changeActualStartEndTimesButtonDiv").css("display", "none");
@@ -530,7 +529,6 @@ $(document).ready(function() {
             //Ingen knapper eller andre elementer skal vises her
             $("#absenceButtonDiv").css("display", "none");
             $("#removeAbsenceButtonDiv").css("display", "none");
-            $("#removeAvailabilityButtonDiv").css("display", "none");
             $("#changeShiftOwnerButtonDiv").css("display", "none");
             $("#available-workers-panel").css("display", "none");
 
@@ -775,5 +773,21 @@ $(document).ready(function() {
             //$("#response-model-body").text("Vakttider er oppdatert");
         });
         //alert("test");//FIXME: ASAP
+    });
+
+    $("#availability").submit(function() {
+        return jsonSubmitFns(this, () => {
+            //console.log('Close modal.');
+            $("#myModal").modal("hide");
+            $("#response-model-body").text("Du har lagt inn ny tilgjengelighet");
+            $("#response-modal").modal("show");
+            url = "/api/shift/" + username +"/" + currentDate.getFullYear() + "/" + currentDate.getMonth() + "/" + currentDate.getDate() + "/week";
+            getShifts(url);
+        }, (e) => {
+            //console.log('Error: ', e);
+            $("#myModal").modal("hide");
+            $("#response-model-body").text("Kunne ikke legge inn tilgjengelighet");
+            $("#response-modal").modal("show");
+        }, dateProcces(['date_to', 'date_from']))
     });
 });
