@@ -198,7 +198,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- Compentences
 INSERT INTO competence (name) VALUES ('Admin');
-INSERT INTO competence (name) VALUES ('User');
 INSERT INTO competence (name) VALUES ('Faglært');
 INSERT INTO competence (name) VALUES ('UFaglært');
 INSERT INTO competence (name) VALUES ('Sykepleier');
@@ -221,17 +220,23 @@ VALUES ('gardste', 'Gard', 'Steinsvik', 'gardsteinsvik@gmail.com', '666', 'addre
         'ff6c1b38456ebee57b17314aa43d56eb2e2aee1c4bbb1d0b4a7b53b20dab767f772675ae5a9ba6c879ecba2799b8781df114909c019b05dc9abdc2a47a671694',
         'det2');
 
+INSERT INTO user (username, first_name, last_name, email, phonenumber, address, date_of_birth, employment_percentage, password_hash, salt)
+VALUES ('olno', 'Ola', 'Nordmann', 'epost@epost.no', '21435643', 'Trondheim', '4/9/77', 10,
+        'ff6c1b38456ebee57b17314aa43d56eb2e2aee1c4bbb1d0b4a7b53b20dab767f772675ae5a9ba6c879ecba2799b8781df114909c019b05dc9abdc2a47a671694',
+        'det2');
+
+
 -- Shift
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (1, '2017-01-20 10:00:00', '2017-01-21 18:00:00', 8, 0);
-INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (1, '2017-01-19 10:00:00', '2017-01-20 18:00:00', 8, 0);
+VALUES (1, '2017-01-21 10:00:00', '2017-01-21 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (1, '2017-01-20 10:00:00', '2017-01-20 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (1, '2017-01-30 10:00:00', '2017-01-30 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (1, '2017-02-02 10:00:00', '2017-02-03 18:00:00', 8, 0);
+VALUES (1, '2017-02-01 06:00:00', '2017-02-01 18:00:00', 12, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (1, '2017-02-02 10:00:00', '2017-02-02 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (1, '2017-02-03 10:00:00', '2017-02-03 18:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
@@ -247,6 +252,8 @@ VALUES (2, '2017-01-29 12:00:00', '2017-01-29 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (2, '2017-01-30 12:00:00', '2017-01-30 20:00:00', 8, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (2, '2017-01-21 20:00:00', '2017-01-22 07:00:00', 14, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (3, '2017-01-25 20:00:00', '2017-01-26 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (3, '2017-01-26 20:00:00', '2017-01-27 10:00:00', 14, 0);
@@ -259,7 +266,21 @@ VALUES (3, '2017-01-29 20:00:00', '2017-01-30 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
 VALUES (3, '2017-01-30 20:00:00', '2017-01-31 10:00:00', 14, 0);
 INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
-VALUES (2, '2017-01-21 20:00:00', '2017-01-22 07:00:00', 14, 0);
+VALUES (4, '2017-01-29 20:00:00', '2017-01-30 07:00:00', 11, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-01-30 20:00:00', '2017-01-31 07:00:00', 11, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-02-01 20:00:00', '2017-02-02 07:00:00', 11, 1);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-02-02 20:00:00', '2017-02-03 01:00:00', 5, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-02-04 08:00:00', '2017-02-04 18:00:00', 10, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-02-05 08:00:00', '2017-02-05 18:00:00', 10, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-02-06 08:00:00', '2017-02-06 18:00:00', 10, 0);
+INSERT INTO shift (user_id, start_time, end_time, standard_hours, absent)
+VALUES (4, '2017-02-07 08:00:00', '2017-02-07 18:00:00', 10, 0);
 
 -- availability
 INSERT INTO availability (start_time, end_time, user_id)
@@ -268,6 +289,8 @@ INSERT INTO availability (start_time, end_time, user_id)
 VALUES ('2017-01-10 00:00:00', '2017-02-10', 2);
 INSERT INTO availability (start_time, end_time, user_id)
 VALUES ('2017-01-23 00:00:00', '2017-01-23 10:00:00', 3);
+INSERT INTO availability (start_time, end_time, user_id)
+VALUES ('2017-02-03 06:00:00', '2017-02-03 18:00:00', 4);
 
 -- shift-competence
 INSERT INTO shift_competence (competence_name, shift_id)
@@ -312,6 +335,30 @@ INSERT INTO shift_competence (competence_name, shift_id)
 VALUES ('Sykepleier', 17);
 INSERT INTO shift_competence (competence_name, shift_id)
 VALUES ('Sykepleier', 18);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 19);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 20);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 21);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 22);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 23);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 24);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Sykepleier', 25);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Faglært', 26);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Faglært', 20);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Faglært', 21);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Faglært', 22);
+INSERT INTO shift_competence (competence_name, shift_id)
+VALUES ('Faglært', 23);
 
 -- user-competence
 INSERT INTO user_competence (competence_name, user_id)
@@ -332,6 +379,10 @@ INSERT INTO user_competence (competence_name, user_id)
 VALUES ('Admin', 2);
 INSERT INTO user_competence (competence_name, user_id)
 VALUES ('Admin', 3);
+INSERT INTO user_competence (competence_name, user_id)
+VALUES ('Faglært', 4);
+INSERT INTO user_competence (competence_name, user_id)
+VALUES ('Sykepleier', 4);
 
 -- notifiactions
 INSERT INTO notification (id, message, action_url, user_id, competence_name, closed)
